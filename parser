@@ -16,8 +16,9 @@ def main(argv):
     parser = PLambdaParser(stream)
     tree = parser.unit()
     visitor = Visitor()
-    visitor.visit(tree)
-
+    print visitor.visit(tree)
+    
+    	  
     
 if __name__ == '__main__':
     main(sys.argv)
