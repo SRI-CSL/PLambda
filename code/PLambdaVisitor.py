@@ -60,6 +60,16 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLambdaParser#tryExpression.
+    def visitTryExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLambdaParser#forExpression.
+    def visitForExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLambdaParser#quoteExpression.
     def visitQuoteExpression(self, ctx):
         return self.visitChildren(ctx)
@@ -75,8 +85,8 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#parameter_list.
-    def visitParameter_list(self, ctx):
+    # Visit a parse tree produced by PLambdaParser#parameterList.
+    def visitParameterList(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -85,23 +95,23 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#binding_list.
-    def visitBinding_list(self, ctx):
+    # Visit a parse tree produced by PLambdaParser#bindingList.
+    def visitBindingList(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#binding_pair.
-    def visitBinding_pair(self, ctx):
+    # Visit a parse tree produced by PLambdaParser#bindingPair.
+    def visitBindingPair(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#catch_expression.
-    def visitCatch_expression(self, ctx):
+    # Visit a parse tree produced by PLambdaParser#catchExpression.
+    def visitCatchExpression(self, ctx):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#range_expression.
-    def visitRange_expression(self, ctx):
+    # Visit a parse tree produced by PLambdaParser#rangeExpression.
+    def visitRangeExpression(self, ctx):
         return self.visitChildren(ctx)
 
 
@@ -117,11 +127,6 @@ class PLambdaVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PLambdaParser#token.
     def visitToken(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PLambdaParser#type_expression.
-    def visitType_expression(self, ctx):
         return self.visitChildren(ctx)
 
 

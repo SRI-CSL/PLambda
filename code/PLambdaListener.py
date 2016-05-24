@@ -103,6 +103,24 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLambdaParser#tryExpression.
+    def enterTryExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#tryExpression.
+    def exitTryExpression(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PLambdaParser#forExpression.
+    def enterForExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#forExpression.
+    def exitForExpression(self, ctx):
+        pass
+
+
     # Enter a parse tree produced by PLambdaParser#quoteExpression.
     def enterQuoteExpression(self, ctx):
         pass
@@ -130,12 +148,12 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#parameter_list.
-    def enterParameter_list(self, ctx):
+    # Enter a parse tree produced by PLambdaParser#parameterList.
+    def enterParameterList(self, ctx):
         pass
 
-    # Exit a parse tree produced by PLambdaParser#parameter_list.
-    def exitParameter_list(self, ctx):
+    # Exit a parse tree produced by PLambdaParser#parameterList.
+    def exitParameterList(self, ctx):
         pass
 
 
@@ -148,39 +166,39 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#binding_list.
-    def enterBinding_list(self, ctx):
+    # Enter a parse tree produced by PLambdaParser#bindingList.
+    def enterBindingList(self, ctx):
         pass
 
-    # Exit a parse tree produced by PLambdaParser#binding_list.
-    def exitBinding_list(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by PLambdaParser#binding_pair.
-    def enterBinding_pair(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#binding_pair.
-    def exitBinding_pair(self, ctx):
+    # Exit a parse tree produced by PLambdaParser#bindingList.
+    def exitBindingList(self, ctx):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#catch_expression.
-    def enterCatch_expression(self, ctx):
+    # Enter a parse tree produced by PLambdaParser#bindingPair.
+    def enterBindingPair(self, ctx):
         pass
 
-    # Exit a parse tree produced by PLambdaParser#catch_expression.
-    def exitCatch_expression(self, ctx):
+    # Exit a parse tree produced by PLambdaParser#bindingPair.
+    def exitBindingPair(self, ctx):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#range_expression.
-    def enterRange_expression(self, ctx):
+    # Enter a parse tree produced by PLambdaParser#catchExpression.
+    def enterCatchExpression(self, ctx):
         pass
 
-    # Exit a parse tree produced by PLambdaParser#range_expression.
-    def exitRange_expression(self, ctx):
+    # Exit a parse tree produced by PLambdaParser#catchExpression.
+    def exitCatchExpression(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PLambdaParser#rangeExpression.
+    def enterRangeExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#rangeExpression.
+    def exitRangeExpression(self, ctx):
         pass
 
 
@@ -208,15 +226,6 @@ class PLambdaListener(ParseTreeListener):
 
     # Exit a parse tree produced by PLambdaParser#token.
     def exitToken(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by PLambdaParser#type_expression.
-    def enterType_expression(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#type_expression.
-    def exitType_expression(self, ctx):
         pass
 
 

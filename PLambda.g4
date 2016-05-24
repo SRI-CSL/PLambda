@@ -5,31 +5,33 @@ unit : expression+ ;
 
 
 expression:  '(' SEQ expression+ ')'                                                     # seqExpression
-          |  '(' LET binding_list expression+ ')'                                        # letExpression           
-          |  '(' DEFINE ID parameter_list? expression+ ')'                               # defineExpression         
-          |  '(' LAMBDA parameter_list expression+ ')'                                   # lambdaExpression         
+          |  '(' LET bindingList expression+ ')'                                         # letExpression           
+          |  '(' DEFINE ID parameterList? expression+ ')'                                # defineExpression         
+          |  '(' LAMBDA parameterList expression+ ')'                                    # lambdaExpression         
           |  '(' INVOKE  expression expression expression* ')'                           # invokeExpression         
           |  '(' APPLY expression expression* ')'                                        # applyExpression          
           |  '(' PRIMITIVE_DATA_OP data ')'                                              # dataExpression 
           |  '(' UNARY_OP expression ')'                                                 # unaryExpression       
           |  '(' BINARY_OP expression expression ')'                                     # binaryExpression      
-          |  '(' TERNARY_OP expression expression expression ')'                         # ternaryExpression     
+          |  '(' TERNARY_OP expression expression expression ')'                         # ternaryExpression
+          |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
+          |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
           |  '(' QUOTE  string ')'                                                       # quoteExpression             
           |  STRING                                                                      # stringLiteral      
           |  ID                                                                          # identifierLiteral
            ;
 
-parameter_list: '(' parameter* ')' ;
+parameterList: '(' parameter* ')' ;
 
 parameter: ID ;
 
-binding_list: '(' binding_pair+ ')' ;
+bindingList: '(' bindingPair+ ')' ;
 
-binding_pair: '(' parameter   expression ')' ;
+bindingPair: '(' parameter   expression ')' ;
 
-catch_expression:  '(' CATCH  parameter expression+  ')' ;
+catchExpression:  '(' CATCH  parameter expression+  ')' ;
 
-range_expression: expression ;
+rangeExpression: expression ;
 
 data: ID     |     
       NUMBER | 
@@ -45,21 +47,17 @@ token : ID        |
         STRING
     ;
 
-type_expression: PRIMITIVE_DATA_OP | 
-                 ID
-                 ;
-
 PRIMITIVE_DATA_OP:  
                     INT      |
+		    FLOAT    | 
 		    BOOLEAN
                     ;
        
-             
-
 UNARY_OP :   LOAD       |
-             ISNULL     |
+             ISNONE     |
              ISOBJECT   |
              QUOTE      |
+	     THROW      |
              NOT        
              ;
 
@@ -93,9 +91,9 @@ AMBI2_OP :   IF       |
              GETATTR  
              ;    
 
-/* null is **not** case insensitive */
+/* None is **not** case insensitive */
 
-NULL:         'null' ;
+NONE:         'None' ;
 
 SEQ:          [Ss][Ee][Qq]                              ;
 
@@ -129,25 +127,15 @@ CATCH:        [Cc][Aa][Tt][Cc][Hh]                      ;
 
 BOOLEAN:      [Bb][Oo][Oo][Ll][Ee][Aa][Nn]              ;
 
-BYTE:         [Bb][Yy][Tt][Ee]                          ;
-
-DOUBLE:       [Dd][Oo][Uu][Bb][Ll][Ee]                  ;
-
-CHAR:         [Cc][Hh][Aa][Rr]                          ;
-
 FLOAT:        [Ff][Ll][Oo][Aa][Tt]                      ;
 
 INT:          [Ii][Nn][Tt]                              ;
-
-LONG:         [Ll][Oo][Nn][Gg]                          ;
-
-SHORT:        [Ss][Hh][Oo][Rr][Tt]                      ;
 
 /* unary operators */
 
 LOAD:         [Ll][Oo][Aa][Dd]                          ;
 
-ISNULL:       [Ii][Ss][Nn][Uu][Ll][Ll]                  ;
+ISNONE:       [Ii][Ss][Nn][Oo][Nn][Ee]                  ;
 
 ISOBJECT:     [Ii][Ss][Oo][Bb][Jj][Ee][Cc][Tt]          ;
 
