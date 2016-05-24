@@ -75,21 +75,6 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#do_binding_list.
-    def visitDo_binding_list(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PLambdaParser#do_binding_triple.
-    def visitDo_binding_triple(self, ctx):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PLambdaParser#do_exit_clause.
-    def visitDo_exit_clause(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PLambdaParser#parameter_list.
     def visitParameter_list(self, ctx):
         return self.visitChildren(ctx)

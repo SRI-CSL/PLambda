@@ -19,12 +19,6 @@ expression:  '(' SEQ expression+ ')'                                            
           |  ID                                                                          # identifierLiteral
            ;
 
-do_binding_list: '(' do_binding_triple+ ')' ;
-
-do_binding_triple: '('  parameter expression  expression ')' ;
-
-do_exit_clause: '(' expression  expression+  ')' ;
-
 parameter_list: '(' parameter* ')' ;
 
 parameter: ID ;

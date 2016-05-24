@@ -130,33 +130,6 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#do_binding_list.
-    def enterDo_binding_list(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#do_binding_list.
-    def exitDo_binding_list(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by PLambdaParser#do_binding_triple.
-    def enterDo_binding_triple(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#do_binding_triple.
-    def exitDo_binding_triple(self, ctx):
-        pass
-
-
-    # Enter a parse tree produced by PLambdaParser#do_exit_clause.
-    def enterDo_exit_clause(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#do_exit_clause.
-    def exitDo_exit_clause(self, ctx):
-        pass
-
-
     # Enter a parse tree produced by PLambdaParser#parameter_list.
     def enterParameter_list(self, ctx):
         pass
