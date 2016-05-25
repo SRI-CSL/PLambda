@@ -82,9 +82,12 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#parameterList.
     def visitParameterList(self, ctx):
         retval = []
+        lineno = -1
         for p in ctx.parameter():
+            if lineno == -1:
+                lineno = p.ID().getSymbol().line
             retval.append(self.visitParameter(p))
-        return Code(tuple(retval), self.filename, -1)
+        return Code(tuple(retval), self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#parameter.
     def visitParameter(self, ctx):
@@ -95,7 +98,9 @@ class Visitor(PLambdaVisitor):
         lineno = ctx.LET().getSymbol().line
         bindings = self.visitBindingList(ctx.bindingList())
         body = self.visitImplicitSeq(ctx.expression())
-        return Code((SymbolTable.LET, bindings, body), self.filename, lineno)
+        return Code((SymbolTable.LET, bindings, body),
+                    self.filename,
+                    lineno)
     
     # Visit a parse tree produced by PLambdaParser#bindingList.
     def visitBindingList(self, ctx):
@@ -106,7 +111,10 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#binding_pair.
     def visitBindingPair(self, ctx):
-        return Code((self.visitParameter(ctx.parameter()), self.visit(ctx.expression())), self.filename, -1)
+        lineno = ctx.parameter().ID().getSymbol().line
+        return Code((self.visitParameter(ctx.parameter()),
+                     self.visit(ctx.expression())),
+                    self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#defineExpression.
     def visitDefineExpression(self, ctx):
@@ -116,8 +124,9 @@ class Visitor(PLambdaVisitor):
         if paramList is not None:
             params = self.visitParameterList(paramList)
         body = self.visitImplicitSeq(ctx.expression())
+        id = ctx.ID().getSymbol().text
         if params is not None:
-            return Code((SymbolTable.DEFINE, ctx.ID().getSymbol().text, params, body),
+            return Code((SymbolTable.DEFINE, id, params, body),
                         self.filename, lineno)
         else:
             return Code((SymbolTable.DEFINE, ctx.ID().getSymbol().text, body),
