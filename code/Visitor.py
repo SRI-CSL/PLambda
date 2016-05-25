@@ -2,6 +2,7 @@
 from PLambdaVisitor import PLambdaVisitor
 from SymbolTable import SymbolTable
 from ParseError import ParseError
+from Code import Code
 
 class Visitor(PLambdaVisitor):
 
@@ -10,7 +11,7 @@ class Visitor(PLambdaVisitor):
         self.filename = filename
 
     def location(self, tnode):
-        return ' @ line  {0} of {1}'.format(tnode.getSymbol().getLine(), self.filename)
+        return ' @ line  {0} of {1}'.format(tnode.getSymbol().line, self.filename)
     
     # Visit a parse tree produced by PLambdaParser#unit.
     def visitUnit(self, ctx):
@@ -28,10 +29,12 @@ class Visitor(PLambdaVisitor):
         return ctx.ID().getSymbol().text
 
     def visitExpressionList(self, tsym, explist):
-        retval = [SymbolTable.canonicalize(tsym.getSymbol().text)]
+        t = tsym.getSymbol()
+        lineno = t.line
+        retval = [SymbolTable.canonicalize(t.text)]
         for e in explist:
             retval.append(self.visit(e))
-        return tuple(retval)
+        return Code(tuple(retval), self.filename, lineno)
 
     def visitImplicitSeq(self, explist):
         retval = []
@@ -40,7 +43,7 @@ class Visitor(PLambdaVisitor):
         #if there is an implicit seq, make it explicit    
         if len(retval) > 1:
             retval.insert(0, SymbolTable.SEQ)
-            return tuple(retval)
+            return Code(tuple(retval), self.filename, -1)
         else:
             return retval[0]
             
@@ -58,9 +61,11 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#unaryExpression.
     def visitUnaryExpression(self, ctx):
-        rawop = ctx.UNARY_OP().getSymbol().text
+        t = ctx.UNARY_OP().getSymbol()
+        lineno = t.line
+        rawop = t.text
         op = SymbolTable.canonicalize(rawop)
-        return (op, self.visit(ctx.expression()))
+        return Code((op, self.visit(ctx.expression())), self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#binaryExpression.
     def visitBinaryExpression(self, ctx):
@@ -72,16 +77,17 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#lambdaExpression.
     def visitLambdaExpression(self, ctx):
+        lineno = ctx.LAMBDA().getSymbol().line
         params = self.visitParameterList(ctx.parameterList())
         body = self.visitImplicitSeq(ctx.expression())
-        return (SymbolTable.LAMBDA, params, body)
+        return Code((SymbolTable.LAMBDA, params, body), self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#parameterList.
     def visitParameterList(self, ctx):
         retval = []
         for p in ctx.parameter():
             retval.append(self.visitParameter(p))
-        return tuple(retval)
+        return Code(tuple(retval), self.filename, -1)
 
     # Visit a parse tree produced by PLambdaParser#parameter.
     def visitParameter(self, ctx):
@@ -89,6 +95,7 @@ class Visitor(PLambdaVisitor):
             
     # Visit a parse tree produced by PLambdaParser#letExpression.
     def visitLetExpression(self, ctx):
+        lineno = ctx.LET().getSymbol().line
         bindings = self.visitBindingList(ctx.bindingList())
         body = self.visitImplicitSeq(ctx.expression())
         return (SymbolTable.LET, bindings, body)
@@ -106,6 +113,7 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#defineExpression.
     def visitDefineExpression(self, ctx):
+        lineno = ctx.DEFINE().getSymbol().line
         paramList = ctx.parameterList()
         params = None
         if paramList is not None:
@@ -119,6 +127,7 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#forExpression.
     def visitForExpression(self, ctx):
+        lineno = ctx.FOR().getSymbol().line
         return (SymbolTable.FOR,
                 ctx.ID().getSymbol().text,
                 self.visit(ctx.rangeExpression()),
@@ -127,19 +136,23 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#tryExpression.
     def visitTryExpression(self, ctx):
+        lineno = ctx.TRY().getSymbol().line
         return (SymbolTable.TRY,
                 self.visitImplicitSeq(ctx.expression()),
                 self.visitCatchExpression(ctx.catchExpression()))
 
     # Visit a parse tree produced by PLambdaParser#catchExpression.
     def visitCatchExpression(self, ctx):
+        lineno = ctx.CATCH().getSymbol().line
         return (SymbolTable.CATCH,
                 self.visitParameter(ctx.parameter()),
                 self.visitImplicitSeq(ctx.expression()))
 
     # Visit a parse tree produced by PLambdaParser#dataExpression.
     def visitDataExpression(self, ctx):
-        op = SymbolTable.canonicalize(ctx.PRIMITIVE_DATA_OP().getSymbol().text)
+        t = ctx.PRIMITIVE_DATA_OP().getSymbol()
+        lineno = t.line
+        op = SymbolTable.canonicalize(t.text)
         return (op, self.visitData(ctx.data()))
 
     # Visit a parse tree produced by PLambdaParser#data.
@@ -166,8 +179,8 @@ class Visitor(PLambdaVisitor):
     
     # Visit a parse tree produced by PLambdaParser#quoteExpression.
     def visitQuoteExpression(self, ctx):
-        return [SymbolTable.QUOTE,
-                self.visitString(ctx.string())]
+        lineno = ctx.QUOTE().getSymbol().line
+        return Code((SymbolTable.QUOTE, self.visitString(ctx.string())), self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#oneOrMoreExpression.
     def visitOneOrMoreExpression(self, ctx):
