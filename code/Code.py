@@ -6,16 +6,16 @@ class Code(object):
         self.spine = spine
         self.filename = filename
         self.lineno = lineno
-        self.str = self.toString()
+        self.string = self.toString()
 
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}:{1}@{2}'.format(self.str, self.filename, self.lineno)
+        return '{0}:{1}@{2}'.format(self.string, self.filename, self.lineno)
 
     # str's goal is to be readable
     def __str__(self):
-        return self.str
+        return self.string
 
 
     def toString(self):
@@ -31,3 +31,11 @@ class Code(object):
         sb.append(')')
         return str(sb)
     
+
+
+class Terminal(object):
+
+    def __init__(self, string, filename, lineno):
+        self.string = string
+        self.filename = filename
+        self.lineno = lineno
