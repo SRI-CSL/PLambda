@@ -6,6 +6,7 @@ class Code(object):
         self.spine = spine
         self.filename = filename
         self.lineno = lineno
+        self.str = self.toString()
 
 
     # repr's goal is to be unambiguous
@@ -14,6 +15,19 @@ class Code(object):
 
     # str's goal is to be readable
     def __str__(self):
-        return str(self.spine)
+        return self.str
 
+
+    def toString(self):
+        sb = StringBuffer()
+        first = True
+        sb.append('(')
+        for c in self.spine:
+            if first:
+                first = False
+            else:
+                sb.append(' ')
+            sb.append(c)
+        sb.append(')')
+        return str(sb)
     
