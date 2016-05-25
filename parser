@@ -20,8 +20,8 @@ def main(argv):
     tree = parser.unit()
     visitor = Visitor(filename)
     for c in visitor.visit(tree):
-        #print repr(c)
         print str(c)
+        print repr(c)
     return 0
     	  
     

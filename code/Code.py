@@ -11,7 +11,7 @@ class Code(object):
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}:{1}@{2}'.format(repr(self.spine), self.filename, self.lineno)
+        return '{0}:{1}@{2}'.format(self.str, self.filename, self.lineno)
 
     # str's goal is to be readable
     def __str__(self):
