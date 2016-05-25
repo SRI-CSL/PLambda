@@ -5,6 +5,7 @@ from ParseError import ParseError
 
 class Visitor(PLambdaVisitor):
 
+    
     def __init__(self, filename):
         self.filename = filename
 
@@ -136,24 +137,37 @@ class Visitor(PLambdaVisitor):
                 self.visitParameter(ctx.parameter()),
                 self.visitImplicitSeq(ctx.expression())]
 
-
-    ###################### HERE ####################################
-
-
     # Visit a parse tree produced by PLambdaParser#dataExpression.
     def visitDataExpression(self, ctx):
-        return self.visitChildren(ctx)
-
-    # Visit a parse tree produced by PLambdaParser#quoteExpression.
-    def visitQuoteExpression(self, ctx):
-        return self.visitChildren(ctx)
+        op = SymbolTable.canonicalize(ctx.PRIMITIVE_DATA_OP().getSymbol().text)
+        return [op, self.visitData(ctx.data())]
 
     # Visit a parse tree produced by PLambdaParser#data.
     def visitData(self, ctx):
-        return self.visitChildren(ctx)
+        data = None
+        if ctx.ID() != None:
+            data = ctx.ID()
+        elif ctx.NUMBER() != None:
+            data = ctx.NUMBER()
+        else:
+            data = ctx.CHARACTER()
+        return data.getSymbol().text
 
     # Visit a parse tree produced by PLambdaParser#string.
     def visitString(self, ctx):
-        return self.visitChildren(ctx)
+        data = None
+        if ctx.ID() != None:
+            data = ctx.ID()
+        else:
+            data = ctx.NUMBER()
+        return data.getSymbol().text
+
+
+    
+    # Visit a parse tree produced by PLambdaParser#quoteExpression.
+    def visitQuoteExpression(self, ctx):
+        return [SymbolTable.QUOTE,
+                self.visitString(ctx.string())]
+
 
 
