@@ -27,15 +27,24 @@ class Code(object):
                 first = False
             else:
                 sb.append(' ')
-            sb.append(c)
+            sb.append(str(c))
         sb.append(')')
         return str(sb)
     
 
 
-class Terminal(object):
+class Leaf(object):
 
     def __init__(self, string, filename, lineno):
         self.string = string
         self.filename = filename
         self.lineno = lineno
+
+    # repr's goal is to be unambiguous
+    def __repr__(self):
+        return '{0}:{1}@{2}'.format(self.string, self.filename, self.lineno)
+
+    # str's goal is to be readable
+    def __str__(self):
+        return self.string
+
