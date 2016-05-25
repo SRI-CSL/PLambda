@@ -60,6 +60,21 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLambdaParser#oneOrMoreExpression.
+    def visitOneOrMoreExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLambdaParser#twoOrMoreExpression.
+    def visitTwoOrMoreExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLambdaParser#naryExpression.
+    def visitNaryExpression(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLambdaParser#tryExpression.
     def visitTryExpression(self, ctx):
         return self.visitChildren(ctx)

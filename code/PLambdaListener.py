@@ -103,6 +103,33 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLambdaParser#oneOrMoreExpression.
+    def enterOneOrMoreExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#oneOrMoreExpression.
+    def exitOneOrMoreExpression(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PLambdaParser#twoOrMoreExpression.
+    def enterTwoOrMoreExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#twoOrMoreExpression.
+    def exitTwoOrMoreExpression(self, ctx):
+        pass
+
+
+    # Enter a parse tree produced by PLambdaParser#naryExpression.
+    def enterNaryExpression(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#naryExpression.
+    def exitNaryExpression(self, ctx):
+        pass
+
+
     # Enter a parse tree produced by PLambdaParser#tryExpression.
     def enterTryExpression(self, ctx):
         pass

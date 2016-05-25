@@ -19,7 +19,8 @@ def main(argv):
     parser = PLambdaParser(stream)
     tree = parser.unit()
     visitor = Visitor(filename)
-    print visitor.visit(tree)
+    for c in visitor.visit(tree):
+        print c
     return 0
     	  
     

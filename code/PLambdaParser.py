@@ -15,7 +15,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"=\u00be\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
+        buf.write(u"=\u00d8\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
         buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\3\2\6\2")
         buf.write(u"\32\n\2\r\2\16\2\33\3\3\3\3\3\3\6\3!\n\3\r\3\16\3\"\3")
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\6\3+\n\3\r\3\16\3,\3\3\3\3\3\3")
@@ -24,71 +24,86 @@ def serializedATN():
         buf.write(u"\3\3\3\3\3\3\7\3M\n\3\f\3\16\3P\13\3\3\3\3\3\3\3\3\3")
         buf.write(u"\3\3\3\3\7\3X\n\3\f\3\16\3[\13\3\3\3\3\3\3\3\3\3\3\3")
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3")
-        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\6\3y\n\3\r\3")
-        buf.write(u"\16\3z\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\6\3\u0085\n\3")
-        buf.write(u"\r\3\16\3\u0086\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5")
-        buf.write(u"\3\u0092\n\3\3\4\3\4\7\4\u0096\n\4\f\4\16\4\u0099\13")
-        buf.write(u"\4\3\4\3\4\3\5\3\5\3\6\3\6\6\6\u00a1\n\6\r\6\16\6\u00a2")
-        buf.write(u"\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\6\b\u00b0")
-        buf.write(u"\n\b\r\b\16\b\u00b1\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13")
-        buf.write(u"\3\f\3\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\5\3\2")
-        buf.write(u"\65\67\3\2\66\67\4\2\66\6688\u00cd\2\31\3\2\2\2\4\u0091")
-        buf.write(u"\3\2\2\2\6\u0093\3\2\2\2\b\u009c\3\2\2\2\n\u009e\3\2")
-        buf.write(u"\2\2\f\u00a6\3\2\2\2\16\u00ab\3\2\2\2\20\u00b5\3\2\2")
-        buf.write(u"\2\22\u00b7\3\2\2\2\24\u00b9\3\2\2\2\26\u00bb\3\2\2\2")
-        buf.write(u"\30\32\5\4\3\2\31\30\3\2\2\2\32\33\3\2\2\2\33\31\3\2")
-        buf.write(u"\2\2\33\34\3\2\2\2\34\3\3\2\2\2\35\36\7\3\2\2\36 \7\r")
-        buf.write(u"\2\2\37!\5\4\3\2 \37\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"")
-        buf.write(u"#\3\2\2\2#$\3\2\2\2$%\7\4\2\2%\u0092\3\2\2\2&\'\7\3\2")
-        buf.write(u"\2\'(\7\17\2\2(*\5\n\6\2)+\5\4\3\2*)\3\2\2\2+,\3\2\2")
-        buf.write(u"\2,*\3\2\2\2,-\3\2\2\2-.\3\2\2\2./\7\4\2\2/\u0092\3\2")
-        buf.write(u"\2\2\60\61\7\3\2\2\61\62\7\20\2\2\62\64\7\66\2\2\63\65")
-        buf.write(u"\5\6\4\2\64\63\3\2\2\2\64\65\3\2\2\2\65\67\3\2\2\2\66")
-        buf.write(u"8\5\4\3\2\67\66\3\2\2\289\3\2\2\29\67\3\2\2\29:\3\2\2")
-        buf.write(u"\2:;\3\2\2\2;<\7\4\2\2<\u0092\3\2\2\2=>\7\3\2\2>?\7\21")
-        buf.write(u"\2\2?A\5\6\4\2@B\5\4\3\2A@\3\2\2\2BC\3\2\2\2CA\3\2\2")
-        buf.write(u"\2CD\3\2\2\2DE\3\2\2\2EF\7\4\2\2F\u0092\3\2\2\2GH\7\3")
-        buf.write(u"\2\2HI\7\23\2\2IJ\5\4\3\2JN\5\4\3\2KM\5\4\3\2LK\3\2\2")
-        buf.write(u"\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2OQ\3\2\2\2PN\3\2\2\2")
-        buf.write(u"QR\7\4\2\2R\u0092\3\2\2\2ST\7\3\2\2TU\7\22\2\2UY\5\4")
-        buf.write(u"\3\2VX\5\4\3\2WV\3\2\2\2X[\3\2\2\2YW\3\2\2\2YZ\3\2\2")
-        buf.write(u"\2Z\\\3\2\2\2[Y\3\2\2\2\\]\7\4\2\2]\u0092\3\2\2\2^_\7")
-        buf.write(u"\3\2\2_`\7\5\2\2`a\5\22\n\2ab\7\4\2\2b\u0092\3\2\2\2")
-        buf.write(u"cd\7\3\2\2de\7\6\2\2ef\5\4\3\2fg\7\4\2\2g\u0092\3\2\2")
-        buf.write(u"\2hi\7\3\2\2ij\7\7\2\2jk\5\4\3\2kl\5\4\3\2lm\7\4\2\2")
-        buf.write(u"m\u0092\3\2\2\2no\7\3\2\2op\7\b\2\2pq\5\4\3\2qr\5\4\3")
-        buf.write(u"\2rs\5\4\3\2st\7\4\2\2t\u0092\3\2\2\2uv\7\3\2\2vx\7\31")
-        buf.write(u"\2\2wy\5\4\3\2xw\3\2\2\2yz\3\2\2\2zx\3\2\2\2z{\3\2\2")
-        buf.write(u"\2{|\3\2\2\2|}\5\16\b\2}~\7\4\2\2~\u0092\3\2\2\2\177")
-        buf.write(u"\u0080\7\3\2\2\u0080\u0081\7\26\2\2\u0081\u0082\7\66")
-        buf.write(u"\2\2\u0082\u0084\5\20\t\2\u0083\u0085\5\4\3\2\u0084\u0083")
-        buf.write(u"\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0084\3\2\2\2\u0086")
-        buf.write(u"\u0087\3\2\2\2\u0087\u0088\3\2\2\2\u0088\u0089\7\4\2")
-        buf.write(u"\2\u0089\u0092\3\2\2\2\u008a\u008b\7\3\2\2\u008b\u008c")
-        buf.write(u"\7\"\2\2\u008c\u008d\5\24\13\2\u008d\u008e\7\4\2\2\u008e")
-        buf.write(u"\u0092\3\2\2\2\u008f\u0092\78\2\2\u0090\u0092\7\66\2")
-        buf.write(u"\2\u0091\35\3\2\2\2\u0091&\3\2\2\2\u0091\60\3\2\2\2\u0091")
-        buf.write(u"=\3\2\2\2\u0091G\3\2\2\2\u0091S\3\2\2\2\u0091^\3\2\2")
-        buf.write(u"\2\u0091c\3\2\2\2\u0091h\3\2\2\2\u0091n\3\2\2\2\u0091")
-        buf.write(u"u\3\2\2\2\u0091\177\3\2\2\2\u0091\u008a\3\2\2\2\u0091")
-        buf.write(u"\u008f\3\2\2\2\u0091\u0090\3\2\2\2\u0092\5\3\2\2\2\u0093")
-        buf.write(u"\u0097\7\3\2\2\u0094\u0096\5\b\5\2\u0095\u0094\3\2\2")
-        buf.write(u"\2\u0096\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098")
-        buf.write(u"\3\2\2\2\u0098\u009a\3\2\2\2\u0099\u0097\3\2\2\2\u009a")
-        buf.write(u"\u009b\7\4\2\2\u009b\7\3\2\2\2\u009c\u009d\7\66\2\2\u009d")
-        buf.write(u"\t\3\2\2\2\u009e\u00a0\7\3\2\2\u009f\u00a1\5\f\7\2\u00a0")
-        buf.write(u"\u009f\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a0\3\2\2")
-        buf.write(u"\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5")
-        buf.write(u"\7\4\2\2\u00a5\13\3\2\2\2\u00a6\u00a7\7\3\2\2\u00a7\u00a8")
-        buf.write(u"\5\b\5\2\u00a8\u00a9\5\4\3\2\u00a9\u00aa\7\4\2\2\u00aa")
-        buf.write(u"\r\3\2\2\2\u00ab\u00ac\7\3\2\2\u00ac\u00ad\7\32\2\2\u00ad")
-        buf.write(u"\u00af\5\b\5\2\u00ae\u00b0\5\4\3\2\u00af\u00ae\3\2\2")
-        buf.write(u"\2\u00b0\u00b1\3\2\2\2\u00b1\u00af\3\2\2\2\u00b1\u00b2")
-        buf.write(u"\3\2\2\2\u00b2\u00b3\3\2\2\2\u00b3\u00b4\7\4\2\2\u00b4")
-        buf.write(u"\17\3\2\2\2\u00b5\u00b6\5\4\3\2\u00b6\21\3\2\2\2\u00b7")
-        buf.write(u"\u00b8\t\2\2\2\u00b8\23\3\2\2\2\u00b9\u00ba\t\3\2\2\u00ba")
-        buf.write(u"\25\3\2\2\2\u00bb\u00bc\t\4\2\2\u00bc\27\3\2\2\2\20\33")
-        buf.write(u"\",\649CNYz\u0086\u0091\u0097\u00a2\u00b1")
+        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3z\n\3")
+        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\u0083\n\3\3\3\3\3\3")
+        buf.write(u"\3\3\3\3\3\6\3\u008a\n\3\r\3\16\3\u008b\3\3\3\3\3\3\3")
+        buf.write(u"\3\3\3\6\3\u0093\n\3\r\3\16\3\u0094\3\3\3\3\3\3\3\3\3")
+        buf.write(u"\3\3\3\3\3\3\3\6\3\u009f\n\3\r\3\16\3\u00a0\3\3\3\3\3")
+        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\u00ac\n\3\3\4\3\4\7\4")
+        buf.write(u"\u00b0\n\4\f\4\16\4\u00b3\13\4\3\4\3\4\3\5\3\5\3\6\3")
+        buf.write(u"\6\6\6\u00bb\n\6\r\6\16\6\u00bc\3\6\3\6\3\7\3\7\3\7\3")
+        buf.write(u"\7\3\7\3\b\3\b\3\b\3\b\6\b\u00ca\n\b\r\b\16\b\u00cb\3")
+        buf.write(u"\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\3\f\2\2\r\2")
+        buf.write(u"\4\6\b\n\f\16\20\22\24\26\2\5\3\2\65\67\3\2\66\67\4\2")
+        buf.write(u"\66\6688\u00ed\2\31\3\2\2\2\4\u00ab\3\2\2\2\6\u00ad\3")
+        buf.write(u"\2\2\2\b\u00b6\3\2\2\2\n\u00b8\3\2\2\2\f\u00c0\3\2\2")
+        buf.write(u"\2\16\u00c5\3\2\2\2\20\u00cf\3\2\2\2\22\u00d1\3\2\2\2")
+        buf.write(u"\24\u00d3\3\2\2\2\26\u00d5\3\2\2\2\30\32\5\4\3\2\31\30")
+        buf.write(u"\3\2\2\2\32\33\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34")
+        buf.write(u"\3\3\2\2\2\35\36\7\3\2\2\36 \7\r\2\2\37!\5\4\3\2 \37")
+        buf.write(u"\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$")
+        buf.write(u"%\7\4\2\2%\u00ac\3\2\2\2&\'\7\3\2\2\'(\7\17\2\2(*\5\n")
+        buf.write(u"\6\2)+\5\4\3\2*)\3\2\2\2+,\3\2\2\2,*\3\2\2\2,-\3\2\2")
+        buf.write(u"\2-.\3\2\2\2./\7\4\2\2/\u00ac\3\2\2\2\60\61\7\3\2\2\61")
+        buf.write(u"\62\7\20\2\2\62\64\7\66\2\2\63\65\5\6\4\2\64\63\3\2\2")
+        buf.write(u"\2\64\65\3\2\2\2\65\67\3\2\2\2\668\5\4\3\2\67\66\3\2")
+        buf.write(u"\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7\4")
+        buf.write(u"\2\2<\u00ac\3\2\2\2=>\7\3\2\2>?\7\21\2\2?A\5\6\4\2@B")
+        buf.write(u"\5\4\3\2A@\3\2\2\2BC\3\2\2\2CA\3\2\2\2CD\3\2\2\2DE\3")
+        buf.write(u"\2\2\2EF\7\4\2\2F\u00ac\3\2\2\2GH\7\3\2\2HI\7\23\2\2")
+        buf.write(u"IJ\5\4\3\2JN\5\4\3\2KM\5\4\3\2LK\3\2\2\2MP\3\2\2\2NL")
+        buf.write(u"\3\2\2\2NO\3\2\2\2OQ\3\2\2\2PN\3\2\2\2QR\7\4\2\2R\u00ac")
+        buf.write(u"\3\2\2\2ST\7\3\2\2TU\7\22\2\2UY\5\4\3\2VX\5\4\3\2WV\3")
+        buf.write(u"\2\2\2X[\3\2\2\2YW\3\2\2\2YZ\3\2\2\2Z\\\3\2\2\2[Y\3\2")
+        buf.write(u"\2\2\\]\7\4\2\2]\u00ac\3\2\2\2^_\7\3\2\2_`\7\5\2\2`a")
+        buf.write(u"\5\22\n\2ab\7\4\2\2b\u00ac\3\2\2\2cd\7\3\2\2de\7\6\2")
+        buf.write(u"\2ef\5\4\3\2fg\7\4\2\2g\u00ac\3\2\2\2hi\7\3\2\2ij\7\7")
+        buf.write(u"\2\2jk\5\4\3\2kl\5\4\3\2lm\7\4\2\2m\u00ac\3\2\2\2no\7")
+        buf.write(u"\3\2\2op\7\b\2\2pq\5\4\3\2qr\5\4\3\2rs\5\4\3\2st\7\4")
+        buf.write(u"\2\2t\u00ac\3\2\2\2uv\7\3\2\2vw\7\n\2\2wy\5\4\3\2xz\5")
+        buf.write(u"\4\3\2yx\3\2\2\2yz\3\2\2\2z{\3\2\2\2{|\7\4\2\2|\u00ac")
+        buf.write(u"\3\2\2\2}~\7\3\2\2~\177\7\13\2\2\177\u0080\5\4\3\2\u0080")
+        buf.write(u"\u0082\5\4\3\2\u0081\u0083\5\4\3\2\u0082\u0081\3\2\2")
+        buf.write(u"\2\u0082\u0083\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085")
+        buf.write(u"\7\4\2\2\u0085\u00ac\3\2\2\2\u0086\u0087\7\3\2\2\u0087")
+        buf.write(u"\u0089\7\t\2\2\u0088\u008a\5\4\3\2\u0089\u0088\3\2\2")
+        buf.write(u"\2\u008a\u008b\3\2\2\2\u008b\u0089\3\2\2\2\u008b\u008c")
+        buf.write(u"\3\2\2\2\u008c\u008d\3\2\2\2\u008d\u008e\7\4\2\2\u008e")
+        buf.write(u"\u00ac\3\2\2\2\u008f\u0090\7\3\2\2\u0090\u0092\7\31\2")
+        buf.write(u"\2\u0091\u0093\5\4\3\2\u0092\u0091\3\2\2\2\u0093\u0094")
+        buf.write(u"\3\2\2\2\u0094\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095")
+        buf.write(u"\u0096\3\2\2\2\u0096\u0097\5\16\b\2\u0097\u0098\7\4\2")
+        buf.write(u"\2\u0098\u00ac\3\2\2\2\u0099\u009a\7\3\2\2\u009a\u009b")
+        buf.write(u"\7\26\2\2\u009b\u009c\7\66\2\2\u009c\u009e\5\20\t\2\u009d")
+        buf.write(u"\u009f\5\4\3\2\u009e\u009d\3\2\2\2\u009f\u00a0\3\2\2")
+        buf.write(u"\2\u00a0\u009e\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1\u00a2")
+        buf.write(u"\3\2\2\2\u00a2\u00a3\7\4\2\2\u00a3\u00ac\3\2\2\2\u00a4")
+        buf.write(u"\u00a5\7\3\2\2\u00a5\u00a6\7\"\2\2\u00a6\u00a7\5\24\13")
+        buf.write(u"\2\u00a7\u00a8\7\4\2\2\u00a8\u00ac\3\2\2\2\u00a9\u00ac")
+        buf.write(u"\78\2\2\u00aa\u00ac\7\66\2\2\u00ab\35\3\2\2\2\u00ab&")
+        buf.write(u"\3\2\2\2\u00ab\60\3\2\2\2\u00ab=\3\2\2\2\u00abG\3\2\2")
+        buf.write(u"\2\u00abS\3\2\2\2\u00ab^\3\2\2\2\u00abc\3\2\2\2\u00ab")
+        buf.write(u"h\3\2\2\2\u00abn\3\2\2\2\u00abu\3\2\2\2\u00ab}\3\2\2")
+        buf.write(u"\2\u00ab\u0086\3\2\2\2\u00ab\u008f\3\2\2\2\u00ab\u0099")
+        buf.write(u"\3\2\2\2\u00ab\u00a4\3\2\2\2\u00ab\u00a9\3\2\2\2\u00ab")
+        buf.write(u"\u00aa\3\2\2\2\u00ac\5\3\2\2\2\u00ad\u00b1\7\3\2\2\u00ae")
+        buf.write(u"\u00b0\5\b\5\2\u00af\u00ae\3\2\2\2\u00b0\u00b3\3\2\2")
+        buf.write(u"\2\u00b1\u00af\3\2\2\2\u00b1\u00b2\3\2\2\2\u00b2\u00b4")
+        buf.write(u"\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b4\u00b5\7\4\2\2\u00b5")
+        buf.write(u"\7\3\2\2\2\u00b6\u00b7\7\66\2\2\u00b7\t\3\2\2\2\u00b8")
+        buf.write(u"\u00ba\7\3\2\2\u00b9\u00bb\5\f\7\2\u00ba\u00b9\3\2\2")
+        buf.write(u"\2\u00bb\u00bc\3\2\2\2\u00bc\u00ba\3\2\2\2\u00bc\u00bd")
+        buf.write(u"\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\u00bf\7\4\2\2\u00bf")
+        buf.write(u"\13\3\2\2\2\u00c0\u00c1\7\3\2\2\u00c1\u00c2\5\b\5\2\u00c2")
+        buf.write(u"\u00c3\5\4\3\2\u00c3\u00c4\7\4\2\2\u00c4\r\3\2\2\2\u00c5")
+        buf.write(u"\u00c6\7\3\2\2\u00c6\u00c7\7\32\2\2\u00c7\u00c9\5\b\5")
+        buf.write(u"\2\u00c8\u00ca\5\4\3\2\u00c9\u00c8\3\2\2\2\u00ca\u00cb")
+        buf.write(u"\3\2\2\2\u00cb\u00c9\3\2\2\2\u00cb\u00cc\3\2\2\2\u00cc")
+        buf.write(u"\u00cd\3\2\2\2\u00cd\u00ce\7\4\2\2\u00ce\17\3\2\2\2\u00cf")
+        buf.write(u"\u00d0\5\4\3\2\u00d0\21\3\2\2\2\u00d1\u00d2\t\2\2\2\u00d2")
+        buf.write(u"\23\3\2\2\2\u00d3\u00d4\t\3\2\2\u00d4\25\3\2\2\2\u00d5")
+        buf.write(u"\u00d6\t\4\2\2\u00d6\27\3\2\2\2\23\33\",\649CNYy\u0082")
+        buf.write(u"\u008b\u0094\u00a0\u00ab\u00b1\u00bc\u00cb")
         return buf.getvalue()
 
 
@@ -290,6 +305,36 @@ class PLambdaParser ( Parser ):
 
 
 
+    class NaryExpressionContext(ExpressionContext):
+
+        def __init__(self, parser, ctx): # actually a PLambdaParser.ExpressionContext)
+            super(PLambdaParser.NaryExpressionContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def N_ARY_OP(self):
+            return self.getToken(PLambdaParser.N_ARY_OP, 0)
+        def expression(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(PLambdaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(PLambdaParser.ExpressionContext,i)
+
+
+        def enterRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.enterNaryExpression(self)
+
+        def exitRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.exitNaryExpression(self)
+
+        def accept(self, visitor):
+            if isinstance( visitor, PLambdaVisitor ):
+                return visitor.visitNaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
+
     class ForExpressionContext(ExpressionContext):
 
         def __init__(self, parser, ctx): # actually a PLambdaParser.ExpressionContext)
@@ -354,6 +399,36 @@ class PLambdaParser ( Parser ):
         def accept(self, visitor):
             if isinstance( visitor, PLambdaVisitor ):
                 return visitor.visitLambdaExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class OneOrMoreExpressionContext(ExpressionContext):
+
+        def __init__(self, parser, ctx): # actually a PLambdaParser.ExpressionContext)
+            super(PLambdaParser.OneOrMoreExpressionContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def AMBI1_OP(self):
+            return self.getToken(PLambdaParser.AMBI1_OP, 0)
+        def expression(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(PLambdaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(PLambdaParser.ExpressionContext,i)
+
+
+        def enterRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.enterOneOrMoreExpression(self)
+
+        def exitRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.exitOneOrMoreExpression(self)
+
+        def accept(self, visitor):
+            if isinstance( visitor, PLambdaVisitor ):
+                return visitor.visitOneOrMoreExpression(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -444,6 +519,36 @@ class PLambdaParser ( Parser ):
         def accept(self, visitor):
             if isinstance( visitor, PLambdaVisitor ):
                 return visitor.visitBinaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class TwoOrMoreExpressionContext(ExpressionContext):
+
+        def __init__(self, parser, ctx): # actually a PLambdaParser.ExpressionContext)
+            super(PLambdaParser.TwoOrMoreExpressionContext, self).__init__(parser)
+            self.copyFrom(ctx)
+
+        def AMBI2_OP(self):
+            return self.getToken(PLambdaParser.AMBI2_OP, 0)
+        def expression(self, i=None):
+            if i is None:
+                return self.getTypedRuleContexts(PLambdaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(PLambdaParser.ExpressionContext,i)
+
+
+        def enterRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.enterTwoOrMoreExpression(self)
+
+        def exitRule(self, listener):
+            if isinstance( listener, PLambdaListener ):
+                listener.exitTwoOrMoreExpression(self)
+
+        def accept(self, visitor):
+            if isinstance( visitor, PLambdaVisitor ):
+                return visitor.visitTwoOrMoreExpression(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -745,8 +850,8 @@ class PLambdaParser ( Parser ):
         self.enterRule(localctx, 2, self.RULE_expression)
         self._la = 0 # Token type
         try:
-            self.state = 143
-            la_ = self._interp.adaptivePredict(self._input,10,self._ctx)
+            self.state = 169
+            la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
             if la_ == 1:
                 localctx = PLambdaParser.SeqExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
@@ -959,83 +1064,148 @@ class PLambdaParser ( Parser ):
                 pass
 
             elif la_ == 11:
-                localctx = PLambdaParser.TryExpressionContext(self, localctx)
+                localctx = PLambdaParser.OneOrMoreExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 11)
                 self.state = 115
                 self.match(PLambdaParser.T__0)
                 self.state = 116
-                self.match(PLambdaParser.TRY)
-                self.state = 118 
-                self._errHandler.sync(self)
-                _alt = 1
-                while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
-                    if _alt == 1:
-                        self.state = 117
-                        self.expression()
+                self.match(PLambdaParser.AMBI1_OP)
+                self.state = 117
+                self.expression()
+                self.state = 119
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0):
+                    self.state = 118
+                    self.expression()
 
-                    else:
-                        raise NoViableAltException(self)
-                    self.state = 120 
-                    self._errHandler.sync(self)
-                    _alt = self._interp.adaptivePredict(self._input,8,self._ctx)
 
-                self.state = 122
-                self.catchExpression()
-                self.state = 123
+                self.state = 121
                 self.match(PLambdaParser.T__1)
                 pass
 
             elif la_ == 12:
-                localctx = PLambdaParser.ForExpressionContext(self, localctx)
+                localctx = PLambdaParser.TwoOrMoreExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 12)
-                self.state = 125
+                self.state = 123
                 self.match(PLambdaParser.T__0)
+                self.state = 124
+                self.match(PLambdaParser.AMBI2_OP)
+                self.state = 125
+                self.expression()
                 self.state = 126
-                self.match(PLambdaParser.FOR)
-                self.state = 127
-                self.match(PLambdaParser.ID)
+                self.expression()
                 self.state = 128
-                self.rangeExpression()
-                self.state = 130 
+                _la = self._input.LA(1)
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0):
+                    self.state = 127
+                    self.expression()
+
+
+                self.state = 130
+                self.match(PLambdaParser.T__1)
+                pass
+
+            elif la_ == 13:
+                localctx = PLambdaParser.NaryExpressionContext(self, localctx)
+                self.enterOuterAlt(localctx, 13)
+                self.state = 132
+                self.match(PLambdaParser.T__0)
+                self.state = 133
+                self.match(PLambdaParser.N_ARY_OP)
+                self.state = 135 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
-                    self.state = 129
+                    self.state = 134
                     self.expression()
-                    self.state = 132 
+                    self.state = 137 
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0)):
                         break
 
-                self.state = 134
-                self.match(PLambdaParser.T__1)
-                pass
-
-            elif la_ == 13:
-                localctx = PLambdaParser.QuoteExpressionContext(self, localctx)
-                self.enterOuterAlt(localctx, 13)
-                self.state = 136
-                self.match(PLambdaParser.T__0)
-                self.state = 137
-                self.match(PLambdaParser.QUOTE)
-                self.state = 138
-                self.string()
                 self.state = 139
                 self.match(PLambdaParser.T__1)
                 pass
 
             elif la_ == 14:
-                localctx = PLambdaParser.StringLiteralContext(self, localctx)
+                localctx = PLambdaParser.TryExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 14)
                 self.state = 141
-                self.match(PLambdaParser.STRING)
+                self.match(PLambdaParser.T__0)
+                self.state = 142
+                self.match(PLambdaParser.TRY)
+                self.state = 144 
+                self._errHandler.sync(self)
+                _alt = 1
+                while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
+                    if _alt == 1:
+                        self.state = 143
+                        self.expression()
+
+                    else:
+                        raise NoViableAltException(self)
+                    self.state = 146 
+                    self._errHandler.sync(self)
+                    _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
+
+                self.state = 148
+                self.catchExpression()
+                self.state = 149
+                self.match(PLambdaParser.T__1)
                 pass
 
             elif la_ == 15:
-                localctx = PLambdaParser.IdentifierLiteralContext(self, localctx)
+                localctx = PLambdaParser.ForExpressionContext(self, localctx)
                 self.enterOuterAlt(localctx, 15)
-                self.state = 142
+                self.state = 151
+                self.match(PLambdaParser.T__0)
+                self.state = 152
+                self.match(PLambdaParser.FOR)
+                self.state = 153
+                self.match(PLambdaParser.ID)
+                self.state = 154
+                self.rangeExpression()
+                self.state = 156 
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while True:
+                    self.state = 155
+                    self.expression()
+                    self.state = 158 
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+                    if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0)):
+                        break
+
+                self.state = 160
+                self.match(PLambdaParser.T__1)
+                pass
+
+            elif la_ == 16:
+                localctx = PLambdaParser.QuoteExpressionContext(self, localctx)
+                self.enterOuterAlt(localctx, 16)
+                self.state = 162
+                self.match(PLambdaParser.T__0)
+                self.state = 163
+                self.match(PLambdaParser.QUOTE)
+                self.state = 164
+                self.string()
+                self.state = 165
+                self.match(PLambdaParser.T__1)
+                pass
+
+            elif la_ == 17:
+                localctx = PLambdaParser.StringLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 17)
+                self.state = 167
+                self.match(PLambdaParser.STRING)
+                pass
+
+            elif la_ == 18:
+                localctx = PLambdaParser.IdentifierLiteralContext(self, localctx)
+                self.enterOuterAlt(localctx, 18)
+                self.state = 168
                 self.match(PLambdaParser.ID)
                 pass
 
@@ -1088,19 +1258,19 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 145
+            self.state = 171
             self.match(PLambdaParser.T__0)
-            self.state = 149
+            self.state = 175
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==PLambdaParser.ID:
-                self.state = 146
+                self.state = 172
                 self.parameter()
-                self.state = 151
+                self.state = 177
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 152
+            self.state = 178
             self.match(PLambdaParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -1145,7 +1315,7 @@ class PLambdaParser ( Parser ):
         self.enterRule(localctx, 6, self.RULE_parameter)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 154
+            self.state = 180
             self.match(PLambdaParser.ID)
         except RecognitionException as re:
             localctx.exception = re
@@ -1195,21 +1365,21 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 156
+            self.state = 182
             self.match(PLambdaParser.T__0)
-            self.state = 158 
+            self.state = 184 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 157
+                self.state = 183
                 self.bindingPair()
-                self.state = 160 
+                self.state = 186 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==PLambdaParser.T__0):
                     break
 
-            self.state = 162
+            self.state = 188
             self.match(PLambdaParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -1259,13 +1429,13 @@ class PLambdaParser ( Parser ):
         self.enterRule(localctx, 10, self.RULE_bindingPair)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 164
+            self.state = 190
             self.match(PLambdaParser.T__0)
-            self.state = 165
+            self.state = 191
             self.parameter()
-            self.state = 166
+            self.state = 192
             self.expression()
-            self.state = 167
+            self.state = 193
             self.match(PLambdaParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -1322,25 +1492,25 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 169
+            self.state = 195
             self.match(PLambdaParser.T__0)
-            self.state = 170
+            self.state = 196
             self.match(PLambdaParser.CATCH)
-            self.state = 171
+            self.state = 197
             self.parameter()
-            self.state = 173 
+            self.state = 199 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 172
+                self.state = 198
                 self.expression()
-                self.state = 175 
+                self.state = 201 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0)):
                     break
 
-            self.state = 177
+            self.state = 203
             self.match(PLambdaParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -1386,7 +1556,7 @@ class PLambdaParser ( Parser ):
         self.enterRule(localctx, 14, self.RULE_rangeExpression)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 179
+            self.state = 205
             self.expression()
         except RecognitionException as re:
             localctx.exception = re
@@ -1438,7 +1608,7 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 181
+            self.state = 207
             _la = self._input.LA(1)
             if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.CHARACTER) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.NUMBER))) != 0)):
                 self._errHandler.recoverInline(self)
@@ -1491,7 +1661,7 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 183
+            self.state = 209
             _la = self._input.LA(1)
             if not(_la==PLambdaParser.ID or _la==PLambdaParser.NUMBER):
                 self._errHandler.recoverInline(self)
@@ -1544,7 +1714,7 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 185
+            self.state = 211
             _la = self._input.LA(1)
             if not(_la==PLambdaParser.ID or _la==PLambdaParser.STRING):
                 self._errHandler.recoverInline(self)
