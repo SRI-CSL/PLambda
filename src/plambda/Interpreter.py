@@ -5,17 +5,17 @@ from src.util.Util import isString
 
 from Code import SExpression, Atom, StringLiteral, Syntax
 from SymbolTable import SymbolTable
+from PLambdaException import PLambdaException
 
 """
 Current bugs:
+
 (int None)
 (boolean None)
 (float None)
 
-What becomes of: "" once you strip away the "s?
-
-
 """
+
 
 
 class Interpreter(object):
@@ -26,20 +26,48 @@ class Interpreter(object):
 
 
     def evaluate(self, exp):
+        return self.eval(exp, None)
+
+    def eval(self, exp, env):
         if isinstance(exp, StringLiteral):
             return exp.string
         if isinstance(exp, Atom):
-            return self.lookup(exp)
+            return self.lookup(exp, env)
         elif isinstance(exp, SExpression):
-            return self.evalSExpression(exp)
+            return self.evalSExpression(exp, env)
         else:
-            raise Exception("huh?")
+            raise PLambdaException("huh?")
 
-    def lookup(self, leaf):
-        return True
+    def lookup(self, leaf, env):
+        """See if the indentifier is bound in the extended environment.
 
+        First see if it referencing a thing in a module. Then, failing that
+        look if it has a value in the current lexical environment. As a last
+        resort see if it is a global definition. Otherwise raise a 
+        PLambdaException.
+        """
+        (ok, value) = self.mlookup(leaf)
+        if ok:
+            return value
+        (ok, value) = self.elookup(leaf, env)
+        if ok:
+            return value
+        (ok, value) = self.glookup(leaf)
+        if ok:
+            return value
+        raise PLambdaException('Unbound variable: {0}'.format(leaf))
 
-    def evalSExpression(self, sexp):
+    def mlookup(self, leaf):
+        return (False, None)
+
+    def elookup(self, leaf, env):
+        return (False, None)
+
+    def glookup(self, leaf):
+        return (False, None)
+                               
+
+    def evalSExpression(self, sexp, env):
         code = sexp.code
         if code is Syntax.SEQ:
             print 'SEQ: coming soon to an interpreter near you!'
@@ -54,9 +82,9 @@ class Interpreter(object):
         elif code is Syntax.APPLY:
             print 'APPLY: coming soon to an interpreter near you!'
         elif code is Syntax.PRIMITIVE_DATA_OP :
-            return self.evalPrimitiveDataOp(sexp)
+            return self.evalPrimitiveDataOp(sexp, env)
         elif code is Syntax.UNARY_OP:
-            return self.evalUnaryOp(sexp)
+            return self.evalUnaryOp(sexp, env)
             print 'UNARY_OP: coming soon to an interpreter near you!'
         elif code is Syntax.BINARY_OP:
             print 'BINARY_OP: coming soon to an interpreter near you!'
@@ -75,9 +103,9 @@ class Interpreter(object):
         elif code is Syntax.QUOTE:
             print 'QUOTE: coming soon to an interpreter near you!'
         else:
-            raise Exception("huh?")
+            raise PLambdaException("huh?")
 
-    def evalPrimitiveDataOp(self, sexp):
+    def evalPrimitiveDataOp(self, sexp, env):
         (a0, a1) = sexp.spine
         assert isinstance(a0, Atom)
         assert isinstance(a1, Atom)
@@ -102,12 +130,11 @@ class Interpreter(object):
         return False
 
     
-    def evalUnaryOp(self, sexp):
+    def evalUnaryOp(self, sexp, env):
         (uop, arg) =  sexp.spine
         assert isinstance(uop, Atom)
         op = uop.string
-        val = self.evaluate(arg)
-        print "op = {0}".format(op)
+        val = self.eval(arg, env)
         if  op is SymbolTable.LOAD:
             pass
         elif op is SymbolTable.IMPORT:
@@ -121,7 +148,7 @@ class Interpreter(object):
         elif op is SymbolTable.THROW:
             pass
         elif op is SymbolTable.NOT:
-            pass
+            return True if val is False else False
         else:
             raise Exception("huh?")
         print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)

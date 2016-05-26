@@ -2,7 +2,7 @@ import sys
 
 from src.visitor.Parser import parseFromFile, parseFromString
 from src.plambda.Interpreter  import Interpreter
-
+from src.plambda.PLambdaException import PLambdaException
 def rep(filename):
 
     interpreter = Interpreter()
@@ -17,24 +17,26 @@ def rep(filename):
         sys.stdout.write(WELCOME)
         
         while True:
-            sys.stdout.write('> ')
-            line = sys.stdin.readline().strip()
-            if line == 'q':
-                return 0
-            elif line == '?':
-                sys.stdout.write(INSTRUCTIONS)
-            elif line in ('d', 's', 'u', 'v'):
-                print 'Coming soon(ish)'
-            else:
-                print line
-                if line:
-                    code = parseFromString(line)
-                    for c in code:
-                        if c is not None:
-                            value = interpreter.evaluate(c)
-                            print value
-                            
-
+            try:
+                sys.stdout.write('> ')
+                line = sys.stdin.readline().strip()
+                if line == 'q':
+                    return 0
+                elif line == '?':
+                    sys.stdout.write(INSTRUCTIONS)
+                elif line in ('d', 's', 'u', 'v'):
+                    print 'Coming soon(ish)'
+                else:
+                    print line
+                    if line:
+                        code = parseFromString(line)
+                        for c in code:
+                            if c is not None:
+                                value = interpreter.evaluate(c)
+                                print value
+            except PLambdaException as e:
+                print e
+                
     except KeyboardInterrupt:
         return 0
 

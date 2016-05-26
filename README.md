@@ -4,6 +4,12 @@
 An attempt to produce a workable version of JLambda for Python.
 To be used mainly as a part of the IOP imaude system.
 
+We'll start out building a recursive interpreter, then if it
+gets any major use, trun it into a continuation passing
+style interpreter.
+
+Note that python is not java so there will be some differences, but
+hopefully the spirit will shine through.
 
 
 ## Manuals
