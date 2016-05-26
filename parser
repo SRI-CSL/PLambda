@@ -2,29 +2,18 @@
 
 import sys
 
-from antlr4 import *
 
-from code.PLambdaLexer import PLambdaLexer
-
-from code.PLambdaParser import PLambdaParser
-
-from code.Visitor import Visitor
-
+from src.plambda.PLambda import load
 
 def main(argv):
-    filename = argv[1]
-    input = FileStream(filename)
-    lexer = PLambdaLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = PLambdaParser(stream)
-    tree = parser.unit()
-    visitor = Visitor(filename)
-    for c in visitor.visit(tree):
+
+    codelist = load(argv[1])
+    for c in codelist:
         print str(c)
         print repr(c)
     return 0
-    	  
-    
+
+
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print 'Usage: {0} <plambda file>'.format(sys.argv[0])

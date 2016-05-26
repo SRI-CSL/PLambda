@@ -6,13 +6,13 @@ all:
 
 
 antlr4:
-#	${ANTLR4} -Dlanguage=Python2 PLambda.g4 -visitor -o code
-	make -C src/gen antlr4
+	${ANTLR4} -Dlanguage=Python2 PLambda.g4 -visitor
 
 
 
 clean:
-	rm -f src/*.pyc src/*/*.pyc src/*/*~
+	rm -f *.pyc *.py
+
 
 
 

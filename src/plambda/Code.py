@@ -1,4 +1,4 @@
-from StringBuffer import StringBuffer
+from src.util.StringBuffer import StringBuffer
 
 class Code(object):
 
