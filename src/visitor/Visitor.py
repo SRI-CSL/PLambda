@@ -65,8 +65,12 @@ class Visitor(PLambdaVisitor):
         t = ctx.UNARY_OP().getSymbol()
         lineno = t.line
         rawop = t.text
-        op = Atom(SymbolTable.canonicalize(rawop), self.filename, lineno)
-        return SExpression(Syntax.UNARY_OP, (op, self.visit(ctx.expression())), self.filename, lineno)
+        canonicalop = SymbolTable.canonicalize(rawop)
+        if canonicalop is not None:
+            op = Atom(canonicalop, self.filename, lineno)
+            return SExpression(Syntax.UNARY_OP, (op, self.visit(ctx.expression())), self.filename, lineno)
+        else:
+            raise ParseError('Ooopsy: {0} not found in the SymbolTable'.format(rawop))
 
     # Visit a parse tree produced by PLambdaParser#binaryExpression.
     def visitBinaryExpression(self, ctx):

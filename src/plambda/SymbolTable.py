@@ -27,6 +27,7 @@ class SymbolTable(object):
         intern('getuid'):        intern('getuid'),
         intern('<'):             intern('<'),
         intern('if'):            intern('if'),
+        intern('import'):        intern('import'),
         intern('instanceof'):    intern('instanceof'),
         intern('int'):           intern('int'),
         intern('invoke'):        intern('invoke'),
@@ -87,6 +88,7 @@ class SymbolTable(object):
     GETUID      = intern('getuid')
     GT          = intern('<')
     IF          = intern('if')
+    IMPORT      = intern('import')
     INSTANCEOF  = intern('instanceof')
     INT         = intern('int')
     INVOKE      = intern('invoke')

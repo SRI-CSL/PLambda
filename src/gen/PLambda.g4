@@ -57,6 +57,7 @@ PRIMITIVE_DATA_OP:
                     ;
        
 UNARY_OP :   LOAD       |
+             IMPORT     |
              ISNONE     |
              ISOBJECT   |
              QUOTE      |
@@ -137,6 +138,8 @@ INT:          [Ii][Nn][Tt]                              ;
 /* unary operators */
 
 LOAD:         [Ll][Oo][Aa][Dd]                          ;
+
+IMPORT:       [Ii][Mm][Pp][Oo][Rr][Tt]                  ;
 
 ISNONE:       [Ii][Ss][Nn][Oo][Nn][Ee]                  ;
 

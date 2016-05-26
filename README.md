@@ -19,3 +19,17 @@ The jlambda webpage lives over [here](http://jlambda.com/~iop/jlambda.html)
 The iop webpage lives over [here](http://jlambda.com/~iop/)
 
 The main client of the iop system is [SRI International's Pathway Logic](http://pl.csl.sri.com/)
+
+
+
+### Recipe to add an operator
+
+1. Add it to the grammar PLambda.g4
+
+2. Process the grammar with `make antlr4`
+
+3. Add the operator to the `SymbolTable`
+
+4. Add the operator to the `Interpreter`
+
+

@@ -15,7 +15,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"=\u00d8\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
+        buf.write(u">\u00d8\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
         buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\3\2\6\2")
         buf.write(u"\32\n\2\r\2\16\2\33\3\3\3\3\3\3\6\3!\n\3\r\3\16\3\"\3")
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\6\3+\n\3\r\3\16\3,\3\3\3\3\3\3")
@@ -34,18 +34,18 @@ def serializedATN():
         buf.write(u"\6\6\6\u00bb\n\6\r\6\16\6\u00bc\3\6\3\6\3\7\3\7\3\7\3")
         buf.write(u"\7\3\7\3\b\3\b\3\b\3\b\6\b\u00ca\n\b\r\b\16\b\u00cb\3")
         buf.write(u"\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\3\f\2\2\r\2")
-        buf.write(u"\4\6\b\n\f\16\20\22\24\26\2\5\3\2\65\67\3\2\66\67\4\2")
-        buf.write(u"\66\6688\u00ed\2\31\3\2\2\2\4\u00ab\3\2\2\2\6\u00ad\3")
-        buf.write(u"\2\2\2\b\u00b6\3\2\2\2\n\u00b8\3\2\2\2\f\u00c0\3\2\2")
-        buf.write(u"\2\16\u00c5\3\2\2\2\20\u00cf\3\2\2\2\22\u00d1\3\2\2\2")
-        buf.write(u"\24\u00d3\3\2\2\2\26\u00d5\3\2\2\2\30\32\5\4\3\2\31\30")
-        buf.write(u"\3\2\2\2\32\33\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34")
-        buf.write(u"\3\3\2\2\2\35\36\7\3\2\2\36 \7\r\2\2\37!\5\4\3\2 \37")
-        buf.write(u"\3\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$")
-        buf.write(u"%\7\4\2\2%\u00ac\3\2\2\2&\'\7\3\2\2\'(\7\17\2\2(*\5\n")
-        buf.write(u"\6\2)+\5\4\3\2*)\3\2\2\2+,\3\2\2\2,*\3\2\2\2,-\3\2\2")
-        buf.write(u"\2-.\3\2\2\2./\7\4\2\2/\u00ac\3\2\2\2\60\61\7\3\2\2\61")
-        buf.write(u"\62\7\20\2\2\62\64\7\66\2\2\63\65\5\6\4\2\64\63\3\2\2")
+        buf.write(u"\4\6\b\n\f\16\20\22\24\26\2\5\3\2\668\3\2\678\4\2\67")
+        buf.write(u"\6799\u00ed\2\31\3\2\2\2\4\u00ab\3\2\2\2\6\u00ad\3\2")
+        buf.write(u"\2\2\b\u00b6\3\2\2\2\n\u00b8\3\2\2\2\f\u00c0\3\2\2\2")
+        buf.write(u"\16\u00c5\3\2\2\2\20\u00cf\3\2\2\2\22\u00d1\3\2\2\2\24")
+        buf.write(u"\u00d3\3\2\2\2\26\u00d5\3\2\2\2\30\32\5\4\3\2\31\30\3")
+        buf.write(u"\2\2\2\32\33\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3")
+        buf.write(u"\3\2\2\2\35\36\7\3\2\2\36 \7\r\2\2\37!\5\4\3\2 \37\3")
+        buf.write(u"\2\2\2!\"\3\2\2\2\" \3\2\2\2\"#\3\2\2\2#$\3\2\2\2$%\7")
+        buf.write(u"\4\2\2%\u00ac\3\2\2\2&\'\7\3\2\2\'(\7\17\2\2(*\5\n\6")
+        buf.write(u"\2)+\5\4\3\2*)\3\2\2\2+,\3\2\2\2,*\3\2\2\2,-\3\2\2\2")
+        buf.write(u"-.\3\2\2\2./\7\4\2\2/\u00ac\3\2\2\2\60\61\7\3\2\2\61")
+        buf.write(u"\62\7\20\2\2\62\64\7\67\2\2\63\65\5\6\4\2\64\63\3\2\2")
         buf.write(u"\2\64\65\3\2\2\2\65\67\3\2\2\2\668\5\4\3\2\67\66\3\2")
         buf.write(u"\2\289\3\2\2\29\67\3\2\2\29:\3\2\2\2:;\3\2\2\2;<\7\4")
         buf.write(u"\2\2<\u00ac\3\2\2\2=>\7\3\2\2>?\7\21\2\2?A\5\6\4\2@B")
@@ -74,13 +74,13 @@ def serializedATN():
         buf.write(u"\3\2\2\2\u0094\u0092\3\2\2\2\u0094\u0095\3\2\2\2\u0095")
         buf.write(u"\u0096\3\2\2\2\u0096\u0097\5\16\b\2\u0097\u0098\7\4\2")
         buf.write(u"\2\u0098\u00ac\3\2\2\2\u0099\u009a\7\3\2\2\u009a\u009b")
-        buf.write(u"\7\26\2\2\u009b\u009c\7\66\2\2\u009c\u009e\5\20\t\2\u009d")
+        buf.write(u"\7\26\2\2\u009b\u009c\7\67\2\2\u009c\u009e\5\20\t\2\u009d")
         buf.write(u"\u009f\5\4\3\2\u009e\u009d\3\2\2\2\u009f\u00a0\3\2\2")
         buf.write(u"\2\u00a0\u009e\3\2\2\2\u00a0\u00a1\3\2\2\2\u00a1\u00a2")
         buf.write(u"\3\2\2\2\u00a2\u00a3\7\4\2\2\u00a3\u00ac\3\2\2\2\u00a4")
-        buf.write(u"\u00a5\7\3\2\2\u00a5\u00a6\7\"\2\2\u00a6\u00a7\5\24\13")
+        buf.write(u"\u00a5\7\3\2\2\u00a5\u00a6\7#\2\2\u00a6\u00a7\5\24\13")
         buf.write(u"\2\u00a7\u00a8\7\4\2\2\u00a8\u00ac\3\2\2\2\u00a9\u00ac")
-        buf.write(u"\78\2\2\u00aa\u00ac\7\66\2\2\u00ab\35\3\2\2\2\u00ab&")
+        buf.write(u"\79\2\2\u00aa\u00ac\7\67\2\2\u00ab\35\3\2\2\2\u00ab&")
         buf.write(u"\3\2\2\2\u00ab\60\3\2\2\2\u00ab=\3\2\2\2\u00abG\3\2\2")
         buf.write(u"\2\u00abS\3\2\2\2\u00ab^\3\2\2\2\u00abc\3\2\2\2\u00ab")
         buf.write(u"h\3\2\2\2\u00abn\3\2\2\2\u00abu\3\2\2\2\u00ab}\3\2\2")
@@ -90,7 +90,7 @@ def serializedATN():
         buf.write(u"\u00b0\5\b\5\2\u00af\u00ae\3\2\2\2\u00b0\u00b3\3\2\2")
         buf.write(u"\2\u00b1\u00af\3\2\2\2\u00b1\u00b2\3\2\2\2\u00b2\u00b4")
         buf.write(u"\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b4\u00b5\7\4\2\2\u00b5")
-        buf.write(u"\7\3\2\2\2\u00b6\u00b7\7\66\2\2\u00b7\t\3\2\2\2\u00b8")
+        buf.write(u"\7\3\2\2\2\u00b6\u00b7\7\67\2\2\u00b7\t\3\2\2\2\u00b8")
         buf.write(u"\u00ba\7\3\2\2\u00b9\u00bb\5\f\7\2\u00ba\u00b9\3\2\2")
         buf.write(u"\2\u00bb\u00bc\3\2\2\2\u00bc\u00ba\3\2\2\2\u00bc\u00bd")
         buf.write(u"\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\u00bf\7\4\2\2\u00bf")
@@ -128,7 +128,8 @@ class PLambdaParser ( Parser ):
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"'-'" ]
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
+                     u"'-'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"PRIMITIVE_DATA_OP", 
                       u"UNARY_OP", u"BINARY_OP", u"TERNARY_OP", u"N_ARY_OP", 
@@ -136,13 +137,13 @@ class PLambdaParser ( Parser ):
                       u"LET", u"DEFINE", u"LAMBDA", u"APPLY", u"INVOKE", 
                       u"SINVOKE", u"OBJECT", u"FOR", u"ARRAY", u"MKARRAY", 
                       u"TRY", u"CATCH", u"BOOLEAN", u"FLOAT", u"INT", u"LOAD", 
-                      u"ISNONE", u"ISOBJECT", u"GETUID", u"QUOTE", u"NOT", 
-                      u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", u"AGET", 
-                      u"LOOKUP", u"SETUID", u"ASET", u"UPDATE", u"SUPDATE", 
-                      u"SETATTR", u"CONCAT", u"AND", u"OR", u"MINUS", u"IF", 
-                      u"GETATTR", u"CHARACTER", u"ID", u"NUMBER", u"STRING", 
-                      u"SYMBOL", u"LINE_COMMENT", u"NEW_LINE_COMMENT", u"NEW_COMMENT", 
-                      u"WHITE_SPACE" ]
+                      u"IMPORT", u"ISNONE", u"ISOBJECT", u"GETUID", u"QUOTE", 
+                      u"NOT", u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", 
+                      u"AGET", u"LOOKUP", u"SETUID", u"ASET", u"UPDATE", 
+                      u"SUPDATE", u"SETATTR", u"CONCAT", u"AND", u"OR", 
+                      u"MINUS", u"IF", u"GETATTR", u"CHARACTER", u"ID", 
+                      u"NUMBER", u"STRING", u"SYMBOL", u"LINE_COMMENT", 
+                      u"NEW_LINE_COMMENT", u"NEW_COMMENT", u"WHITE_SPACE" ]
 
     RULE_unit = 0
     RULE_expression = 1
@@ -189,37 +190,38 @@ class PLambdaParser ( Parser ):
     FLOAT=26
     INT=27
     LOAD=28
-    ISNONE=29
-    ISOBJECT=30
-    GETUID=31
-    QUOTE=32
-    NOT=33
-    THROW=34
-    FETCH=35
-    NARROW=36
-    INSTANCEOF=37
-    AGET=38
-    LOOKUP=39
-    SETUID=40
-    ASET=41
-    UPDATE=42
-    SUPDATE=43
-    SETATTR=44
-    CONCAT=45
-    AND=46
-    OR=47
-    MINUS=48
-    IF=49
-    GETATTR=50
-    CHARACTER=51
-    ID=52
-    NUMBER=53
-    STRING=54
-    SYMBOL=55
-    LINE_COMMENT=56
-    NEW_LINE_COMMENT=57
-    NEW_COMMENT=58
-    WHITE_SPACE=59
+    IMPORT=29
+    ISNONE=30
+    ISOBJECT=31
+    GETUID=32
+    QUOTE=33
+    NOT=34
+    THROW=35
+    FETCH=36
+    NARROW=37
+    INSTANCEOF=38
+    AGET=39
+    LOOKUP=40
+    SETUID=41
+    ASET=42
+    UPDATE=43
+    SUPDATE=44
+    SETATTR=45
+    CONCAT=46
+    AND=47
+    OR=48
+    MINUS=49
+    IF=50
+    GETATTR=51
+    CHARACTER=52
+    ID=53
+    NUMBER=54
+    STRING=55
+    SYMBOL=56
+    LINE_COMMENT=57
+    NEW_LINE_COMMENT=58
+    NEW_COMMENT=59
+    WHITE_SPACE=60
 
     def __init__(self, input):
         super(PLambdaParser, self).__init__(input)

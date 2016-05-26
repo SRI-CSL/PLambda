@@ -1,25 +1,34 @@
 from Code import SExpression, Atom, Syntax
+from SymbolTable import SymbolTable
+
+"""
+Current bugs:
+(int None)
+(boolean None)
+(float None)
 
 
+
+"""
 
 
 class Interpreter(object):
 
     def __init__(self):
         self.definitions = {}
+        self.modules = {}
 
 
     def evaluate(self, exp):
         if isinstance(exp, Atom):
-            self.lookup(exp)
+            return self.lookup(exp)
         elif isinstance(exp, SExpression):
-            self.evalSExpression(exp)
+            return self.evalSExpression(exp)
         else:
             raise Exception("huh?")
-        return True
 
     def lookup(self, leaf):
-        pass
+        return True
 
 
     def evalSExpression(self, sexp):
@@ -37,8 +46,9 @@ class Interpreter(object):
         elif code == Syntax.APPLY:
             print 'APPLY: coming soon to an interpreter near you!'
         elif code == Syntax.PRIMITIVE_DATA_OP :
-            print 'PRIMITIVE_DATA_OP : coming soon to an interpreter near you!'
+            return self.evalPrimitiveDataOp(sexp)
         elif code == Syntax.UNARY_OP:
+            return self.evalUnaryOp(sexp)
             print 'UNARY_OP: coming soon to an interpreter near you!'
         elif code == Syntax.BINARY_OP:
             print 'BINARY_OP: coming soon to an interpreter near you!'
@@ -59,3 +69,41 @@ class Interpreter(object):
         else:
             raise Exception("huh?")
 
+    def evalPrimitiveDataOp(self, sexp):
+        (a0, a1) = sexp.spine
+        assert isinstance(a0, Atom)
+        assert isinstance(a1, Atom)
+        op = a0.string
+        data = a1.string
+        if op is SymbolTable.INT:
+            return int(data)
+        elif op is SymbolTable.FLOAT:
+            return float(data)
+        else:
+            return True if data.lower() == 'true' else False
+        
+        
+    def evalUnaryOp(self, sexp):
+        (uop, arg) =  sexp.spine
+        assert isinstance(uop, Atom)
+        op = uop.string
+        val = self.evaluate(arg)
+        print "op = {0}".format(op)
+        if  op is SymbolTable.LOAD:
+            pass
+        elif op is SymbolTable.IMPORT:
+            pass
+        elif op is SymbolTable.ISNONE:
+            pass
+        elif op is SymbolTable.ISOBJECT:
+            pass
+        elif op is SymbolTable.QUOTE:
+            pass
+        elif op is SymbolTable.THROW:
+            pass
+        elif op is SymbolTable.NOT:
+            pass
+        else:
+            raise Exception("huh?")
+        print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
+        return True
