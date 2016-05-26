@@ -1,6 +1,6 @@
 import sys
 
-from src.visitor.Parser import parseFromFile
+from src.visitor.Parser import parseFromFile, parseFromString
 
 
 def rep(filename):
@@ -22,6 +22,8 @@ def rep(filename):
                 print 'Coming soon(ish)'
             else:
                 print line
+                code = parseFromString(line)
+                print code
 
     except KeyboardInterrupt:
         return 0

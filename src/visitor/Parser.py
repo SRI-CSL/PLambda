@@ -9,12 +9,16 @@ from src.visitor.Visitor import Visitor
 import sys
 
 def parseFromFile(filename):
-    input = FileStream(filename)
-    lexer = PLambdaLexer(input)
+    return parseFromStream(FileStream(filename), filename)
+ 
+def parseFromString(string):
+    return parseFromStream(InputStream(string), "stdin")
+
+def parseFromStream(stream, source):
+    lexer = PLambdaLexer(stream)
     stream = CommonTokenStream(lexer)
     parser = PLambdaParser(stream)
     tree = parser.unit()
-    visitor = Visitor(filename)
+    visitor = Visitor(source)
     return visitor.visit(tree)
     
-
