@@ -3,11 +3,11 @@
 import sys
 
 
-from src.plambda.PLambda import load
+from src.visitor.Parser import parseFromFile
 
 def main(argv):
 
-    codelist = load(argv[1])
+    codelist = parseFromFile(argv[1])
     for c in codelist:
         print str(c)
         print repr(c)

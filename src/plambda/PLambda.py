@@ -1,30 +1,13 @@
-from antlr4 import *
-
-from src.gen.PLambdaLexer import PLambdaLexer
-
-from src.gen.PLambdaParser import PLambdaParser
-
-from src.visitor.Visitor import Visitor
-
 import sys
 
-def load(filename):
-    input = FileStream(filename)
-    lexer = PLambdaLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = PLambdaParser(stream)
-    tree = parser.unit()
-    visitor = Visitor(filename)
-    return visitor.visit(tree)
-    
-
+from src.visitor.Parser import parseFromFile
 
 
 def rep(filename):
     try:
 
         if filename is not None:
-            codelist = load(filename)
+            codelist = parseFromFile(filename)
             
         sys.stdout.write(WELCOME)
         
@@ -35,6 +18,8 @@ def rep(filename):
                 return 0
             elif line == '?':
                 sys.stdout.write(INSTRUCTIONS)
+            elif line in ('d', 's', 'u', 'v'):
+                print 'Coming soon(ish)'
             else:
                 print line
 
