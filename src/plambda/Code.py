@@ -1,8 +1,32 @@
 from src.util.StringBuffer import StringBuffer
 
-class Code(object):
+#may as well retain information gleaned from the parser
+#since it will help in the dispatching
+class Syntax(object):
 
-    def __init__(self, spine, filename, lineno):
+    SEQ               = 0
+    LET               = 1
+    DEFINE            = 2
+    LAMBDA            = 3
+    INVOKE            = 4
+    APPLY             = 5
+    PRIMITIVE_DATA_OP = 6
+    UNARY_OP          = 7
+    BINARY_OP         = 8
+    TERNARY_OP        = 9
+    AMBI1_OP          = 10
+    AMBI2_OP          = 11
+    N_ARY_OP          = 12
+    TRY               = 13
+    FOR               = 14
+    QUOTE             = 15
+    CATCH             = 16
+
+
+class SExpression(object):
+
+    def __init__(self, code, spine, filename, lineno):
+        self.code = code
         self.spine = spine
         self.filename = filename
         self.lineno = lineno
@@ -33,7 +57,7 @@ class Code(object):
     
 
 
-class Leaf(object):
+class Atom(object):
 
     def __init__(self, uni, filename, lineno):
         self.string = intern(str(uni))
