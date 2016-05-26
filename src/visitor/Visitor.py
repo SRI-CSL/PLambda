@@ -2,7 +2,7 @@
 from src.gen.PLambdaVisitor import PLambdaVisitor
 from src.plambda.SymbolTable import SymbolTable
 from src.visitor.ParseError import ParseError
-from src.plambda.Code import SExpression, Atom, Syntax
+from src.plambda.Code import SExpression, Atom, StringLiteral, Syntax
 
 class Visitor(PLambdaVisitor):
 
@@ -21,7 +21,7 @@ class Visitor(PLambdaVisitor):
     def visitStringLiteral(self, ctx):
         t = ctx.STRING().getSymbol()
         lineno = t.line
-        return Atom(t.text, self.filename, lineno)
+        return StringLiteral(t.text, self.filename, lineno)
 
     # Visit a parse tree produced by PLambdaParser#identifierLiteral.
     def visitIdentifierLiteral(self, ctx):

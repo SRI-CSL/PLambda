@@ -72,3 +72,18 @@ class Atom(object):
     def __str__(self):
         return self.string
 
+class StringLiteral(object):
+
+    def __init__(self, uni, filename, lineno):
+        self.string = intern(str(uni)[1:-1]) # remove the quotes
+        self.filename = filename
+        self.lineno = lineno
+
+    # repr's goal is to be unambiguous
+    def __repr__(self):
+        return '{0}@{1}:{2}'.format(self.string, self.filename, self.lineno)
+
+    # str's goal is to be readable
+    def __str__(self):
+        return self.string
+
