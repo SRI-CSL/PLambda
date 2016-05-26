@@ -11,7 +11,8 @@ antlr4:
 
 
 clean:
-	rm -f *.pyc *.py
+	rm -f *.pyc P*.py *.tokens
+
 
 
 
