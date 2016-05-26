@@ -1,13 +1,18 @@
 import sys
 
 from src.visitor.Parser import parseFromFile, parseFromString
-
+from src.plambda.Interpreter  import Interpreter
 
 def rep(filename):
+
+    interpreter = Interpreter()
+    
     try:
 
         if filename is not None:
             codelist = parseFromFile(filename)
+            for c in codelist:
+                interpreter.evaluate(c)
             
         sys.stdout.write(WELCOME)
         
@@ -22,8 +27,13 @@ def rep(filename):
                 print 'Coming soon(ish)'
             else:
                 print line
-                code = parseFromString(line)
-                print code
+                if line:
+                    code = parseFromString(line)
+                    for c in code:
+                        if c is not None:
+                            value = interpreter.evaluate(c)
+                            print value
+                            
 
     except KeyboardInterrupt:
         return 0
@@ -36,7 +46,7 @@ Welcome to the PLambda interface to Python, type ? for help.
 
 INSTRUCTIONS="""
 Type one of the following:
-\tany valid jlambda expression to be evaluated, or
+\tany valid plambda expression to be evaluated, or
 \tq to quit  (or quit)
 \t? to see these instructions
 \td to see the current definitions
