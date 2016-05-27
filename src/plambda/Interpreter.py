@@ -1,5 +1,6 @@
 import importlib
 
+import inspect
 
 from src.util.Util import isString
 
@@ -57,8 +58,51 @@ class Interpreter(object):
             return value
         raise PLambdaException('Unbound variable: {0}'.format(leaf))
 
+        
+    def getmodule(self, path):
+        """Finds the longest prefix of path that is in the modules dictionary.
+        If finds a prefix returns (mod, path_remainder), else (None, path).
+        """
+        index = len(path)
+        remainder = []
+        current = None
+        mod = None
+        while index != 0:
+            current = '.'.join(path[0:index])
+            mod = self.modules.get(current)
+            if mod is not None:
+                break
+            index -= 1
+            remainder.insert(0, path[index])
+        if mod is not None:
+            return (mod, remainder)
+        else:
+            return (None, path)
+
+    def getobject(self, obj, path):
+        """Follows the path from object (which should be a class or module)
+        and if what lies at the end is x returns (True, x), else it returns
+        (False, None).
+        """
+        if obj is None:
+            return (False, None)
+        if path == []:
+            return (True, obj)
+        elif inspect.ismodule(obj):
+            return self.getobject(obj.__dict__.get(path[0]), path[1:])
+        else:
+            return self.getobject(obj[path[0]], path[1:])
+        
+        
     def mlookup(self, leaf):
-        return (False, None)
+        """Just a quick 'n dirty hack at this point.
+        """
+        name = leaf.string
+        path = name.split('.')
+
+        (mod, remainder) = self.getmodule(path)
+
+        return self.getobject(mod, remainder)
 
     def elookup(self, leaf, env):
         return (False, None)
