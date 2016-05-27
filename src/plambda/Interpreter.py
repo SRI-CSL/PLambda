@@ -5,8 +5,14 @@ import inspect
 from src.util.Util import isString
 
 from Code import SExpression, Atom, StringLiteral, Syntax
+
 from SymbolTable import SymbolTable
+
 from PLambdaException import PLambdaException
+
+from Environment import Environment
+
+from src.visitor.Parser import parseFromFile
 
 """
 Current bugs:
@@ -14,6 +20,13 @@ Current bugs:
 (int None)
 (boolean None)
 (float None)
+
+Things to add:
+
+isfunction
+
+a mechanism to "add" an existing global python function
+
 
 """
 
@@ -27,7 +40,7 @@ class Interpreter(object):
 
 
     def evaluate(self, exp):
-        return self.eval(exp, None)
+        return self.eval(exp, Environment())
 
     def eval(self, exp, env):
         if isinstance(exp, StringLiteral):
@@ -113,7 +126,6 @@ class Interpreter(object):
     def glookup(self, leaf):
         return (False, None)
                                
-
     def evalSExpression(self, sexp, env):
         code = sexp.code
         if code is Syntax.SEQ:
@@ -187,9 +199,9 @@ class Interpreter(object):
         elif op is SymbolTable.IMPORT:
             return self.importmod(val)
         elif op is SymbolTable.ISNONE:
-            pass
+            return val is None
         elif op is SymbolTable.ISOBJECT:
-            pass
+            return inspect.isobject(val)
         elif op is SymbolTable.QUOTE:
             pass
         elif op is SymbolTable.THROW:
@@ -200,3 +212,14 @@ class Interpreter(object):
             raise Exception("huh?")
         print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
         return True
+
+
+    def load(self, filename):
+        if filename is not None and isString(filename):
+            codelist = parseFromFile(filename)
+            for c in codelist:
+                self.evaluate(c)
+            return True
+        return False
+
+        

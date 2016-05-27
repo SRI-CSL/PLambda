@@ -1,6 +1,6 @@
 import sys
 
-from src.visitor.Parser import parseFromFile, parseFromString
+from src.visitor.Parser import parseFromString
 from src.plambda.Interpreter  import Interpreter
 from src.plambda.PLambdaException import PLambdaException
 def rep(filename):
@@ -9,11 +9,8 @@ def rep(filename):
     
     try:
 
-        if filename is not None:
-            codelist = parseFromFile(filename)
-            for c in codelist:
-                interpreter.evaluate(c)
-            
+        interpreter.load(filename)
+        
         sys.stdout.write(WELCOME)
         
         while True:
