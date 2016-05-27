@@ -15,12 +15,11 @@ class Environment(object):
     def lookup(self, key):
         env = self
         while env is not None:
-            val = self.env.get(key)
-            if val is not None:
-                return val
+            if key in self.env:
+                return (True, self.env.get(key))
             else:
                 env = env.next
-        return None
+        return (False, None)
     
         
         

@@ -134,7 +134,7 @@ class Visitor(PLambdaVisitor):
         if paramList is not None:
             params = self.visitParameterList(paramList)
         body = self.visitImplicitSeq(ctx.expression())
-        id = ctx.ID().getSymbol().text
+        id = Atom(intern(str(ctx.ID().getSymbol().text)), self.filename, ctx.ID().getSymbol().line)
         if params is not None:
             return SExpression(Syntax.DEFINE, (define, id, params, body), self.filename, lineno)
         else:

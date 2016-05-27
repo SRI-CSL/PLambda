@@ -24,13 +24,14 @@ def rep(filename):
                 elif line in ('d', 's', 'u', 'v'):
                     print 'Coming soon(ish)'
                 else:
-                    print line
                     if line:
+                        print 'rep: line = ', line
                         code = parseFromString(line)
                         for c in code:
                             if c is not None:
+                                print 'rep: c = ', c
                                 value = interpreter.evaluate(c)
-                                print value
+                                print 'rep: value = ', value
             except PLambdaException as e:
                 print e
                 

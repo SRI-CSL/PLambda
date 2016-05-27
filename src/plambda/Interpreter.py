@@ -12,6 +12,8 @@ from PLambdaException import PLambdaException
 
 from Environment import Environment
 
+from Closure import Closure
+
 from src.visitor.Parser import parseFromFile
 
 """
@@ -25,10 +27,6 @@ Things to add:
 
 isfunction
 
-
-We should also add support existing global python function
-
-http://www.diveintopython.net/html_processing/locals_and_globals.html
 
 """
 
@@ -69,12 +67,19 @@ class Interpreter(object):
         (ok, value) = self.mlookup(leaf)
         if ok:
             return value
+
         (ok, value) = self.elookup(leaf, env)
         if ok:
             return value
+
         (ok, value) = self.glookup(leaf)
         if ok:
             return value
+
+        (ok, value) = self.plookup(leaf)
+        if ok:
+            return value
+
         raise PLambdaException('Unbound variable: {0}'.format(repr(leaf)))
 
         
@@ -119,6 +124,8 @@ class Interpreter(object):
     def mlookup(self, leaf):
         """Just a quick 'n dirty hack at this point.
         """
+        assert(isinstance(leaf, Atom))
+
         name = leaf.string
         path = name.split('.')
 
@@ -127,10 +134,26 @@ class Interpreter(object):
         return self.getobject(mod, remainder)
 
     def elookup(self, leaf, env):
-        return (False, None)
+        assert(isinstance(leaf, Atom))
+        
+        return env.lookup(leaf.string)
 
     def glookup(self, leaf):
-        return (False, None)
+        assert(isinstance(leaf, Atom))
+
+        key = leaf.string
+        
+        if key in self.definitions:
+            return (True, self.definitions[key])
+        else:
+            return (False, None)
+
+    def plookup(self, leaf):
+        try:
+            val = eval(leaf.string)
+            return (True, val)
+        except NameError:
+            return (False, None)
 
     def evalSeq(self, sexp, env):
         tail = sexp.spine[1:]
@@ -173,10 +196,10 @@ class Interpreter(object):
         
         argspec = inspect.getargspec(method)
         
-        # if it is an object we have to *not* count 'self', but if it is a class
-        # we need to pass all the args!
+        # if it is an object we have to *not* count 'self',
+        # but if it is a class we need to pass all the args!
         offset = 0
-        if not inspect.ismodule(obj):
+        if not inspect.ismodule(obj) and not inspect.isclass(obj):
             offset = 1
         
         if len(argspec.args) - offset  != len(args): 
@@ -191,21 +214,49 @@ class Interpreter(object):
         
         return method(*vals)
 
+
+    def evalDefine(self, sexp, env):
+        identifier = sexp.spine[1]
+        
+        assert(isinstance(identifier, Atom))
+        
+        val = None
+
+        if len(sexp.spine) == 3:
+            val = self.eval(sexp.spine[2], env)
+        else:
+            val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0])
+
+        self.definitions[identifier.string] = val
+        return identifier
     
+
+    def evalLet(self, sexp, env):
+        nenv = Environment(env)
+        bindings = sexp.spine[1].spine
+        body = sexp.spine[2]
+
+        for bpair in bindings:
+            var = bpair.spine[0]
+            assert(isinstance(var, Atom))
+            nenv.extend(var, self.eval(bpair.spine[1], nenv))
+
+        return self.eval(body, nenv)
+        
+
                                
     def evalSExpression(self, sexp, env):
         code = sexp.code
         if code is Syntax.SEQ:
             return self.evalSeq(sexp, env)
         elif code is Syntax.LET:
-            print 'LET: coming soon to an interpreter near you!'
+            return self.evalLet(sexp, env)
         elif code is Syntax.DEFINE:
-            print 'DEFINE: coming soon to an interpreter near you!'
+            return self.evalDefine(sexp, env)
         elif code is Syntax.LAMBDA:
-            print 'LAMBDA: coming soon to an interpreter near you!'
+            return Closure(self, sexp.spine[1], sexp.spine[2], env, sexp.spine[0])
         elif code is Syntax.INVOKE:
             return self.evalInvoke(sexp, env)
-            print 'INVOKE: coming soon to an interpreter near you!'
         elif code is Syntax.APPLY:
             print 'APPLY: coming soon to an interpreter near you!'
         elif code is Syntax.PRIMITIVE_DATA_OP :
@@ -217,7 +268,7 @@ class Interpreter(object):
         elif code is Syntax.TERNARY_OP:
             print 'TERNARY_OP: coming soon to an interpreter near you!'
         elif code is Syntax.AMBI1_OP:
-            print ': coming soon to an interpreter near you!'
+            print 'AMBI1_OP: coming soon to an interpreter near you!'
         elif code is Syntax.AMBI2_OP:
             print 'AMBI2_OP: coming soon to an interpreter near you!'
         elif code is Syntax.N_ARY_OP:
