@@ -10,14 +10,18 @@ class Environment(object):
 
     def extend(self, key, value):
         self.env[key] = value
-
+        return self
+    
     def lookup(self, key):
-        val = self.env.get(key)
-        if val is not None or self.next is None:
-            return val
-        else:
-            return self.next.lookup(key)
-
+        env = self
+        while env is not None:
+            val = self.env.get(key)
+            if val is not None:
+                return val
+            else:
+                env = env.next
+        return None
+    
         
         
         
