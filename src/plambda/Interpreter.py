@@ -40,7 +40,7 @@ class Interpreter(object):
             raise PLambdaException("huh?")
 
     def lookup(self, leaf, env):
-        """See if the indentifier is bound in the extended environment.
+        """See if the identifier is bound in the extended environment.
 
         First see if it referencing a thing in a module. Then, failing that
         look if it has a value in the current lexical environment. As a last
@@ -61,6 +61,7 @@ class Interpreter(object):
         
     def getmodule(self, path):
         """Finds the longest prefix of path that is in the modules dictionary.
+
         If finds a prefix returns (mod, path_remainder), else (None, path).
         """
         index = len(path)
@@ -80,9 +81,11 @@ class Interpreter(object):
             return (None, path)
 
     def getobject(self, obj, path):
-        """Follows the path from object (which should be a class or module)
-        and if what lies at the end is x returns (True, x), else it returns
-        (False, None).
+        """Follows the path from object.
+
+        Follows the path down into the obj, which should be a class or module,
+        and if what lies at the end is x returns (True, x), else, if the path
+        makes no sense at some stage, returns (False, None).
         """
         if obj is None:
             return (False, None)
