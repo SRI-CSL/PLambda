@@ -25,8 +25,10 @@ Things to add:
 
 isfunction
 
-a mechanism to "add" an existing global python function
 
+We should also add support existing global python function
+
+http://www.diveintopython.net/html_processing/locals_and_globals.html
 
 """
 
@@ -57,9 +59,13 @@ class Interpreter(object):
 
         First see if it referencing a thing in a module. Then, failing that
         look if it has a value in the current lexical environment. As a last
-        resort see if it is a global definition. Otherwise raise a 
-        PLambdaException.
+        resort see if it is a global definition, either in our global environment
+        or in Python's. Otherwise raise a PLambdaException.
+
         """
+
+        assert(isinstance(leaf,Atom))
+        
         (ok, value) = self.mlookup(leaf)
         if ok:
             return value
@@ -69,7 +75,7 @@ class Interpreter(object):
         (ok, value) = self.glookup(leaf)
         if ok:
             return value
-        raise PLambdaException('Unbound variable: {0}'.format(leaf))
+        raise PLambdaException('Unbound variable: {0}'.format(repr(leaf)))
 
         
     def getmodule(self, path):
@@ -125,11 +131,72 @@ class Interpreter(object):
 
     def glookup(self, leaf):
         return (False, None)
+
+    def evalSeq(self, sexp, env):
+        tail = sexp.spine[1:]
+        retval = None
+        for s in tail:
+            retval = self.eval(s, env)
+        return retval
+
+    def evalInvoke(self, sexp, env):
+        objexp = sexp.spine[1]
+        obj = self.eval(objexp, env)
+
+        methods = inspect.getmembers(obj, callable)
+
+        if not methods:
+            fmsg = 'Object not invokable: {0} evaluated to {1}'
+            emsg = fmsg.format(repr(objexp), obj)
+            raise PLambdaException(emsg)
+
+        methodexp = sexp.spine[2]
+        methodname  = self.eval(methodexp, env)
+        method = None
+        
+        if not isString(methodname):
+            fmsg = 'Method name not a string: {0} evaluated to {1}'
+            emsg = fmsg.format(repr(methodexp), methodname)
+            raise PLambdaException(fmsg)
+
+        
+        for (name, value) in methods:
+            if name == methodname:
+                method = value
+                break
+
+        if method is None:
+            emsg = 'No such method: {0}'.format(repr(methodname))
+            raise PLambdaException(emsg)
+        
+        args = sexp.spine[3:]
+        
+        argspec = inspect.getargspec(method)
+        
+        # if it is an object we have to *not* count 'self', but if it is a class
+        # we need to pass all the args!
+        offset = 0
+        if not inspect.ismodule(obj):
+            offset = 1
+        
+        if len(argspec.args) - offset  != len(args): 
+            fmsg = 'Arity of {0} args {1} does not match the argspec: {2}'
+            emsg = fmsg.format(methodname, args, argspec.args[offset:])
+            raise PLambdaException(emsg)
+        
+        
+        vals = []
+        for a in args:
+            vals.append(self.eval(a, env))
+        
+        return method(*vals)
+
+    
                                
     def evalSExpression(self, sexp, env):
         code = sexp.code
         if code is Syntax.SEQ:
-            print 'SEQ: coming soon to an interpreter near you!'
+            return self.evalSeq(sexp, env)
         elif code is Syntax.LET:
             print 'LET: coming soon to an interpreter near you!'
         elif code is Syntax.DEFINE:
@@ -137,6 +204,7 @@ class Interpreter(object):
         elif code is Syntax.LAMBDA:
             print 'LAMBDA: coming soon to an interpreter near you!'
         elif code is Syntax.INVOKE:
+            return self.evalInvoke(sexp, env)
             print 'INVOKE: coming soon to an interpreter near you!'
         elif code is Syntax.APPLY:
             print 'APPLY: coming soon to an interpreter near you!'
@@ -144,7 +212,6 @@ class Interpreter(object):
             return self.evalPrimitiveDataOp(sexp, env)
         elif code is Syntax.UNARY_OP:
             return self.evalUnaryOp(sexp, env)
-            print 'UNARY_OP: coming soon to an interpreter near you!'
         elif code is Syntax.BINARY_OP:
             print 'BINARY_OP: coming soon to an interpreter near you!'
         elif code is Syntax.TERNARY_OP:
@@ -195,7 +262,10 @@ class Interpreter(object):
         op = uop.string
         val = self.eval(arg, env)
         if  op is SymbolTable.LOAD:
-            pass
+            if isString(val):
+                return self.load(val)
+            else:
+                return False
         elif op is SymbolTable.IMPORT:
             return self.importmod(val)
         elif op is SymbolTable.ISNONE:
@@ -203,14 +273,15 @@ class Interpreter(object):
         elif op is SymbolTable.ISOBJECT:
             return inspect.isobject(val)
         elif op is SymbolTable.QUOTE:
+            print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
             pass
         elif op is SymbolTable.THROW:
+            print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
             pass
         elif op is SymbolTable.NOT:
             return True if val is False else False
         else:
             raise Exception("huh?")
-        print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
         return True
 
 

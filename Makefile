@@ -11,6 +11,7 @@ antlr4:
 
 
 clean:
+	make -C src/gen clean
 	rm -f src/*.pyc src/*/*.pyc src/*/*~
 
 

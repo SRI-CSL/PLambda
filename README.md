@@ -39,3 +39,8 @@ The main client of the iop system is [SRI International's Pathway Logic](http://
 4. Add the operator to the `Interpreter`
 
 
+### Todo
+
+1. Finish the interpreter
+
+2. Make a pip package or whatever ...

@@ -29,7 +29,7 @@ class Visitor(PLambdaVisitor):
         lineno = t.line
         return  Atom(t.text, self.filename, lineno)
 
-    def visitExpressionList(self, tsym, code, explist):
+    def visitExpressionList(self, code, tsym, explist):
         t = tsym.getSymbol()
         lineno = t.line
         retval = [Atom(SymbolTable.canonicalize(t.text), self.filename, lineno)]
@@ -50,11 +50,11 @@ class Visitor(PLambdaVisitor):
             
     # Visit a parse tree produced by PLambdaParser#invokeExpression.
     def visitInvokeExpression(self, ctx):
-        return self.visitExpressionList(ctx.INVOKE(), ctx.expression())
+        return self.visitExpressionList(Syntax.INVOKE, ctx.INVOKE(), ctx.expression())
     
     # Visit a parse tree produced by PLambdaParser#seqExpression.
     def visitSeqExpression(self, ctx):
-        return self.visitExpressionList(Syntax.SEQ, SymbolTable.SEQ, ctx.expression())
+        return self.visitExpressionList(Syntax.SEQ, ctx.SEQ(), ctx.expression())
 
     # Visit a parse tree produced by PLambdaParser#applyExpression.
     def visitApplyExpression(self, ctx):
