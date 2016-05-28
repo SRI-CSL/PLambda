@@ -225,7 +225,7 @@ class Interpreter(object):
         if len(sexp.spine) == 3:
             val = self.eval(sexp.spine[2], env)
         else:
-            val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0])
+            val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0].location)
 
         self.definitions[identifier.string] = val
         return identifier
@@ -243,6 +243,26 @@ class Interpreter(object):
 
         return self.eval(body, nenv)
         
+    def evalApply(self, sexp, env):
+        funexp  = sexp.spine[0]
+        argexps = sexp.spine[1:]
+
+        fun = self.eval(funexp, env)
+
+        if not isinstance(fun, Closure) and not callable(fun):
+            fmsg = 'Cannot apply {0} which evaluated to {1}'
+            emsg = fmsg.format(funexp, fun)
+            raise PLambdaException(emsg)
+
+        vals = []
+        for arg in argexps:
+            vals.append(self.eval(arg, env))
+
+        #TODO: some arity checking would be nice
+        if isinstance(fun, Closure):
+            return fun.applyClosure(*vals)
+        else:
+            return fun(*vals)
 
                                
     def evalSExpression(self, sexp, env):
@@ -254,7 +274,7 @@ class Interpreter(object):
         elif code is Syntax.DEFINE:
             return self.evalDefine(sexp, env)
         elif code is Syntax.LAMBDA:
-            return Closure(self, sexp.spine[1], sexp.spine[2], env, sexp.spine[0])
+            return Closure(self, sexp.spine[1], sexp.spine[2], env, sexp.spine[0].location)
         elif code is Syntax.INVOKE:
             return self.evalInvoke(sexp, env)
         elif code is Syntax.APPLY:

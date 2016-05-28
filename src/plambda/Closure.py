@@ -1,10 +1,10 @@
-from Code import Atom
+from Code import Atom, Location
 
 
 
 class Closure(object):
 
-    def __init__(self, interpreter, params, body, env, a):
+    def __init__(self, interpreter, params, body, env, location):
 
         assert(isinstance(a, Atom))
 
@@ -12,11 +12,11 @@ class Closure(object):
         self.params = params
         self.body = body
         self.env = env
-        #time to do some inheritance?
-        self.filename = a.filename
-        self.line = a.lineno
+        self.location = location
 
     def applyClosure(self, *args):
-        pass
+        print "Closure.applyClosure coming soon to an interpreter near you"
+        return None
+    
 
     

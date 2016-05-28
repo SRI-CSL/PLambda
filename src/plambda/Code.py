@@ -23,19 +23,30 @@ class Syntax(object):
     CATCH             = 16
 
 
-class SExpression(object):
+class Location(object):
 
-    def __init__(self, code, spine, filename, lineno):
-        self.code = code
-        self.spine = spine
+    def __init__(self, filename, lineno):
         self.filename = filename
         self.lineno = lineno
+
+
+    def __str__(self):
+        return '@{1}:{2}'.format(self.filename, self.lineno)
+
+
+
+class SExpression(object):
+
+    def __init__(self, code, spine, location):
+        self.code = code
+        self.spine = spine
+        self.location = location
         self.string = self.toString()
 
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}@{1}:{2}'.format(self.string, self.filename, self.lineno)
+        return '{0}{1}'.format(self.string, self.location)
 
     # str's goal is to be readable
     def __str__(self):
@@ -59,14 +70,13 @@ class SExpression(object):
 
 class Atom(object):
 
-    def __init__(self, uni, filename, lineno):
+    def __init__(self, uni, location):
         self.string = intern(str(uni))
-        self.filename = filename
-        self.lineno = lineno
+        self.location = location
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}@{1}:{2}'.format(self.string, self.filename, self.lineno)
+        return '{0}{1}'.format(self.string, self.location)
 
     # str's goal is to be readable
     def __str__(self):
@@ -74,14 +84,13 @@ class Atom(object):
 
 class StringLiteral(object):
 
-    def __init__(self, uni, filename, lineno):
+    def __init__(self, uni, location):
         self.string = intern(str(uni)[1:-1]) # remove the quotes
-        self.filename = filename
-        self.lineno = lineno
+        self.location = location
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}@{1}:{2}'.format(self.string, self.filename, self.lineno)
+        return '{0}{1}'.format(self.string, self.location)
 
     # str's goal is to be readable
     def __str__(self):
