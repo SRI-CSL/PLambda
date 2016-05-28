@@ -1,3 +1,8 @@
+# iam: This is needed to stop python from treating 'print' as something special; rather than 
+# just a builtin. Wonder how much of this hackery is in our future?
+#
+from __future__ import print_function
+
 import importlib
 
 import types
@@ -19,6 +24,7 @@ from Environment import Environment
 from Closure import Closure
 
 from src.visitor.Parser import parseFromFile
+
 
 """
 Current bugs:
@@ -150,6 +156,9 @@ class Interpreter(object):
             return (False, None)
 
     def plookup(self, leaf):
+        
+        assert(isinstance(leaf, Atom))
+        
         try:
             val = eval(leaf.string)
             return (True, val)
@@ -196,7 +205,8 @@ class Interpreter(object):
         args = sexp.spine[3:]
 
         # print 'type({0}): '.format(methodname), type(method),  types.BuiltinFunctionType
-        # Ugliness under python's hood. Cannot get the argspec of a builtin
+        # Ugliness under python's hood:
+        # Cannot get the argspec of a builtin
         # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
         if type(method) !=  types.BuiltinFunctionType:
             argspec = inspect.getargspec(method)
@@ -325,21 +335,21 @@ class Interpreter(object):
         elif code is Syntax.UNARY_OP:
             return self.evalUnaryOp(sexp, env)
         elif code is Syntax.BINARY_OP:
-            print 'BINARY_OP: coming soon to an interpreter near you!'
+            print('BINARY_OP: coming soon to an interpreter near you!')
         elif code is Syntax.TERNARY_OP:
-            print 'TERNARY_OP: coming soon to an interpreter near you!'
+            print('TERNARY_OP: coming soon to an interpreter near you!')
         elif code is Syntax.AMBI1_OP:
-            print 'AMBI1_OP: coming soon to an interpreter near you!'
+            print('AMBI1_OP: coming soon to an interpreter near you!')
         elif code is Syntax.AMBI2_OP:
-            print 'AMBI2_OP: coming soon to an interpreter near you!'
+            print('AMBI2_OP: coming soon to an interpreter near you!')
         elif code is Syntax.N_ARY_OP:
-            print 'N_ARY_OP: coming soon to an interpreter near you!'
+            print('N_ARY_OP: coming soon to an interpreter near you!')
         elif code is Syntax.TRY:
             return self.evalTry(sexp, env)
         elif code is Syntax.FOR:
             return self.evalFor(sexp, env)
         elif code is Syntax.QUOTE:
-            print 'QUOTE: coming soon to an interpreter near you!'
+            print('QUOTE: coming soon to an interpreter near you!')
         else:
             raise PLambdaException("huh?")
 
@@ -385,7 +395,7 @@ class Interpreter(object):
         elif op is SymbolTable.ISOBJECT:
             return inspect.isobject(val)
         elif op is SymbolTable.THROW:
-            print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
+            print('UNARY_OP {0}: coming soon to an interpreter near you!'.format(op))
             pass
         elif op is SymbolTable.NOT:
             return True if val is False else False
@@ -405,4 +415,4 @@ class Interpreter(object):
         
     def showDefinitions(self):
         for key, value in self.definitions.iteritems():
-            print '{0}  -->  {1}'.format(key, value)
+            sys.stderr.write('{0}  -->  {1}'.format(key, value))
