@@ -370,9 +370,6 @@ class Interpreter(object):
             return val is None
         elif op is SymbolTable.ISOBJECT:
             return inspect.isobject(val)
-        elif op is SymbolTable.QUOTE:
-            print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
-            pass
         elif op is SymbolTable.THROW:
             print 'UNARY_OP {0}: coming soon to an interpreter near you!'.format(op)
             pass

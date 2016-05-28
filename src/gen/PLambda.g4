@@ -60,7 +60,6 @@ UNARY_OP :   LOAD       |
              IMPORT     |
              ISNONE     |
              ISOBJECT   |
-             QUOTE      |
 	     THROW      |
              NOT        
              ;
