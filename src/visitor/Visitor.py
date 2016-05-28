@@ -151,7 +151,7 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#forExpression.
     def visitForExpression(self, ctx):
         lineno = ctx.FOR().getSymbol().line
-        location = Location(self.filename, t.line)
+        location = Location(self.filename, lineno)
         f = Atom(SymbolTable.FOR, location)
         t = ctx.ID().getSymbol()
         location = Location(self.filename, t.line)

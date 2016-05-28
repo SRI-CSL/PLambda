@@ -4,7 +4,9 @@ import types
 
 import inspect
 
-from src.util.Util import isString
+import collections
+
+from src.util.Util import isString, isInteger
 
 from Code import SExpression, Atom, StringLiteral, Syntax
 
@@ -25,10 +27,7 @@ Current bugs:
 (boolean None)
 (float None)
 
-(import "sys")
-(define stderr sys.stderr)
-(invoke stderr "write" "crap")
-
+(apply print "foo")
 
 Things to add:
 
@@ -36,6 +35,9 @@ isfunction
 
 some -1's in Visitor should be improved now that everything has a location.
 
+patch the builtin problem as much as possible
+
+named arguments need to be addressed at some point
 
 """
 
@@ -68,10 +70,10 @@ class Interpreter(object):
         look if it has a value in the current lexical environment. As a last
         resort see if it is a global definition, either in our global environment
         or in Python's. Otherwise raise a PLambdaException.
-
         """
 
         assert(isinstance(leaf,Atom))
+
         (ok, value) = self.mlookup(leaf)
         if ok:
             return value
@@ -195,6 +197,7 @@ class Interpreter(object):
 
         # print 'type({0}): '.format(methodname), type(method),  types.BuiltinFunctionType
         # Ugliness under python's hood. Cannot get the argspec of a builtin
+        # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
         if type(method) !=  types.BuiltinFunctionType:
             argspec = inspect.getargspec(method)
             # if it is an object we have to *not* count 'self',
@@ -265,6 +268,28 @@ class Interpreter(object):
         else:
             return fun(*vals)
 
+
+    def evalFor(self, sexp, env):
+        identifier = sexp.spine[1]
+        rangeexp = sexp.spine[2]
+        body = sexp.spine[3]
+
+        rangeval = self.eval(rangeexp, env)
+
+        if isInteger(rangeval):
+            rangeval = range(0, rangeval)  #FIXME: not very efficient for big integers
+            
+        if isinstance(rangeval, collections.Iterable):
+            retval = None
+            for v in rangeval:
+                nenv = Environment(env)
+                retval = self.eval(body, nenv.extend(identifier, v))
+            return retval
+        else:
+            fmsg = 'Range is not iterable: {0} evaluated to {1}'
+            emsg = fmsg.format(rangeexp, rangeval)
+            raise PLambdaException(emsg)
+        
                                
     def evalSExpression(self, sexp, env):
         code = sexp.code
@@ -275,11 +300,12 @@ class Interpreter(object):
         elif code is Syntax.DEFINE:
             return self.evalDefine(sexp, env)
         elif code is Syntax.LAMBDA:
-            return Closure(self, sexp.spine[1], sexp.spine[2], env, sexp.spine[0].location)
+            spine = sexp.spine
+            return Closure(self, spine[1], spine[2], env, spine[0].location)
         elif code is Syntax.INVOKE:
             return self.evalInvoke(sexp, env)
         elif code is Syntax.APPLY:
-             return self.evalApply(sexp, env)
+            return self.evalApply(sexp, env)
         elif code is Syntax.PRIMITIVE_DATA_OP :
             return self.evalPrimitiveDataOp(sexp, env)
         elif code is Syntax.UNARY_OP:
@@ -297,7 +323,7 @@ class Interpreter(object):
         elif code is Syntax.TRY:
             print 'TRY: coming soon to an interpreter near you!'
         elif code is Syntax.FOR:
-            print 'FOR: coming soon to an interpreter near you!'
+            return self.evalFor(sexp, env)
         elif code is Syntax.QUOTE:
             print 'QUOTE: coming soon to an interpreter near you!'
         else:
