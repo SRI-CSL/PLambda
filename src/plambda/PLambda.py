@@ -27,11 +27,11 @@ def rep(filename):
                     print 'Coming soon(ish)'
                 else:
                     if line:
-                        print 'rep: line = ', line
+                        print 'rep: line  = ', line
                         code = parseFromString(line)
                         for c in code:
                             if c is not None:
-                                print 'rep: c = ', c
+                                print 'rep: sexp  = ', c
                                 value = interpreter.evaluate(c)
                                 print 'rep: value = ', value
             except PLambdaException as e:

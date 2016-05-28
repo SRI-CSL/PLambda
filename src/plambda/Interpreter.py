@@ -13,6 +13,8 @@ import collections
 
 from src.util.Util import isString, isInteger
 
+from src.util.StringBuffer import StringBuffer
+
 from Code import SExpression, Atom, StringLiteral, Syntax
 
 from SymbolTable import SymbolTable
@@ -317,8 +319,8 @@ class Interpreter(object):
         assert isinstance(uop, Atom)
         op = uop.string
 
-        lhs = self.eval(arg0. env)
-        rhs = self.eval(arg1. env)
+        lhs = self.eval(arg0, env)
+        rhs = self.eval(arg1, env)
         # error checking sometime in the near future
         if  op is SymbolTable.PLUS:
             return  lhs + rhs
@@ -348,9 +350,24 @@ class Interpreter(object):
             raise Exception(emsg)
 
     def evalTernaryOp(self, sexp, env):
-        print('TERNARY_OP: coming soon to an interpreter near you!')
-        return None
+        (uop, arg0, arg1, arg2) =  sexp.spine
+        assert isinstance(uop, Atom)
+        op = uop.string
 
+        val0 = self.eval(arg0, env)
+        val1 = self.eval(arg1, env)
+        val2 = self.eval(arg2, env)
+
+        if  op is SymbolTable.UPDATE:
+            return  None
+        elif op is SymbolTable.SUPDATE:
+            return  None
+        elif op is SymbolTable.SETATTR:
+            return  None
+        else:
+            fmsg = 'Unrecognized ternary operation: {0}'
+            emsg = fmsg.format(op)
+            raise Exception(emsg)
 
     def evalAmb1Op(self, sexp, env):
         print('AMBI1_OP: coming soon to an interpreter near you!')
@@ -361,9 +378,34 @@ class Interpreter(object):
         return None
                                
     def evalNaryOp(self, sexp, env):
-        print('N_ARY_OP: coming soon to an interpreter near you!')
-        return None
+        uop =  sexp.spine[0]
+        assert isinstance(uop, Atom)
+        op = uop.string
+        args = sexp.spine[1:]
+        
+        if  op is SymbolTable.CONCAT:
+            return  self.evalConcat(sexp, env)
+        elif op is SymbolTable.AND:
+            for e in args:
+                if  self.eval(e, env) is False:
+                    return False
+            return  True
+        elif op is SymbolTable.OR:
+            for e in args:
+                if  self.eval(e, env):
+                    return True
+            return  False
+        else:
+            fmsg = 'Unrecognized n-ary operation: {0}'
+            emsg = fmsg.format(op)
+            raise Exception(emsg)
 
+    def evalConcat(self, sexp, env):
+        args = sexp.spine[1:]
+        sb = StringBuffer()
+        for e in args:
+            sb.append(str(self.eval(e, env)))
+        return  str(sb)
                                
     def evalSExpression(self, sexp, env):
         code = sexp.code
