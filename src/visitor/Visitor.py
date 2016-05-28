@@ -176,7 +176,7 @@ class Visitor(PLambdaVisitor):
     def visitCatchExpression(self, ctx):
         lineno = ctx.CATCH().getSymbol().line
         location = Location(self.filename, lineno)
-        ctch = Atom(SymbolTable.CATCH, self.filename, lineno)
+        ctch = Atom(SymbolTable.CATCH, location)
         return SExpression(Syntax.CATCH, (ctch,
                      self.visitParameter(ctx.parameter()),
                      self.visitImplicitSeq(ctx.expression())),

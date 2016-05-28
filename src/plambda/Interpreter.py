@@ -289,6 +289,20 @@ class Interpreter(object):
             fmsg = 'Range is not iterable: {0} evaluated to {1}'
             emsg = fmsg.format(rangeexp, rangeval)
             raise PLambdaException(emsg)
+
+
+    def evalTry(self, sexp, env):
+        tryexp = sexp.spine[1]
+        catchexp = sexp.spine[2]
+        retval = None
+        try:
+            retval = self.eval(tryexp, env)
+        except Exception as e:
+            catchid = catchexp.spine[1]
+            catchbody = catchexp.spine[2]
+            catchenv = Environment(env)
+            retval = self.eval(catchbody, catchenv.extend(catchid, e))
+        return retval
         
                                
     def evalSExpression(self, sexp, env):
@@ -321,7 +335,7 @@ class Interpreter(object):
         elif code is Syntax.N_ARY_OP:
             print 'N_ARY_OP: coming soon to an interpreter near you!'
         elif code is Syntax.TRY:
-            print 'TRY: coming soon to an interpreter near you!'
+            return self.evalTry(sexp, env)
         elif code is Syntax.FOR:
             return self.evalFor(sexp, env)
         elif code is Syntax.QUOTE:

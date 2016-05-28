@@ -13,3 +13,5 @@
 (invoke stderr "write" "crap\n")
 
 (for x  (int 7)  (not x))
+
+(try (int 7) (catch eid  eid))
