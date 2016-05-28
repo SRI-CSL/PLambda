@@ -313,8 +313,39 @@ class Interpreter(object):
         return retval
 
     def evalBinaryOp(self, sexp, env):
-        print('BINARY_OP: coming soon to an interpreter near you!')
-        return None
+        (uop, arg0, arg1) =  sexp.spine
+        assert isinstance(uop, Atom)
+        op = uop.string
+
+        lhs = self.eval(arg0. env)
+        rhs = self.eval(arg1. env)
+        # error checking sometime in the near future
+        if  op is SymbolTable.PLUS:
+            return  lhs + rhs
+        elif op is SymbolTable.TIMES:
+            return  lhs * rhs
+        elif op is SymbolTable.DIVIDE:
+            return  lhs / rhs
+        elif op is SymbolTable.MODULO:
+            return  lhs % rhs
+        elif op is SymbolTable.GT:
+            return  lhs < rhs
+        elif op is SymbolTable.LT:
+            return  lhs > rhs
+        elif op is SymbolTable.GEQ:
+            return  lhs >= rhs
+        elif op is SymbolTable.LEQ:
+            return  lhs <= rhs
+        elif op is SymbolTable.EQUALS:
+            return  lhs == rhs
+        elif op is SymbolTable.EQ:
+            return  lhs is rhs
+        elif op is SymbolTable.NEQ:
+            return  lhs != rhs
+        else:
+            fmsg = 'Unrecognized binary operation: {0}'
+            emsg = fmsg.format(op)
+            raise Exception(emsg)
 
     def evalTernaryOp(self, sexp, env):
         print('TERNARY_OP: coming soon to an interpreter near you!')
