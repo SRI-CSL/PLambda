@@ -39,8 +39,6 @@ Things to add:
 
 isfunction
 
-some -1's in Visitor should be improved now that everything has a location.
-
 patch the builtin problem as much as possible
 
 named arguments need to be addressed at some point

@@ -39,10 +39,12 @@ class Visitor(PLambdaVisitor):
 
     def visitImplicitSeq(self, explist):
         retval = []
+        location = None
         for e in explist:
-            retval.append(self.visit(e))
-        # FIXME: should be able to do better than -1
-        location = Location(self.filename, -1)
+            val = self.visit(e)
+            if location is None:
+                location = val.location
+            retval.append(val)
         #if there is an implicit seq, make it explicit    
         if len(retval) > 1:
             retval.insert(0, Atom(SymbolTable.SEQ, location))
@@ -94,9 +96,9 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#parameterList.
     def visitParameterList(self, ctx):
         retval = []
-        lineno = -1
+        lineno = None
         for p in ctx.parameter():
-            if lineno == -1:
+            if lineno is None:
                 lineno = p.ID().getSymbol().line
             retval.append(self.visitParameter(p))
         return SExpression(None, tuple(retval), Location(self.filename, lineno))
@@ -118,9 +120,12 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#bindingList.
     def visitBindingList(self, ctx):
         retval = []
+        location = None
         for b in ctx.bindingPair():
-            retval.append(self.visitBindingPair(b))
-        location = Location(self.filename, -1)
+            bp = self.visitBindingPair(b)
+            if location is None:
+                location = bp.location
+            retval.append(bp)
         return SExpression(None, tuple(retval), location)
 
     # Visit a parse tree produced by PLambdaParser#binding_pair.
