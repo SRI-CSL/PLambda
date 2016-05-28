@@ -33,8 +33,6 @@ Current bugs:
 (boolean None)
 (float None)
 
-(apply print "foo")
-
 Things to add:
 
 isfunction
@@ -313,7 +311,28 @@ class Interpreter(object):
             catchenv = Environment(env)
             retval = self.eval(catchbody, catchenv.extend(catchid, e))
         return retval
-        
+
+    def evalBinaryOp(self, sexp, env):
+        print('BINARY_OP: coming soon to an interpreter near you!')
+        return None
+
+    def evalTernaryOp(self, sexp, env):
+        print('TERNARY_OP: coming soon to an interpreter near you!')
+        return None
+
+
+    def evalAmb1Op(self, sexp, env):
+        print('AMBI1_OP: coming soon to an interpreter near you!')
+        return None
+                               
+    def evalAmb2Op(self, sexp, env):
+        print('AMBI2_OP: coming soon to an interpreter near you!')
+        return None
+                               
+    def evalNaryOp(self, sexp, env):
+        print('N_ARY_OP: coming soon to an interpreter near you!')
+        return None
+
                                
     def evalSExpression(self, sexp, env):
         code = sexp.code
@@ -335,15 +354,15 @@ class Interpreter(object):
         elif code is Syntax.UNARY_OP:
             return self.evalUnaryOp(sexp, env)
         elif code is Syntax.BINARY_OP:
-            print('BINARY_OP: coming soon to an interpreter near you!')
+             return self.evalBinaryOp(sexp, env)
         elif code is Syntax.TERNARY_OP:
-            print('TERNARY_OP: coming soon to an interpreter near you!')
+             return self.evalTernaryOp(sexp, env)
         elif code is Syntax.AMBI1_OP:
-            print('AMBI1_OP: coming soon to an interpreter near you!')
+            return self.evalAmbi1Op(sexp, env)
         elif code is Syntax.AMBI2_OP:
-            print('AMBI2_OP: coming soon to an interpreter near you!')
+            return self.evalAmbi2Op(sexp, env)
         elif code is Syntax.N_ARY_OP:
-            print('N_ARY_OP: coming soon to an interpreter near you!')
+            return self.evalNaryOp(sexp, env)
         elif code is Syntax.TRY:
             return self.evalTry(sexp, env)
         elif code is Syntax.FOR:
@@ -395,8 +414,7 @@ class Interpreter(object):
         elif op is SymbolTable.ISOBJECT:
             return inspect.isobject(val)
         elif op is SymbolTable.THROW:
-            print('UNARY_OP {0}: coming soon to an interpreter near you!'.format(op))
-            pass
+            raise v
         elif op is SymbolTable.NOT:
             return True if val is False else False
         else:
