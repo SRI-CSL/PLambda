@@ -1,12 +1,10 @@
 from Code import Atom, Location
 
-
+from Environment import Environment
 
 class Closure(object):
 
     def __init__(self, interpreter, params, body, env, location):
-
-        assert(isinstance(a, Atom))
 
         self.interpreter = interpreter
         self.params = params
@@ -15,8 +13,11 @@ class Closure(object):
         self.location = location
 
     def applyClosure(self, *args):
-        print "Closure.applyClosure coming soon to an interpreter near you"
-        return None
+        nenv = Environment(self.env)
+        for (p, v) in zip(self.params.spine, args):
+            #print "extending: {0} --> {1}".format(p, v)
+            nenv.extend(p, v)
+        return  self.interpreter.eval(self.body, nenv)
     
 
     

@@ -1,5 +1,7 @@
 import importlib
 
+import types
+
 import inspect
 
 from src.util.Util import isString
@@ -23,9 +25,16 @@ Current bugs:
 (boolean None)
 (float None)
 
+(import "sys")
+(define stderr sys.stderr)
+(invoke stderr "write" "crap")
+
+
 Things to add:
 
 isfunction
+
+some -1's in Visitor should be improved now that everything has a location.
 
 
 """
@@ -63,23 +72,18 @@ class Interpreter(object):
         """
 
         assert(isinstance(leaf,Atom))
-        
         (ok, value) = self.mlookup(leaf)
         if ok:
             return value
-
-        (ok, value) = self.elookup(leaf, env)
+        (ok, value) = env.lookup(leaf)
         if ok:
             return value
-
         (ok, value) = self.glookup(leaf)
         if ok:
             return value
-
         (ok, value) = self.plookup(leaf)
         if ok:
             return value
-
         raise PLambdaException('Unbound variable: {0}'.format(repr(leaf)))
 
         
@@ -132,11 +136,6 @@ class Interpreter(object):
         (mod, remainder) = self.getmodule(path)
 
         return self.getobject(mod, remainder)
-
-    def elookup(self, leaf, env):
-        assert(isinstance(leaf, Atom))
-        
-        return env.lookup(leaf.string)
 
     def glookup(self, leaf):
         assert(isinstance(leaf, Atom))
@@ -193,19 +192,21 @@ class Interpreter(object):
             raise PLambdaException(emsg)
         
         args = sexp.spine[3:]
+
+        # print 'type({0}): '.format(methodname), type(method),  types.BuiltinFunctionType
+        # Ugliness under python's hood. Cannot get the argspec of a builtin
+        if type(method) !=  types.BuiltinFunctionType:
+            argspec = inspect.getargspec(method)
+            # if it is an object we have to *not* count 'self',
+            # but if it is a class we need to pass all the args!
+            offset = 0
+            if not inspect.ismodule(obj) and not inspect.isclass(obj):
+                offset = 1
         
-        argspec = inspect.getargspec(method)
-        
-        # if it is an object we have to *not* count 'self',
-        # but if it is a class we need to pass all the args!
-        offset = 0
-        if not inspect.ismodule(obj) and not inspect.isclass(obj):
-            offset = 1
-        
-        if len(argspec.args) - offset  != len(args): 
-            fmsg = 'Arity of {0} args {1} does not match the argspec: {2}'
-            emsg = fmsg.format(methodname, args, argspec.args[offset:])
-            raise PLambdaException(emsg)
+                if len(argspec.args) - offset  != len(args): 
+                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}'
+                    emsg = fmsg.format(methodname, args, argspec.args[offset:])
+                    raise PLambdaException(emsg)
         
         
         vals = []
@@ -244,8 +245,8 @@ class Interpreter(object):
         return self.eval(body, nenv)
         
     def evalApply(self, sexp, env):
-        funexp  = sexp.spine[0]
-        argexps = sexp.spine[1:]
+        funexp  = sexp.spine[1]
+        argexps = sexp.spine[2:]
 
         fun = self.eval(funexp, env)
 
@@ -278,7 +279,7 @@ class Interpreter(object):
         elif code is Syntax.INVOKE:
             return self.evalInvoke(sexp, env)
         elif code is Syntax.APPLY:
-            print 'APPLY: coming soon to an interpreter near you!'
+             return self.evalApply(sexp, env)
         elif code is Syntax.PRIMITIVE_DATA_OP :
             return self.evalPrimitiveDataOp(sexp, env)
         elif code is Syntax.UNARY_OP:
@@ -357,7 +358,7 @@ class Interpreter(object):
 
 
     def load(self, filename):
-        if filename is not None and isString(filename):
+        if isString(filename):
             codelist = parseFromFile(filename)
             for c in codelist:
                 self.evaluate(c)
@@ -365,3 +366,6 @@ class Interpreter(object):
         return False
 
         
+    def showDefinitions(self):
+        for key, value in self.definitions.iteritems():
+            print '{0}  -->  {1}'.format(key, value)

@@ -21,7 +21,9 @@ def rep(filename):
                     return 0
                 elif line == '?':
                     sys.stdout.write(INSTRUCTIONS)
-                elif line in ('d', 's', 'u', 'v'):
+                elif line == 'd':
+                    interpreter.showDefinitions()
+                elif line in ('s', 'u', 'v'):
                     print 'Coming soon(ish)'
                 else:
                     if line:

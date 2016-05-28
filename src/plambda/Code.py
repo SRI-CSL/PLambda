@@ -31,7 +31,7 @@ class Location(object):
 
 
     def __str__(self):
-        return '@{1}:{2}'.format(self.filename, self.lineno)
+        return '@{0}:{1}'.format(self.filename, self.lineno)
 
 
 
