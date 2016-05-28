@@ -146,6 +146,7 @@ class Interpreter(object):
         return self.getobject(mod, remainder)
 
     def glookup(self, leaf):
+        """Looks up the symbol in the PLambda definitions."""
         assert(isinstance(leaf, Atom))
 
         key = leaf.string
@@ -156,14 +157,20 @@ class Interpreter(object):
             return (False, None)
 
     def plookup(self, leaf):
-        
+        """Looks up the symbol in the Python environment.
+
+        This is a hack at present, as a means of looking up global functions.
+        This is why we bail if the value is not callable.
+        """
         assert(isinstance(leaf, Atom))
         
         try:
             val = eval(leaf.string)
-            return (True, val)
+            if callable(val):
+                return (True, val)
         except NameError:
-            return (False, None)
+            pass
+        return (False, None)
 
     def evalSeq(self, sexp, env):
         tail = sexp.spine[1:]
@@ -359,24 +366,55 @@ class Interpreter(object):
         val2 = self.eval(arg2, env)
 
         if  op is SymbolTable.UPDATE:
+            print('UPDATE: coming soon to an interpreter near you!')
             return  None
         elif op is SymbolTable.SUPDATE:
+            print('SUPDATE: coming soon to an interpreter near you!')
             return  None
         elif op is SymbolTable.SETATTR:
+            print('SETATTR: coming soon to an interpreter near you!')
             return  None
         else:
             fmsg = 'Unrecognized ternary operation: {0}'
             emsg = fmsg.format(op)
             raise Exception(emsg)
 
-    def evalAmb1Op(self, sexp, env):
-        print('AMBI1_OP: coming soon to an interpreter near you!')
-        return None
-                               
-    def evalAmb2Op(self, sexp, env):
-        print('AMBI2_OP: coming soon to an interpreter near you!')
-        return None
-                               
+    def evalAmbi1Op(self, sexp, env):
+        uop =  sexp.spine[0]
+        assert isinstance(uop, Atom)
+        op = uop.string
+        if op is SymbolTable.MINUS:
+            print('AMBI1_OP: coming soon to an interpreter near you!')
+            return None
+        else:
+            fmsg = 'Unrecognized ambi1 operation: {0}'
+            emsg = fmsg.format(op)
+            raise Exception(emsg)
+        
+    def evalAmbi2Op(self, sexp, env):
+        uop =  sexp.spine[0]
+        assert isinstance(uop, Atom)
+        op = uop.string
+        if op is SymbolTable.IF:
+            return self.evalIf(sexp, env)
+        elif op is SymbolTable.GETATTR:
+            print('AMBI1_OP: coming soon to an interpreter near you!')
+            return None
+        else:
+            fmsg = 'Unrecognized ambi1 operation: {0}'
+            emsg = fmsg.format(op)
+            raise Exception(emsg)
+
+    def evalIf(self, sexp, env):
+        testexp = sexp.spine[1]
+        test = self.eval(testexp, env)
+        if test:
+            return  self.eval(sexp.spine[2], env)
+        if len(sexp.spine) == 4:
+            return  self.eval(sexp.spine[3], env)
+        else:
+            return None
+        
     def evalNaryOp(self, sexp, env):
         uop =  sexp.spine[0]
         assert isinstance(uop, Atom)
