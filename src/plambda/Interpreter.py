@@ -377,7 +377,7 @@ class Interpreter(object):
             print('SUPDATE: coming soon to an interpreter near you!')
             return  None
         elif op is SymbolTable.SETATTR:
-            print('SETATTR: coming soon to an interpreter near you!')
+            setattr(val0, val1, val2)
             return  None
         else:
             fmsg = 'Unrecognized ternary operation: {0}'
@@ -403,8 +403,14 @@ class Interpreter(object):
         if op is SymbolTable.IF:
             return self.evalIf(sexp, env)
         elif op is SymbolTable.GETATTR:
-            print('AMBI1_OP: coming soon to an interpreter near you!')
-            return None
+            if len(sexp.spine) == 3:
+                return getattr(self.eval(sexp.spine[1], env),
+                               self.eval(sexp.spine[2], env))
+            else:
+                return getattr(self.eval(sexp.spine[1], env),
+                               self.eval(sexp.spine[2], env),
+                               self.eval(sexp.spine[3], env))
+
         else:
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)
@@ -503,14 +509,20 @@ class Interpreter(object):
 
 
     def importmod(self, val):
-        if isString(val):
-            module = importlib.import_module(val)
-            if module is not None:
-                self.modules[val] = module
-                return True
-            else:
-                sys.stderr.write('Module {0} not found'.format(val))
-        return False
+        try:
+            
+            if isString(val):
+                module = importlib.import_module(val)
+                if module is not None:
+                    self.modules[val] = module
+                    return True
+                else:
+                    sys.stderr.write('Module {0} not found'.format(val))
+            return False
+
+        except ImportError as ie:
+            print(ie)
+            return False
 
     
     def evalUnaryOp(self, sexp, env):
@@ -549,4 +561,4 @@ class Interpreter(object):
         
     def showDefinitions(self):
         for key, value in self.definitions.iteritems():
-            sys.stderr.write('{0}  -->  {1}'.format(key, value))
+            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))

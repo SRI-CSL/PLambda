@@ -3,6 +3,7 @@ from src.antlr4.PLambdaVisitor import PLambdaVisitor
 from src.plambda.SymbolTable import SymbolTable
 from src.visitor.ParseError import ParseError
 from src.plambda.Code import SExpression, Atom, StringLiteral, Syntax, Location
+from src.util.StringBuffer import StringBuffer
 
 class Visitor(PLambdaVisitor):
 
@@ -21,7 +22,7 @@ class Visitor(PLambdaVisitor):
     def visitStringLiteral(self, ctx):
         t = ctx.STRING().getSymbol()
         location = Location(self.filename, t.line)
-        return StringLiteral(t.text, location)
+        return StringLiteral(deslashify(t.text), location)
 
     # Visit a parse tree produced by PLambdaParser#identifierLiteral.
     def visitIdentifierLiteral(self, ctx):
@@ -237,3 +238,31 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#naryExpression.
     def visitNaryExpression(self, ctx):
         return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression()); 
+
+
+
+def deslashify(string):
+    sb = StringBuffer()
+    slash = False
+    for c in string:
+        if slash:
+            slash = False
+            if c == 'n':
+                sb.append("\n")
+            elif c == '"':
+                sb.append('"').append(c)
+            elif c == 't':
+                sb.append("\t").append(c)
+            elif c == 'f':
+                sb.append("\f").append(c)
+            elif c == 'b':
+                sb.append("\b").append(c)
+            else:
+                raise ParseError('Illegal escape character in String: \{0}'.format(c))
+        elif c != '\\':
+            sb.append(c)
+            slash = False
+        else:
+            slash = True
+            continue
+    return str(sb)

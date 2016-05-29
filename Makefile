@@ -11,6 +11,7 @@ antlr4:
 
 check:
 	python -m tests.primitive_data
+	python -m tests.drones
 
 
 clean:

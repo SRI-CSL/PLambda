@@ -15,3 +15,19 @@
 (for x  (int 7)  (not x))
 
 (try (int 7) (catch eid  eid))
+
+(import "src.drones.simple_drone")
+
+(define SimpleDrone src.drones.simple_drone.SimpleDrone)
+
+(define drone (apply SimpleDrone "mydrone"))
+
+(invoke drone "initialize"  "0" "0" "666")
+
+(invoke drone "mv" "E")
+
+(setattr SimpleDrone "debug" (boolean True))
+
+(getattr SimpleDrone "debug")
+
+(setattr drone "e" (int 1234567890))

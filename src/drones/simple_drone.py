@@ -3,6 +3,8 @@ import sys
 class SimpleDrone(object):
     """The simplest drone that can be managed by the python Actor.
     """
+
+    debug = False
     
     def __init__(self, name):
         """Creates a drone with given name and defautl state.
