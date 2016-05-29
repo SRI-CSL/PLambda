@@ -175,6 +175,15 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLambdaParser#noneLiteral.
+    def enterNoneLiteral(self, ctx):
+        pass
+
+    # Exit a parse tree produced by PLambdaParser#noneLiteral.
+    def exitNoneLiteral(self, ctx):
+        pass
+
+
     # Enter a parse tree produced by PLambdaParser#parameterList.
     def enterParameterList(self, ctx):
         pass

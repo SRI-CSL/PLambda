@@ -100,6 +100,11 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLambdaParser#noneLiteral.
+    def visitNoneLiteral(self, ctx):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLambdaParser#parameterList.
     def visitParameterList(self, ctx):
         return self.visitChildren(ctx)

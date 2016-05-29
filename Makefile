@@ -9,6 +9,9 @@ antlr4:
 	make -C src/antlr4 antlr4
 
 
+check:
+	python -m tests.primitive_data
+
 
 clean:
 	make -C src/antlr4 clean

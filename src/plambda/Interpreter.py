@@ -33,10 +33,6 @@ from src.visitor.Parser import parseFromFile
 """
 Current bugs:
 
-(int None)
-(boolean None)
-(float None)
-
 Things to add:
 
 isfunction

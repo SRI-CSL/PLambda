@@ -22,6 +22,7 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' QUOTE  string ')'                                                       # quoteExpression             
           |  STRING                                                                      # stringLiteral      
           |  ID                                                                          # identifierLiteral
+          |  NONE                                                                        # noneLiteral
            ;
 
 parameterList: '(' parameter* ')' ;
