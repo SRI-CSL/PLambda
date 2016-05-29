@@ -3,23 +3,62 @@
 
 import sys
 
-from actor import Actor
+import threading
 
-from src.drones.simple_drone import SimpleDrone
+from actorlib import send, receive
 
+from src.plambda.Interpreter import Interpreter
+
+from src.visitor.Parser import parseFromString
+
+class Main(object):
+
+    _debug = False
+    
+    def __init__(self, name):
+        """Creates an plambda Actor object with the given name."""
+        self.name = name
+        self.interpreter = Interpreter()
+
+    def run(self):
+
+        fails = 0
+            
+        while True:
+            incoming = receive()
+            if incoming is None:
+                fails += 1
+                if fails > 1:
+                    return 0
+                else:
+                    continue
+            (sender, msg) = incoming
+            
+            threading.Thread(target=eval, args=(self.interpreter, msg)).start()
+            
+                
+        return 0
+
+
+                
+    def process_message(self, sender, msg):
+        eval(interpreter, msg)
+            
+        
+def eval(interpreter, string):
+    interpreter.evaluateString(string)
+        
+    
 usage = """
 Usage: {0} <actor name>
 """
-
-
-def main(cmd):
-    if len(cmd) != 2:
-        print usage.format(cmd[0])
-        return 1
-    drone = SimpleDrone("droneZero")
-    Actor(cmd[1], drone).begin()
-
     
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    if len(sys.argv) != 2:
+        print usage.format(sys.argv[0])
+        sys.exit(1)
+    else:
+        main = Main(sys.argv[1])
+        sys.exit(main.run())
 
+    

@@ -1,0 +1,13 @@
+**** turn on IOP/g2d VERBOSITY
+(user (supdate "g2d.util.ActorMsg" "VERBOSE" (boolean true)))
+(user (supdate "g2d.Main" "DEBUG" (boolean true)))
+
+**** turn off IOP/g2d VERBOSITY
+(user (supdate "g2d.util.ActorMsg" "VERBOSE" (boolean false)))
+(user (supdate "g2d.Main" "DEBUG" (boolean false)))
+
+
+(user (int 666))
+
+(user (load "input.lsp"))
+
