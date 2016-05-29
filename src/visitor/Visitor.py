@@ -1,5 +1,5 @@
 
-from src.gen.PLambdaVisitor import PLambdaVisitor
+from src.antlr4.PLambdaVisitor import PLambdaVisitor
 from src.plambda.SymbolTable import SymbolTable
 from src.visitor.ParseError import ParseError
 from src.plambda.Code import SExpression, Atom, StringLiteral, Syntax, Location

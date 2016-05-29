@@ -1,8 +1,8 @@
 from antlr4 import *
 
-from src.gen.PLambdaLexer import PLambdaLexer
+from src.antlr4.PLambdaLexer import PLambdaLexer
 
-from src.gen.PLambdaParser import PLambdaParser
+from src.antlr4.PLambdaParser import PLambdaParser
 
 from src.visitor.Visitor import Visitor
 
