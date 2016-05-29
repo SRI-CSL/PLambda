@@ -35,7 +35,9 @@ def rep(filename):
                                 value = interpreter.evaluate(c)
                                 print 'rep: value = ', value
             except PLambdaException as e:
-                print e
+                print 'PLambda.rep PLambdaException: ', e
+            except Exception as e:
+                print 'PLambda.rep Exception: ', e
                 
     except KeyboardInterrupt:
         return 0
