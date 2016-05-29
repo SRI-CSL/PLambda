@@ -6,12 +6,12 @@ all:
 
 
 antlr4:
-	make -C src/gen antlr4
+	make -C src/antlr4 antlr4
 
 
 
 clean:
-	make -C src/gen clean
+	make -C src/antlr4 clean
 	rm -f src/*.pyc src/*/*.pyc src/*/*~
 
 

@@ -3,8 +3,11 @@ import sys
 from src.visitor.Parser import parseFromString
 from src.plambda.Interpreter  import Interpreter
 from src.plambda.PLambdaException import PLambdaException
-def rep(filename):
 
+
+def rep(filename):
+    """The Read Eval Print loop for the plambda language.
+    """
     interpreter = Interpreter()
     
     try:
