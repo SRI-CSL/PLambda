@@ -5,3 +5,6 @@ but can LOOKUP be ignored? Also do we need SUPDATE at all?).
 Actually I think the more pythonesque translation is to drop
 the UPDATE clan and use GETATTR and SETATTR instead.
 
+
+
+2. What would a good install look like? Make use if IOPBINDIR I suppose.
