@@ -29,9 +29,7 @@ class primitiveDataTest(unittest.TestCase):
 
 
     def plambdaEqualTest(self, string, value):
-        code = parseFromString(string)
-        self.assertEqual(len(code), 1)
-        self.assertEqual(self.interpreter.evaluate(code[0]), value)
+        self.assertEqual(self.interpreter.evaluateString(string), value)
 
         
         

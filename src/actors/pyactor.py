@@ -3,7 +3,7 @@
 
 import sys
 
-from src.actors.actor import Actor
+from actor import Actor
 
 from src.drones.simple_drone import SimpleDrone
 

@@ -27,7 +27,7 @@ from Environment import Environment
 
 from Closure import Closure
 
-from src.visitor.Parser import parseFromFile
+from src.visitor.Parser import parseFromFile, parseFromString
 
 
 """
@@ -52,6 +52,15 @@ class Interpreter(object):
         self.modules = {}
 
 
+    def evaluateString(self, string):
+        """Parses and evaluates a string as plambda expression.
+        """
+        code = parseFromString(string)
+        retval = None
+        for c in code:
+            retval = self.evaluate(c)
+        return retval
+        
     def evaluate(self, exp):
         return self.eval(exp, Environment())
 
