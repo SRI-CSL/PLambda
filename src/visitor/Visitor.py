@@ -242,6 +242,8 @@ class Visitor(PLambdaVisitor):
 
 
 def deslashify(string):
+    """Interprets the slashes in a raw string.
+    """
     sb = StringBuffer()
     slash = False
     for c in string:
@@ -250,13 +252,13 @@ def deslashify(string):
             if c == 'n':
                 sb.append("\n")
             elif c == '"':
-                sb.append('"').append(c)
+                sb.append('"')
             elif c == 't':
-                sb.append("\t").append(c)
+                sb.append("\t")
             elif c == 'f':
-                sb.append("\f").append(c)
+                sb.append("\f")
             elif c == 'b':
-                sb.append("\b").append(c)
+                sb.append("\b")
             else:
                 raise ParseError('Illegal escape character in String: \{0}'.format(c))
         elif c != '\\':

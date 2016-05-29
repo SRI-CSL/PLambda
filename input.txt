@@ -1,13 +1,16 @@
 **** turn on IOP/g2d VERBOSITY
-(user (supdate "g2d.util.ActorMsg" "VERBOSE" (boolean true)))
-(user (supdate "g2d.Main" "DEBUG" (boolean true)))
+(user (seq (import "src.actors.actorlib") (setattr src.actors.actorlib "debug" (boolean true))))
+(user (seq (import "src.actors.pyactor")(setattr src.actors.pyactor.Main "debug" (boolean true))))
 
 **** turn off IOP/g2d VERBOSITY
-(user (supdate "g2d.util.ActorMsg" "VERBOSE" (boolean false)))
-(user (supdate "g2d.Main" "DEBUG" (boolean false)))
+(user (seq (import "src.actors.actorlib") (setattr src.actors.actorlib "debug" (boolean false))))
+(user (seq (import "src.actors.pyactor")(setattr src.actors.pyactor.Main "debug" (boolean true))))
 
 
-(user (int 666))
+(user (load "pyactorlib.lsp"))
+
+(user (apply squark "This is a test, ..."))
 
 (user (load "input.lsp"))
+
 

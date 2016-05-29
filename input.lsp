@@ -10,7 +10,7 @@
 
 (define stderr sys.stderr)
 
-(invoke stderr "write" "crap\n")
+(invoke stderr "write" "very\n\tinteresting, \"not\"\n")
 
 (for x  (int 7)  (not x))
 
@@ -31,3 +31,5 @@
 (getattr SimpleDrone "debug")
 
 (setattr drone "e" (int 1234567890))
+
+
