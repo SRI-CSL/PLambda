@@ -1,3 +1,14 @@
-#/usr/bin/env bash
+#!/usr/bin/env python
 
-python -m plam.actors.pyactor $1
+import sys
+
+
+from plam.actors.pyactor import launch
+
+def main(argv):
+    launch(argv[1] if len(sys.argv) == 2 else "dummy")
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
