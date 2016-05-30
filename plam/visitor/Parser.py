@@ -1,10 +1,10 @@
 from antlr4 import *
 
-from src.antlr4.PLambdaLexer import PLambdaLexer
+from plam.antlr4.PLambdaLexer import PLambdaLexer
 
-from src.antlr4.PLambdaParser import PLambdaParser
+from plam.antlr4.PLambdaParser import PLambdaParser
 
-from src.visitor.Visitor import Visitor
+from plam.visitor.Visitor import Visitor
 
 import sys
 

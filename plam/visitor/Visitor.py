@@ -1,9 +1,9 @@
 
-from src.antlr4.PLambdaVisitor import PLambdaVisitor
-from src.plambda.SymbolTable import SymbolTable
-from src.visitor.ParseError import ParseError
-from src.plambda.Code import SExpression, Atom, StringLiteral, Syntax, Location
-from src.util.StringBuffer import StringBuffer
+from plam.antlr4.PLambdaVisitor import PLambdaVisitor
+from plam.plambda.SymbolTable import SymbolTable
+from plam.visitor.ParseError import ParseError
+from plam.plambda.Code import SExpression, Atom, StringLiteral, Syntax, Location
+from plam.util.StringBuffer import StringBuffer
 
 class Visitor(PLambdaVisitor):
 

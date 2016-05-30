@@ -1,3 +1,3 @@
 #/usr/bin/env bash
 
-python -m src.actors.pyactor $1
+python -m plam.actors.pyactor $1

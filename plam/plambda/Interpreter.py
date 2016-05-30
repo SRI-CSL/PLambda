@@ -13,9 +13,9 @@ import inspect
 
 import collections
 
-from src.util.Util import isString, isInteger
+from plam.util.Util import isString, isInteger
 
-from src.util.StringBuffer import StringBuffer
+from plam.util.StringBuffer import StringBuffer
 
 from Code import SExpression, Atom, StringLiteral, Syntax
 
@@ -27,7 +27,7 @@ from Environment import Environment
 
 from Closure import Closure
 
-from src.visitor.Parser import parseFromFile, parseFromString
+from plam.visitor.Parser import parseFromFile, parseFromString
 
 
 """

@@ -7,9 +7,9 @@ import threading
 
 from actorlib import send, receive
 
-from src.plambda.Interpreter import Interpreter
+from plam.plambda.Interpreter import Interpreter
 
-from src.visitor.Parser import parseFromString
+from plam.visitor.Parser import parseFromString
 
 class Main(object):
 
@@ -52,7 +52,7 @@ def eval(interpreter, string):
         interpreter.evaluateString(string)
 
     except Exception as e:
-        sys.stderr.write('src.actors.pyactor.Main exception: {0}\n'.format(e))
+        sys.stderr.write('plam.actors.pyactor.Main exception: {0}\n'.format(e))
 
     
         

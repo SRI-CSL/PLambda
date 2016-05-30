@@ -2,9 +2,9 @@
 
 import unittest
 
-from src.visitor.Parser import parseFromString
-from src.plambda.Interpreter import Interpreter
-from src.plambda.PLambdaException import PLambdaException
+from plam.visitor.Parser import parseFromString
+from plam.plambda.Interpreter import Interpreter
+from plam.plambda.PLambdaException import PLambdaException
 
 class dronesTest(unittest.TestCase):
     """Tests using a drone.
@@ -19,7 +19,7 @@ class dronesTest(unittest.TestCase):
         pass
 
     def testOne(self):
-        self.plambdaEqualTest('(import "src.drones.simple_drone")', True)
+        self.plambdaEqualTest('(import "plam.drones.simple_drone")', True)
         
     def plambdaEqualTest(self, string, value):
         self.assertEqual(self.interpreter.evaluateString(string), value)

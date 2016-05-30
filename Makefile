@@ -6,7 +6,7 @@ all:
 
 
 antlr4:
-	make -C src/antlr4 antlr4
+	make -C plam/antlr4 antlr4
 
 
 check:
@@ -15,8 +15,8 @@ check:
 
 
 clean:
-	make -C src/antlr4 clean
-	rm -f src/*.pyc src/*/*.pyc src/*/*~
+	make -C plam/antlr4 clean
+	rm -f plam/*.pyc plam/*/*.pyc plam/*/*~
 
 
 

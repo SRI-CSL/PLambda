@@ -1,8 +1,8 @@
 import sys
 
-from src.visitor.Parser import parseFromString
-from src.plambda.Interpreter  import Interpreter
-from src.plambda.PLambdaException import PLambdaException
+from plam.visitor.Parser import parseFromString
+from plam.plambda.Interpreter  import Interpreter
+from plam.plambda.PLambdaException import PLambdaException
 
 
 def rep(filename):

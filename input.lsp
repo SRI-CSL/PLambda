@@ -16,9 +16,9 @@
 
 (try (int 7) (catch eid  eid))
 
-(import "src.drones.simple_drone")
+(import "plam.drones.simple_drone")
 
-(define SimpleDrone src.drones.simple_drone.SimpleDrone)
+(define SimpleDrone plam.drones.simple_drone.SimpleDrone)
 
 (define drone (apply SimpleDrone "mydrone"))
 
