@@ -21,3 +21,12 @@ clean:
 
 
 
+#
+# Check for IOPBINDIR
+#
+sanity-check:
+ifeq ($(IOPBINDIR),)
+	$(error IOPBINDIR is undefined)
+else
+	@echo "Using $(IOPBINDIR)"
+endif

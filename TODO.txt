@@ -8,3 +8,9 @@ the UPDATE clan and use GETATTR and SETATTR instead.
 
 
 2. What would a good install look like? Make use if IOPBINDIR I suppose.
+
+
+3. Maybe being able to pass a dictionary to invoke and apply instead
+of arguments might solve the kwargs issue?
+
+4. Literals like:  {}  [] ?   mktuple ?

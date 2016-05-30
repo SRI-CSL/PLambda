@@ -41,6 +41,8 @@ patch the builtin problem as much as possible
 
 named arguments need to be addressed at some point
 
+sanity checking needs to be done: (* (int 4) "asdf")
+
 """
 
 
@@ -62,6 +64,8 @@ class Interpreter(object):
         return retval
         
     def evaluate(self, exp):
+        """Evaluates an Sexpression, StringLiteral, or Atom.
+        """
         return self.eval(exp, Environment())
 
     def eval(self, exp, env):
@@ -79,8 +83,9 @@ class Interpreter(object):
 
         First see if it referencing a thing in a module. Then, failing that
         look if it has a value in the current lexical environment. As a last
-        resort see if it is a global definition, either in our global environment
-        or in Python's. Otherwise raise a PLambdaException.
+        resort see if it has a global definition, either in our global environment
+        or in Python's. If it has a value in Python's global environment and that
+        vaue is callable it retruns that. Otherwise it raises a PLambdaException.
         """
 
         assert(isinstance(leaf,Atom))
@@ -370,13 +375,7 @@ class Interpreter(object):
         val1 = self.eval(arg1, env)
         val2 = self.eval(arg2, env)
 
-        if  op is SymbolTable.UPDATE:
-            print('UPDATE: coming soon to an interpreter near you!')
-            return  None
-        elif op is SymbolTable.SUPDATE:
-            print('SUPDATE: coming soon to an interpreter near you!')
-            return  None
-        elif op is SymbolTable.SETATTR:
+        if  op in (SymbolTable.UPDATE, SymbolTable.SUPDATE, SymbolTable.SETATTR):
             setattr(val0, val1, val2)
             return  None
         else:
@@ -389,8 +388,10 @@ class Interpreter(object):
         assert isinstance(uop, Atom)
         op = uop.string
         if op is SymbolTable.MINUS:
-            print('AMBI1_OP: coming soon to an interpreter near you!')
-            return None
+            if len(sexp.spine) == 3:
+                return self.eval(sexp.spine[1], env) - self.eval(sexp.spine[2], env)
+            else:
+                return - self.eval(sexp.spine[1], env)
         else:
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)

@@ -16,12 +16,14 @@ class Main(object):
     _debug = False
     
     def __init__(self, name):
-        """Creates an plambda Actor object with the given name."""
+        """Creates an plambda Actor object with the given name.
+        """
         self.name = name
         self.interpreter = Interpreter()
 
     def run(self):
-
+        """The Read Eval Message Loop.
+        """
         fails = 0
             
         while True:
@@ -41,16 +43,11 @@ class Main(object):
 
 
                 
-    def process_message(self, sender, msg):
-        eval(interpreter, msg)
-            
-        
-def eval(interpreter, string):
-
+def eval(interpreter, message):
+    """Evaluates the message in the given interpreter.
+    """
     try:
-
-        interpreter.evaluateString(string)
-
+        interpreter.evaluateString(message)
     except Exception as e:
         sys.stderr.write('plam.actors.pyactor.Main exception: {0}\n'.format(e))
 
