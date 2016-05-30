@@ -46,7 +46,15 @@ class Main(object):
             
         
 def eval(interpreter, string):
-    interpreter.evaluateString(string)
+
+    try:
+
+        interpreter.evaluateString(string)
+
+    except Exception as e:
+        sys.stderr.write('src.actors.pyactor.Main exception: {0}\n'.format(e))
+
+    
         
     
 usage = """

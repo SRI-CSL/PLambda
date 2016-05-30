@@ -12,5 +12,3 @@
 (user (apply squark "This is a test, ..."))
 
 (user (load "input.lsp"))
-
-
