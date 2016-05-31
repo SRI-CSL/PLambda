@@ -19,7 +19,7 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' N_ARY_OP expression+ ')'                                                # naryExpression       
           |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
-          |  '(' QUOTE  string ')'                                                       # quoteExpression             
+          |  '(' QUOTE  string ')'                                                       # quoteExpression
           |  STRING                                                                      # stringLiteral      
           |  ID                                                                          # identifierLiteral
           |  NONE                                                                        # noneLiteral
@@ -75,7 +75,8 @@ BINARY_OP :  '+'           |
              '>='          |
              '='           |
              '=='          |
-             '!='          
+             '!='          |
+	     GET
              ;
 
 TERNARY_OP : UPDATE    |
@@ -85,7 +86,10 @@ TERNARY_OP : UPDATE    |
         
 N_ARY_OP :   CONCAT   |
              AND      |
-             OR  
+             OR       |
+	     MKTUPLE  |
+	     MKLIST   |
+	     MKDICT   
              ;    
 
 AMBI1_OP :   MINUS  
@@ -161,7 +165,7 @@ NARROW:       [Nn][Aa][Rr][Rr][Oo][Ww]                  ;
 
 INSTANCEOF:   [Ii][Nn][Ss][Tt][Aa][Nn][Cc][Ee][Oo][Ff]  ;
 
-AGET:         [Aa][Gg][Ee][Tt]                          ;
+GET:          [Gg][Ee][Tt]                              ;
 
 LOOKUP:       [Ll][Oo][Oo][Kk][Uu][Pp]                  ;
 
@@ -185,6 +189,12 @@ CONCAT:       [Cc][Oo][Nn][Cc][Aa][Tt]                  ;
 AND:          [Aa][Nn][Dd]                              ;
 
 OR:           [Oo][Rr]                                  ;
+
+MKTUPLE:      [Mm][Kk][Tt][Uu][Pp][Ll][Ee]              ;
+
+MKLIST:       [Mm][Kk][Ll][Ii][Ss][Tt]                  ;
+
+MKDICT:       [Mm][Kk][Dd][Ii][Cc][Tt]                  ;
 
 /* one or more operators */
 

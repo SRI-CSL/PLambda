@@ -178,7 +178,8 @@ class Interpreter(object):
         else:
             key = leaf.string
             ok = key in self.definitions
-            val = self.definitions[key]
+            if ok:
+                val = self.definitions[key]
         
         if ok:
             return (True, val)
@@ -378,6 +379,16 @@ class Interpreter(object):
             return  lhs < rhs
         elif op is SymbolTable.LT:
             return  lhs > rhs
+        elif op is SymbolTable.GET:
+            if (isinstance(lhs, list) or isinstance(lhs, tuple))  and isinstance(rhs, int):
+                return lhs[rhs]
+            elif isinstance(lhs, dict) and isString(rhs):
+                return lhs.get(rhs)
+            else:
+                fmsg = 'Bad args to \"get\":  {0} {1}'
+                emsg = fmsg.format(lhs, rhs)
+                raise PLambdaException(emsg)
+
         elif op is SymbolTable.GEQ:
             return  lhs >= rhs
         elif op is SymbolTable.LEQ:
@@ -472,6 +483,16 @@ class Interpreter(object):
                 if  self.eval(e, env):
                     return True
             return  False
+        elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
+            vals = []
+            for arg in args:
+                vals.append(self.eval(arg, env))
+            if op is SymbolTable.MKTUPLE:
+                return tuple(vals)
+            elif op is SymbolTable.MKLIST:
+                return vals
+            else:
+                return dict(vals[i:i+2] for i in range(0, len(vals), 2))
         else:
             fmsg = 'Unrecognized n-ary operation: {0}'
             emsg = fmsg.format(op)

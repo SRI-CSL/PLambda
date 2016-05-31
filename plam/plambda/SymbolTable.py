@@ -3,7 +3,6 @@ import sys
 class SymbolTable(object):
 
     _symbol_table = {
-        intern('aget'):          intern('aget'),
         intern('and'):           intern('and'),
         intern('apply'):         intern('apply'),
         intern('array'):         intern('array'),
@@ -23,6 +22,7 @@ class SymbolTable(object):
         intern('float'):         intern('float'),
         intern('for'):           intern('for'),
         intern('<='):            intern('<='),
+        intern('get'):           intern('get'),
         intern('getattr'):       intern('getattr'),
         intern('getuid'):        intern('getuid'),
         intern('<'):             intern('<'),
@@ -41,7 +41,9 @@ class SymbolTable(object):
         intern('lookup'):        intern('lookup'),
         intern('>'):             intern('>'),
         intern('-'):             intern('-'),
-        intern('mkarray'):       intern('mkarray'),
+        intern('mktuple'):       intern('mktuple'),
+        intern('mklist'):        intern('mklist'),
+        intern('mkdict'):        intern('mkdict'),
         intern('%'):             intern('%'),
         intern('narrow'):        intern('narrow'),
         intern('!='):            intern('!='),
@@ -59,12 +61,11 @@ class SymbolTable(object):
         intern('supdate'):       intern('supdate'),
         intern('throw'):         intern('throw'),
         intern('*'):             intern('*'),
-        intern('try'):          intern('try'),
-        intern('update'):       intern('update'),
+        intern('try'):           intern('try'),
+        intern('update'):        intern('update'),
         }
 
         
-    AGET        = intern('aget')
     AND         = intern('and')
     APPLY       = intern('apply')
     ARRAY       = intern('array')
@@ -78,12 +79,13 @@ class SymbolTable(object):
     DIVIDE      = intern('/')
     DO          = intern('do')
     DOUBLE      = intern('double')
-    EQ          = intern('==')
-    EQUALS      = intern('=')
+    EQ          = intern('is')
+    EQUALS      = intern('==')
     FETCH       = intern('fetch')
     FLOAT       = intern('float')
     FOR         = intern('for')
     GEQ         = intern('<=')
+    GET         = intern('get')
     GETATTR     = intern('getattr')
     GETUID      = intern('getuid')
     GT          = intern('<')
@@ -102,7 +104,9 @@ class SymbolTable(object):
     LOOKUP      = intern('lookup')
     LT          = intern('>')
     MINUS       = intern('-')
-    MKARRAY     = intern('mkarray')
+    MKTUPLE     = intern('mktuple')
+    MKLIST      = intern('mklist')
+    MKDICT      = intern('mkdict')
     MODULO      = intern('%')
     NARROW      = intern('narrow')
     NEQ         = intern('!=')

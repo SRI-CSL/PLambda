@@ -1,16 +1,19 @@
 
-1. Allow for verbosity in the pyactor (thus need to implement UPDATE,
+1.[X] Allow for verbosity in the pyactor (thus need to implement UPDATE,
 but can LOOKUP be ignored? Also do we need SUPDATE at all?).
 
 Actually I think the more pythonesque translation is to drop
 the UPDATE clan and use GETATTR and SETATTR instead.
 
+Done.
 
 
 2. What would a good install look like? Make use if IOPBINDIR I suppose.
+Or go the pip route?
 
 
 3. Maybe being able to pass a dictionary to invoke and apply instead
-of arguments might solve the kwargs issue?
+of arguments might solve the kwargs issue? or have an INVOKEKARWGS
+or some such form.
 
-4. Literals like:  {}  [] ?   mktuple ?
+4.[X] Literals like:  {}  [] ?   mktuple ?
