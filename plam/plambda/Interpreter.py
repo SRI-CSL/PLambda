@@ -141,8 +141,12 @@ class Interpreter(object):
         if obj is None:
             return (False, None)
         elif inspect.ismodule(obj):
-            #FIXME: need to be careful now that obj can be None just fine...
-            return self.getobject(obj.__dict__.get(path[0]), path[1:])
+            d = obj.__dict__
+            k = path[0]
+            if k in d:
+                return self.getobject(obj.__dict__.get(k), path[1:])
+            else:
+                return (False, None)
         else:
             if hasattr(obj, path[0]):
                 nobj = getattr(obj, path[0])
