@@ -9,32 +9,6 @@ from plam.plambda.PLambdaException import PLambdaException
 from Testing import PLambdaTest
 
 
-class primitiveDataTest(unittest.TestCase):
-    """Tests for primitive data.
-    """
-
-    interpreter = Interpreter()
-    
-    def setUp(self): 
-        pass
-
-    def tearDown(self):
-        pass
-
-    def testOne(self):
-        self.plambdaEqualTest('(int 666)', 666)
-        
-    def testTwo(self):
-        self.plambdaEqualTest('(boolean False)', False)
-        
-    def testThree(self):
-        self.plambdaEqualTest('(float 3.1459)',  3.1459)
-
-
-    def plambdaEqualTest(self, string, value):
-        self.assertEqual(self.interpreter.evaluateString(string), value)
-
-
 class plambdaTest(PLambdaTest):
     """Tests of the plambda language.
     """
@@ -50,7 +24,13 @@ class plambdaTest(PLambdaTest):
 
     def testFour(self):
         self.plambdaEqualTest('(import "plam.actors.pyactor")',  True)
-        
+        self.plambdaStringEqualTest('(define Main plam.actors.pyactor.Main)',  'Main')
+        self.plambdaEqualTest('Main.myself',  None)
+        self.plambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
+        self.plambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
+       
 
+
+        
 if __name__ == "__main__":
     unittest.main()
