@@ -2,10 +2,6 @@
 
 import unittest
 
-from plam.visitor.Parser import parseFromString
-from plam.plambda.Interpreter import Interpreter
-from plam.plambda.PLambdaException import PLambdaException
-
 from Testing import PLambdaTest
 
 
@@ -23,8 +19,11 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(float 3.1459)',  3.1459)
         self.plambdaEqualTest('(float 3.0)',  3)
         self.plambdaEqualTest('(== (float 3.0) (int 3))',  True)
+        self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
 
     def test_B(self):
+        """Some tests of the import and global lookup mechanisms.
+        """
         self.plambdaEqualTest('(import "plam.actors.pyactor")',  True)
         self.plambdaStringEqualTest('(define Main plam.actors.pyactor.Main)',  'Main')
         self.plambdaEqualTest('Main.myself',  None)
@@ -32,7 +31,7 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
 
     def test_C(self):
-        """Simple tests of the primitive data structures, tuple, list and dict.
+        """Simple tests of the primitive iterative data structures, tuple, list and dict.
         """
         self.plambdaEqualTest('(mktuple (int 1) (int 2) (int 3))', (1, 2, 3))
         self.plambdaEqualTest('(mklist (int 1) (int 2) (int 3))', [1, 2, 3])

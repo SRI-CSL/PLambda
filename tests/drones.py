@@ -2,10 +2,6 @@
 
 import unittest
 
-from plam.visitor.Parser import parseFromString
-from plam.plambda.Interpreter import Interpreter
-from plam.plambda.PLambdaException import PLambdaException
-
 
 from Testing import PLambdaTest
 

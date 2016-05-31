@@ -385,7 +385,7 @@ class Interpreter(object):
             elif isinstance(lhs, dict) and isString(rhs):
                 return lhs.get(rhs)
             else:
-                fmsg = 'Bad args to \"get\":  {0} {1}'
+                fmsg = 'Bad args to \"get\": {0} {1}'
                 emsg = fmsg.format(lhs, rhs)
                 raise PLambdaException(emsg)
 
