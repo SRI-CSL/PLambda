@@ -88,15 +88,18 @@ class Interpreter(object):
         vaue is callable it retruns that. Otherwise it raises a PLambdaException.
         """
 
-        assert(isinstance(leaf,Atom))
+        assert(isinstance(leaf, Atom))
 
-        (ok, value) = self.mlookup(leaf)
+        name = leaf.string
+        path = name.split('.')
+
+        (ok, value) = self.mlookup(path, leaf)
         if ok:
             return value
         (ok, value) = env.lookup(leaf)
         if ok:
             return value
-        (ok, value) = self.glookup(leaf)
+        (ok, value) = self.glookup(path, leaf)
         if ok:
             return value
         (ok, value) = self.plookup(leaf)
@@ -133,36 +136,48 @@ class Interpreter(object):
         and if what lies at the end is x returns (True, x), else, if the path
         makes no sense at some stage, returns (False, None).
         """
-        if obj is None:
-            return (False, None)
         if path == []:
             return (True, obj)
+        if obj is None:
+            return (False, None)
         elif inspect.ismodule(obj):
+            #FIXME: need to be careful now that obj can be None just fine...
             return self.getobject(obj.__dict__.get(path[0]), path[1:])
         else:
-            return self.getobject(obj[path[0]], path[1:])
+            if hasattr(obj, path[0]):
+                nobj = getattr(obj, path[0])
+            else:
+                return (False, None)
+            return self.getobject(nobj, path[1:])
         
         
-    def mlookup(self, leaf):
+    def mlookup(self, path, leaf):
         """Just a quick 'n dirty hack at this point.
         """
         assert(isinstance(leaf, Atom))
-
-        name = leaf.string
-        path = name.split('.')
 
         (mod, remainder) = self.getmodule(path)
 
         return self.getobject(mod, remainder)
 
-    def glookup(self, leaf):
+    def glookup(self, path, leaf):
         """Looks up the symbol in the PLambda definitions."""
         assert(isinstance(leaf, Atom))
 
-        key = leaf.string
+        ok = False
         
-        if key in self.definitions:
-            return (True, self.definitions[key])
+        if len(path) > 1:
+            key = path[0]
+            val = self.definitions[key]
+            if val is not None:
+                (ok, val) = self.getobject(val, path[1:])
+        else:
+            key = leaf.string
+            ok = key in self.definitions
+            val = self.definitions[key]
+        
+        if ok:
+            return (True, val)
         else:
             return (False, None)
 
@@ -258,7 +273,15 @@ class Interpreter(object):
         else:
             val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0].location)
 
-        self.definitions[identifier.string] = val
+        idstr = identifier.string
+        
+        dot = idstr.find('.')
+
+        if dot >= 0:
+            sys.stderr.write('Bad idea to have a  "." in an identifier: {0}\n'.format(repr(identifier)))
+            
+        
+        self.definitions[idstr] = val
         return identifier
     
 

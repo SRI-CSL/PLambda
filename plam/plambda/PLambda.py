@@ -1,5 +1,8 @@
 import sys
 
+import traceback
+
+
 from plam.visitor.Parser import parseFromString
 from plam.plambda.Interpreter  import Interpreter
 from plam.plambda.PLambdaException import PLambdaException
@@ -41,6 +44,7 @@ def rep(filename):
                 print 'PLambda.rep PLambdaException: ', e
             except Exception as e:
                 print 'PLambda.rep Exception: ', e
+                traceback.print_exc(file=sys.stderr)
                 
     except KeyboardInterrupt:
         return 0
