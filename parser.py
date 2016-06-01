@@ -3,7 +3,7 @@
 import sys
 
 
-from plam.visitor.Parser import parseFromFile
+from plambda.visitor.Parser import parseFromFile
 
 def main(argv):
 

@@ -3,7 +3,7 @@
 import sys
 
 
-from plam.plambda.PLambda import rep
+from plambda.eval.PLambda import rep
 
 def main(argv):
     rep(argv[1] if len(sys.argv) == 2 else None)

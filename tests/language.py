@@ -24,8 +24,8 @@ class plambdaTest(PLambdaTest):
     def test_B(self):
         """Some tests of the import and global lookup mechanisms.
         """
-        self.plambdaEqualTest('(import "plam.actors.pyactor")',  True)
-        self.plambdaStringEqualTest('(define Main plam.actors.pyactor.Main)',  'Main')
+        self.plambdaEqualTest('(import "plambda.actors.pyactor")',  True)
+        self.plambdaStringEqualTest('(define Main plambda.actors.pyactor.Main)',  'Main')
         self.plambdaEqualTest('Main.myself',  None)
         self.plambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
         self.plambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
@@ -41,6 +41,11 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(get (mkdict "one" (int 1) "two" (int 2) "three" (int 3)) "three")', 3)
 
 
+    def testOne(self):
+        """Tests using a drone.
+        """
+        self.plambdaEqualTest('(import "plambda.drones.simple_drone")', True)
         
+     
 if __name__ == "__main__":
     unittest.main()

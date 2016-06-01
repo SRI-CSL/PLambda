@@ -3,7 +3,7 @@
 import sys
 
 
-from plam.actors.pyactor import launch
+from plambda.actors.pyactor import launch
 
 def main(argv):
     launch(argv[1] if len(sys.argv) == 2 else "dummy")

@@ -3,9 +3,9 @@ import sys
 import traceback
 
 
-from plam.visitor.Parser import parseFromString
-from plam.plambda.Interpreter  import Interpreter
-from plam.plambda.PLambdaException import PLambdaException
+from plambda.visitor.Parser import parseFromString
+from plambda.eval.Interpreter  import Interpreter
+from plambda.eval.PLambdaException import PLambdaException
 
 
 def rep(filename):

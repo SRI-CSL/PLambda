@@ -6,27 +6,15 @@ all:
 
 
 antlr4:
-	make -C plam/antlr4 antlr4
+	make -C plambda/antlr4 antlr4
 
 
 check:
-	python -m tests.plambda
-	python -m tests.drones
+	python -m tests.language
 
 
 clean:
-	make -C plam/antlr4 clean
-	rm -f plam/*.pyc plam/*/*.pyc plam/*/*~
+	make -C plambda/antlr4 clean
+	rm -f tests/*.pyc plambda/*.pyc plambda/*/*.pyc plambda/*/*~
 
 
-
-
-#
-# Check for IOPBINDIR
-#
-sanity-check:
-ifeq ($(IOPBINDIR),)
-	$(error IOPBINDIR is undefined)
-else
-	@echo "Using $(IOPBINDIR)"
-endif
