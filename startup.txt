@@ -1,4 +1,4 @@
-start plambda ./pyactor plambda
+start plambda pyactor plambda
 select plambda
 
 
