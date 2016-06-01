@@ -26,16 +26,16 @@ setup(
     
     entry_points = {
         'console_scripts': [
-            'plamparse = plam.visitor.Parser:main',
-            'plambda = plambda.eval.rep:main',
-            'pyactor = plambda.actors.pyactor:main',
+            'plambda = plambda.eval.PLambda:main',
         ],
     },
+#            'plamparse = plam.visitor.Parser:main',
+#            'pyactor = plambda.actors.pyactor:main',
     
     license='MIT',
     
     install_requires=[
-        "antlr4-python2-runtime" >= "4.5.3"
+        "antlr4-python2-runtime >= 4.5.3"
     ],
     
     classifiers=[
@@ -44,7 +44,9 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Actor Programming',
         'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Operating System :: OS Independent'
     ],
 )

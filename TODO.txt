@@ -9,11 +9,12 @@ Done.
 
 
 2. What would a good install look like? Make use if IOPBINDIR I suppose.
-Or go the pip route?
+Or go the pip route? Pip route. Need to make the entry points match
+the setup.py script.
 
 
 3. Maybe being able to pass a dictionary to invoke and apply instead
 of arguments might solve the kwargs issue? or have an INVOKEKARWGS
-or some such form.
+or some such form (CALL).
 
 4.[X] Literals like:  {}  [] ?   mktuple ?
