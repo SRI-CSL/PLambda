@@ -13,9 +13,9 @@ import inspect
 
 import collections
 
-from plam.util.Util import isString, isInteger
+from plambda.util.Util import isString, isInteger
 
-from plam.util.StringBuffer import StringBuffer
+from plambda.util.StringBuffer import StringBuffer
 
 from Code import SExpression, Atom, StringLiteral, Syntax
 
@@ -27,7 +27,7 @@ from Environment import Environment
 
 from Closure import Closure
 
-from plam.visitor.Parser import parseFromFile, parseFromString
+from plambda.visitor.Parser import parseFromFile, parseFromString
 
 
 """
@@ -172,7 +172,7 @@ class Interpreter(object):
         
         if len(path) > 1:
             key = path[0]
-            val = self.definitions[key]
+            val = self.definitions.get(key)
             if val is not None:
                 (ok, val) = self.getobject(val, path[1:])
         else:

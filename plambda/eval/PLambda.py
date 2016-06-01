@@ -1,12 +1,17 @@
-import sys
+import os, sys, traceback
+sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
-import traceback
 
 
-from plam.visitor.Parser import parseFromString
-from plam.plambda.Interpreter  import Interpreter
-from plam.plambda.PLambdaException import PLambdaException
+from plambda.visitor.Parser import parseFromString
+from plambda.eval.Interpreter  import Interpreter
+from plambda.eval.PLambdaException import PLambdaException
 
+
+
+def main():
+    rep(sys.argv[1] if len(sys.argv) == 2 else None)
+    return 0
 
 def rep(filename):
     """The Read Eval Print loop for the plambda language.

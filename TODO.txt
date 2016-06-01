@@ -8,13 +8,13 @@ the UPDATE clan and use GETATTR and SETATTR instead.
 Done.
 
 
-2. What would a good install look like? Make use if IOPBINDIR I suppose.
+2.[X] What would a good install look like? Make use if IOPBINDIR I suppose.
 Or go the pip route?  PIP I think. Might make a pip branch first.
 
 
 3. Maybe being able to pass a dictionary to invoke and apply instead
 of arguments might solve the kwargs issue? or have an INVOKEKARWGS
-or some such form.
+or some such form (CALL).
 
 4.[X] Literals like:  {}  [] ?   mktuple ?
 

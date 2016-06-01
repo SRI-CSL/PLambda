@@ -1,4 +1,4 @@
-from plam.util.StringBuffer import StringBuffer
+from plambda.util.StringBuffer import StringBuffer
 
 #may as well retain information gleaned from the parser
 #since it will help in the dispatching

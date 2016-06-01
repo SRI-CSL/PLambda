@@ -1,17 +1,19 @@
-#!/usr/bin/env python
-
-
-import sys
-
-import threading
+import os, sys, threading
+sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
 from actorlib import send, receive
 
-from plam.plambda.Interpreter import Interpreter
+from plambda.eval.Interpreter import Interpreter
 
-from plam.visitor.Parser import parseFromString
+from plambda.visitor.Parser import parseFromString
 
 debug = False
+
+
+def main():
+    launch(sys.argv[1] if len(sys.argv) == 2 else "noname")
+    return 0
+
 
 class Main(object):
 
@@ -28,7 +30,7 @@ class Main(object):
         if Main.myself is None:
             Main.myself = self
         else:
-            raise Exception("plam.actor.pyactor.Main should have a singleton instance!")
+            raise Exception("plambda.actor.pyactor.Main should have a singleton instance!")
         
     def run(self):
         """The Read Eval Message Loop.
@@ -62,7 +64,7 @@ def eval(interpreter, message):
         val = interpreter.evaluateString(message)
         notify('eval: {0} evaluated to {1}'.format(message, val))
     except Exception as e:
-        sys.stderr.write('plam.actors.pyactor.Main exception: {0}\n'.format(e))
+        sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n'.format(e))
 
 
 def launch(name):
