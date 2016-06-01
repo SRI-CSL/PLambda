@@ -13,6 +13,10 @@ check:
 	python -m tests.language
 
 
+install: clean antlr4
+	python setup.py develop
+
+
 clean:
 	make -C plambda/antlr4 clean
 	rm -f tests/*.pyc plambda/*.pyc plambda/*/*.pyc plambda/*/*~
