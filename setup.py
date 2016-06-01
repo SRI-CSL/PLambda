@@ -27,10 +27,12 @@ setup(
     entry_points = {
         'console_scripts': [
             'plambda = plambda.eval.PLambda:main',
+            'pyactor = plambda.actors.pyactor:main',
+            'plambdaparse = plambda.visitor.Parser:main',
         ],
     },
-#            'plamparse = plam.visitor.Parser:main',
-#            'pyactor = plambda.actors.pyactor:main',
+
+
     
     license='MIT',
     

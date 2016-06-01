@@ -1,9 +1,5 @@
-#!/usr/bin/env python
-
-
-import sys
-
-import threading
+import os, sys, threading
+sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
 from actorlib import send, receive
 
@@ -12,6 +8,12 @@ from plambda.eval.Interpreter import Interpreter
 from plambda.visitor.Parser import parseFromString
 
 debug = False
+
+
+def main():
+    launch(sys.argv[1] if len(sys.argv) == 2 else "noname")
+    return 0
+
 
 class Main(object):
 
