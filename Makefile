@@ -13,9 +13,29 @@ check:
 	python -m tests.language
 
 
-install: clean antlr4
-	python setup.py develop
+develop: clean antlr4
+	pip install -e .
 
+
+dist: clean antlr4
+	python setup.py bdist_wheel
+
+#If you need to push your project again, change the version number in setup.py otherwise the server will give you an error. 
+
+testpublish: dist
+	python setup.py register -r https://testpypi.python.org/pypi
+	python setup.py sdist upload -r https://testpypi.python.org/pypi
+
+publish: dist
+	python setup.py register -r https://testpypi.python.org/pypi
+	python setup.py sdist upload -r https://testpypi.python.org/pypi
+
+
+testinstall:
+	pip install -i https://testpypi.python.org/pypi plambda
+
+install:
+	pip install lambda
 
 clean:
 	make -C plambda/antlr4 clean

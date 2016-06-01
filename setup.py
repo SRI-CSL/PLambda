@@ -14,7 +14,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     
 setup(
     name='PLambda',
-    version='1.0',
+    version='1.0.0.dev0',
     description='The PLambda language',
     long_description=long_description,
     url='https://github.com/SRI-CSL/PLambda',
@@ -44,7 +44,7 @@ setup(
         'Development Status :: 3 - Alpha',
         'Natural Language :: English',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Actor Programming',
+        'Topic :: System :: Distributed Computing',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
