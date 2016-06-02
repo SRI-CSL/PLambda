@@ -16,7 +16,7 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' TERNARY_OP expression expression expression ')'                         # ternaryExpression
           |  '(' AMBI1_OP expression expression? ')'                                     # oneOrMoreExpression       
           |  '(' AMBI2_OP expression expression  expression? ')'                         # twoOrMoreExpression       
-          |  '(' N_ARY_OP expression+ ')'                                                # naryExpression       
+          |  '(' N_ARY_OP expression* ')'                                                # naryExpression       
           |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
           |  '(' QUOTE  string ')'                                                       # quoteExpression

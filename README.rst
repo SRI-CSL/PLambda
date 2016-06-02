@@ -12,6 +12,10 @@ Note that python is not java so there will be some differences, but
 hopefully the spirit will shine through.
 
 
+## Install
+
+Should be a pip package real soon now.
+
 ## Manuals
 
 The jlambda manual can be found [here](https://github.com/SRI-CSL/iopc/blob/master/doc/jlambda_manual.pdf?raw=true)
@@ -39,8 +43,3 @@ The main client of the iop system is [SRI International's Pathway Logic](http://
 4. Add the operator to the `Interpreter`
 
 
-### Todo
-
-1. Finish the interpreter
-
-2. Make a pip package or whatever ...

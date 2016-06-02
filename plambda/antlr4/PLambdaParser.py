@@ -26,13 +26,13 @@ def serializedATN():
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3")
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3z\n\3")
         buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\u0083\n\3\3\3\3\3\3")
-        buf.write(u"\3\3\3\3\3\6\3\u008a\n\3\r\3\16\3\u008b\3\3\3\3\3\3\3")
-        buf.write(u"\3\3\3\6\3\u0093\n\3\r\3\16\3\u0094\3\3\3\3\3\3\3\3\3")
-        buf.write(u"\3\3\3\3\3\3\3\6\3\u009f\n\3\r\3\16\3\u00a0\3\3\3\3\3")
-        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\u00ad\n\3\3\4\3\4")
-        buf.write(u"\7\4\u00b1\n\4\f\4\16\4\u00b4\13\4\3\4\3\4\3\5\3\5\3")
-        buf.write(u"\6\3\6\6\6\u00bc\n\6\r\6\16\6\u00bd\3\6\3\6\3\7\3\7\3")
-        buf.write(u"\7\3\7\3\7\3\b\3\b\3\b\3\b\6\b\u00cb\n\b\r\b\16\b\u00cc")
+        buf.write(u"\3\3\3\3\3\7\3\u008a\n\3\f\3\16\3\u008d\13\3\3\3\3\3")
+        buf.write(u"\3\3\3\3\6\3\u0093\n\3\r\3\16\3\u0094\3\3\3\3\3\3\3\3")
+        buf.write(u"\3\3\3\3\3\3\3\3\6\3\u009f\n\3\r\3\16\3\u00a0\3\3\3\3")
+        buf.write(u"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\u00ad\n\3\3\4\3")
+        buf.write(u"\4\7\4\u00b1\n\4\f\4\16\4\u00b4\13\4\3\4\3\4\3\5\3\5")
+        buf.write(u"\3\6\3\6\6\6\u00bc\n\6\r\6\16\6\u00bd\3\6\3\6\3\7\3\7")
+        buf.write(u"\3\7\3\7\3\7\3\b\3\b\3\b\3\b\6\b\u00cb\n\b\r\b\16\b\u00cc")
         buf.write(u"\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\f\3\f\3\f\2\2\r")
         buf.write(u"\2\4\6\b\n\f\16\20\22\24\26\2\5\3\29;\3\2:;\4\2::<<\u00ef")
         buf.write(u"\2\31\3\2\2\2\4\u00ac\3\2\2\2\6\u00ae\3\2\2\2\b\u00b7")
@@ -65,10 +65,10 @@ def serializedATN():
         buf.write(u"\13\2\2\177\u0080\5\4\3\2\u0080\u0082\5\4\3\2\u0081\u0083")
         buf.write(u"\5\4\3\2\u0082\u0081\3\2\2\2\u0082\u0083\3\2\2\2\u0083")
         buf.write(u"\u0084\3\2\2\2\u0084\u0085\7\4\2\2\u0085\u00ad\3\2\2")
-        buf.write(u"\2\u0086\u0087\7\3\2\2\u0087\u0089\7\t\2\2\u0088\u008a")
-        buf.write(u"\5\4\3\2\u0089\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b")
-        buf.write(u"\u0089\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008d\3\2\2")
-        buf.write(u"\2\u008d\u008e\7\4\2\2\u008e\u00ad\3\2\2\2\u008f\u0090")
+        buf.write(u"\2\u0086\u0087\7\3\2\2\u0087\u008b\7\t\2\2\u0088\u008a")
+        buf.write(u"\5\4\3\2\u0089\u0088\3\2\2\2\u008a\u008d\3\2\2\2\u008b")
+        buf.write(u"\u0089\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008e\3\2\2")
+        buf.write(u"\2\u008d\u008b\3\2\2\2\u008e\u00ad\7\4\2\2\u008f\u0090")
         buf.write(u"\7\3\2\2\u0090\u0092\7\31\2\2\u0091\u0093\5\4\3\2\u0092")
         buf.write(u"\u0091\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0092\3\2\2")
         buf.write(u"\2\u0094\u0095\3\2\2\2\u0095\u0096\3\2\2\2\u0096\u0097")
@@ -1143,19 +1143,17 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.T__0)
                 self.state = 133
                 self.match(PLambdaParser.N_ARY_OP)
-                self.state = 135 
+                self.state = 137
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                while True:
+                while (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0):
                     self.state = 134
                     self.expression()
-                    self.state = 137 
+                    self.state = 139
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID) | (1 << PLambdaParser.STRING))) != 0)):
-                        break
 
-                self.state = 139
+                self.state = 140
                 self.match(PLambdaParser.T__1)
                 pass
 

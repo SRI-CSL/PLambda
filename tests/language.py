@@ -39,6 +39,9 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(get (mktuple (int 1) (int 2) (int 3)) (int 0))', 1)
         self.plambdaEqualTest('(get (mklist (int 1) (int 2) (int 3)) (int 0))', 1)
         self.plambdaEqualTest('(get (mkdict "one" (int 1) "two" (int 2) "three" (int 3)) "three")', 3)
+        self.plambdaEqualTest('(mklist) ', [])
+        self.plambdaEqualTest('(mktuple) ', ())
+        self.plambdaEqualTest('(mkdict) ', {})
 
 
     def testOne(self):

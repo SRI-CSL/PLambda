@@ -26,13 +26,12 @@ testpublish: dist
 	python setup.py register -r https://testpypi.python.org/pypi
 	python setup.py sdist upload -r https://testpypi.python.org/pypi
 
-publish: dist
-	python setup.py register -r https://testpypi.python.org/pypi
-	python setup.py sdist upload -r https://testpypi.python.org/pypi
-
-
 testinstall:
 	pip install -i https://testpypi.python.org/pypi plambda
+
+publish: dist
+	python setup.py register -r https://pypi.python.org/pypi
+	python setup.py sdist upload -r https://pypi.python.org/pypi
 
 install:
 	pip install lambda
