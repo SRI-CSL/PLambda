@@ -150,7 +150,14 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('drone.e', 666)
         self.plambdaEqualTest('(invoke drone "mv" "E")', True)
         self.plambdaEqualTest('drone.x', 3)
-        
+
+
+    def test_G(self):
+        letstr = '(let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z)))'
+        self.plambdaEqualTest(letstr, 23)
+        letstr = '(let ((x (int 666))) (let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z))) x )'
+        self.plambdaEqualTest(letstr, 666)
+    
      
 if __name__ == "__main__":
     unittest.main()
