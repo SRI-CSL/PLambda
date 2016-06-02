@@ -119,8 +119,6 @@ INVOKE:       [Ii][Nn][Vv][Oo][Kk][Ee]                  ;
 
 SINVOKE:      [Ss][Ii][Nn][Vv][Oo][Kk][Ee]              ;
 
-OBJECT:       [Oo][Bb][Jj][Ee][Cc][Tt]                  ;
-
 FOR:          [Ff][Oo][Rr]                              ;
 
 ARRAY:        [Aa][Rr][Rr][Aa][Yy]                      ;

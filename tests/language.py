@@ -101,7 +101,7 @@ class plambdaTest(PLambdaTest):
                            'memoryview'    : memoryview,
                            'min'           : min,
                            'next'          : next,
-#                           'object'       : object,
+                           'object'       : object,
                            'oct'           : oct,
                            'open'          : open,
                            'ord'           : ord,
