@@ -141,6 +141,15 @@ class plambdaTest(PLambdaTest):
         """Tests using a drone.
         """
         self.plambdaEqualTest('(import "plambda.drones.simple_drone")', True)
+        self.plambdaStringEqualTest('(define SimpleDrone plambda.drones.simple_drone.SimpleDrone) ', 'SimpleDrone')
+        self.plambdaStringEqualTest('(define drone (apply SimpleDrone "droneZero"))', 'drone')
+        self.plambdaEqualTest('drone.name', 'droneZero')
+        self.plambdaEqualTest('(invoke drone "initialize" "2" "2" "666")', True)
+        self.plambdaEqualTest('drone.x', 2)
+        self.plambdaEqualTest('drone.y', 2)
+        self.plambdaEqualTest('drone.e', 666)
+        self.plambdaEqualTest('(invoke drone "mv" "E")', True)
+        self.plambdaEqualTest('drone.x', 3)
         
      
 if __name__ == "__main__":
