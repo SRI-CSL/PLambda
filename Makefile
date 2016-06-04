@@ -12,7 +12,7 @@ antlr4:
 check:
 	python -m tests.language
 
-
+#local editable install for developing
 develop: clean antlr4
 	pip install -e .
 
@@ -20,7 +20,8 @@ develop: clean antlr4
 dist: clean antlr4
 	python setup.py bdist_wheel
 
-#If you need to push your project again, change the version number in setup.py otherwise the server will give you an error. 
+# If you need to push your project again, change the version number in setup.py,
+# otherwise the server will give you an error. 
 
 testpublish: dist
 	python setup.py register -r https://testpypi.python.org/pypi

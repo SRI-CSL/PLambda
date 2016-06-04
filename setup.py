@@ -11,10 +11,13 @@ here = path.abspath(path.dirname(__file__))
 # Get the long description from the README file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+# use the in house version number so we stay in synch with ourselves.
+from plambda.eval import PLambda
     
 setup(
     name='PLambda',
-    version='1.0.0.dev0',
+    version=PLambda.plambda_version, 
     description='The PLambda language',
     long_description=long_description,
     url='https://github.com/SRI-CSL/PLambda',

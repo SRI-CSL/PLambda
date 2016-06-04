@@ -8,6 +8,8 @@ from plambda.eval.Interpreter  import Interpreter
 from plambda.eval.PLambdaException import PLambdaException
 
 
+plambda_version='1.0.0.dev1'
+
 
 def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)
@@ -22,7 +24,7 @@ def rep(filename):
 
         interpreter.load(filename)
         
-        sys.stdout.write(WELCOME)
+        sys.stdout.write(WELCOME.format(plambda_version))
         
         while True:
             try:
@@ -57,7 +59,7 @@ def rep(filename):
 
 
 WELCOME = """
-Welcome to the PLambda interface to Python, type ? for help.
+Welcome to the PLambda interface to Python (version {0}), type ? for help.
 """
 
 INSTRUCTIONS="""
