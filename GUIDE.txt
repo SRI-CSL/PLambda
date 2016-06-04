@@ -1,16 +1,26 @@
+[[Construction Zone: please feel free to add questions]]
+
 The main differences between Java and Python from the perspective
-of PLambda JLambda are:
+of PLambda/JLambda are:
 
    0. python is interpreted
 
    1. the import mechanism is required, and modules, and classes, are first
       class objects.
 
-   2. the untyped primitive data structures (tuple, list, dictionary)
+   2. the untyped primitive data structures (tuple, list, dictionary) can store
+   objects and numbers etc.
 
-   3. there are global functions
+   3. there are global functions, which you can just apply.
 
+   4. no 'new' operator, just apply the constructor.
+
+   5. richer argument passing (not implemented yet).
+
+   6. python things are already attributable (why do we need uids and fetch?)
 
 1 and  3 combine to allow us to have a richer use of the '.' in PLambda
-than in JLambda. 2 makes life very much easier.
+than in JLambda, we even combine it with the define mechanism.
+
+2 makes life very much easier.
    
