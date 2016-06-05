@@ -158,6 +158,14 @@ class plambdaTest(PLambdaTest):
         letstr = '(let ((x (int 666))) (let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z))) x )'
         self.plambdaEqualTest(letstr, 666)
     
-     
+    def test_H(self):
+        self.plambdaStringEqualTest('(define obj (apply object))', 'obj')
+        self.plambdaEqualTest('(setuid obj "adefaultuid")', True)
+        self.plambdaEqualTest('(is (fetch "adefaultuid") obj)', True) 
+        self.plambdaEqualTest('(is (fetch (getuid obj)) obj)', True) 
+        self.plambdaEqualTest('(setuid obj None)', True)
+        self.plambdaEqualTest('(fetch "adefaultuid")', None)
+
+        
 if __name__ == "__main__":
     unittest.main()

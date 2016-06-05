@@ -48,6 +48,9 @@ class Interpreter(object):
     def __init__(self):
         self.definitions = {}
         self.modules = {}
+        self.uid2object = {}
+        self.object2uid = {}       
+        
 
 
     def evaluateString(self, string):
@@ -65,6 +68,8 @@ class Interpreter(object):
         return self.eval(exp, Environment())
 
     def eval(self, exp, env):
+        if exp is None:
+            return None
         if isinstance(exp, StringLiteral):
             return exp.string
         if isinstance(exp, Atom):
@@ -72,7 +77,7 @@ class Interpreter(object):
         elif isinstance(exp, SExpression):
             return self.evalSExpression(exp, env)
         else:
-            raise PLambdaException("huh?")
+            raise PLambdaException("huh? I did not grok {0}".format(exp))
 
     def lookup(self, leaf, env):
         """See if the identifier is bound in the extended environment.
@@ -396,14 +401,39 @@ class Interpreter(object):
             return  lhs <= rhs
         elif op is SymbolTable.EQUALS:
             return  lhs == rhs
-        elif op is SymbolTable.EQ:
+        elif op is SymbolTable.IS:
             return  lhs is rhs
         elif op is SymbolTable.NEQ:
             return  lhs != rhs
+        elif op is SymbolTable.SETUID:
+            return self.setUID(lhs, rhs)
         else:
             fmsg = 'Unrecognized binary operation: {0}'
             emsg = fmsg.format(op)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
+
+
+    def setUID(self, lhs, rhs):
+        if lhs is None:
+            raise PLambdaException('setuid: first argument cannot be  None.')                  
+        elif rhs is None:
+            if lhs in self.object2uid:
+                uid = self.object2uid[lhs]
+                self.object2uid.pop(lhs)
+                self.uid2object.pop(uid)
+                return True
+            else:
+                return False
+        elif not isString(rhs):
+            raise PLambdaException('setuid: rhs not a string')
+        else:
+            if rhs in self.uid2object or lhs in self.object2uid:
+                raise PLambdaException('setuid: redefiniton')
+            else:
+                self.object2uid[lhs] = rhs
+                self.uid2object[rhs] = lhs
+                return True
+                                   
 
     def evalTernaryOp(self, sexp, env):
         (uop, arg0, arg1, arg2) =  sexp.spine
@@ -593,10 +623,20 @@ class Interpreter(object):
             return inspect.isobject(val)
         elif op is SymbolTable.THROW:
             raise v
+        elif op is SymbolTable.FETCH:
+            if val in self.uid2object:
+                return self.uid2object[val]
+            else:
+                return None
+        elif op is SymbolTable.GETUID:
+            if val in self.object2uid:
+                return self.object2uid[val]
+            else:
+                return None
         elif op is SymbolTable.NOT:
             return True if val is False else False
         else:
-            raise Exception("huh?")
+            raise PlambdaException("huh?")
         return True
 
 
