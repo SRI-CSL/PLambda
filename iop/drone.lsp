@@ -8,3 +8,10 @@
     drone))
 
 
+(define evalOK (sender message)
+  (let ((val message))
+    (apply send sender (getattr myself "name") (concat "OK " val "\n"))
+    )
+  )
+
+
