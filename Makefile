@@ -13,7 +13,7 @@ check:
 	python -m tests.language
 
 #local editable install for developing
-develop: clean antlr4
+develop: 
 	pip install -e .
 
 
