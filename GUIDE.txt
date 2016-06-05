@@ -27,4 +27,7 @@ than in JLambda, we even combine it with the define mechanism.
 
 2 makes life very much easier. we have n-ary constructors mktuple,
 mklist, and mkdict.
-   
+
+
+I ditched '=' for 'is' since 'is' is much more pythonesque and I could never
+remember which of '=' and '==' was 'eq' not 'equal'.
