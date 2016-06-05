@@ -652,3 +652,10 @@ class Interpreter(object):
     def showDefinitions(self):
         for key, value in self.definitions.iteritems():
             sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+
+    def showUIDs(self):
+        for key, value in self.uid2object.iteritems():
+            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+
+
+            
