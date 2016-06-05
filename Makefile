@@ -35,7 +35,7 @@ publish: dist
 	python setup.py sdist upload -r https://pypi.python.org/pypi
 
 install:
-	pip install lambda
+	pip install plambda
 
 clean:
 	make -C plambda/antlr4 clean
