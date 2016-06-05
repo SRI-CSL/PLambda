@@ -222,8 +222,8 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#quoteExpression.
     def visitQuoteExpression(self, ctx):
         lineno = ctx.QUOTE().getSymbol().line
-        location = Location(self.filename, t.line)
-        return SExpression(Syntax.Quote, (SymbolTable.QUOTE,
+        location = Location(self.filename, lineno)
+        return SExpression(Syntax.QUOTE, (SymbolTable.QUOTE,
                                           self.visitString(ctx.string())),
                            location)
 

@@ -35,13 +35,9 @@ Current bugs:
 
 Things to add:
 
-isfunction
-
 patch the builtin problem as much as possible
 
 named arguments need to be addressed at some point
-
-sanity checking needs to be done: (* (int 4) "asdf")
 
 """
 

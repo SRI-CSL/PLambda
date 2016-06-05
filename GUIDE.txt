@@ -9,7 +9,7 @@ of PLambda/JLambda are:
       class objects.
 
    2. the untyped primitive data structures (tuple, list, dictionary) can store
-   objects and numbers etc.
+   objects and numbers etc. 
 
    3. there are global functions, which you can just apply.
 
@@ -19,8 +19,12 @@ of PLambda/JLambda are:
 
    6. python things are already attributable (why do we need uids and fetch?)
 
+   7. reflection in python has some holes in it (you cannot get the argspec of a
+   builtin, so some guess work is required).
+
 1 and  3 combine to allow us to have a richer use of the '.' in PLambda
 than in JLambda, we even combine it with the define mechanism.
 
-2 makes life very much easier.
+2 makes life very much easier. we have n-ary constructors mktuple,
+mklist, and mkdict.
    

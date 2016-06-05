@@ -1,10 +1,10 @@
-**** turn on IOP/plam VERBOSITY
-(user (seq (import "plam.actors.actorlib") (setattr plam.actors.actorlib "debug" (boolean true))))
-(user (seq (import "plam.actors.pyactor") (setattr plam.actors.pyactor "debug" (boolean true))))
+**** turn on IOP/plambda VERBOSITY
+(user (seq (import "plambda.actors.actorlib") (setattr plambda.actors.actorlib "debug" (boolean true))))
+(user (seq (import "plambda.actors.pyactor") (setattr plambda.actors.pyactor "debug" (boolean true))))
 
-**** turn off IOP/plam VERBOSITY
-(user (seq (import "plam.actors.actorlib") (setattr plam.actors.actorlib "debug" (boolean false))))
-(user (seq (import "plam.actors.pyactor") (setattr plam.actors.pyactor "debug" (boolean false))))
+**** turn off IOP/plambda VERBOSITY
+(user (seq (import "plambda.actors.actorlib") (setattr plambda.actors.actorlib "debug" (boolean false))))
+(user (seq (import "plambda.actors.pyactor") (setattr plambda.actors.pyactor "debug" (boolean false))))
 
 
 (user (load "pyactorlib.lsp"))

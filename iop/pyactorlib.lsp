@@ -13,8 +13,10 @@
 (define myself (getattr plambda.actors.pyactor.Main "myself"))
 
 (define evalOK (sender message)
-  (apply squark message)
-  (apply send sender (getattr myself "name") "OK\n")
+  (let ((val message))
+    ;;(apply squark val)
+    (apply send sender (getattr myself "name") (concat "OK " val "\n"))
+    )
   )
 
 
