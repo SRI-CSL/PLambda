@@ -315,7 +315,12 @@ class Interpreter(object):
 
         #TODO: some arity checking would be nice
         if isinstance(fun, Closure):
-            return fun.applyClosure(*vals)
+            if len(vals) != fun.arity:
+                fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
+                emsg = fmsg.format(fun.arity, argexps, len(argexps), sexp.spine[0].location)
+                raise PLambdaException(emsg)
+            else:
+                return fun.applyClosure(*vals)
         else:
             return fun(*vals)
 
