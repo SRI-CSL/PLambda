@@ -48,6 +48,9 @@ class Interpreter(object):
     def __init__(self):
         self.definitions = {}
         self.modules = {}
+        self.uid2object = {}
+        self.object2uid = {}       
+        
 
 
     def evaluateString(self, string):
@@ -65,6 +68,8 @@ class Interpreter(object):
         return self.eval(exp, Environment())
 
     def eval(self, exp, env):
+        if exp is None:
+            return None
         if isinstance(exp, StringLiteral):
             return exp.string
         if isinstance(exp, Atom):
@@ -72,7 +77,7 @@ class Interpreter(object):
         elif isinstance(exp, SExpression):
             return self.evalSExpression(exp, env)
         else:
-            raise PLambdaException("huh?")
+            raise PLambdaException("huh? I did not grok {0}".format(exp))
 
     def lookup(self, leaf, env):
         """See if the identifier is bound in the extended environment.
@@ -365,45 +370,75 @@ class Interpreter(object):
         assert isinstance(uop, Atom)
         op = uop.string
 
-        lhs = self.eval(arg0, env)
-        rhs = self.eval(arg1, env)
+        val0 = self.eval(arg0, env)
+        val1 = self.eval(arg1, env)
         # error checking sometime in the near future
         if  op is SymbolTable.PLUS:
-            return  lhs + rhs
+            return  val0 + val1
         elif op is SymbolTable.TIMES:
-            return  lhs * rhs
+            return  val0 * val1
         elif op is SymbolTable.DIVIDE:
-            return  lhs / rhs
+            return  val0 / val1
         elif op is SymbolTable.MODULO:
-            return  lhs % rhs
+            return  val0 % val1
         elif op is SymbolTable.GT:
-            return  lhs < rhs
+            return  val0 < val1
         elif op is SymbolTable.LT:
-            return  lhs > rhs
+            return  val0 > val1
         elif op is SymbolTable.GET:
-            if (isinstance(lhs, list) or isinstance(lhs, tuple))  and isinstance(rhs, int):
-                return lhs[rhs]
-            elif isinstance(lhs, dict) and isString(rhs):
-                return lhs.get(rhs)
-            else:
-                fmsg = 'Bad args to \"get\": {0} {1}'
-                emsg = fmsg.format(lhs, rhs)
-                raise PLambdaException(emsg)
-
+            return self.evalGet(sexp, val0, val1)
         elif op is SymbolTable.GEQ:
-            return  lhs >= rhs
+            return  val0 >= val1
         elif op is SymbolTable.LEQ:
-            return  lhs <= rhs
+            return  val0 <= val1
         elif op is SymbolTable.EQUALS:
-            return  lhs == rhs
-        elif op is SymbolTable.EQ:
-            return  lhs is rhs
+            return  val0 == val1
+        elif op is SymbolTable.IS:
+            return  val0 is val1
         elif op is SymbolTable.NEQ:
-            return  lhs != rhs
+            return  val0 != val1
+        elif op is SymbolTable.SETUID:
+            return self.setUID(sexp, val0, val1)
         else:
             fmsg = 'Unrecognized binary operation: {0}'
             emsg = fmsg.format(op)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
+
+    def evalGet(self, sexp, val0, val1):
+        if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
+            return val0[val1]
+        elif isinstance(val0, dict) and isString(val1):
+            return val0.get(val1)
+        else:
+            fmsg = 'Bad args to \"get\": {0} {1}'
+            emsg = fmsg.format(val0, val1)
+            raise PLambdaException(emsg)
+
+    def unsetUID(self, val0):
+        if val0 in self.object2uid:
+            uid = self.object2uid[val0]
+            self.object2uid.pop(val0)
+            self.uid2object.pop(uid)
+            return True
+        else:
+            return False
+       
+
+    def setUID(self, sexp, val0, val1):
+        if val0 is None:
+            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(sexp.location)))                  
+        elif val1 is None:
+            return self.unsetUID(val0)
+        elif not isString(val1):
+            raise PLambdaException('setuid {0}: val1 not a string.'.format(str(sexp.location)))
+        else:
+            if val1 in self.uid2object or val0 in self.object2uid:
+                raise PLambdaException('setuid {0}: redefiniton'.format(str(sexp.location)))
+            else:
+                self.object2uid[val0] = val1
+                self.uid2object[val1] = val0
+                return True
+                                   
 
     def evalTernaryOp(self, sexp, env):
         (uop, arg0, arg1, arg2) =  sexp.spine
@@ -495,8 +530,8 @@ class Interpreter(object):
             else:
                 return dict(vals[i:i+2] for i in range(0, len(vals), 2))
         else:
-            fmsg = 'Unrecognized n-ary operation: {0}'
-            emsg = fmsg.format(op)
+            fmsg = 'Unrecognized n-ary operation {1}: {0}'
+            emsg = fmsg.format(op, sexp.location)
             raise Exception(emsg)
 
     def evalConcat(self, sexp, env):
@@ -593,10 +628,20 @@ class Interpreter(object):
             return inspect.isobject(val)
         elif op is SymbolTable.THROW:
             raise v
+        elif op is SymbolTable.FETCH:
+            if val in self.uid2object:
+                return self.uid2object[val]
+            else:
+                return None
+        elif op is SymbolTable.GETUID:
+            if val in self.object2uid:
+                return self.object2uid[val]
+            else:
+                return None
         elif op is SymbolTable.NOT:
             return True if val is False else False
         else:
-            raise Exception("huh?")
+            raise PlambdaException("huh?")
         return True
 
 
@@ -612,3 +657,10 @@ class Interpreter(object):
     def showDefinitions(self):
         for key, value in self.definitions.iteritems():
             sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+
+    def showUIDs(self):
+        for key, value in self.uid2object.iteritems():
+            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+
+
+            

@@ -17,7 +17,7 @@ class SymbolTable(object):
         intern('do'):            intern('do'),
         intern('double'):        intern('double'),
         intern('=='):            intern('=='),
-        intern('='):             intern('='),
+        intern('is'):            intern('is'),
         intern('fetch'):         intern('fetch'),
         intern('float'):         intern('float'),
         intern('for'):           intern('for'),
@@ -79,7 +79,7 @@ class SymbolTable(object):
     DIVIDE      = intern('/')
     DO          = intern('do')
     DOUBLE      = intern('double')
-    EQ          = intern('is')
+    IS          = intern('is')
     EQUALS      = intern('==')
     FETCH       = intern('fetch')
     FLOAT       = intern('float')

@@ -13,14 +13,15 @@ check:
 	python -m tests.language
 
 #local editable install for developing
-develop: clean antlr4
+develop: 
 	pip install -e .
 
 
 dist: clean antlr4
 	python setup.py bdist_wheel
 
-# If you need to push your project again, change the version number in setup.py,
+# If you need to push your project again,
+# change the version number in plambda/eval/PLambda.py,
 # otherwise the server will give you an error. 
 
 testpublish: dist
@@ -35,7 +36,7 @@ publish: dist
 	python setup.py sdist upload -r https://pypi.python.org/pypi
 
 install:
-	pip install lambda
+	pip install plambda
 
 clean:
 	make -C plambda/antlr4 clean

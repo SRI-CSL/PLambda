@@ -7,7 +7,11 @@ from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter  import Interpreter
 from plambda.eval.PLambdaException import PLambdaException
 
-
+# Freeping Creaturism:
+#
+# this is the all important version number used by pip.
+#
+#
 plambda_version='1.0.0.dev1'
 
 
@@ -36,7 +40,9 @@ def rep(filename):
                     sys.stdout.write(INSTRUCTIONS)
                 elif line == 'd':
                     interpreter.showDefinitions()
-                elif line in ('s', 'u', 'v'):
+                elif line == 'u':
+                    interpreter.showUIDs()
+                elif line in ('s', 'v'):
                     print 'Coming soon(ish)'
                 else:
                     if line:

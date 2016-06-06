@@ -25,6 +25,7 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(float 3.0)',  3)
         self.plambdaEqualTest('(== (float 3.0) (int 3))',  True)
         self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
+        self.plambdaEqualTest('(== (apply object) (apply object))',  False)
 
     def test_B(self):
         """Some tests of the import and global lookup mechanisms.
@@ -157,7 +158,22 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest(letstr, 23)
         letstr = '(let ((x (int 666))) (let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z))) x )'
         self.plambdaEqualTest(letstr, 666)
-    
-     
+        self.plambdaEqualTest('(let ((x (apply object)) (y x)) (is x y))', True) 
+
+    def test_H(self):
+        self.plambdaStringEqualTest('(define obj (apply object))', 'obj')
+        self.plambdaEqualTest('(setuid obj "adefaultuid")', True)
+        self.plambdaEqualTest('(is (fetch "adefaultuid") obj)', True) 
+        self.plambdaEqualTest('(is (fetch (getuid obj)) obj)', True) 
+        self.plambdaEqualTest('(setuid obj None)', True)
+        self.plambdaEqualTest('(fetch "adefaultuid")', None)
+
+    def test_I(self):
+        self.plambdaStringEqualTest('(define I (lambda (x) x))', 'I')
+        self.plambdaEqualTest('(is (apply I I) I)', True)
+        self.plambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
+        
+        
+        
 if __name__ == "__main__":
     unittest.main()

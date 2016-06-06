@@ -62,6 +62,8 @@ UNARY_OP :   LOAD       |
              ISNONE     |
              ISOBJECT   |
 	     THROW      |
+	     FETCH      |
+	     GETUID     |
              NOT        
              ;
 
@@ -73,12 +75,13 @@ BINARY_OP :  '+'           |
              '>'           |
              '<='          |
              '>='          |
-             '='           |
+             IS            |
              '=='          |
              '!='          |
-	     GET
-             ;
-
+	     GET           |
+	     SETUID
+	     ;
+	     
 TERNARY_OP : UPDATE    |
              SUPDATE   |
              SETATTR
@@ -164,6 +167,8 @@ NARROW:       [Nn][Aa][Rr][Rr][Oo][Ww]                  ;
 INSTANCEOF:   [Ii][Nn][Ss][Tt][Aa][Nn][Cc][Ee][Oo][Ff]  ;
 
 GET:          [Gg][Ee][Tt]                              ;
+
+IS:           [Ii][Ss]                                  ;
 
 LOOKUP:       [Ll][Oo][Oo][Kk][Uu][Pp]                  ;
 
