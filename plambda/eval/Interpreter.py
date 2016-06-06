@@ -370,72 +370,73 @@ class Interpreter(object):
         assert isinstance(uop, Atom)
         op = uop.string
 
-        lhs = self.eval(arg0, env)
-        rhs = self.eval(arg1, env)
+        val0 = self.eval(arg0, env)
+        val1 = self.eval(arg1, env)
         # error checking sometime in the near future
         if  op is SymbolTable.PLUS:
-            return  lhs + rhs
+            return  val0 + val1
         elif op is SymbolTable.TIMES:
-            return  lhs * rhs
+            return  val0 * val1
         elif op is SymbolTable.DIVIDE:
-            return  lhs / rhs
+            return  val0 / val1
         elif op is SymbolTable.MODULO:
-            return  lhs % rhs
+            return  val0 % val1
         elif op is SymbolTable.GT:
-            return  lhs < rhs
+            return  val0 < val1
         elif op is SymbolTable.LT:
-            return  lhs > rhs
+            return  val0 > val1
         elif op is SymbolTable.GET:
-            if (isinstance(lhs, list) or isinstance(lhs, tuple))  and isinstance(rhs, int):
-                return lhs[rhs]
-            elif isinstance(lhs, dict) and isString(rhs):
-                return lhs.get(rhs)
-            else:
-                fmsg = 'Bad args to \"get\": {0} {1}'
-                emsg = fmsg.format(lhs, rhs)
-                raise PLambdaException(emsg)
-
+            return self.evalGet(sexp, val0, val1)
         elif op is SymbolTable.GEQ:
-            return  lhs >= rhs
+            return  val0 >= val1
         elif op is SymbolTable.LEQ:
-            return  lhs <= rhs
+            return  val0 <= val1
         elif op is SymbolTable.EQUALS:
-            return  lhs == rhs
+            return  val0 == val1
         elif op is SymbolTable.IS:
-            return  lhs is rhs
+            return  val0 is val1
         elif op is SymbolTable.NEQ:
-            return  lhs != rhs
+            return  val0 != val1
         elif op is SymbolTable.SETUID:
-            return self.setUID(lhs, rhs)
+            return self.setUID(sexp, val0, val1)
         else:
             fmsg = 'Unrecognized binary operation: {0}'
             emsg = fmsg.format(op)
             raise PLambdaException(emsg)
 
+    def evalGet(self, sexp, val0, val1):
+        if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
+            return val0[val1]
+        elif isinstance(val0, dict) and isString(val1):
+            return val0.get(val1)
+        else:
+            fmsg = 'Bad args to \"get\": {0} {1}'
+            emsg = fmsg.format(val0, val1)
+            raise PLambdaException(emsg)
 
-    def unsetUID(self, lhs):
-        if lhs in self.object2uid:
-            uid = self.object2uid[lhs]
-            self.object2uid.pop(lhs)
+    def unsetUID(self, val0):
+        if val0 in self.object2uid:
+            uid = self.object2uid[val0]
+            self.object2uid.pop(val0)
             self.uid2object.pop(uid)
             return True
         else:
             return False
        
 
-    def setUID(self, lhs, rhs):
-        if lhs is None:
-            raise PLambdaException('setuid: first argument cannot be None.')                  
-        elif rhs is None:
-            return self.unsetUID(lhs)
-        elif not isString(rhs):
-            raise PLambdaException('setuid: rhs not a string')
+    def setUID(self, sexp, val0, val1):
+        if val0 is None:
+            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(sexp.location)))                  
+        elif val1 is None:
+            return self.unsetUID(val0)
+        elif not isString(val1):
+            raise PLambdaException('setuid {0}: val1 not a string.'.format(str(sexp.location)))
         else:
-            if rhs in self.uid2object or lhs in self.object2uid:
-                raise PLambdaException('setuid: redefiniton')
+            if val1 in self.uid2object or val0 in self.object2uid:
+                raise PLambdaException('setuid {0}: redefiniton'.format(str(sexp.location)))
             else:
-                self.object2uid[lhs] = rhs
-                self.uid2object[rhs] = lhs
+                self.object2uid[val0] = val1
+                self.uid2object[val1] = val0
                 return True
                                    
 
