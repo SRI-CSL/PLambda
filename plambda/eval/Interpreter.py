@@ -530,8 +530,8 @@ class Interpreter(object):
             else:
                 return dict(vals[i:i+2] for i in range(0, len(vals), 2))
         else:
-            fmsg = 'Unrecognized n-ary operation: {0}'
-            emsg = fmsg.format(op)
+            fmsg = 'Unrecognized n-ary operation {1}: {0}'
+            emsg = fmsg.format(op, sexp.location)
             raise Exception(emsg)
 
     def evalConcat(self, sexp, env):
