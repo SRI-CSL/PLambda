@@ -413,17 +413,21 @@ class Interpreter(object):
             raise PLambdaException(emsg)
 
 
+    def unsetUID(self, lhs):
+        if lhs in self.object2uid:
+            uid = self.object2uid[lhs]
+            self.object2uid.pop(lhs)
+            self.uid2object.pop(uid)
+            return True
+        else:
+            return False
+       
+
     def setUID(self, lhs, rhs):
         if lhs is None:
-            raise PLambdaException('setuid: first argument cannot be  None.')                  
+            raise PLambdaException('setuid: first argument cannot be None.')                  
         elif rhs is None:
-            if lhs in self.object2uid:
-                uid = self.object2uid[lhs]
-                self.object2uid.pop(lhs)
-                self.uid2object.pop(uid)
-                return True
-            else:
-                return False
+            return self.unsetUID(lhs)
         elif not isString(rhs):
             raise PLambdaException('setuid: rhs not a string')
         else:
