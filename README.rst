@@ -41,6 +41,11 @@ Install
 There is a pip package, but that will move along much slower than developing
 from the repository.
 
+|
+| ``pip install plambda``
+|
+
+
 
 Manuals
 -------
