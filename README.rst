@@ -19,9 +19,9 @@ Dependencies
 Python 2.7 is desired, though it might work on most pythons.
 You will need the antlr4 runtime:
 
-``
+`
 pip install antlr4-python2-runtime
-``
+`
 
 
 Develop
@@ -29,9 +29,9 @@ Develop
 
 Checkout the repository and do:
 
-``
+`
 make develop
-``
+`
 
 
 
