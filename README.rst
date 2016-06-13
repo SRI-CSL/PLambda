@@ -13,10 +13,32 @@ Note that python is not java so there will be some differences, but
 hopefully the spirit will shine through.
 
 
+Dependencies
+------------
+
+Python 2.7 is desired, though it might work on most pythons.
+You will need the antlr4 runtime.
+```
+pip install antlr4-python2-runtime
+```
+
+
+Develop
+-------
+
+Checkout the repository and do:
+```
+make develop
+```
+
+
+
 Install
 -------
 
-Should be a pip package real soon now.
+There is a pip package, but that will move along much slower than developing
+from the repository.
+
 
 Manuals
 -------
