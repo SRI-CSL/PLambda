@@ -28,9 +28,10 @@ Develop
 -------
 
 Checkout the repository and do:
-``
-make develop
-``
+
+|
+| ``make develop``
+|
 
 
 
