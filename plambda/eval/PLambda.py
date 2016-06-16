@@ -14,7 +14,6 @@ from plambda.eval.PLambdaException import PLambdaException
 #
 plambda_version='1.0.0.dev1'
 
-
 def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)
     return 0
@@ -23,6 +22,9 @@ def rep(filename):
     """The Read Eval Print loop for the plambda language.
     """
     interpreter = Interpreter()
+
+    debug = False
+
     
     try:
 
@@ -42,17 +44,23 @@ def rep(filename):
                     interpreter.showDefinitions()
                 elif line == 'u':
                     interpreter.showUIDs()
+                elif line == 'v':
+                    debug = not debug
                 elif line in ('s', 'v'):
                     print 'Coming soon(ish)'
                 else:
                     if line:
-                        print 'rep: line  = ', line
+                        if debug:
+                            print 'rep: line  = ', line
                         code = parseFromString(line)
                         for c in code:
                             if c is not None:
-                                print 'rep: sexp  = ', c
+                                if debug:
+                                    print 'rep: sexp  = ', c
                                 value = interpreter.evaluate(c)
-                                print 'rep: value = ', value
+                                if debug:
+                                    print 'rep: value = ', value
+                                print value
             except PLambdaException as e:
                 print 'PLambda.rep PLambdaException: ', e
             except Exception as e:
