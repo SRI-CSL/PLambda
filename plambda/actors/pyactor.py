@@ -16,9 +16,10 @@ def infanticide(pid):
     except psutil.NoSuchProcess:
       return
     children = parent.children(recursive=True)
-    sys.stderr.write('children of {0} are {1}\n'.format(pid, children))
-    for process in children:
-        os.kill(process.pid, signal.SIGKILL)
+    sys.stderr.write('The children of {0} are {1}\n'.format(pid, children))
+    for p in children:
+        os.kill(p.pid, signal.SIGKILL)
+        sys.stderr.write('Sent signal {1} to {0}\n'.format(p.pid, signal.SIGKILL)
 
 
 def handler(signum, frame):
