@@ -1,4 +1,4 @@
-import os, sys, threading, signal, subprocess
+import os, sys, threading, signal, subprocess, psutil
 
 sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
@@ -10,12 +10,21 @@ from plambda.visitor.Parser import parseFromString
 
 debug = False
 
+def infanticide(pid):
+    try:
+      parent = psutil.Process(pid)
+    except psutil.NoSuchProcess:
+      return
+    children = parent.children(recursive=True)
+    for process in children:
+      process.send_signal(sig, signal.SIGKILL)
+
 
 def handler(signum, frame):
-    subprocess.call(['touch', '/tmp/1234567890'])
     sys.stderr.write('Signal handler called with signal {0}\n'.format(signum))
-    sys.exit(0)
-
+    sys.stderr.flush()
+    infanticide(os.getpid())
+    sys.exit()
 
 
 def main():
@@ -36,6 +45,7 @@ class Main(object):
         """
         self.name = name
         self.interpreter = Interpreter()
+        signal.signal(signal.SIGINT, handler)
         if Main.myself is None:
             Main.myself = self
         else:
