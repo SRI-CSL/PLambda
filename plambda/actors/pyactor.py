@@ -18,7 +18,7 @@ def infanticide(pid):
     children = parent.children(recursive=True)
     sys.stderr.write('children of {0} are {1}\n'.format(pid, children))
     for process in children:
-      process.send_signal(sig, signal.SIGKILL)
+        os.kill(process.pid, signal.SIGKILL)
 
 
 def handler(signum, frame):
