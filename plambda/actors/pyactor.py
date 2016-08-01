@@ -1,4 +1,5 @@
-import os, sys, threading, signal
+import os, sys, threading, signal, subprocess
+
 sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
 from actorlib import send, receive
@@ -11,6 +12,7 @@ debug = False
 
 
 def handler(signum, frame):
+    subprocess.call(['touch', '/tmp/1234567890'])
     sys.stderr.write('Signal handler called with signal {0}\n'.format(signum))
     sys.exit(0)
 
