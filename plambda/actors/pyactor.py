@@ -67,9 +67,10 @@ class Main(object):
                 else:
                     continue
             (sender, msg) = incoming
+            thread = threading.Thread(target=eval, args=(self.interpreter, msg))
+            thread.daemon = True
+            thread.start()
 
-            threading.Thread(target=eval, args=(self.interpreter, msg)).start()
-                
         return 0
 
 def notify(message):
