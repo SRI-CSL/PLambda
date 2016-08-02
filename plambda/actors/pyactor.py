@@ -68,6 +68,7 @@ class Main(object):
                     continue
             (sender, msg) = incoming
             thread = threading.Thread(target=eval, args=(self.interpreter, msg))
+            #thread needs to be a daemon so that the actor itself can die in peace.
             thread.daemon = True
             thread.start()
 
