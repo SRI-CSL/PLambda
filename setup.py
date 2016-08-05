@@ -13,11 +13,11 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # use the in house version number so we stay in synch with ourselves.
-from plambda.eval import PLambda
+from plambda.version import plambda_version
     
 setup(
     name='PLambda',
-    version=PLambda.plambda_version, 
+    version=plambda_version, 
     description='The PLambda language',
     long_description=long_description,
     url='https://github.com/SRI-CSL/PLambda',
