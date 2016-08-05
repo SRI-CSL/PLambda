@@ -12,7 +12,7 @@ from plambda.eval.PLambdaException import PLambdaException
 # this is the all important version number used by pip.
 #
 #
-plambda_version='1.0.0.dev1'
+plambda_version='1.0.0'
 
 def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)

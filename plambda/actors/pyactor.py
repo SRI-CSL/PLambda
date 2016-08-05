@@ -33,7 +33,6 @@ def handler(signum, frame):
 
 
 def main():
-    signal.signal(signal.SIGINT, handler)
     launch(sys.argv[1] if len(sys.argv) == 2 else "noname")
     return 0
 
