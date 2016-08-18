@@ -12,9 +12,11 @@ Done.
 Or go the pip route?  PIP I think. Might make a pip branch first.
 
 
-3. Maybe being able to pass a dictionary to invoke and apply instead
+3.[X] Maybe being able to pass a dictionary to invoke and apply instead
 of arguments might solve the kwargs issue? or have an INVOKEKARWGS
 or some such form (CALL).
+
+added KWAPPLY
 
 4.[X] Literals like:  {}  [] ?   mktuple ?
 

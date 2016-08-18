@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter  import Interpreter
 from plambda.eval.PLambdaException import PLambdaException
+from plambda.version import plambda_version
 
 def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)

@@ -82,7 +82,8 @@ BINARY_OP :  '+'           |
 	     SETUID
 	     ;
 	     
-TERNARY_OP : UPDATE    |
+TERNARY_OP : KWAPPLY    |
+	     UPDATE    |
              SUPDATE   |
              SETATTR
              ;
@@ -117,6 +118,7 @@ DEFINE:       [Dd][Ee][Ff][Ii][Nn][Ee]                  ;
 LAMBDA:       [Ll][Aa][Mm][Bb][Dd][Aa]                  ;
 
 APPLY:        [Aa][Pp][Pp][Ll][Yy]                      ;
+
 
 INVOKE:       [Ii][Nn][Vv][Oo][Kk][Ee]                  ;
 
@@ -176,7 +178,7 @@ SETUID:       [Ss][Ee][Tt][Uu][Ii][Dd]                  ;
 
 /* ternary operators */
 
-ASET:         [Aa][Ss][Ee][Tt]                          ;
+KWAPPLY:      [Kk][Ww][Aa][Pp][Pp][Ll][Yy]              ;
 
 UPDATE:       [Uu][Pp][Dd][Aa][Tt][Ee]                  ;
 

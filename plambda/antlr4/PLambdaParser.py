@@ -140,11 +140,11 @@ class PLambdaParser ( Parser ):
                       u"CATCH", u"BOOLEAN", u"FLOAT", u"INT", u"LOAD", u"IMPORT", 
                       u"ISNONE", u"ISOBJECT", u"GETUID", u"QUOTE", u"NOT", 
                       u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", u"GET", 
-                      u"IS", u"LOOKUP", u"SETUID", u"ASET", u"UPDATE", u"SUPDATE", 
-                      u"SETATTR", u"CONCAT", u"AND", u"OR", u"MKTUPLE", 
-                      u"MKLIST", u"MKDICT", u"MINUS", u"IF", u"GETATTR", 
-                      u"CHARACTER", u"ID", u"NUMBER", u"STRING", u"SYMBOL", 
-                      u"LINE_COMMENT", u"NEW_LINE_COMMENT", u"NEW_COMMENT", 
+                      u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"UPDATE", 
+                      u"SUPDATE", u"SETATTR", u"CONCAT", u"AND", u"OR", 
+                      u"MKTUPLE", u"MKLIST", u"MKDICT", u"MINUS", u"IF", 
+                      u"GETATTR", u"CHARACTER", u"ID", u"NUMBER", u"STRING", 
+                      u"SYMBOL", u"LINE_COMMENT", u"NEW_LINE_COMMENT", u"NEW_COMMENT", 
                       u"WHITE_SPACE" ]
 
     RULE_unit = 0
@@ -205,7 +205,7 @@ class PLambdaParser ( Parser ):
     IS=39
     LOOKUP=40
     SETUID=41
-    ASET=42
+    KWAPPLY=42
     UPDATE=43
     SUPDATE=44
     SETATTR=45

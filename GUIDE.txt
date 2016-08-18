@@ -15,7 +15,9 @@ of PLambda/JLambda are:
 
    4. no 'new' operator, just apply the constructor.
 
-   5. richer argument passing (not implemented yet).
+   5. richer argument passing (apply vs kwapply).
+
+     (kwapply f l d) is f(*l, **d)   f must be callable, our closures do not support kwapply.
 
    6. python things are already attributable (why do we need uids and fetch?)
 

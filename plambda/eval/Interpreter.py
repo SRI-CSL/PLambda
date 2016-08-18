@@ -452,10 +452,18 @@ class Interpreter(object):
         if  op in (SymbolTable.UPDATE, SymbolTable.SUPDATE, SymbolTable.SETATTR):
             setattr(val0, val1, val2)
             return  None
+        elif op is SymbolTable.KWAPPLY:
+            if not callable(val0):
+                raise PLambdaException('kwapply {0}: 1st argument not callable'.format(str(sexp.location)))
+            if not isinstance(val1, list):
+                raise PLambdaException('kwapply {0}: 2nd argument not a list'.format(str(sexp.location)))
+            if not isinstance(val2, dict):
+                raise PLambdaException('kwapply {0}: 3rd argument not a dict'.format(str(sexp.location)))
+            return  val0(*val1, **val2)
         else:
             fmsg = 'Unrecognized ternary operation: {0}'
             emsg = fmsg.format(op)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
 
     def evalAmbi1Op(self, sexp, env):
         uop =  sexp.spine[0]
@@ -469,7 +477,7 @@ class Interpreter(object):
         else:
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
         
     def evalAmbi2Op(self, sexp, env):
         uop =  sexp.spine[0]
@@ -489,7 +497,7 @@ class Interpreter(object):
         else:
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
 
     def evalIf(self, sexp, env):
         testexp = sexp.spine[1]
@@ -532,7 +540,7 @@ class Interpreter(object):
         else:
             fmsg = 'Unrecognized n-ary operation {1}: {0}'
             emsg = fmsg.format(op, sexp.location)
-            raise Exception(emsg)
+            raise PLambdaException(emsg)
 
     def evalConcat(self, sexp, env):
         args = sexp.spine[1:]

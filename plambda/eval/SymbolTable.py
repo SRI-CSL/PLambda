@@ -33,6 +33,7 @@ class SymbolTable(object):
         intern('invoke'):        intern('invoke'),
         intern('isnone'):        intern('isnone'),
         intern('isobject'):      intern('isobject'),
+        intern('kwapply'):       intern('kwapply'),
         intern('lambda'):        intern('lambda'),
         intern('>='):            intern('>='),
         intern('let'):           intern('let'),
@@ -96,6 +97,7 @@ class SymbolTable(object):
     INVOKE      = intern('invoke')
     ISNONE      = intern('isnone')
     ISOBJECT    = intern('isobject')
+    KWAPPLY     = intern('kwapply')
     LAMBDA      = intern('lambda')
     LEQ         = intern('>=')
     LET         = intern('let')

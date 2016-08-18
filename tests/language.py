@@ -172,8 +172,15 @@ class plambdaTest(PLambdaTest):
         self.plambdaStringEqualTest('(define I (lambda (x) x))', 'I')
         self.plambdaEqualTest('(is (apply I I) I)', True)
         self.plambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
-        
-        
+
+
+    def test_J(self):
+        self.plambdaEqualTest('(import "plambda.util.kwargs")', True)
+        self.plambdaStringEqualTest('(define kwargs plambda.util.kwargs.kwargs)', 'kwargs')
+        self.plambdaStringEqualTest('(define l0 (mklist (int 1) (int 2) (int 3)))', 'l0')
+        self.plambdaStringEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
+        self.plambdaEqualTest('(kwapply kwargs l0 d0)', '(1, 2, 3) {one: 1, three: 3, two: 2}')
+
         
 if __name__ == "__main__":
     unittest.main()
