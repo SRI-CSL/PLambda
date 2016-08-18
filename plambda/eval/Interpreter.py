@@ -407,7 +407,7 @@ class Interpreter(object):
     def evalGet(self, sexp, val0, val1):
         if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
             return val0[val1]
-        elif isinstance(val0, dict) and isString(val1):
+        elif isinstance(val0, dict):
             return val0.get(val1)
         else:
             fmsg = 'Bad args to \"get\": {0} {1}'
@@ -460,6 +460,20 @@ class Interpreter(object):
             if not isinstance(val2, dict):
                 raise PLambdaException('kwapply {0}: 3rd argument not a dict'.format(str(sexp.location)))
             return  val0(*val1, **val2)
+        elif op is SymbolTable.MODIFY:
+            #be brave until we need to back down...
+            if isinstance(val0, dict):
+                val0[val1] = val2 
+            #probably need to be able to modify strings as well ...
+            elif isinstance(val0, list):
+                l0 = len(val0)
+                if isinstance(val1, int) and -l0 < val1 and val1 < l0:
+                    val0[val1] = val2
+                else:
+                    raise PLambdaException('modify {0}: bad index to modify of list'.format(str(sexp.location)))
+            else:
+                raise PLambdaException('modify {0}: unhandled case'.format(str(sexp.location)))
+            return None
         else:
             fmsg = 'Unrecognized ternary operation: {0}'
             emsg = fmsg.format(op)

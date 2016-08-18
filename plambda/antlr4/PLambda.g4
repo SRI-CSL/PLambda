@@ -82,7 +82,8 @@ BINARY_OP :  '+'           |
 	     SETUID
 	     ;
 	     
-TERNARY_OP : KWAPPLY    |
+TERNARY_OP : KWAPPLY   |
+	     MODIFY    |
 	     UPDATE    |
              SUPDATE   |
              SETATTR
@@ -179,6 +180,8 @@ SETUID:       [Ss][Ee][Tt][Uu][Ii][Dd]                  ;
 /* ternary operators */
 
 KWAPPLY:      [Kk][Ww][Aa][Pp][Pp][Ll][Yy]              ;
+
+MODIFY:       [Mm][Oo][Dd][Ii][Ff][Yy]                  ;
 
 UPDATE:       [Uu][Pp][Dd][Aa][Tt][Ee]                  ;
 

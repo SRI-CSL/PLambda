@@ -45,6 +45,7 @@ class SymbolTable(object):
         intern('mktuple'):       intern('mktuple'),
         intern('mklist'):        intern('mklist'),
         intern('mkdict'):        intern('mkdict'),
+        intern('modify'):        intern('modify'),
         intern('%'):             intern('%'),
         intern('narrow'):        intern('narrow'),
         intern('!='):            intern('!='),
@@ -110,6 +111,7 @@ class SymbolTable(object):
     MKLIST      = intern('mklist')
     MKDICT      = intern('mkdict')
     MODULO      = intern('%')
+    MODIFY      = intern('modify')
     NARROW      = intern('narrow')
     NEQ         = intern('!=')
     NOT         = intern('not')

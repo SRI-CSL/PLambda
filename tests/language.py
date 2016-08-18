@@ -181,6 +181,15 @@ class plambdaTest(PLambdaTest):
         self.plambdaStringEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
         self.plambdaEqualTest('(kwapply kwargs l0 d0)', '(1, 2, 3) {one: 1, three: 3, two: 2}')
 
+    def test_K(self):
+        self.plambdaEqualTest('(import "plambda.util.kwargs")', True)
+        self.plambdaStringEqualTest('(define l0 (mklist (int 1) (int 2) (int 3)))', 'l0')
+        self.plambdaStringEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
+        self.plambdaEqualTest('(modify l0 (int 0) "T")', None)
+        self.plambdaStringEqualTest('(get l0 (int 0))', "T")
+        self.plambdaEqualTest('(modify d0 "two" "T")', None)
+        self.plambdaStringEqualTest('(get d0 "two")', "T")
+
         
 if __name__ == "__main__":
     unittest.main()

@@ -12,8 +12,11 @@ Version history:
 
 1.0.2   8/18/2016  kwapply added.
 
+1.0.3   8/18/2016  modify added.
+
+
 
 """
 
-plambda_version='1.0.2'
+plambda_version='1.0.3'
 
