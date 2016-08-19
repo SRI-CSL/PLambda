@@ -438,7 +438,31 @@ class Interpreter(object):
                 self.object2uid[val0] = val1
                 self.uid2object[val1] = val0
                 return True
-                                   
+
+    def evalKWApply(self, val0, val1, val2, loc):
+        if not callable(val0):
+            raise PLambdaException('kwapply {0}: 1st argument not callable'.format(str(loc)))
+        if not isinstance(val1, list):
+            raise PLambdaException('kwapply {0}: 2nd argument not a list'.format(str(loc)))
+        if not isinstance(val2, dict):
+            raise PLambdaException('kwapply {0}: 3rd argument not a dict'.format(str(loc)))
+        return  val0(*val1, **val2)
+
+
+    def evalModify(self, val0, val1, val2, loc):
+        #be brave until we need to back down...
+        if isinstance(val0, dict):
+            val0[val1] = val2 
+        elif isinstance(val0, list):
+            l0 = len(val0)
+            if isinstance(val1, int) and -l0 < val1 and val1 < l0:
+                val0[val1] = val2
+            else:
+                raise PLambdaException('modify {0}: bad index to modify of list'.format(str(sexp.location)))
+        else:
+            raise PLambdaException('modify {0}: unhandled case'.format(str(sexp.location)))
+        return None
+  
 
     def evalTernaryOp(self, sexp, env):
         (uop, arg0, arg1, arg2) =  sexp.spine
@@ -453,27 +477,9 @@ class Interpreter(object):
             setattr(val0, val1, val2)
             return  None
         elif op is SymbolTable.KWAPPLY:
-            if not callable(val0):
-                raise PLambdaException('kwapply {0}: 1st argument not callable'.format(str(sexp.location)))
-            if not isinstance(val1, list):
-                raise PLambdaException('kwapply {0}: 2nd argument not a list'.format(str(sexp.location)))
-            if not isinstance(val2, dict):
-                raise PLambdaException('kwapply {0}: 3rd argument not a dict'.format(str(sexp.location)))
-            return  val0(*val1, **val2)
+            return self.evalKWApply(val0, val1, val2, sexp.location)
         elif op is SymbolTable.MODIFY:
-            #be brave until we need to back down...
-            if isinstance(val0, dict):
-                val0[val1] = val2 
-            #probably need to be able to modify strings as well ...
-            elif isinstance(val0, list):
-                l0 = len(val0)
-                if isinstance(val1, int) and -l0 < val1 and val1 < l0:
-                    val0[val1] = val2
-                else:
-                    raise PLambdaException('modify {0}: bad index to modify of list'.format(str(sexp.location)))
-            else:
-                raise PLambdaException('modify {0}: unhandled case'.format(str(sexp.location)))
-            return None
+            return self.evalModify(val0, val1, val2, sexp.location)
         else:
             fmsg = 'Unrecognized ternary operation: {0}'
             emsg = fmsg.format(op)
