@@ -127,10 +127,6 @@ SINVOKE:      [Ss][Ii][Nn][Vv][Oo][Kk][Ee]              ;
 
 FOR:          [Ff][Oo][Rr]                              ;
 
-ARRAY:        [Aa][Rr][Rr][Aa][Yy]                      ;
-
-MKARRAY:      [Mm][Kk][Aa][Rr][Rr][Aa][Yy]              ;
-
 TRY:          [Tt][Rr][Yy]                              ;
 
 CATCH:        [Cc][Aa][Tt][Cc][Hh]                      ;

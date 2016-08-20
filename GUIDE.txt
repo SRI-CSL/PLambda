@@ -1,5 +1,9 @@
 [[Construction Zone: please feel free to add questions]]
 
+List of builts that you can apply:
+
+https://docs.python.org/2/library/functions.html
+
 The main differences between Java and Python from the perspective
 of PLambda/JLambda are:
 
@@ -33,3 +37,34 @@ mklist, and mkdict.
 
 I ditched '=' for 'is' since 'is' is much more pythonesque and I could never
 remember which of '=' and '==' was 'eq' not 'equal'.
+
+need:
+
+islist isdict  or instanceof?
+
+
+lessons:
+
+
+(define f (arg)  (invoke arg "extend" arg)  arg)
+
+primitive data: tuple list dict:
+
+mklist mktuple mkdict
+
+(define d1 (mkdict (int 0) "a" (int 1) "b" (int 2) "c"))
+
+(define l0 (mklist (int 1) (int 2) (int 3)))
+
+(get l0 (int 2))
+
+(get d1 (int 2))
+
+
+(modify l0 (int 2) (int 9))
+(moding d1 (int 2) (int 9))
+
+(apply isinstance l0 list)
+(apply isinstance d1 dict)
+
+
