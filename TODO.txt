@@ -21,3 +21,15 @@ added KWAPPLY
 4.[X] Literals like:  {}  [] ?   mktuple ?
 
 mktuple mklist mkdict get
+
+
+5. Destructive updates to dicts and lists.
+
+added MODIFY
+
+6. Single quotes as string delimiters...
+
+
+7. What is wrong with:
+
+"\\" ?

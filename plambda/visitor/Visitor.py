@@ -246,12 +246,18 @@ def deslashify(string):
     """
     sb = StringBuffer()
     slash = False
+    lstr = len(string)
+    i = 0;
     for c in string:
+        i += 1 
         if slash:
             slash = False
             if c == 'n':
                 sb.append("\n")
             elif c == '"':
+                #cannot end with a dangling slash
+                if i == lstr:
+                    raise ParseError('Illegal escape character in String: {0}'.format(c))
                 sb.append('"')
             elif c == 't':
                 sb.append("\t")
@@ -259,12 +265,15 @@ def deslashify(string):
                 sb.append("\f")
             elif c == 'b':
                 sb.append("\b")
+            elif c == '\\':
+                sb.append("\\")
             else:
-                raise ParseError('Illegal escape character in String: \{0}'.format(c))
+                raise ParseError('Illegal escape character in String: {0}'.format(c))
         elif c != '\\':
             sb.append(c)
-            slash = False
+            assert(slash == False)
         else:
             slash = True
             continue
+
     return str(sb)
