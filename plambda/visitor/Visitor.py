@@ -253,20 +253,20 @@ def deslashify(string):
         if slash:
             slash = False
             if c == 'n':
-                sb.append("\n")
+                sb.append('\n')
             elif c == '"':
                 #cannot end with a dangling slash
                 if i == lstr:
                     raise ParseError('Illegal dangling \\ in String')
                 sb.append('"')
             elif c == 't':
-                sb.append("\t")
+                sb.append('\t')
             elif c == 'f':
-                sb.append("\f")
+                sb.append('\f')
             elif c == 'b':
-                sb.append("\b")
+                sb.append('\b')
             elif c == '\\':
-                sb.append("\\")
+                sb.append('\\')
             else:
                 raise ParseError('Illegal escape character in String: {0}'.format(c))
         elif c != '\\':
