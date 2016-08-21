@@ -653,7 +653,6 @@ class Interpreter(object):
         elif op is SymbolTable.ISNONE:
             return val is None
         elif op is SymbolTable.ISOBJECT:
-            #return inspect.isobject(val)
             return inspect.isclass(type(val)) and not type(val) == type
         elif op is SymbolTable.THROW:
             raise v
