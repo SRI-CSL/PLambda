@@ -18,7 +18,7 @@ class Visitor(PLambdaVisitor):
             retval.append(self.visit(exp))
         return retval
 
-    # Visit a parse tree produced by PLambdaParser#stringDqLiteral.
+    # Visit a parse tree produced by PLambdaParser#stringLiteral.
     def visitStringLiteral(self, ctx):
         t = ctx.STRING().getSymbol()
         location = Location(self.filename, t.line)
