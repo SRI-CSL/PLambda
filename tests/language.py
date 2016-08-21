@@ -190,6 +190,27 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(modify d0 "two" "T")', None)
         self.plambdaStringEqualTest('(get d0 "two")', "T")
 
+    def test_L(self):
+        self.plambdaEqualTest('(isnone None)', True)
+        self.plambdaEqualTest('(isnone "str")', False)
+        self.plambdaEqualTest('(isobject "str")', True)
+        self.plambdaEqualTest('(isobject None)', False)
+        self.plambdaEqualTest('(isobject (int 4))', True)
+        self.plambdaEqualTest('(isint (int 4))', True)
+        self.plambdaEqualTest('(isint (float 4))', False)
+        self.plambdaEqualTest('(isfloat (int 4))', False)
+        self.plambdaEqualTest('(isfloat (float 4))', True)
+
+
+    def test_M(self):
+        # hard to read but ...
+        self.plambdaStringEqualTest('"23"', "23")
+        self.plambdaStringEqualTest("'23'", "23")
+        self.plambdaStringEqualTest("'\"'", '"')     # the backslash is for python not plambda
+        self.plambdaStringEqualTest('"\'"', "'")     # the backslash is for python not plambda
+        self.plambdaStringEqualTest('"\\\\"', "\\")  # the backslash is for python not plambda
+        self.plambdaStringEqualTest("'\\\\'", "\\")  # the backslash is for python not plambda
+
         
 if __name__ == "__main__":
     unittest.main()

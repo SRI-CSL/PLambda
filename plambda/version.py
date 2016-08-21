@@ -14,9 +14,11 @@ Version history:
 
 1.0.3   8/18/2016  modify added.
 
+1.0.4   8/21/2016  single quote strings added. isint isfloat added. isobject just (not (isnone))
+
 
 
 """
 
-plambda_version='1.0.3'
+plambda_version='1.0.4'
 

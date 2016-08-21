@@ -652,8 +652,12 @@ class Interpreter(object):
             return self.importmod(val)
         elif op is SymbolTable.ISNONE:
             return val is None
+        elif op is SymbolTable.ISINT:
+            return isinstance(val, int)
+        elif op is SymbolTable.ISFLOAT:
+            return isinstance(val, float)
         elif op is SymbolTable.ISOBJECT:
-            return inspect.isclass(type(val)) and not type(val) == type
+            return val is not None
         elif op is SymbolTable.THROW:
             raise v
         elif op is SymbolTable.FETCH:
@@ -692,3 +696,4 @@ class Interpreter(object):
 
 
             
+

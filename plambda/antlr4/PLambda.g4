@@ -60,6 +60,8 @@ UNARY_OP :   LOAD       |
              IMPORT     |
              ISNONE     |
              ISOBJECT   |
+             ISINT      |
+             ISFLOAT    |
 	     THROW      |
 	     FETCH      |
 	     GETUID     |
@@ -147,6 +149,10 @@ IMPORT:       [Ii][Mm][Pp][Oo][Rr][Tt]                  ;
 ISNONE:       [Ii][Ss][Nn][Oo][Nn][Ee]                  ;
 
 ISOBJECT:     [Ii][Ss][Oo][Bb][Jj][Ee][Cc][Tt]          ;
+
+ISINT:        [Ii][Ss][Ii][Nn][Tt]                      ;
+
+ISFLOAT:      [Ii][Ss][Ff][Ll][Oo][Aa][Tt]              ;
 
 GETUID:       [Gg][Ee][Tt][Uu][Ii][Dd]                  ;
  

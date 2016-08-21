@@ -32,6 +32,8 @@ class SymbolTable(object):
         intern('int'):           intern('int'),
         intern('invoke'):        intern('invoke'),
         intern('isnone'):        intern('isnone'),
+        intern('isfloat'):       intern('isfloat'),
+        intern('isint'):         intern('isint'),
         intern('isobject'):      intern('isobject'),
         intern('kwapply'):       intern('kwapply'),
         intern('lambda'):        intern('lambda'),
@@ -97,6 +99,8 @@ class SymbolTable(object):
     INT         = intern('int')
     INVOKE      = intern('invoke')
     ISNONE      = intern('isnone')
+    ISFLOAT     = intern('isfloat')
+    ISINT       = intern('isint')
     ISOBJECT    = intern('isobject')
     KWAPPLY     = intern('kwapply')
     LAMBDA      = intern('lambda')
