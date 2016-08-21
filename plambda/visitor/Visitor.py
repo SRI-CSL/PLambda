@@ -257,7 +257,7 @@ def deslashify(string):
             elif c == '"':
                 #cannot end with a dangling slash
                 if i == lstr:
-                    raise ParseError('Illegal escape character in String: {0}'.format(c))
+                    raise ParseError('Illegal dangling \\ in String')
                 sb.append('"')
             elif c == 't':
                 sb.append("\t")
