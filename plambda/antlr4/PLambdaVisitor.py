@@ -140,11 +140,6 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#string.
-    def visitString(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PLambdaParser#token.
     def visitToken(self, ctx):
         return self.visitChildren(ctx)

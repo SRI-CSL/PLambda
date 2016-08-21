@@ -247,15 +247,6 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#string.
-    def enterString(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#string.
-    def exitString(self, ctx):
-        pass
-
-
     # Enter a parse tree produced by PLambdaParser#token.
     def enterToken(self, ctx):
         pass

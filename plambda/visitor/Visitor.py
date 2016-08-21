@@ -18,7 +18,7 @@ class Visitor(PLambdaVisitor):
             retval.append(self.visit(exp))
         return retval
 
-    # Visit a parse tree produced by PLambdaParser#stringLiteral.
+    # Visit a parse tree produced by PLambdaParser#stringDqLiteral.
     def visitStringLiteral(self, ctx):
         t = ctx.STRING().getSymbol()
         location = Location(self.filename, t.line)
@@ -208,16 +208,6 @@ class Visitor(PLambdaVisitor):
             data = ctx.CHARACTER()
         return Atom(data.getSymbol().text, Location(self.filename, data.getSymbol().line))
 
-    # Visit a parse tree produced by PLambdaParser#string.
-    def visitString(self, ctx):
-        data = None
-        if ctx.ID() != None:
-            data = ctx.ID()
-        else:
-            data = ctx.NUMBER()
-        return Atom(data.getSymbol().text, Location(self.filename, data.getSymbol().line))
-
-
     
     # Visit a parse tree produced by PLambdaParser#quoteExpression.
     def visitQuoteExpression(self, ctx):
@@ -240,25 +230,30 @@ class Visitor(PLambdaVisitor):
         return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression()); 
 
 
-
 def deslashify(string):
+    return deslashify_aux(string[0], string)
+    
+
+def deslashify_aux(dl, string):
     """Interprets the slashes in a raw string.
     """
     sb = StringBuffer()
     slash = False
     lstr = len(string)
     i = 0;
+    #we'll need to be more careful if we are going to allow 'strings like this'
+    assert(string[0] == dl and string[-1] == dl)
     for c in string:
         i += 1 
         if slash:
             slash = False
             if c == 'n':
                 sb.append('\n')
-            elif c == '"':
+            elif c == dl:
                 #cannot end with a dangling slash
                 if i == lstr:
                     raise ParseError('Illegal dangling \\ in String')
-                sb.append('"')
+                sb.append(dl)
             elif c == 't':
                 sb.append('\t')
             elif c == 'f':

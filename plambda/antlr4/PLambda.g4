@@ -19,7 +19,7 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' N_ARY_OP expression* ')'                                                # naryExpression       
           |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
-          |  '(' QUOTE  string ')'                                                       # quoteExpression
+          |  '(' QUOTE  data  ')'                                                        # quoteExpression
           |  STRING                                                                      # stringLiteral      
           |  ID                                                                          # identifierLiteral
           |  NONE                                                                        # noneLiteral
@@ -38,18 +38,17 @@ catchExpression:  '(' CATCH  parameter expression+  ')' ;
 rangeExpression: expression ;
 
 data: ID     |     
-      NUMBER | 
-      CHARACTER
-      ;     
-
-string: ID     |     
       NUMBER   
       ;  
-
 
 token : ID        |
         STRING
     ;
+
+STRING :
+       STRING_DQ |
+       STRING_SQ
+       ;
 
 PRIMITIVE_DATA_OP:  
                     INT      |
@@ -210,8 +209,6 @@ IF:           [Ii][Ff]                                  ;
 
 GETATTR:      [Gg][Ee][Tt][Aa][Tt][Tt][Rr]              ;
 
-CHARACTER : '\'' (. | '\\' ID ) '\'';
-
 ID  :   (SYMBOL | LETTER | DIGIT) (LETTER | DIGIT | SYMBOL)*;
 
 NUMBER      :   '-'? ('.' DIGIT+ | DIGIT+ ('.' DIGIT*)? ) ;
@@ -219,9 +216,15 @@ NUMBER      :   '-'? ('.' DIGIT+ | DIGIT+ ('.' DIGIT*)? ) ;
 fragment
 DIGIT       :   [0-9] ;
 
-STRING      :   '"' (ESCAPE|.)*? '"' ;
+/* need to define Single Quoted String: STRING_SQ and Double Quoted String: STRING_DQ */
+STRING_SQ   :   '\'' (ESCAPE_SQ|.)*? '\'' ;
 fragment 
-ESCAPE      :   '\\"' | '\\\\'  ;
+ESCAPE_SQ   :   '\\\'' | '\\\\'  ;
+
+STRING_DQ      :   '"' (ESCAPE_DQ|.)*? '"' ;
+fragment 
+ESCAPE_DQ      :   '\\"' | '\\\\'  ;
+
 
 
 fragment
