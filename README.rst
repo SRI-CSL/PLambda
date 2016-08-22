@@ -50,8 +50,8 @@ Checkout the repository and do:
 Install
 -------
 
-There is a pip package, but that will move along much slower than developing
-from the repository.
+There is a pip package, but that will move along at a lazier pace than developing directly from 
+the repository.
 
 |
 | ``pip install plambda``
