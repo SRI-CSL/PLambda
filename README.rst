@@ -82,12 +82,14 @@ Recipe to add an operator
 -------------------------
 
 
-1. Add it to the grammar `PLambda.g4`
+1. Add it to the grammar ``plambda.antlr4.PLambda.g4``
 
 2. Process the grammar with ``make antlr4``
 
-3. Add the operator to the `SymbolTable`
+3. Add the operator to the ``plambda.eval.SymbolTable``
 
-4. Add the operator to the `Interpreter`
+4. Add the operator to the ``plambda.eval.Interpreter``
+
+5. Add some tests to ``tests/language.py``   
 
 
