@@ -25,6 +25,7 @@ class SymbolTable(object):
         intern('get'):           intern('get'),
         intern('getattr'):       intern('getattr'),
         intern('getuid'):        intern('getuid'),
+        intern('global'):        intern('global'),
         intern('<'):             intern('<'),
         intern('if'):            intern('if'),
         intern('import'):        intern('import'),
@@ -92,6 +93,7 @@ class SymbolTable(object):
     GET         = intern('get')
     GETATTR     = intern('getattr')
     GETUID      = intern('getuid')
+    GLOBAL      = intern('global')
     GT          = intern('<')
     IF          = intern('if')
     IMPORT      = intern('import')

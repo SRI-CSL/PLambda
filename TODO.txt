@@ -23,13 +23,23 @@ added KWAPPLY
 mktuple mklist mkdict get
 
 
-5. Destructive updates to dicts and lists.
+5.[X] Destructive updates to dicts and lists.
 
 added MODIFY
 
-6. Single quotes as string delimiters...
+6.[X] Single quotes as string delimiters...
 
 
-7. What is wrong with:
+7.[X] What is wrong with:
 
 "\\" ?
+
+
+8.[X]   General solution to PLambda Python name clashes.
+
+global(x)
+
+
+9.  getattr setattr vs lookup and update.
+
+moving back to lookup and update would reduce the number of clashes.

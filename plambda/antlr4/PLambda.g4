@@ -56,16 +56,17 @@ PRIMITIVE_DATA_OP:
 		    BOOLEAN
                     ;
        
-UNARY_OP :   LOAD       |
+UNARY_OP :   FETCH      |
+	     GETUID     |
+             GLOBAL     |
              IMPORT     |
              ISNONE     |
              ISOBJECT   |
              ISINT      |
              ISFLOAT    |
-	     THROW      |
-	     FETCH      |
-	     GETUID     |
-             NOT        
+	     LOAD       |
+	     NOT        |
+	     THROW
              ;
 
 BINARY_OP :  '+'           |
@@ -155,6 +156,8 @@ ISINT:        [Ii][Ss][Ii][Nn][Tt]                      ;
 ISFLOAT:      [Ii][Ss][Ff][Ll][Oo][Aa][Tt]              ;
 
 GETUID:       [Gg][Ee][Tt][Uu][Ii][Dd]                  ;
+ 
+GLOBAL:       [Gg][Ll][Oo][Bb][Aa][Ll]                  ;
  
 QUOTE:        [Qq][Uu][Oo][Tt][Ee]                      ;
 

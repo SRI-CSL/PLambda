@@ -27,6 +27,8 @@ from Environment import Environment
 
 from Closure import Closure
 
+from Globals import pythonGlobals
+
 from plambda.visitor.Parser import parseFromFile, parseFromString
 
 
@@ -36,8 +38,6 @@ Current bugs:
 Things to add:
 
 patch the builtin problem as much as possible
-
-named arguments need to be addressed at some point
 
 """
 
@@ -637,6 +637,9 @@ class Interpreter(object):
             print(ie)
             return False
 
+
+    def evalGlobal(self, val, loc):
+        return pythonGlobals.get(val, None)
     
     def evalUnaryOp(self, sexp, env):
         (uop, arg) =  sexp.spine
@@ -658,6 +661,8 @@ class Interpreter(object):
             return isinstance(val, float)
         elif op is SymbolTable.ISOBJECT:
             return val is not None
+        elif op is SymbolTable.GLOBAL:
+            return self.evalGlobal(val, sexp.location)
         elif op is SymbolTable.THROW:
             raise v
         elif op is SymbolTable.FETCH:

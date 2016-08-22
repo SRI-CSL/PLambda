@@ -15,7 +15,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"C\u00d5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
+        buf.write(u"D\u00d5\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
         buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3\2\6\2\30\n\2\r")
         buf.write(u"\2\16\2\31\3\3\3\3\3\3\6\3\37\n\3\r\3\16\3 \3\3\3\3\3")
         buf.write(u"\3\3\3\3\3\3\3\6\3)\n\3\r\3\16\3*\3\3\3\3\3\3\3\3\3\3")
@@ -34,7 +34,7 @@ def serializedATN():
         buf.write(u"\3\6\6\6\u00ba\n\6\r\6\16\6\u00bb\3\6\3\6\3\7\3\7\3\7")
         buf.write(u"\3\7\3\7\3\b\3\b\3\b\3\b\6\b\u00c9\n\b\r\b\16\b\u00ca")
         buf.write(u"\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\2\2\f\2\4\6\b")
-        buf.write(u"\n\f\16\20\22\24\2\4\3\2;<\4\2\5\5;;\u00ec\2\27\3\2\2")
+        buf.write(u"\n\f\16\20\22\24\2\4\3\2<=\4\2\5\5<<\u00ec\2\27\3\2\2")
         buf.write(u"\2\4\u00aa\3\2\2\2\6\u00ac\3\2\2\2\b\u00b5\3\2\2\2\n")
         buf.write(u"\u00b7\3\2\2\2\f\u00bf\3\2\2\2\16\u00c4\3\2\2\2\20\u00ce")
         buf.write(u"\3\2\2\2\22\u00d0\3\2\2\2\24\u00d2\3\2\2\2\26\30\5\4")
@@ -44,7 +44,7 @@ def serializedATN():
         buf.write(u"\2\2\2!\"\3\2\2\2\"#\7\4\2\2#\u00ab\3\2\2\2$%\7\3\2\2")
         buf.write(u"%&\7\20\2\2&(\5\n\6\2\')\5\4\3\2(\'\3\2\2\2)*\3\2\2\2")
         buf.write(u"*(\3\2\2\2*+\3\2\2\2+,\3\2\2\2,-\7\4\2\2-\u00ab\3\2\2")
-        buf.write(u"\2./\7\3\2\2/\60\7\21\2\2\60\62\7;\2\2\61\63\5\6\4\2")
+        buf.write(u"\2./\7\3\2\2/\60\7\21\2\2\60\62\7<\2\2\61\63\5\6\4\2")
         buf.write(u"\62\61\3\2\2\2\62\63\3\2\2\2\63\65\3\2\2\2\64\66\5\4")
         buf.write(u"\3\2\65\64\3\2\2\2\66\67\3\2\2\2\67\65\3\2\2\2\678\3")
         buf.write(u"\2\2\289\3\2\2\29:\7\4\2\2:\u00ab\3\2\2\2;<\7\3\2\2<")
@@ -73,13 +73,13 @@ def serializedATN():
         buf.write(u"\u0092\3\2\2\2\u0092\u0090\3\2\2\2\u0092\u0093\3\2\2")
         buf.write(u"\2\u0093\u0094\3\2\2\2\u0094\u0095\5\16\b\2\u0095\u0096")
         buf.write(u"\7\4\2\2\u0096\u00ab\3\2\2\2\u0097\u0098\7\3\2\2\u0098")
-        buf.write(u"\u0099\7\26\2\2\u0099\u009a\7;\2\2\u009a\u009c\5\20\t")
+        buf.write(u"\u0099\7\26\2\2\u0099\u009a\7<\2\2\u009a\u009c\5\20\t")
         buf.write(u"\2\u009b\u009d\5\4\3\2\u009c\u009b\3\2\2\2\u009d\u009e")
         buf.write(u"\3\2\2\2\u009e\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f")
         buf.write(u"\u00a0\3\2\2\2\u00a0\u00a1\7\4\2\2\u00a1\u00ab\3\2\2")
-        buf.write(u"\2\u00a2\u00a3\7\3\2\2\u00a3\u00a4\7#\2\2\u00a4\u00a5")
+        buf.write(u"\2\u00a2\u00a3\7\3\2\2\u00a3\u00a4\7$\2\2\u00a4\u00a5")
         buf.write(u"\5\22\n\2\u00a5\u00a6\7\4\2\2\u00a6\u00ab\3\2\2\2\u00a7")
-        buf.write(u"\u00ab\7\5\2\2\u00a8\u00ab\7;\2\2\u00a9\u00ab\7\r\2\2")
+        buf.write(u"\u00ab\7\5\2\2\u00a8\u00ab\7<\2\2\u00a9\u00ab\7\r\2\2")
         buf.write(u"\u00aa\33\3\2\2\2\u00aa$\3\2\2\2\u00aa.\3\2\2\2\u00aa")
         buf.write(u";\3\2\2\2\u00aaE\3\2\2\2\u00aaQ\3\2\2\2\u00aa\\\3\2\2")
         buf.write(u"\2\u00aaa\3\2\2\2\u00aaf\3\2\2\2\u00aal\3\2\2\2\u00aa")
@@ -90,7 +90,7 @@ def serializedATN():
         buf.write(u"\b\5\2\u00ae\u00ad\3\2\2\2\u00af\u00b2\3\2\2\2\u00b0")
         buf.write(u"\u00ae\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1\u00b3\3\2\2")
         buf.write(u"\2\u00b2\u00b0\3\2\2\2\u00b3\u00b4\7\4\2\2\u00b4\7\3")
-        buf.write(u"\2\2\2\u00b5\u00b6\7;\2\2\u00b6\t\3\2\2\2\u00b7\u00b9")
+        buf.write(u"\2\2\2\u00b5\u00b6\7<\2\2\u00b6\t\3\2\2\2\u00b7\u00b9")
         buf.write(u"\7\3\2\2\u00b8\u00ba\5\f\7\2\u00b9\u00b8\3\2\2\2\u00ba")
         buf.write(u"\u00bb\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2")
         buf.write(u"\2\u00bc\u00bd\3\2\2\2\u00bd\u00be\7\4\2\2\u00be\13\3")
@@ -130,7 +130,7 @@ class PLambdaParser ( Parser ):
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
                      u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"'-'" ]
+                     u"<INVALID>", u"<INVALID>", u"'-'" ]
 
     symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"STRING", 
                       u"PRIMITIVE_DATA_OP", u"UNARY_OP", u"BINARY_OP", u"TERNARY_OP", 
@@ -138,9 +138,9 @@ class PLambdaParser ( Parser ):
                       u"DO", u"LET", u"DEFINE", u"LAMBDA", u"APPLY", u"INVOKE", 
                       u"SINVOKE", u"FOR", u"TRY", u"CATCH", u"BOOLEAN", 
                       u"FLOAT", u"INT", u"LOAD", u"IMPORT", u"ISNONE", u"ISOBJECT", 
-                      u"ISINT", u"ISFLOAT", u"GETUID", u"QUOTE", u"NOT", 
-                      u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", u"GET", 
-                      u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"MODIFY", 
+                      u"ISINT", u"ISFLOAT", u"GETUID", u"GLOBAL", u"QUOTE", 
+                      u"NOT", u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", 
+                      u"GET", u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"MODIFY", 
                       u"UPDATE", u"SUPDATE", u"SETATTR", u"CONCAT", u"AND", 
                       u"OR", u"MKTUPLE", u"MKLIST", u"MKDICT", u"MINUS", 
                       u"IF", u"GETATTR", u"ID", u"NUMBER", u"STRING_SQ", 
@@ -195,39 +195,40 @@ class PLambdaParser ( Parser ):
     ISINT=30
     ISFLOAT=31
     GETUID=32
-    QUOTE=33
-    NOT=34
-    THROW=35
-    FETCH=36
-    NARROW=37
-    INSTANCEOF=38
-    GET=39
-    IS=40
-    LOOKUP=41
-    SETUID=42
-    KWAPPLY=43
-    MODIFY=44
-    UPDATE=45
-    SUPDATE=46
-    SETATTR=47
-    CONCAT=48
-    AND=49
-    OR=50
-    MKTUPLE=51
-    MKLIST=52
-    MKDICT=53
-    MINUS=54
-    IF=55
-    GETATTR=56
-    ID=57
-    NUMBER=58
-    STRING_SQ=59
-    STRING_DQ=60
-    SYMBOL=61
-    LINE_COMMENT=62
-    NEW_LINE_COMMENT=63
-    NEW_COMMENT=64
-    WHITE_SPACE=65
+    GLOBAL=33
+    QUOTE=34
+    NOT=35
+    THROW=36
+    FETCH=37
+    NARROW=38
+    INSTANCEOF=39
+    GET=40
+    IS=41
+    LOOKUP=42
+    SETUID=43
+    KWAPPLY=44
+    MODIFY=45
+    UPDATE=46
+    SUPDATE=47
+    SETATTR=48
+    CONCAT=49
+    AND=50
+    OR=51
+    MKTUPLE=52
+    MKLIST=53
+    MKDICT=54
+    MINUS=55
+    IF=56
+    GETATTR=57
+    ID=58
+    NUMBER=59
+    STRING_SQ=60
+    STRING_DQ=61
+    SYMBOL=62
+    LINE_COMMENT=63
+    NEW_LINE_COMMENT=64
+    NEW_COMMENT=65
+    WHITE_SPACE=66
 
     def __init__(self, input):
         super(PLambdaParser, self).__init__(input)

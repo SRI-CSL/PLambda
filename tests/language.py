@@ -9,6 +9,8 @@ import unittest
 
 from Testing import PLambdaTest
 
+from plambda.eval.Globals import pythonGlobals
+
 
 class plambdaTest(PLambdaTest):
     """Tests of the plambda language.
@@ -53,88 +55,15 @@ class plambdaTest(PLambdaTest):
     def test_D(self):
         """Checks the availability of builtin functions.
         We are currently just targeting 2.7. Useful to
-        see the edge cases. The commented out cases
-        are because of our antrl4 parser. The incantation at the
-        top of this file is for the 'print' one to work. 
+        see the edge cases. The clashes are because of our antrl4 parser. 
+        The incantation at the top of this file is for the 'print' one to work. 
         """
-        for key, value in {'abs'           : abs,
-                           'all'           : all,
-                           'any'           : any,
-                           'basestring'    : basestring,
-                           'bin'           : bin,
-                           'bool'          : bool,
-                           'bytearray'     : bytearray,
-                           'callable'      : callable,
-                           'chr'           : chr,
-                           'classmethod'   : classmethod,
-                           'cmp'           : cmp,
-                           'compile'       : compile,
-                           'complex'       : complex,
-                           'delattr'       : delattr,
-                           'dict'          : dict,
-                           'dir'           : dir,
-                           'divmod'        : divmod,
-                           'enumerate'     : enumerate,
-                           'eval'          : eval,
-                           'execfile'      : execfile,
-                           'file'          : file,
-                           'filter'        : filter,
-#                           'float'         : float,
-                           'format'        : format,
-                           'frozenset'     : frozenset,
-#                           'getattr'       : getattr,
-                           'globals'       : globals,
-                           'hasattr'       : hasattr,
-                           'hash'          : hash,
-                           'help'          : help,
-                           'hex'           : hex,
-                           'id'            : id,
-                           'input'         : input,
-#                           'int'           : int,
-                           'isinstance'    : isinstance,
-                           'issubclass'    : issubclass,
-                           'iter'          : iter,
-                           'len'           : len,
-                           'locals'        : locals,
-                           'long'          : long,
-                           'map'           : map,
-                           'max'           : max,
-                           'memoryview'    : memoryview,
-                           'min'           : min,
-                           'next'          : next,
-                           'object'       : object,
-                           'oct'           : oct,
-                           'open'          : open,
-                           'ord'           : ord,
-                           'pow'           : pow,
-                           'print'         : print,
-                           'property'      : property,
-                           'range'         : range,
-                           'raw_input'     : raw_input,
-                           'reduce'        : reduce,
-                           'reload'        : reload,
-                           'repr'          : repr,
-                           'reversed'      : reversed,
-                           'round'         : round,
-                           'set'           : set,
-#                           'setattr'        : setattr,
-                           'slice'         : slice,
-                           'sorted'        : sorted,
-                           'staticmethod'  : staticmethod,
-                           'str'           : str,
-                           'sum'           : sum,
-                           'super'         : super,
-                           'tuple'         : tuple,
-                           'type'          : type,
-                           'unichr'        : unichr,
-                           'unicode'       : unicode,
-                           'vars'          : vars,
-                           'xrange'        : xrange,
-                           'zip'           : zip,
-                           '__import__'    : __import__,
-        }.iteritems():
-            self.plambdaEqualTest(key, value)
-
+        for key, value in pythonGlobals.iteritems():
+            # clashes
+            if key not in ('getattr', 'float', 'int', 'setattr'):
+                self.plambdaEqualTest(key, value)
+            # the global construct allows you to sidestep the clashes
+            self.plambdaEqualTest('(global "{0}")'.format(key), value)
 
     
 
