@@ -84,7 +84,7 @@ Recipe to add an operator
 
 1. Add it to the grammar `PLambda.g4`
 
-2. Process the grammar with `make antlr4`
+2. Process the grammar with ``make antlr4``
 
 3. Add the operator to the `SymbolTable`
 
