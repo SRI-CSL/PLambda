@@ -140,6 +140,11 @@ class plambdaTest(PLambdaTest):
         self.plambdaStringEqualTest('"\\\\"', "\\")  # the backslash is for python not plambda
         self.plambdaStringEqualTest("'\\\\'", "\\")  # the backslash is for python not plambda
 
+    def test_N(self):
+        # examples of how to circumnavigate name clashes
+        self.plambdaEqualTest("(apply isinstance (int 21) (global 'int'))", True)
+        self.plambdaEqualTest("(apply isinstance (float 21) (global 'float'))", True)
+
         
 if __name__ == "__main__":
     unittest.main()
