@@ -505,7 +505,7 @@ class Interpreter(object):
         op = uop.string
         if op is SymbolTable.IF:
             return self.evalIf(sexp, env)
-        elif op is SymbolTable.GETATTR:
+        elif op in (SymbolTable.GETATTR, SymbolTable.LOOKUP):
             if len(sexp.spine) == 3:
                 return getattr(self.eval(sexp.spine[1], env),
                                self.eval(sexp.spine[2], env))

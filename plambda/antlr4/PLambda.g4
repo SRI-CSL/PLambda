@@ -81,7 +81,8 @@ BINARY_OP :  '+'           |
              '=='          |
              '!='          |
 	     GET           |
-	     SETUID
+	     SETUID        |
+             LOOKUP  	     
 	     ;
 	     
 TERNARY_OP : KWAPPLY   |

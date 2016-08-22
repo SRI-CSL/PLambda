@@ -40,6 +40,8 @@ added MODIFY
 global(x)
 
 
-9.  getattr setattr vs lookup and update.
+9.  getattr setattr vs lookup and update. 
 
 moving back to lookup and update would reduce the number of clashes.
+
+still undecided here. currently LOOKUP, UPDATE and SUPDATE should work.
