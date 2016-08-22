@@ -14,14 +14,15 @@ languages. JLambda for controlling Java processes, and PLambda for
 python processes.  JLambda is over 14 years old, whereas PLambda
 is just a pup.
 
+Note that Python is not Java so there will be some differences, but
+hopefully the spirit will shine through. Both will be lexically scoped
+lisp like languages build upon the underlying data
+structures of the languages they rest upon.
+
 We'll start out building a recursive interpreter, then if it
 gets any major use, turn it into a continuation passing
 style interpreter.
 
-Note that python is not java so there will be some differences, but
-hopefully the spirit will shine through. Both will be lexically scoped
-lisp like languages build upon the underlying data
-structures of the languages they rest upon.
 
 
 Dependencies
