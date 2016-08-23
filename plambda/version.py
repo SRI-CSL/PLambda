@@ -16,9 +16,10 @@ Version history:
 
 1.0.4   8/21/2016  single quote strings added. isint isfloat added. isobject just (not (isnone))
 
+1.0.5   8/23/2016  The read-eval-print loop gets a makeover. handles multiline paste and prints definitions.
 
 
 """
 
-plambda_version='1.0.4'
+plambda_version='1.0.5'
 
