@@ -55,19 +55,19 @@ def rep(filename):
             try:
                 sys.stdout.write('> ')
                 sys.stdout.flush()
-                line = snarf(sys.stdin, 0.1) #sys.stdin.readline().strip()
+                line = snarf(sys.stdin, 0.1)
                 if line == 'q':
                     return 0
+                elif line == 'v':
+                    debug = not debug
                 elif line == '?':
                     sys.stdout.write(INSTRUCTIONS)
                 elif line == 'd':
                     interpreter.showDefinitions()
                 elif line == 'u':
                     interpreter.showUIDs()
-                elif line == 'v':
-                    debug = not debug
-                elif line in ('s', 'v'):
-                    print 'Coming soon(ish)'
+                elif line == 's':
+                    interpreter.showCode()
                 else:
                     if line:
                         if debug:
