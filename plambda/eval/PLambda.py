@@ -1,4 +1,4 @@
-import os, sys,  select, time, traceback, 
+import os, platform, sys,  select, time, traceback
 
 sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
@@ -16,22 +16,25 @@ def main():
 
 def snarf(fp, delay):
     """ read as much as possible without blocking. (won't work on windows) """
-    sb = StringBuffer()
-    count = 0
-    while True:
-        while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            line = sys.stdin.readline()
-            if line:
-                count += 1
-                sb.append(line)
-        else:
-            if sb.isempty():
-                time.sleep(delay)
+    if platform.system == 'Windows':
+        return sys.stdin.readline().strip()
+    else:
+        sb = StringBuffer()
+        count = 0
+        while True:
+            while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+                line = sys.stdin.readline()
+                if line:
+                    count += 1
+                    sb.append(line)
             else:
-                if count > 1:
-                    return str(sb)
+                if sb.isempty():
+                    time.sleep(delay)
                 else:
-                    return str(sb).strip()
+                    if count > 1:
+                        return str(sb)
+                    else:
+                        return str(sb).strip()
 
 
 
