@@ -29,6 +29,11 @@ def kwargs(*largs, **kwargs):
 (kwapply kwargs l0 d0)
 
 
+
+(let ((l0 (mklist (int 1) (int 2) (int 3)))
+      (d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3))))
+  (kwapply kwargs l0 d0))
+
 """
 
 

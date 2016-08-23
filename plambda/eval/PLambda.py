@@ -1,7 +1,8 @@
-import os, sys, traceback
+import os, sys,  select, time, traceback, 
+
 sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
-
+from plambda.util.StringBuffer import StringBuffer
 
 from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter  import Interpreter
@@ -12,24 +13,46 @@ def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)
     return 0
 
+
+def snarf(fp, delay):
+    """ read as much as possible without blocking. (won't work on windows) """
+    sb = StringBuffer()
+    count = 0
+    while True:
+        while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+            line = sys.stdin.readline()
+            if line:
+                count += 1
+                sb.append(line)
+        else:
+            if sb.isempty():
+                time.sleep(delay)
+            else:
+                if count > 1:
+                    return str(sb)
+                else:
+                    return str(sb).strip()
+
+
+
 def rep(filename):
     """The Read Eval Print loop for the plambda language.
     """
     interpreter = Interpreter()
 
     debug = False
-
     
     try:
 
         interpreter.load(filename)
         
         sys.stdout.write(WELCOME.format(plambda_version))
-        
+
         while True:
             try:
                 sys.stdout.write('> ')
-                line = sys.stdin.readline().strip()
+                sys.stdout.flush()
+                line = snarf(sys.stdin, 0.1) #sys.stdin.readline().strip()
                 if line == 'q':
                     return 0
                 elif line == '?':
