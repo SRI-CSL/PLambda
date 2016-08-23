@@ -1,6 +1,6 @@
 import os, platform, sys,  select, time, traceback
 
-sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
+#sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
 from plambda.util.StringBuffer import StringBuffer
 
