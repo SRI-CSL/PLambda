@@ -11,9 +11,6 @@
 
 (user (apply squark "This is a test, ..."))
 
-(user (load "input.lsp"))
-
-
 (user (apply evalOK "user"  (* (int 3) "6")))
 
 
@@ -25,5 +22,15 @@
 (user (apply evalOK  "user"  b0))
 
 (user (invoke b0 "mv" "E"))
+
+
+(user (apply evalOK "user" (import "plambda.actors.console")))
+
+(user (apply evalOK "user" (define Console plambda.actors.console.Console)))
+
+(user (apply evalOK  "user" (define c (apply Console))))
+
+(user (apply evalOK "user" (invoke c "mainloop")))
+
 
 

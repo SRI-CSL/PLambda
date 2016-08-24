@@ -8,6 +8,8 @@ from plambda.eval.Interpreter import Interpreter
 
 from plambda.visitor.Parser import parseFromString
 
+from plambda.actors.console import Console
+
 debug = False
 
 def infanticide(pid):
@@ -59,7 +61,7 @@ class Main(object):
         """The Read Eval Message Loop.
         """
         fails = 0
-            
+
         while True:
             incoming = receive()
             if incoming is None:
