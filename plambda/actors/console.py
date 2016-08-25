@@ -13,7 +13,7 @@ class InputTextArea(tk.Frame):
      def __init__(self, console):
          tk.Frame.__init__(self, borderwidth=1, relief="sunken")
          self.console = console
-         self.top = tk.Text(wrap="word", background="white", borderwidth=0, highlightthickness=0)
+         self.top = tk.Text(wrap=tk.NONE, background="white", borderwidth=0, highlightthickness=0)
          self.top_sb = tk.Scrollbar(orient="vertical", borderwidth=1, command=self.top.yview)
          self.top.configure(yscrollcommand=self.top_sb.set)
          self.top_sb.pack(in_=self, side="right", fill="y", expand=False)
@@ -35,7 +35,7 @@ class InputTextArea(tk.Frame):
                None
 
      def line(self):
-          return self.top.get("current linestart", "current lineend")
+          return self.top.get("insert linestart", "insert lineend")
 
      def buffer(self):
           return self.top.get(1.0, tk.END)
@@ -44,7 +44,7 @@ class InputTextArea(tk.Frame):
 class OutputTextArea(tk.Frame):
      def __init__(self):
          tk.Frame.__init__(self, borderwidth=1, relief="sunken")
-         self.top = tk.Text(wrap="word", background="white", borderwidth=0, highlightthickness=0, state=tk.DISABLED)
+         self.top = tk.Text(wrap=tk.NONE, background="white", borderwidth=0, highlightthickness=0, state=tk.DISABLED)
          self.top_sb = tk.Scrollbar(orient="vertical", borderwidth=1, command=self.top.yview)
          self.top.configure(yscrollcommand=self.top_sb.set)
          self.top_sb.pack(in_=self, side="right", fill="y", expand=False)
@@ -62,13 +62,35 @@ class OutputTextArea(tk.Frame):
 class FileMenu(tk.Menu):
      def __init__(self, console):
           tk.Menu.__init__(self, console.menubar, tearoff=0)
-          self.add_command(label="Open", command=console.tbi)
-          self.add_command(label="Reload", command=console.tbi)
-          self.add_command(label="Save", command=console.tbi)
-          self.add_command(label="Save As", command=console.tbi)
-          self.add_command(label="Search", command=console.tbi)
-          self.add_command(label="Quit", command=console.tbi)
+          self.add_command(label="Open", command=console.tbi, accelerator="Command-O")
+          self.add_command(label="Reload", command=console.tbi, accelerator="Command-R")
+          self.add_command(label="Save", command=console.tbi, accelerator="Command-S")
+          self.add_command(label="Save As", command=console.tbi, accelerator="Shift-Command-W")
+          self.add_command(label="Search", command=console.tbi, accelerator="Command-F")
+          self.add_command(label="Quit", command=console.tbi, accelerator="Command-W")
           console.menubar.add_cascade(label="File", menu=self)
+
+class EditMenu(tk.Menu):
+     def __init__(self, console):
+          tk.Menu.__init__(self, console.menubar, tearoff=0)
+          self.add_command(label="Cut", command=console.tbi, accelerator="Command-X")
+          self.add_command(label="Copy", command=console.tbi, accelerator="Command-C")
+          self.add_command(label="Paste", command=console.tbi, accelerator="Command-V")
+          console.menubar.add_cascade(label="Edit", menu=self)
+
+class EvaluateMenu(tk.Menu):
+     def __init__(self, console):
+          tk.Menu.__init__(self, console.menubar, tearoff=0)
+          self.add_command(label="Buffer",
+                           command=lambda : console.evaluate(console.top_frame.buffer(), None),
+                           accelerator="Command-B")
+          self.add_command(label="Selected",
+                           command=lambda : console.evaluate(console.top_frame.selected(), None),
+                           accelerator="Command-E")
+          self.add_command(label="Line",
+                           command=lambda : console.evaluate(console.top_frame.line(), None),
+                           accelerator="Command-L")
+          console.menubar.add_cascade(label="Evaluate", menu=self)
 
 
 class Console(tk.Tk):
@@ -104,6 +126,10 @@ class Console(tk.Tk):
 
         self.filemenu =  FileMenu(self)
 
+        self.editmenu =  EditMenu(self)
+
+        self.evaluatemenu =  EvaluateMenu(self)
+
         self.config(menu=self.menubar)
         
         self.console_frame.pack(side="bottom", fill="both", expand=True)
@@ -122,12 +148,12 @@ class Console(tk.Tk):
                          if c is not None:
                               value = self.interpreter.evaluate(c)
                               self.bottom_frame.append(str(value), "ok")
-                              self.bottom_frame.append('\n', "ok")
                except PLambdaException as e:
                     self.bottom_frame.append(str(e), "error")
                except Exception as e:
                     print 'PLambda.rep Exception: ', e
                     traceback.print_exc(file=sys.stderr)
+               self.bottom_frame.append('\n', "ok")
 
      def tbi(self):
           self.bottom_frame.append("To be implemented...\n", "error")
