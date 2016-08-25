@@ -1,4 +1,4 @@
-import os, sys, threading, signal, subprocess, psutil
+import os, sys, time, threading, signal, subprocess, psutil
 
 sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
 
@@ -43,6 +43,8 @@ class Main(object):
 
     retries = 1
 
+    launchConsole = False
+
     # a singleton instance
     myself = None
     
@@ -56,34 +58,56 @@ class Main(object):
             Main.myself = self
         else:
             raise Exception("plambda.actor.pyactor.Main should have a singleton instance!")
+
+
+
         
     def run(self):
-        """The Read Eval Message Loop.
+        """The main thread ever ready to launch the console.
         """
         fails = 0
 
+        self.oracle = threading.Thread(target=oracle, args=(self, ))
+        self.oracle.daemon = True
+        self.oracle.start()
+        
         while True:
-            incoming = receive()
-            if incoming is None:
-                fails += 1
-                if fails > Main.retries:
-                    return 0
-                else:
-                    continue
-            (sender, msg) = incoming
-            thread = threading.Thread(target=eval, args=(self.interpreter, msg))
-            #thread needs to be a daemon so that the actor itself can die in peace.
-            thread.daemon = True
-            thread.start()
+            time.sleep(1)
+            if Main.launchConsole:
+                Main.launchConsole = False
+                self.console = Console()
+                self.console.mainloop()
 
+                
         return 0
-
+    
 def notify(message):
     if debug:
         sys.stderr.write('{0}\n'.format(message))
         sys.stderr.flush()
 
-                
+
+def oracle(actor):
+    """The Read Eval Message Loop.
+    """
+    fails = 0
+
+    while True:
+        incoming = receive()
+        if incoming is None:
+            fails += 1
+            if fails > Main.retries:
+                return 0
+            else:
+                continue
+        (sender, msg) = incoming
+        thread = threading.Thread(target=eval, args=(actor.interpreter, msg))
+        #thread needs to be a daemon so that the actor itself can die in peace.
+        thread.daemon = True
+        thread.start()
+            
+
+        
 def eval(interpreter, message):
     """Evaluates the message in the given interpreter.
     """

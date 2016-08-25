@@ -20,6 +20,10 @@
   )
 
 
+(define console ()
+  (setattr plambda.actors.pyactor.Main "launchConsole" (boolean True))
+  )
+
 ;; should be able to do thing like:
 ;;
 ;; (import "plambda.actors.pyactor")
