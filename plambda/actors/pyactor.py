@@ -75,7 +75,7 @@ class Main(object):
             time.sleep(1)
             if Main.launchConsole:
                 Main.launchConsole = False
-                self.console = Console()
+                self.console = Console(self.interpreter)
                 self.console.mainloop()
 
                 

@@ -12,8 +12,10 @@ class TextArea(tk.Frame):
 
 
 class Console(tk.Tk):
-    def __init__(self):
+    def __init__(self, interpreter):
         tk.Tk.__init__(self)
+
+        self.interpreter = interpreter
         
         self.console_frame = tk.Frame(borderwidth=1, relief="sunken")
 
