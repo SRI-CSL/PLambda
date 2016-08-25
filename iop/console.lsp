@@ -4,3 +4,6 @@
 
 (invoke stderr "write" "very\n\tinteresting, \"not\"\n")
 
+(invoke stderr 'write' 'byeee\n')
+
+

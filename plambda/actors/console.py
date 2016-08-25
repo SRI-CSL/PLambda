@@ -28,6 +28,10 @@ class InputTextArea(tk.Frame):
          self.top.bind("<Control-e>", lambda e: console.evaluate(self.selected(), e))
          self.top.bind("<Command-e>", lambda e: console.evaluate(self.selected(), e))
 
+         self.top.bind("<Control-s>", lambda e: console.save())
+         self.top.bind("<Command-s>", lambda e: console.save())
+
+
      def selected(self):
           if self.top.tag_ranges(tk.SEL):
                return self.top.get(tk.SEL_FIRST, tk.SEL_LAST)
@@ -63,20 +67,12 @@ class FileMenu(tk.Menu):
      def __init__(self, console):
           tk.Menu.__init__(self, console.menubar, tearoff=0)
           self.add_command(label="Open", command=console.tbi, accelerator="Command-O")
-          self.add_command(label="Reload", command=console.tbi, accelerator="Command-R")
-          self.add_command(label="Save", command=console.tbi, accelerator="Command-S")
+          self.add_command(label="Reload", command=lambda : console.load(console.path), accelerator="Command-R")
+          self.add_command(label="Save", command=lambda : console.save(console.path), accelerator="Command-S")
           self.add_command(label="Save As", command=console.tbi, accelerator="Shift-Command-W")
           self.add_command(label="Search", command=console.tbi, accelerator="Command-F")
           self.add_command(label="Quit", command=console.tbi, accelerator="Command-W")
           console.menubar.add_cascade(label="File", menu=self)
-
-class EditMenu(tk.Menu):
-     def __init__(self, console):
-          tk.Menu.__init__(self, console.menubar, tearoff=0)
-          self.add_command(label="Cut", command=console.tbi, accelerator="Command-X")
-          self.add_command(label="Copy", command=console.tbi, accelerator="Command-C")
-          self.add_command(label="Paste", command=console.tbi, accelerator="Command-V")
-          console.menubar.add_cascade(label="Edit", menu=self)
 
 class EvaluateMenu(tk.Menu):
      def __init__(self, console):
@@ -91,6 +87,17 @@ class EvaluateMenu(tk.Menu):
                            command=lambda : console.evaluate(console.top_frame.line(), None),
                            accelerator="Command-L")
           console.menubar.add_cascade(label="Evaluate", menu=self)
+
+class ViewMenu(tk.Menu):
+     def __init__(self, console):
+          tk.Menu.__init__(self, console.menubar, tearoff=0)
+          self.add_command(label="Definitions",
+                           command=console.tbi,
+                           accelerator="Command-D")
+          self.add_command(label="UUIDs",
+                           command=console.tbi,
+                           accelerator="Command-U")
+          console.menubar.add_cascade(label="View", menu=self)
 
 
 class Console(tk.Tk):
@@ -126,9 +133,9 @@ class Console(tk.Tk):
 
         self.filemenu =  FileMenu(self)
 
-        self.editmenu =  EditMenu(self)
-
         self.evaluatemenu =  EvaluateMenu(self)
+
+        self.viewmenu =  ViewMenu(self)
 
         self.config(menu=self.menubar)
         
@@ -148,12 +155,14 @@ class Console(tk.Tk):
                          if c is not None:
                               value = self.interpreter.evaluate(c)
                               self.bottom_frame.append(str(value), "ok")
+                              self.bottom_frame.append('\n', "ok")
                except PLambdaException as e:
                     self.bottom_frame.append(str(e), "error")
+                    self.bottom_frame.append('\n', "ok")
                except Exception as e:
                     print 'PLambda.rep Exception: ', e
                     traceback.print_exc(file=sys.stderr)
-               self.bottom_frame.append('\n', "ok")
+                    self.bottom_frame.append('\n', "ok")
 
      def tbi(self):
           self.bottom_frame.append("To be implemented...\n", "error")
@@ -169,8 +178,17 @@ class Console(tk.Tk):
           else:
                self.bottom_frame.append("{0} not found\n".format(path), "error")
                
+     def save(self):
+          if self.path is None:
+               self.bottom_frame.append("No file set, use 'Save as'\n", "error")
+          else:
+               with open(self.path, 'w') as fp:
+                    fp.write(self.top_frame.buffer())
+               self.bottom_frame.append("{0} saved\n".format(self.path), "ok")
+                    
+               
 
-
+               
         
 def launch():
      console=Console(Interpreter())
