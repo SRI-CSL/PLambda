@@ -3,6 +3,8 @@ import Tkinter as tk
 import os
 
 from plambda.eval.Interpreter import Interpreter
+from plambda.eval.PLambdaException import PLambdaException
+
 
 class InputTextArea(tk.Frame):
      def __init__(self, console):
@@ -106,8 +108,22 @@ class Console(tk.Tk):
         self.load("console.lsp")
         
      def evaluate(self, text, event):
-          self.bottom_frame.append("evaluating...\n{}\n".format(text), "error")
-          self.bottom_frame.append("evaluating...\n", "ok")
+          if self.interpreter is None:
+               self.bottom_frame.append("Interpreter is None\n", "error")
+          elif text is None:
+               self.bottom_frame.append("Text to evaluate is None\n", "error")
+          else:
+               try:
+                    code = parseFromString(line)
+                    for c in code:
+                         if c is not None:
+                              value = interpreter.evaluate(c)
+                              self.bottom_frame.append(str(value), "ok")
+               except PLambdaException as e:
+                    self.bottom_frame.append(str(e), "error")
+               except Exception as e:
+                    print 'PLambda.rep Exception: ', e
+                    traceback.print_exc(file=sys.stderr)
 
      def tbi(self):
           self.bottom_frame.append("To be implemented...\n", "error")
