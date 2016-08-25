@@ -1,5 +1,7 @@
 import Tkinter as tk
 
+import os
+
 from plambda.eval.Interpreter import Interpreter
 
 class InputTextArea(tk.Frame):
@@ -89,8 +91,13 @@ class Console(tk.Tk):
      def tbi(self):
           self.bottom_frame.append("To be implemented...\n", "error")
 
-     def load(self, path):
-          
+     def load(self, fname):
+          path = os.path.abspath(fname)
+          if os.path.exists(path):
+               self.bottom_frame.append("{0} loaded\n".format(path), "ok")
+          else:
+               self.bottom_frame.append("{0} not found\n".format(path), "error")
+               
 
 
         
