@@ -1,5 +1,6 @@
 import Tkinter as tk
 
+from plambda.eval.Interpreter import Interpreter
 
 class TextArea(tk.Frame):
      def __init__(self):
@@ -21,6 +22,7 @@ class Console(tk.Tk):
 
         self.toolbar = tk.Frame()
 
+
         self.splitpane = tk.PanedWindow(orient=tk.VERTICAL, sashwidth=10, showhandle=True, sashrelief=tk.RAISED)
         self.splitpane.pack(fill=tk.BOTH, expand=1)
 
@@ -38,8 +40,11 @@ class Console(tk.Tk):
 
         self.console_frame.pack(side="bottom", fill="both", expand=True)
 
+def launch():
+     console=Console(Interpreter())
+     console.mainloop()
+    
         
 if __name__ == "__main__":
-    console=Console()
-    console.mainloop()
+     launch()
 
