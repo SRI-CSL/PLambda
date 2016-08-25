@@ -1,8 +1,11 @@
 import Tkinter as tk
 
-import os
+import os, sys, traceback
 
 from plambda.eval.Interpreter import Interpreter
+
+from plambda.visitor.Parser import parseFromString
+
 from plambda.eval.PLambdaException import PLambdaException
 
 
@@ -114,11 +117,12 @@ class Console(tk.Tk):
                self.bottom_frame.append("Text to evaluate is None\n", "error")
           else:
                try:
-                    code = parseFromString(line)
+                    code = parseFromString(text)
                     for c in code:
                          if c is not None:
-                              value = interpreter.evaluate(c)
+                              value = self.interpreter.evaluate(c)
                               self.bottom_frame.append(str(value), "ok")
+                              self.bottom_frame.append('\n', "ok")
                except PLambdaException as e:
                     self.bottom_frame.append(str(e), "error")
                except Exception as e:
