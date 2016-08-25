@@ -14,13 +14,32 @@ class InputTextArea(tk.Frame):
          self.top_sb.pack(in_=self, side="right", fill="y", expand=False)
          self.top.pack(in_=self, side="left", fill="both", expand=True)
 
-         self.top.bind("<Control-l>", console.evaluate)
-         self.top.bind("<Command-l>", console.evaluate)
+         self.top.bind("<Control-b>", lambda e: console.evaluate(self.buffer(), e))
+         self.top.bind("<Command-b>", lambda e: console.evaluate(self.buffer(), e))
 
+         self.top.bind("<Control-l>", lambda e: console.evaluate(self.line(), e))
+         self.top.bind("<Command-l>", lambda e: console.evaluate(self.line(), e))
+
+         self.top.bind("<Control-e>", lambda e: console.evaluate(self.selected(), e))
+         self.top.bind("<Command-e>", lambda e: console.evaluate(self.selected(), e))
+
+     def selected(self):
+          if self.top.tag_ranges(tk.SEL):
+               return self.top.get(tk.SEL_FIRST, tk.SEL_LAST)
+          else:
+               None
+
+     def line(self):
+          return self.top.get("current linestart", "current lineend")
+
+     def buffer(self):
+          return self.top.get(1.0, tk.END)
+
+          
 class OutputTextArea(tk.Frame):
      def __init__(self):
          tk.Frame.__init__(self, borderwidth=1, relief="sunken")
-         self.top = tk.Text(wrap="word", background="white", borderwidth=0, highlightthickness=0)
+         self.top = tk.Text(wrap="word", background="white", borderwidth=0, highlightthickness=0, state=tk.DISABLED)
          self.top_sb = tk.Scrollbar(orient="vertical", borderwidth=1, command=self.top.yview)
          self.top.configure(yscrollcommand=self.top_sb.set)
          self.top_sb.pack(in_=self, side="right", fill="y", expand=False)
@@ -30,7 +49,9 @@ class OutputTextArea(tk.Frame):
          self.top.tag_config("ok", background="white", foreground="black")
          
      def append(self, text, tag):
+          self.top.config(state=tk.NORMAL)
           self.top.insert(tk.END, text, tag)
+          self.top.config(state=tk.DISABLED)
 
 
 class FileMenu(tk.Menu):
@@ -84,8 +105,8 @@ class Console(tk.Tk):
 
         self.load("console.lsp")
         
-     def evaluate(self, event):
-          self.bottom_frame.append("evaluating...\n", "error")
+     def evaluate(self, text, event):
+          self.bottom_frame.append("evaluating...\n{}\n".format(text), "error")
           self.bottom_frame.append("evaluating...\n", "ok")
 
      def tbi(self):
@@ -94,6 +115,10 @@ class Console(tk.Tk):
      def load(self, fname):
           path = os.path.abspath(fname)
           if os.path.exists(path):
+               with open (path, "r") as fp:
+                   for line  in fp.readlines():
+                        self.top_frame.top.insert(tk.END, line)
+               self.path = path
                self.bottom_frame.append("{0} loaded\n".format(path), "ok")
           else:
                self.bottom_frame.append("{0} not found\n".format(path), "error")
