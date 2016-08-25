@@ -40,6 +40,14 @@ class Console(tk.Tk):
 
         self.console_frame.pack(side="bottom", fill="both", expand=True)
 
+        self.top_frame.top.bind("<Control-l>", self.evaluate)
+        self.top_frame.top.bind("<Command-l>", self.evaluate)
+
+     def evaluate(self, event):
+          print "evaluating..."
+
+
+        
 def launch():
      console=Console(Interpreter())
      console.mainloop()
