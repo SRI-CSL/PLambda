@@ -116,7 +116,8 @@ def eval(interpreter, message):
         notify('eval: {0} evaluated to {1}'.format(message, val))
     except Exception as e:
         sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n'.format(e))
-        traceback.print_exc(file=sys.stderr)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
 
 
 def launch(name):
