@@ -22,19 +22,14 @@ class InputTextArea(tk.Frame):
          self.text.configure(yscrollcommand=self.text_sb.set)
          self.text_sb.pack(in_=self, side="right", fill="y", expand=False)
          self.text.pack(in_=self, side="left", fill="both", expand=True)
-
          self.text.bind("<Control-b>", lambda e: console.evaluate(self.buffer(), e))
          self.text.bind("<Command-b>", lambda e: console.evaluate(self.buffer(), e))
-
          self.text.bind("<Control-l>", lambda e: console.evaluate(self.line(), e))
          self.text.bind("<Command-l>", lambda e: console.evaluate(self.line(), e))
-
          self.text.bind("<Control-e>", lambda e: console.evaluate(self.selected(), e))
          self.text.bind("<Command-e>", lambda e: console.evaluate(self.selected(), e))
-
          self.text.bind("<Control-s>", lambda e: console.save())
          self.text.bind("<Command-s>", lambda e: console.save())
-
          self.text.bind("<Control-r>", lambda e: console.load(console.path))
          self.text.bind("<Command-r>", lambda e: console.load(console.path))
 
@@ -43,7 +38,7 @@ class InputTextArea(tk.Frame):
           if self.text.tag_ranges(tk.SEL):
                return self.text.get(tk.SEL_FIRST, tk.SEL_LAST)
           else:
-               None
+               return None
 
      def line(self):
           return self.text.get("insert linestart", "insert lineend")
@@ -113,43 +108,24 @@ class Console(tk.Tk):
 
      def __init__(self, interpreter):
         tk.Tk.__init__(self)
-
         self.title("PLambda Console")
-        
         self.interpreter = interpreter
-        
         self.console_frame = tk.Frame(borderwidth=1, relief="sunken")
-
         self.toolbar = tk.Frame()
-
-
         self.splitpane = tk.PanedWindow(orient=tk.VERTICAL, sashwidth=10, showhandle=True, sashrelief=tk.RAISED)
         self.splitpane.pack(fill=tk.BOTH, expand=1)
-
         self.top_frame = InputTextArea(self)
-        
         self.splitpane.add(self.top_frame)
-
         self.bottom_frame = OutputTextArea()
-        
         self.splitpane.add(self.bottom_frame)
-
         self.splitpane.pack(in_=self.console_frame, side="left", fill="both", expand=True)
-
         self.toolbar.pack(in_=self.console_frame, side="top", fill="x")
-
         self.menubar =  tk.Menu(self)
-
         self.filemenu =  FileMenu(self)
-
         self.evaluatemenu =  EvaluateMenu(self)
-
         self.viewmenu =  ViewMenu(self)
-
         self.config(menu=self.menubar)
-        
         self.console_frame.pack(side="bottom", fill="both", expand=True)
-
         self.load("console.lsp")
         
      def evaluate(self, text, event):
@@ -204,16 +180,12 @@ class Console(tk.Tk):
           path = tkFileDialog.askopenfilename(initialdir=os.getcwd())
           if path:
                self.load(path)
-          else:
-               self.bottom_frame.append("Whatever\n", "ok")
 
      def saveas(self):
           path = tkFileDialog.asksaveasfilename(initialdir=os.getcwd())
           if path:
                self.save(path)
-          else:
-               self.bottom_frame.append("Whatever\n", "ok")
-               
+
      def uids(self):
           self.intdump(self.interpreter.showUIDs)
 
