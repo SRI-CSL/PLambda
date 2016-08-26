@@ -18,8 +18,10 @@ Version history:
 
 1.0.5   8/23/2016  The read-eval-print loop gets a makeover. handles multiline paste and prints definitions.
 
+1.0.6   8/25/2016  PLambda gets a console.
+
 
 """
 
-plambda_version='1.0.5'
+plambda_version='1.0.6'
 

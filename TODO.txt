@@ -55,6 +55,6 @@ argspec ['n'] ??
 
       - [X] view menuitems
       - [X] open and save as
-      - search?  [Meh]
+      - search?  [meh]
 
       - [X] focus on end in output text area
