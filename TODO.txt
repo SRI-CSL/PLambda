@@ -49,3 +49,12 @@ still undecided here. currently LOOKUP, UPDATE and SUPDATE should work.
 10. Figure out why we can't call mainloop from the plambda REP.
 
 argspec ['n'] ??
+
+
+11.  Console loose ends:
+
+      - [X] view menuitems
+      - [X] open and save as
+      - search?  [Meh]
+
+      - [X] focus on end in output text area

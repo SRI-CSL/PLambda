@@ -692,21 +692,27 @@ class Interpreter(object):
             return True
         return False
 
-        
-    def showDefinitions(self):
+    
+    def showDefinitions(self, sb=None):
+        """Either writes the definitions out to stderr, or the optional StringBuffer passed in."""
+        func = sb.append if sb else sys.stderr.write
         for key, value in self.definitions.iteritems():
-            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+            func('{0}  -->  {1}\n'.format(key, value))
+        return sb
 
-
-    def showCode(self):
+    def showCode(self, sb=None):
+        """Either writes the code out to stderr, or the optional StringBuffer passed in."""
+        func = sb.append if sb else sys.stderr.write
         for key, value in self.code.iteritems():
-            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
+            func('{0}  -->  {1}\n'.format(key, value))
+        return sb
 
-
-    def showUIDs(self):
+    def showUIDs(self, sb=None):
+        """Either writes the UIDs out to stderr, or the optional StringBuffer passed in."""
+        func = sb.append if sb else sys.stderr.write
         for key, value in self.uid2object.iteritems():
-            sys.stderr.write('{0}  -->  {1}\n'.format(key, value))
-
-
+            func('{0}  -->  {1}\n'.format(key, value))
+        return sb
+    
             
 
