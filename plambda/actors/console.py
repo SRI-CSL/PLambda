@@ -4,13 +4,13 @@ import tkFileDialog
 
 import os, sys, traceback
 
-from plambda.eval.Interpreter import Interpreter
+from ..eval.Interpreter import Interpreter
 
-from plambda.visitor.Parser import parseFromString
+from ..visitor.Parser import parseFromString
 
-from plambda.eval.PLambdaException import PLambdaException
+from ..eval.PLambdaException import PLambdaException
 
-from plambda.util.StringBuffer import StringBuffer
+from ..util.StringBuffer import StringBuffer
 
 
 class InputTextArea(tk.Frame):

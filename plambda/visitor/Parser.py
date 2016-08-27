@@ -1,14 +1,11 @@
 import os, sys
 from antlr4 import *
 
-sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
+from ..antlr4.PLambdaLexer import PLambdaLexer
 
+from ..antlr4.PLambdaParser import PLambdaParser
 
-from plambda.antlr4.PLambdaLexer import PLambdaLexer
-
-from plambda.antlr4.PLambdaParser import PLambdaParser
-
-from plambda.visitor.Visitor import Visitor
+from .Visitor import Visitor
 
 
 def main():

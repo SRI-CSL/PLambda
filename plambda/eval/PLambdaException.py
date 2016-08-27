@@ -1,6 +1,4 @@
 
-
-
 class PLambdaException(Exception):
 
     def _init_(self, msg):

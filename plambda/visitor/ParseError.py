@@ -1,6 +1,5 @@
 
 
-
 class ParseError(Exception):
 
     def _init_(self, msg):

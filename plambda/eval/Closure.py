@@ -1,6 +1,6 @@
-from Code import Atom, Location
+from .Code import Atom, Location
 
-from Environment import Environment
+from .Environment import Environment
 
 class Closure(object):
 

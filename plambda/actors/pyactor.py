@@ -1,14 +1,12 @@
 import os, sys, time, threading, traceback, signal, subprocess, psutil
 
-sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
+from .actorlib import send, receive
 
-from actorlib import send, receive
+from ..eval.Interpreter import Interpreter
 
-from plambda.eval.Interpreter import Interpreter
+from ..visitor.Parser import parseFromString
 
-from plambda.visitor.Parser import parseFromString
-
-from plambda.actors.console import Console
+from ..actors.console import Console
 
 debug = False
 

@@ -1,6 +1,6 @@
 import sys
 
-from plambda.util.StringBuffer import StringBuffer
+from ..util.StringBuffer import StringBuffer
 
 def kwargs(*largs, **kwargs):
     sb = StringBuffer()

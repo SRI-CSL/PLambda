@@ -1,13 +1,11 @@
 import os, platform, sys,  select, time, traceback
 
-#sys.path.append(os.path.abspath(os.path.join(__file__, '..', '..')))
+from ..util.StringBuffer import StringBuffer
 
-from plambda.util.StringBuffer import StringBuffer
-
-from plambda.visitor.Parser import parseFromString
-from plambda.eval.Interpreter  import Interpreter
-from plambda.eval.PLambdaException import PLambdaException
-from plambda.version import plambda_version
+from ..visitor.Parser import parseFromString
+from ..eval.Interpreter  import Interpreter
+from ..eval.PLambdaException import PLambdaException
+from ..version import plambda_version
 
 def main():
     rep(sys.argv[1] if len(sys.argv) == 2 else None)

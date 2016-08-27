@@ -3,33 +3,25 @@
 #
 from __future__ import print_function
 
-import importlib
+import importlib, sys, types, inspect, collections
 
-import sys
+from ..util.Util import isString, isInteger
 
-import types
+from ..util.StringBuffer import StringBuffer
 
-import inspect
+from .Code import SExpression, Atom, StringLiteral, Syntax
 
-import collections
+from .SymbolTable import SymbolTable
 
-from plambda.util.Util import isString, isInteger
+from .PLambdaException import PLambdaException
 
-from plambda.util.StringBuffer import StringBuffer
+from .Environment import Environment
 
-from Code import SExpression, Atom, StringLiteral, Syntax
+from .Closure import Closure
 
-from SymbolTable import SymbolTable
+from .Globals import pythonGlobals
 
-from PLambdaException import PLambdaException
-
-from Environment import Environment
-
-from Closure import Closure
-
-from Globals import pythonGlobals
-
-from plambda.visitor.Parser import parseFromFile, parseFromString
+from ..visitor.Parser import parseFromFile, parseFromString
 
 
 """

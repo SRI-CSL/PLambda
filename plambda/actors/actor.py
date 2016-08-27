@@ -1,8 +1,7 @@
 import sys
 import inspect
 
-from actorlib import send, receive
-
+from .actorlib import send, receive
 
 class Actor(object):
 
