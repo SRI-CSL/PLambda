@@ -20,8 +20,10 @@ Version history:
 
 1.0.6   8/25/2016  PLambda gets a console.
 
+1.0.7   8/27/2016  Updated all relative imports to follow https://www.python.org/dev/peps/pep-0328/
+
 
 """
 
-plambda_version='1.0.6'
+plambda_version='1.0.7'
 
