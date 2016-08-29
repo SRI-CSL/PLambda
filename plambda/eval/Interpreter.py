@@ -23,6 +23,7 @@ from .Globals import pythonGlobals
 
 from ..visitor.Parser import parseFromFile, parseFromString
 
+from ..cpeval.State import State
 
 """
 Current bugs:
@@ -60,6 +61,26 @@ class Interpreter(object):
         """
         return self.eval(exp, Environment())
 
+    def cpevaluateString(self, string):
+        """Parses and evaluates a string as plambda expression.
+        """
+        code = parseFromString(string)
+        retval = None
+        for c in code:
+            retval = self.cpevaluate(c)
+        return retval
+        
+    def cpevaluate(self, exp):
+        """Evaluates an Sexpression, StringLiteral, or Atom.
+        """
+        state = State(self, exp, Environment())
+
+        while not state.isDone():
+            state.step()
+            
+        return state.getVal()
+    
+    
     def eval(self, exp, env):
         if exp is None:
             return None

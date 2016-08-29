@@ -76,6 +76,7 @@ class plambdaTest(PLambdaTest):
         # have more ways of doing things in plambda than in jlambda
         self.plambdaStringEqualTest('(invoke os "getcwd")', here)
         self.plambdaStringEqualTest('(apply os.getcwd)', here)
+        # make plambda find stuff in the tests directory
         self.plambdaEqualTest('(invoke sys.path "insert" (int 0) (apply os.getcwd))', None)
         self.plambdaEqualTest('(import "tests.drones.simple_drone")', True)
         self.plambdaStringEqualTest('(define SimpleDrone tests.drones.simple_drone.SimpleDrone) ', 'SimpleDrone')
@@ -113,6 +114,7 @@ class plambdaTest(PLambdaTest):
     def test_J(self):
         self.plambdaEqualTest('(import "sys")', True)
         self.plambdaEqualTest('(import "os")', True)
+        # make plambda find stuff in the tests directory
         self.plambdaEqualTest('(invoke sys.path "insert" (int 0) (apply os.getcwd))', None)
         self.plambdaEqualTest('(import "tests.kwargs")', True)
         self.plambdaStringEqualTest('(define kwargs tests.kwargs.kwargs)', 'kwargs')
