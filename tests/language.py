@@ -5,7 +5,7 @@
 #
 from __future__ import print_function
 
-import unittest
+import unittest, os
 
 from Testing import PLambdaTest
 
@@ -70,8 +70,15 @@ class plambdaTest(PLambdaTest):
     def test_F(self):
         """Tests using a drone.
         """
-        self.plambdaEqualTest('(import "plambda.drones.simple_drone")', True)
-        self.plambdaStringEqualTest('(define SimpleDrone plambda.drones.simple_drone.SimpleDrone) ', 'SimpleDrone')
+        here = os.getcwd()
+        self.plambdaEqualTest('(import "sys")', True)
+        self.plambdaEqualTest('(import "os")', True)
+        # have more ways of doing things in plambda than in jlambda
+        self.plambdaStringEqualTest('(invoke os "getcwd")', here)
+        self.plambdaStringEqualTest('(apply os.getcwd)', here)
+        self.plambdaEqualTest('(invoke sys.path "insert" (int 0) (apply os.getcwd))', None)
+        self.plambdaEqualTest('(import "tests.drones.simple_drone")', True)
+        self.plambdaStringEqualTest('(define SimpleDrone tests.drones.simple_drone.SimpleDrone) ', 'SimpleDrone')
         self.plambdaStringEqualTest('(define drone (apply SimpleDrone "droneZero"))', 'drone')
         self.plambdaEqualTest('drone.name', 'droneZero')
         self.plambdaEqualTest('(invoke drone "initialize" "2" "2" "666")', True)
@@ -104,14 +111,16 @@ class plambdaTest(PLambdaTest):
 
 
     def test_J(self):
-        self.plambdaEqualTest('(import "plambda.util.kwargs")', True)
-        self.plambdaStringEqualTest('(define kwargs plambda.util.kwargs.kwargs)', 'kwargs')
+        self.plambdaEqualTest('(import "sys")', True)
+        self.plambdaEqualTest('(import "os")', True)
+        self.plambdaEqualTest('(invoke sys.path "insert" (int 0) (apply os.getcwd))', None)
+        self.plambdaEqualTest('(import "tests.kwargs")', True)
+        self.plambdaStringEqualTest('(define kwargs tests.kwargs.kwargs)', 'kwargs')
         self.plambdaStringEqualTest('(define l0 (mklist (int 1) (int 2) (int 3)))', 'l0')
         self.plambdaStringEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
         self.plambdaStringEqualTest('(kwapply kwargs l0 d0)', '(1, 2, 3) {one: 1, three: 3, two: 2}')
 
     def test_K(self):
-        self.plambdaEqualTest('(import "plambda.util.kwargs")', True)
         self.plambdaStringEqualTest('(define l0 (mklist (int 1) (int 2) (int 3)))', 'l0')
         self.plambdaStringEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
         self.plambdaEqualTest('(modify l0 (int 0) "T")', None)

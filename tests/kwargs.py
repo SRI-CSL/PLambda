@@ -1,6 +1,6 @@
 import sys
 
-from ..util.StringBuffer import StringBuffer
+from plambda.util.StringBuffer import StringBuffer
 
 def kwargs(*largs, **kwargs):
     sb = StringBuffer()
@@ -18,9 +18,9 @@ def kwargs(*largs, **kwargs):
 
 
 """
-(import "plambda.util.kwargs")
+(import "kwargs")
 
-(define kwargs plambda.util.kwargs.kwargs)
+(define kwargs kwargs.kwargs)
 
 (define l0 (mklist (int 1) (int 2) (int 3)))
 
