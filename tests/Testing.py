@@ -17,3 +17,13 @@ class PLambdaTest(unittest.TestCase):
 
     def plambdaStringEqualTest(self, string, value):
         self.assertEqual(str(self.interpreter.evaluateString(string)), value)
+
+    def cpplambdaEqualTest(self, string, value):
+        """Hooks into the CPS interpreter rather than the recursive one.
+        """
+        self.assertEqual(self.interpreter.cpevaluateString(string), value)
+
+    def cpplambdaStringEqualTest(self, string, value):
+        """Hooks into the CPS interpreter rather than the recursive one.
+        """
+        self.assertEqual(str(self.interpreter.cpevaluateString(string)), value)

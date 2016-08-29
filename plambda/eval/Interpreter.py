@@ -78,7 +78,7 @@ class Interpreter(object):
         while not state.isDone():
             state.step()
             
-        return state.getVal()
+        return state.val
     
     
     def eval(self, exp, env):

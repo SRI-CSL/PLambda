@@ -12,6 +12,10 @@ antlr4:
 check:
 	python -m tests.language
 
+cptest:
+	python -m tests.cptests
+
+
 #local editable install for developing
 develop: 
 	pip install -e .
