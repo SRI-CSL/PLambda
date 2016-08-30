@@ -31,7 +31,7 @@ class State(object):
             if  self.exp is None:
                 self.val = None
             elif isinstance(self.exp, StringLiteral):
-                self.val = exp.string
+                self.val = self.exp.string
             elif isinstance(self.exp, Atom):
                 self.val = self.lookup(exp, env)
             elif isinstance(self.exp, SExpression):
@@ -52,7 +52,9 @@ class State(object):
                 elif code is Syntax.APPLY:
                     pass
                 elif code is Syntax.PRIMITIVE_DATA_OP:
-                    pass
+                    self.val = self.interpreter.evalPrimitiveDataOp(self.exp, self.env)
+                    self.tag = RETURN
+                    return
                 elif code is Syntax.UNARY_OP:
                     pass
                 elif code is Syntax.BINARY_OP:                    

@@ -19,15 +19,16 @@ class plambdaTest(PLambdaTest):
     def test_A(self):
         """Simple primitive data tests.
         """
+        self.cpplambdaStringEqualTest('"ThisIsAString"', "ThisIsAString")
         self.cpplambdaEqualTest('(int 666)', 666)
-        self.plambdaEqualTest('(boolean False)', False)
-        self.plambdaEqualTest('(boolean cow)', False)
-        self.plambdaEqualTest('(boolean tRuE)', True)
-        self.plambdaEqualTest('(float 3.1459)',  3.1459)
-        self.plambdaEqualTest('(float 3.0)',  3)
-        self.plambdaEqualTest('(== (float 3.0) (int 3))',  True)
-        self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
-        self.plambdaEqualTest('(== (apply object) (apply object))',  False)
+        self.cpplambdaEqualTest('(boolean False)', False)
+        self.cpplambdaEqualTest('(boolean cow)', False)
+        self.cpplambdaEqualTest('(boolean tRuE)', True)
+        self.cpplambdaEqualTest('(float 3.1459)',  3.1459)
+        self.cpplambdaEqualTest('(float 3.0)',  3)
+        self.cpplambdaEqualTest('(== (float 3.0) (int 3))',  True)
+        self.cpplambdaEqualTest('(< (float 3.1) (int 3))',  False)
+        self.cpplambdaEqualTest('(== (apply object) (apply object))',  False)
 
 
         
