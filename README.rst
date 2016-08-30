@@ -9,7 +9,7 @@ PLambda
 An attempt to produce a workable version of JLambda for Python.
 To be used mainly as a part of the IOP imaude system.
 
-JLambda an PLambda are essentially network command and control
+JLambda and PLambda are essentially network command and control
 languages. JLambda for controlling Java processes, and PLambda for
 python processes.  JLambda is over 14 years old, whereas PLambda
 is just a pup.
