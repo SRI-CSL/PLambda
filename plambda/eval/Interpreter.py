@@ -50,6 +50,8 @@ class Interpreter(object):
     def evaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
         """
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         code = parseFromString(string)
         retval = None
         for c in code:
@@ -59,7 +61,23 @@ class Interpreter(object):
     def evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         return self.eval(exp, Environment())
+
+    def eval(self, exp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
+        if exp is None:
+            return None
+        if isinstance(exp, StringLiteral):
+            return exp.string
+        if isinstance(exp, Atom):
+            return self.lookup(exp, env)
+        elif isinstance(exp, SExpression):
+            return self.evalSExpression(exp, env)
+        else:
+            raise PLambdaException("huh? I did not grok {0}".format(exp))
 
     def cpevaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
@@ -73,25 +91,13 @@ class Interpreter(object):
     def cpevaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
-        state = State(self, exp, Environment())
+        return self.cpeval(exp, Environment())
 
+    def cpeval(self, exp, env):
+        state = State(self, exp, env)
         while not state.isDone():
             state.step()
-            
         return state.val
-    
-    
-    def eval(self, exp, env):
-        if exp is None:
-            return None
-        if isinstance(exp, StringLiteral):
-            return exp.string
-        if isinstance(exp, Atom):
-            return self.lookup(exp, env)
-        elif isinstance(exp, SExpression):
-            return self.evalSExpression(exp, env)
-        else:
-            raise PLambdaException("huh? I did not grok {0}".format(exp))
 
     def lookup(self, leaf, env):
         """See if the identifier is bound in the extended environment.
@@ -218,6 +224,8 @@ class Interpreter(object):
         return (False, None)
 
     def evalSeq(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         tail = sexp.spine[1:]
         retval = None
         for s in tail:
@@ -225,6 +233,8 @@ class Interpreter(object):
         return retval
 
     def evalInvoke(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         objexp = sexp.spine[1]
         obj = self.eval(objexp, env)
 
@@ -282,6 +292,8 @@ class Interpreter(object):
 
 
     def evalDefine(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         identifier = sexp.spine[1]
         
         assert(isinstance(identifier, Atom))
@@ -307,6 +319,8 @@ class Interpreter(object):
     
 
     def evalLet(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         nenv = Environment(env)
         bindings = sexp.spine[1].spine
         body = sexp.spine[2]
@@ -319,6 +333,8 @@ class Interpreter(object):
         return self.eval(body, nenv)
         
     def evalApply(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         funexp  = sexp.spine[1]
         argexps = sexp.spine[2:]
 
@@ -346,6 +362,8 @@ class Interpreter(object):
 
 
     def evalFor(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         identifier = sexp.spine[1]
         rangeexp = sexp.spine[2]
         body = sexp.spine[3]
@@ -368,6 +386,8 @@ class Interpreter(object):
 
 
     def evalTry(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         tryexp = sexp.spine[1]
         catchexp = sexp.spine[2]
         retval = None
@@ -517,6 +537,8 @@ class Interpreter(object):
         
 
     def evalTernaryOp(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         (uop, arg0, arg1, arg2) =  sexp.spine
         assert isinstance(uop, Atom)
         op = uop.string
@@ -533,6 +555,8 @@ class Interpreter(object):
             raise retval
         
     def evalAmbi1Op(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         uop =  sexp.spine[0]
         assert isinstance(uop, Atom)
         op = uop.string
@@ -547,6 +571,8 @@ class Interpreter(object):
             raise PLambdaException(emsg)
         
     def evalAmbi2Op(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         uop =  sexp.spine[0]
         assert isinstance(uop, Atom)
         op = uop.string
@@ -567,6 +593,8 @@ class Interpreter(object):
             raise PLambdaException(emsg)
 
     def evalIf(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         testexp = sexp.spine[1]
         test = self.eval(testexp, env)
         #do we want to enforce booleaness here? JLambda does.
@@ -581,6 +609,8 @@ class Interpreter(object):
             return None
         
     def evalNaryOp(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         uop =  sexp.spine[0]
         assert isinstance(uop, Atom)
         op = uop.string
@@ -614,13 +644,17 @@ class Interpreter(object):
             raise PLambdaException(emsg)
 
     def evalConcat(self, sexp, env):
-        args = sexp.spine[1:]
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
+       args = sexp.spine[1:]
         sb = StringBuffer()
         for e in args:
             sb.append(str(self.eval(e, env)))
         return  str(sb)
                                
     def evalSExpression(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
         code = sexp.code
         if code is Syntax.SEQ:
             return self.evalSeq(sexp, env)
