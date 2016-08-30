@@ -40,6 +40,8 @@ class Continuation(object):
 
 
     def info(self):
+        """FIXME: can write this soon.
+        """
         pass
 
     

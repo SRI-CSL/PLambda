@@ -35,12 +35,53 @@ class State(object):
             elif isinstance(self.exp, Atom):
                 self.val = self.lookup(exp, env)
             elif isinstance(self.exp, SExpression):
-                self.val = self.interpreter.evalSExpression(self.exp, self.env) #FIXME here we make continuations
+
+
+                code = self.exp.code
+
+                if code is Syntax.SEQ:
+                    pass
+                elif code is Syntax.LET:
+                    pass
+                elif code is Syntax.DEFINE:
+                    pass
+                elif code is Syntax.LAMBDA:
+                    pass
+                elif code is Syntax.INVOKE:                    
+                    pass
+                elif code is Syntax.APPLY:
+                    pass
+                elif code is Syntax.PRIMITIVE_DATA_OP:
+                    pass
+                elif code is Syntax.UNARY_OP:
+                    pass
+                elif code is Syntax.BINARY_OP:                    
+                    pass
+                elif code is Syntax.TERNARY_OP:
+                    pass
+                elif code is Syntax.AMBI1_OP:
+                    pass
+                elif code is Syntax.AMBI2_OP:
+                    pass
+                elif code is Syntax.N_ARY_OP:                    
+                    pass
+                elif code is Syntax.TRY:
+                    pass
+                elif code is Syntax.FOR:
+                    pass
+                elif code is Syntax.QUOTE:
+                    pass
+                elif code is Syntax.CATCH:
+                    pass
+                else:
+                   raise PLambdaException("Unhandled form in State.step")
+                #FIXME: we are done when this can be removed.
+                self.val = self.interpreter.evalSExpression(self.exp, self.env)
             else:
-                self.val = None
-                self.k.setException(PLambdaException("huh? I did not grok {0}".format(exp)))
+                self.val = self.exp
 
             self.tag = RETURN
+
             
         elif self.tag is CONTINUE:
             self.k.cont(self)
