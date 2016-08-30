@@ -38,6 +38,15 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(seq (int 666))', 666)
         self.cpplambdaEqualTest('(seq (int 661) (int 662) (int 663) (int 666))', 666)
         self.cpplambdaClassTest('(lambda (x y z) z)', Closure)
+        self.cpplambdaEqualTest('(mktuple (int 1) (int 2) (int 3))', (1, 2, 3))
+        self.cpplambdaEqualTest('(mklist (int 1) (int 2) (int 3))', [1, 2, 3])
+        self.cpplambdaEqualTest('(mkdict "one" (int 1) "two" (int 2) "three" (int 3))', {'one': 1, 'two':2, 'three':3})
+        self.cpplambdaEqualTest('(get (mktuple (int 1) (int 2) (int 3)) (int 0))', 1)
+        self.cpplambdaEqualTest('(get (mklist (int 1) (int 2) (int 3)) (int 0))', 1)
+        self.cpplambdaEqualTest('(get (mkdict "one" (int 1) "two" (int 2) "three" (int 3)) "three")', 3)
+        self.cpplambdaEqualTest('(mklist)', [])
+        self.cpplambdaEqualTest('(mktuple)', ())
+        self.cpplambdaEqualTest('(mkdict)', {})
 
 
         

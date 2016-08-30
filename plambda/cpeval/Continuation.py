@@ -2,6 +2,8 @@ import sys
 
 from ..eval.PLambdaException import PLambdaException
 
+from ..util.StringBuffer import StringBuffer
+
 import State
 
 
@@ -29,7 +31,8 @@ class Continuation(object):
         TopCont, currently) do so by overriding `ret'.
         """
         if self.excep is not None:
-            #FIXME: info() gets passed in to the EvaluateError
+            if isinstance(self.excep, PLambdaException):
+                self.excep.extendBT(self.info())
             self.k.excep = excep
             state.k = self.k
         else:
@@ -41,10 +44,15 @@ class Continuation(object):
 
 
     def info(self):
-        """FIXME: can write this soon.
-        """
-        pass
-
+        sb = StringBuffer()
+        if not self.vals:
+            sb.append('\tcomputing result of top-level form ')
+        elif self.n in len(self.vals):
+            sb.append('\tcomputing result of ').append(exp.spine[0]).append(' form')
+        else:
+            sb.append('\tat  argument ').append(self.n).append(' of ').append(exp.spine[0]).append(' form')
+        sb.append(' at ').append(exp.location)
+        return str(sb)
     
 
 class TopCont(Continuation):

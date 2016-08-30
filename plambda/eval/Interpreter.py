@@ -607,6 +607,25 @@ class Interpreter(object):
             return  self.eval(sexp.spine[3], env)
         else:
             return None
+
+
+    def evalAnd(self, args, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
+        for e in args:
+            if  self.eval(e, env) is False:
+                return False
+        return  True
+        
+
+    def evalOr(self, args, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
+        for e in args:
+            if  self.eval(e, env):
+                return True
+        return  False
+
         
     def evalNaryOp(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -616,18 +635,12 @@ class Interpreter(object):
         op = uop.string
         args = sexp.spine[1:]
         
-        if  op is SymbolTable.CONCAT:
-            return  self.evalConcat(sexp, env)
-        elif op is SymbolTable.AND:
-            for e in args:
-                if  self.eval(e, env) is False:
-                    return False
-            return  True
+        if op is SymbolTable.AND:
+            return self.evalAnd(args, env)
         elif op is SymbolTable.OR:
-            for e in args:
-                if  self.eval(e, env):
-                    return True
-            return  False
+            return self.evalOr(args, env)
+        elif  op is SymbolTable.CONCAT:
+            return  self.evalConcat(sexp, env)
         elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
             vals = []
             for arg in args:
@@ -646,7 +659,7 @@ class Interpreter(object):
     def evalConcat(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
-       args = sexp.spine[1:]
+        args = sexp.spine[1:]
         sb = StringBuffer()
         for e in args:
             sb.append(str(self.eval(e, env)))
