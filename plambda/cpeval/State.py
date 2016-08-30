@@ -1,8 +1,10 @@
 from ..eval.Code import SExpression, Atom, StringLiteral, Syntax
 
+from ..eval.Closure import Closure
+
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import TopCont, IfCont
+from .Continuation import TopCont, IfCont, SeqCont
 
 EVAL     = 0
 CONTINUE = 1
@@ -46,13 +48,18 @@ class State(object):
                 op = opexp.string
 
                 if code is Syntax.SEQ:
-                    pass
+                    self.k = SeqCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return 
                 elif code is Syntax.LET:
                     pass
                 elif code is Syntax.DEFINE:
                     pass
                 elif code is Syntax.LAMBDA:
-                    pass
+                    spine = self.exp.spine
+                    self.val = Closure(self, spine[1], spine[2], self.env, spine[0].location)
+                    self.tag = RETURN
+                    return
                 elif code is Syntax.INVOKE:                    
                     pass
                 elif code is Syntax.APPLY:

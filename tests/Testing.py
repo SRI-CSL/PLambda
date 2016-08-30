@@ -12,6 +12,9 @@ class PLambdaTest(unittest.TestCase):
     def tearDown(self):
         self.interpreter = None
     
+    def plambdaClassTest(self, string, cls):
+        self.assertEqual(isinstance(self.interpreter.evaluateString(string), cls), True)
+
     def plambdaEqualTest(self, string, value):
         self.assertEqual(self.interpreter.evaluateString(string), value)
 
@@ -25,6 +28,9 @@ class PLambdaTest(unittest.TestCase):
             #traceback.print_exc(file=sys.stderr)
             self.assertEqual(type(e), type(value)) 
             self.assertEqual(str(e), str(value))
+
+    def cpplambdaClassTest(self, string, cls):
+        self.assertEqual(isinstance(self.interpreter.cpevaluateString(string), cls), True)
 
     def cpplambdaEqualTest(self, string, value):
         """Hooks into the CPS interpreter rather than the recursive one.

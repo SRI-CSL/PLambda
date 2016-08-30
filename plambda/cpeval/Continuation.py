@@ -100,3 +100,44 @@ class IfCont(Continuation):
         state.k = self.k
         
     
+
+class EvalArgsCont(Continuation):
+
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+
+
+    def cont(self, state):
+        state.tag = State.EVAL
+        state.exp = self.args[self.n]
+        state.env = self.env
+
+    def handleReturn(self, state):
+        self.n += 1
+
+        if not self.receiveVal(state.val):
+            state.k = self.k
+            return
+
+        if self.n < len(self.args):
+            state.tag = State.CONTINUE
+        else:
+            state.tag = State.RETURN
+            state.val = self.computeResult(state)
+            state.k = self.k
+
+    def receiveVal(self, val):
+        self.vals[self.n - 1] = val
+        return True
+    
+
+class SeqCont(EvalArgsCont):
+
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+
+    def computeResult(self, state):
+        return self.vals[self.n - 1]

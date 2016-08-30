@@ -11,6 +11,7 @@ from Testing import PLambdaTest
 
 from plambda.eval.Globals import pythonGlobals
 from plambda.eval.Interpreter import PLambdaException
+from plambda.eval.Closure import Closure
 
 
 class plambdaTest(PLambdaTest):
@@ -34,6 +35,9 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
         self.cpplambdaEqualTest('(if (boolean False) (int 7))',  None)
         self.cpplambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
+        self.cpplambdaEqualTest('(seq (int 666))', 666)
+        self.cpplambdaEqualTest('(seq (int 661) (int 662) (int 663) (int 666))', 666)
+        self.cpplambdaClassTest('(lambda (x y z) z)', Closure)
 
 
         
