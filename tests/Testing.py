@@ -1,4 +1,4 @@
-import unittest
+import sys, traceback, unittest
 
 from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter import Interpreter
@@ -18,6 +18,14 @@ class PLambdaTest(unittest.TestCase):
     def plambdaStringEqualTest(self, string, value):
         self.assertEqual(str(self.interpreter.evaluateString(string)), value)
 
+    def plambdaExceptionTest(self, string, value):
+        try:
+            self.interpreter.evaluateString(string)
+        except Exception as e:
+            #traceback.print_exc(file=sys.stderr)
+            self.assertEqual(type(e), type(value)) 
+            self.assertEqual(str(e), str(value))
+
     def cpplambdaEqualTest(self, string, value):
         """Hooks into the CPS interpreter rather than the recursive one.
         """
@@ -27,3 +35,11 @@ class PLambdaTest(unittest.TestCase):
         """Hooks into the CPS interpreter rather than the recursive one.
         """
         self.assertEqual(str(self.interpreter.cpevaluateString(string)), value)
+
+    def cpplambdaExceptionTest(self, string, value):
+        try:
+            self.interpreter.cpevaluateString(string)
+        except Exception as e:
+            #traceback.print_exc(file=sys.stderr)
+            self.assertEqual(type(e), type(value)) 
+            self.assertEqual(str(e), str(value))

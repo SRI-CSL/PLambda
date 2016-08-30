@@ -1,3 +1,4 @@
+import sys
 
 from ..eval.PLambdaException import PLambdaException
 
@@ -67,3 +68,35 @@ class TopCont(Continuation):
 
     
         
+class IfCont(Continuation):
+
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+
+    def cont(self, state):
+        state.tag = State.EVAL
+        state.exp = self.args[0]
+        state.env = self.env
+
+    def handleReturn(self, state):
+        if not isinstance(state.val, bool):
+            msg = '{0} is not a boolean in conditional {1}'
+            self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
+            state.k = self.k
+            return
+        elif state.val:
+            state.tag = State.EVAL
+            state.exp = self.args[1]
+            state.env = self.env
+        elif  len(self.args) == 3:
+            state.tag = State.EVAL
+            state.exp = self.args[2]
+            state.env = self.env
+        else:
+            state.tag = State.RETURN
+            state.val = None
+
+        state.k = self.k
+        
+    

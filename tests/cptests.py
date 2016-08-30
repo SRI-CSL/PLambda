@@ -10,6 +10,7 @@ import unittest, os
 from Testing import PLambdaTest
 
 from plambda.eval.Globals import pythonGlobals
+from plambda.eval.Interpreter import PLambdaException
 
 
 class plambdaTest(PLambdaTest):
@@ -29,6 +30,10 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(== (float 3.0) (int 3))',  True)
         self.cpplambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.cpplambdaEqualTest('(== (apply object) (apply object))',  False)
+        self.cpplambdaEqualTest('(if (boolean True) (int 7) (float 11))',  7)
+        self.cpplambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
+        self.cpplambdaEqualTest('(if (boolean False) (int 7))',  None)
+        self.cpplambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
 
 
         

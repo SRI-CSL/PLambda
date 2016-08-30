@@ -10,14 +10,14 @@ import unittest, os
 from Testing import PLambdaTest
 
 from plambda.eval.Globals import pythonGlobals
-
+from plambda.eval.Interpreter import PLambdaException
 
 class plambdaTest(PLambdaTest):
     """Tests of the plambda language.
     """
 
     def test_A(self):
-        """Simple primitive data tests.
+        """Simple primitive data and if tests.
         """
         self.plambdaEqualTest('(int 666)', 666)
         self.plambdaEqualTest('(boolean False)', False)
@@ -28,6 +28,11 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(== (float 3.0) (int 3))',  True)
         self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.plambdaEqualTest('(== (apply object) (apply object))',  False)
+        self.plambdaEqualTest('(if (boolean True) (int 7) (float 11))',  7)
+        self.plambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
+        self.plambdaEqualTest('(if (boolean False) (int 7))',  None)
+        self.plambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
+
 
     def test_B(self):
         """Some tests of the import and global lookup mechanisms.

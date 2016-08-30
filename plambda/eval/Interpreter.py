@@ -537,7 +537,11 @@ class Interpreter(object):
     def evalIf(self, sexp, env):
         testexp = sexp.spine[1]
         test = self.eval(testexp, env)
-        if test:
+        #do we want to enforce booleaness here? JLambda does.
+        if not isinstance(test, bool):
+            msg = '{0} is not a boolean in conditional {1}'
+            raise PLambdaException(msg.format(test, sexp.spine[0].location))
+        elif test:
             return  self.eval(sexp.spine[2], env)
         if len(sexp.spine) == 4:
             return  self.eval(sexp.spine[3], env)

@@ -1,12 +1,14 @@
-
 from ..eval.Code import SExpression, Atom, StringLiteral, Syntax
 
-from .Continuation import TopCont
+from ..eval.SymbolTable import SymbolTable
+
+from .Continuation import TopCont, IfCont
 
 EVAL     = 0
 CONTINUE = 1
 RETURN   = 2
 DONE     = 3
+
 
 
 class State(object):
@@ -38,6 +40,10 @@ class State(object):
 
 
                 code = self.exp.code
+                opexp = self.exp.spine[0]
+
+                assert isinstance(opexp, Atom)
+                op = opexp.string
 
                 if code is Syntax.SEQ:
                     pass
@@ -64,7 +70,14 @@ class State(object):
                 elif code is Syntax.AMBI1_OP:
                     pass
                 elif code is Syntax.AMBI2_OP:
-                    pass
+                    if op is SymbolTable.IF:
+                        self.k = IfCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
+                        return 
+                    elif op is SymbolTable.GETATTR:
+                        pass
+                    else:
+                        pass
                 elif code is Syntax.N_ARY_OP:                    
                     pass
                 elif code is Syntax.TRY:
