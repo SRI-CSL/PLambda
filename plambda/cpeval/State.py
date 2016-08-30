@@ -4,7 +4,7 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import TopCont, IfCont, SeqCont
+from .Continuation import TopCont, IfCont, SeqCont, UnaryOpCont, BinaryOpCont, TernaryOpCont
 
 EVAL     = 0
 CONTINUE = 1
@@ -69,11 +69,17 @@ class State(object):
                     self.tag = RETURN
                     return
                 elif code is Syntax.UNARY_OP:
-                    pass
+                    self.k = UnaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return 
                 elif code is Syntax.BINARY_OP:                    
-                    pass
+                    self.k = BinaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return 
                 elif code is Syntax.TERNARY_OP:
-                    pass
+                    self.k = TernaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return 
                 elif code is Syntax.AMBI1_OP:
                     pass
                 elif code is Syntax.AMBI2_OP:
@@ -97,7 +103,7 @@ class State(object):
                     pass
                 else:
                    raise PLambdaException("Unhandled form in State.step")
-                #FIXME: we are done when this can be removed.
+                #FIXME: we are done when this can be removed, as so can the above returns ...
                 self.val = self.interpreter.evalSExpression(self.exp, self.env)
             else:
                 self.val = self.exp

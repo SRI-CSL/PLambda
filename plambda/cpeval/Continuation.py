@@ -123,10 +123,16 @@ class EvalArgsCont(Continuation):
         if self.n < len(self.args):
             state.tag = State.CONTINUE
         else:
-            state.tag = State.RETURN
-            state.val = self.computeResult(state)
-            state.k = self.k
-
+            (ok, retval) = self.computeResult(state)
+            sys.stderr.write("EvalArgsCont.handleReturn returning {0}\n".format(retval))
+            if ok:
+                state.tag = State.RETURN
+                state.val = retval
+                state.k = self.k
+            else:
+                self.k.excep = retval
+                state.k = self.k
+                
     def receiveVal(self, val):
         self.vals[self.n - 1] = val
         return True
@@ -134,10 +140,48 @@ class EvalArgsCont(Continuation):
 
 class SeqCont(EvalArgsCont):
 
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+
+    def computeResult(self, state):
+        return (True, self.vals[self.n - 1])
+
+class UnaryOpCont(EvalArgsCont):
 
     def __init__(self, exp, args, env, k):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
 
     def computeResult(self, state):
-        return self.vals[self.n - 1]
+        op = self.exp.spine[0].string
+        val0 = self.vals[0]
+        location = self.exp.location
+        return state.interpreter.callUnaryOp(op, val0, location)
+
+class BinaryOpCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+
+    def computeResult(self, state):
+        op = self.exp.spine[0].string
+        val0 = self.vals[0]
+        val1 = self.vals[1]
+        location = self.exp.location
+        return state.interpreter.callBinaryOp(op, val0, val1, location)
+
+class TernaryOpCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+
+    def computeResult(self, state):
+        op = self.exp.spine[0].string
+        val0 = self.vals[0]
+        val1 = self.vals[1]
+        val2 = self.vals[2]
+        location = self.exp.location
+        return state.interpreter.callTernaryOp(op, val0, val1, val2, location)

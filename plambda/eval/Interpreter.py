@@ -380,53 +380,69 @@ class Interpreter(object):
             retval = self.eval(catchbody, catchenv.extend(catchid, e))
         return retval
 
+
+    def callBinaryOp(self, op, val0, val1, location):
+        retval = None
+        try:
+            if  op is SymbolTable.PLUS:
+                retval =  val0 + val1
+            elif op is SymbolTable.TIMES:
+                retval = val0 * val1
+            elif op is SymbolTable.DIVIDE:
+                retval = val0 / val1
+            elif op is SymbolTable.MODULO:
+                retval = val0 % val1
+            elif op is SymbolTable.GT:
+                retval = val0 < val1
+            elif op is SymbolTable.LT:
+                retval = val0 > val1
+            elif op is SymbolTable.GET:
+                retval = self.evalGet(val0, val1, location)
+            elif op is SymbolTable.GEQ:
+                retval = val0 >= val1
+            elif op is SymbolTable.LEQ:
+                retval = val0 <= val1
+            elif op is SymbolTable.EQUALS:
+                retval = val0 == val1
+            elif op is SymbolTable.IS:
+                retval = val0 is val1
+            elif op is SymbolTable.NEQ:
+                retval = val0 != val1
+            elif op is SymbolTable.SETUID:
+                retval = self.setUID(val0, val1, location)
+            else:
+                fmsg = 'Unrecognized binary operation: {0} {1}'
+                emsg = fmsg.format(op, location)
+                return (False, PLambdaException(emsg))
+        except Exception as e:
+            return (False, e)
+        return (True, retval)
+    
     def evalBinaryOp(self, sexp, env):
+        """Recursive version. Soon to be deprecated.
+        """
         (uop, arg0, arg1) =  sexp.spine
         assert isinstance(uop, Atom)
         op = uop.string
 
         val0 = self.eval(arg0, env)
         val1 = self.eval(arg1, env)
-        # error checking sometime in the near future
-        if  op is SymbolTable.PLUS:
-            return  val0 + val1
-        elif op is SymbolTable.TIMES:
-            return  val0 * val1
-        elif op is SymbolTable.DIVIDE:
-            return  val0 / val1
-        elif op is SymbolTable.MODULO:
-            return  val0 % val1
-        elif op is SymbolTable.GT:
-            return  val0 < val1
-        elif op is SymbolTable.LT:
-            return  val0 > val1
-        elif op is SymbolTable.GET:
-            return self.evalGet(sexp, val0, val1)
-        elif op is SymbolTable.GEQ:
-            return  val0 >= val1
-        elif op is SymbolTable.LEQ:
-            return  val0 <= val1
-        elif op is SymbolTable.EQUALS:
-            return  val0 == val1
-        elif op is SymbolTable.IS:
-            return  val0 is val1
-        elif op is SymbolTable.NEQ:
-            return  val0 != val1
-        elif op is SymbolTable.SETUID:
-            return self.setUID(sexp, val0, val1)
-        else:
-            fmsg = 'Unrecognized binary operation: {0}'
-            emsg = fmsg.format(op)
-            raise PLambdaException(emsg)
 
-    def evalGet(self, sexp, val0, val1):
+        (ok, retval) = self.callBinaryOp(op, val0, val1, sexp.location)
+
+        if ok:
+            return retval
+        else:
+            raise retval
+        
+    def evalGet(self, val0, val1, location):
         if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
             return val0[val1]
         elif isinstance(val0, dict):
             return val0.get(val1)
         else:
-            fmsg = 'Bad args to \"get\": {0} {1}'
-            emsg = fmsg.format(val0, val1)
+            fmsg = 'Bad args to \"get\": {0} {1} {2}'
+            emsg = fmsg.format(val0, val1, location)
             raise PLambdaException(emsg)
 
     def unsetUID(self, val0):
@@ -439,16 +455,16 @@ class Interpreter(object):
             return False
        
 
-    def setUID(self, sexp, val0, val1):
+    def setUID(self, val0, val1, location):
         if val0 is None:
-            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(sexp.location)))                  
+            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(location)))                  
         elif val1 is None:
             return self.unsetUID(val0)
         elif not isString(val1):
-            raise PLambdaException('setuid {0}: val1 not a string.'.format(str(sexp.location)))
+            raise PLambdaException('setuid {0}: val1 not a string.'.format(str(location)))
         else:
             if val1 in self.uid2object or val0 in self.object2uid:
-                raise PLambdaException('setuid {0}: redefiniton'.format(str(sexp.location)))
+                raise PLambdaException('setuid {0}: redefiniton'.format(str(location)))
             else:
                 self.object2uid[val0] = val1
                 self.uid2object[val1] = val0
@@ -477,7 +493,28 @@ class Interpreter(object):
         else:
             raise PLambdaException('modify {0}: unhandled case'.format(str(sexp.location)))
         return None
-  
+
+
+
+
+    def callTernaryOp(self, op, val0, val1, val2, location):
+        retval = None
+        try:
+            if  op in (SymbolTable.UPDATE, SymbolTable.SUPDATE, SymbolTable.SETATTR):
+                setattr(val0, val1, val2)
+                retval = None
+            elif op is SymbolTable.KWAPPLY:
+                retval = self.evalKWApply(val0, val1, val2, location)
+            elif op is SymbolTable.MODIFY:
+                retval = self.evalModify(val0, val1, val2, location)
+            else:
+                fmsg = 'Unrecognized ternary operation: {0} {1}'
+                emsg = fmsg.format(op, location)
+                return (False, PLambdaException(emsg))
+        except Exception as e:
+            return (False, e)
+        return (True, retval)
+        
 
     def evalTernaryOp(self, sexp, env):
         (uop, arg0, arg1, arg2) =  sexp.spine
@@ -488,18 +525,13 @@ class Interpreter(object):
         val1 = self.eval(arg1, env)
         val2 = self.eval(arg2, env)
 
-        if  op in (SymbolTable.UPDATE, SymbolTable.SUPDATE, SymbolTable.SETATTR):
-            setattr(val0, val1, val2)
-            return  None
-        elif op is SymbolTable.KWAPPLY:
-            return self.evalKWApply(val0, val1, val2, sexp.location)
-        elif op is SymbolTable.MODIFY:
-            return self.evalModify(val0, val1, val2, sexp.location)
+        (ok, retval) = self.callTernaryOp(op, val0, val1, val2, sexp.location)
+        
+        if ok:
+            return retval
         else:
-            fmsg = 'Unrecognized ternary operation: {0}'
-            emsg = fmsg.format(op)
-            raise PLambdaException(emsg)
-
+            raise retval
+        
     def evalAmbi1Op(self, sexp, env):
         uop =  sexp.spine[0]
         assert isinstance(uop, Atom)
@@ -659,47 +691,69 @@ class Interpreter(object):
 
     def evalGlobal(self, val, loc):
         return pythonGlobals.get(val, None)
-    
+
+    def callUnaryOp(self, op, val, location):
+        """Calls the unary op with argument val.
+
+           It returns (True, op(val) if everything is OK, otherwise 
+        it returns (False, Exception).
+        """
+        retval = None
+        try:
+            if  op is SymbolTable.LOAD:
+                if isString(val):
+                    retval = self.load(val)
+                else:
+                    retval = False
+            elif op is SymbolTable.IMPORT:
+                retval = self.importmod(val)
+            elif op is SymbolTable.ISNONE:
+                retval = val is None
+            elif op is SymbolTable.ISINT:
+                retval = isinstance(val, int)
+            elif op is SymbolTable.ISFLOAT:
+                retval = isinstance(val, float)
+            elif op is SymbolTable.ISOBJECT:
+                retval = val is not None
+            elif op is SymbolTable.GLOBAL:
+                retval = self.evalGlobal(val, location)
+            elif op is SymbolTable.THROW:
+                return (False,  v)
+            elif op is SymbolTable.FETCH:
+                if val in self.uid2object:
+                    retval = self.uid2object[val]
+                else:
+                    retval = None
+            elif op is SymbolTable.GETUID:
+                if val in self.object2uid:
+                    retval = self.object2uid[val]
+                else:
+                    retval = None
+            elif op is SymbolTable.NOT:
+                retval = True if val is False else False
+            else:
+                return (False, PlambdaException("Unrecognized unary op {0} {1}".format(op, location)))
+        except Exception as e:
+            #might need to wrap e in something to be uniform...
+            return (False, e)
+
+        return (True, retval)
+        
     def evalUnaryOp(self, sexp, env):
+        """Recursive version. Soon to be deprecated.
+        """
         (uop, arg) =  sexp.spine
         assert isinstance(uop, Atom)
         op = uop.string
         val = self.eval(arg, env)
-        if  op is SymbolTable.LOAD:
-            if isString(val):
-                return self.load(val)
-            else:
-                return False
-        elif op is SymbolTable.IMPORT:
-            return self.importmod(val)
-        elif op is SymbolTable.ISNONE:
-            return val is None
-        elif op is SymbolTable.ISINT:
-            return isinstance(val, int)
-        elif op is SymbolTable.ISFLOAT:
-            return isinstance(val, float)
-        elif op is SymbolTable.ISOBJECT:
-            return val is not None
-        elif op is SymbolTable.GLOBAL:
-            return self.evalGlobal(val, sexp.location)
-        elif op is SymbolTable.THROW:
-            raise v
-        elif op is SymbolTable.FETCH:
-            if val in self.uid2object:
-                return self.uid2object[val]
-            else:
-                return None
-        elif op is SymbolTable.GETUID:
-            if val in self.object2uid:
-                return self.object2uid[val]
-            else:
-                return None
-        elif op is SymbolTable.NOT:
-            return True if val is False else False
-        else:
-            raise PlambdaException("huh?")
-        return True
 
+        (ok, retval) = self.callUnaryOp(op, val, sexp.location)
+
+        if ok:
+            return retval
+        else:
+            raise retval
+        
 
     def load(self, filename):
         if isString(filename):
@@ -711,21 +765,24 @@ class Interpreter(object):
 
     
     def showDefinitions(self, sb=None):
-        """Either writes the definitions out to stderr, or the optional StringBuffer passed in."""
+        """Either writes the definitions out to stderr, or the optional StringBuffer passed in.
+        """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.definitions.iteritems():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
 
     def showCode(self, sb=None):
-        """Either writes the code out to stderr, or the optional StringBuffer passed in."""
+        """Either writes the code out to stderr, or the optional StringBuffer passed in.
+        """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.code.iteritems():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
 
     def showUIDs(self, sb=None):
-        """Either writes the UIDs out to stderr, or the optional StringBuffer passed in."""
+        """Either writes the UIDs out to stderr, or the optional StringBuffer passed in.
+        """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.uid2object.iteritems():
             func('{0}  -->  {1}\n'.format(key, value))
