@@ -4,7 +4,12 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import TopCont, IfCont, SeqCont, UnaryOpCont, BinaryOpCont, TernaryOpCont, ConcatCont, MkCont, AndCont, OrCont
+from .Continuation import ( TopCont, IfCont, SeqCont,
+                            UnaryOpCont, BinaryOpCont, TernaryOpCont,
+                            ConcatCont, MkCont,
+                            AndCont, OrCont,
+                            ApplyCont, InvokeCont, GetAttrCont )
+
 
 EVAL     = 0
 CONTINUE = 1
@@ -37,7 +42,7 @@ class State(object):
             elif isinstance(self.exp, StringLiteral):
                 self.val = self.exp.string
             elif isinstance(self.exp, Atom):
-                self.val = self.lookup(exp, env)
+                self.val = self.interpreter.lookup(self.exp, self.env)
             elif isinstance(self.exp, SExpression):
 
 
@@ -61,9 +66,13 @@ class State(object):
                     self.tag = RETURN
                     return
                 elif code is Syntax.INVOKE:                    
-                    pass
+                    self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return
                 elif code is Syntax.APPLY:
-                    pass
+                    self.k = ApplyCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE;
+                    return
                 elif code is Syntax.PRIMITIVE_DATA_OP:
                     self.val = self.interpreter.evalPrimitiveDataOp(self.exp, self.env)
                     self.tag = RETURN
@@ -88,9 +97,10 @@ class State(object):
                         self.tag = CONTINUE;
                         return 
                     elif op is SymbolTable.GETATTR:
-                        pass
+                        self.k = GetAttrCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
                     else:
-                        pass
+                        raise PLambdaException("Unhandled ambi2 op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
                 elif code is Syntax.N_ARY_OP:
                     if op is SymbolTable.AND:
                         self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k);

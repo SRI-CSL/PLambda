@@ -46,6 +46,6 @@ class PLambdaTest(unittest.TestCase):
         try:
             self.interpreter.cpevaluateString(string)
         except Exception as e:
-            #traceback.print_exc(file=sys.stderr)
+            traceback.print_exc(file=sys.stderr)
             self.assertEqual(type(e), type(value)) 
             self.assertEqual(str(e), str(value))

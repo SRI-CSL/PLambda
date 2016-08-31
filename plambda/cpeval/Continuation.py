@@ -15,8 +15,14 @@ class Continuation(object):
     def __init__(self, exp=None, args=None, env=None, k=None):
         self.exp = exp
         self.args = args
+
         if self.args is not None:
-            self.vals = [ None ] * len(args)
+            self.argslen = len(args)
+            self.vals = [ None ] * self.argslen
+        else:
+            self.argslen = None
+            self.vals = None
+            
         self.n = 0
         self.env = env
         self.k = k
@@ -69,7 +75,7 @@ class TopCont(Continuation):
     def ret(self, state):
         if self.excep is not None:
             sys.stderr.write("FIXME: Debugger.handle(excep)\n")
-
+            #sys.stderr.write(str(self.excep))
         state.tag = State.DONE
 
             
@@ -99,7 +105,7 @@ class IfCont(Continuation):
             state.tag = State.EVAL
             state.exp = self.args[1]
             state.env = self.env
-        elif  len(self.args) == 3:
+        elif  self.argslen == 3:
             state.tag = State.EVAL
             state.exp = self.args[2]
             state.env = self.env
@@ -119,7 +125,7 @@ class EvalArgsCont(Continuation):
 
 
     def cont(self, state):
-        if len(self.args) > 0:
+        if self.argslen > 0:
             state.tag = State.EVAL
             state.exp = self.args[self.n]
             state.env = self.env
@@ -131,7 +137,7 @@ class EvalArgsCont(Continuation):
 
         if not self.receiveVal(state.val):
             state.k = self.k
-        elif self.n < len(self.args):
+        elif self.n < self.argslen:
             state.tag = State.CONTINUE
         else:
             self.finish(state)
@@ -200,6 +206,30 @@ class TernaryOpCont(EvalArgsCont):
         location = self.exp.location
         return state.interpreter.callTernaryOp(op, val0, val1, val2, location)
 
+class ApplyCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+    def computeResult(self, state):
+         return state.interpreter.callApply(self.vals[0], self.vals[1:],  self.exp.spine[0].location)
+
+class InvokeCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+    def computeResult(self, state):
+         return state.interpreter.callInvoke(self.vals[0], self.vals[1], self.vals[2:],  self.exp.spine[0].location)
+
+class GetAttrCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+    def computeResult(self, state):
+         return state.interpreter.callGetAttr(self, self.vals,  self.exp.spine[0].location)
+     
 
 class ConcatCont(EvalArgsCont):
 
@@ -235,7 +265,7 @@ class PropCont(Continuation):
 
 
     def cont(self, state):
-        if len(self.args) > 0:
+        if self.argslen > 0:
             state.tag = State.EVAL
             state.exp = self.args[self.n]
             state.env = self.env
@@ -252,7 +282,7 @@ class PropCont(Continuation):
             state.k = self.k
             return
 
-        if self.isStopValue(state.val) or self.n == len(self.args):
+        if self.isStopValue(state.val) or self.n == self.argslen:
             self.finish(state)
         else:
             state.tag = State.CONTINUE

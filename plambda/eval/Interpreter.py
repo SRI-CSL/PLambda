@@ -232,27 +232,22 @@ class Interpreter(object):
             retval = self.eval(s, env)
         return retval
 
-    def evalInvoke(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        objexp = sexp.spine[1]
-        obj = self.eval(objexp, env)
 
+    def callInvoke(self, obj, methodname, vals, location):
+        
         methods = inspect.getmembers(obj, callable)
 
         if not methods:
-            fmsg = 'Object not invokable: {0} evaluated to {1}'
-            emsg = fmsg.format(repr(objexp), obj)
-            raise PLambdaException(emsg)
+            fmsg = 'Object not invokable: {0} {1}'
+            emsg = fmsg.format(obj, location)
+            return (False, PLambdaException(emsg))
 
-        methodexp = sexp.spine[2]
-        methodname  = self.eval(methodexp, env)
         method = None
         
         if not isString(methodname):
-            fmsg = 'Method name not a string: {0} evaluated to {1}'
-            emsg = fmsg.format(repr(methodexp), methodname)
-            raise PLambdaException(fmsg)
+            fmsg = 'Method name not a string: {0} {1}'
+            emsg = fmsg.format(methodname, location)
+            return (False, PLambdaException(fmsg))
 
         
         for (name, value) in methods:
@@ -261,12 +256,10 @@ class Interpreter(object):
                 break
 
         if method is None:
-            emsg = 'No such method: {0}'.format(repr(methodname))
-            raise PLambdaException(emsg)
+            emsg = 'No such method: {0} {1}'.format(methodname, location)
+            return (False, PLambdaException(emsg))
         
-        args = sexp.spine[3:]
 
-        # print 'type({0}): '.format(methodname), type(method),  types.BuiltinFunctionType
         # Ugliness under python's hood:
         # Cannot get the argspec of a builtin
         # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
@@ -278,18 +271,42 @@ class Interpreter(object):
             if not inspect.ismodule(obj) and not inspect.isclass(obj):
                 offset = 1
         
-                if len(argspec.args) - offset  != len(args): 
+                if len(argspec.args) - offset  != len(vals): 
                     fmsg = 'Arity of {0} args {1} does not match the argspec: {2}'
                     emsg = fmsg.format(methodname, args, argspec.args[offset:])
-                    raise PLambdaException(emsg)
-        
-        
+                    return (False, PLambdaException(emsg))
+
+        retval = None
+
+        try:
+            retval = method(*vals)
+            return (True, retval)
+        except Exception as e:
+            return (False, e)
+
+
+    
+    def evalInvoke(self, sexp, env):
+        """RECURSIVE VERSION. Soon to be deprecated.
+        """
+        objexp = sexp.spine[1]
+        obj = self.eval(objexp, env)
+
+        methodexp = sexp.spine[2]
+        methodname  = self.eval(methodexp, env)
+
+        args = sexp.spine[3:]
+
         vals = []
         for a in args:
             vals.append(self.eval(a, env))
-        
-        return method(*vals)
 
+        (ok, retval) = self.callInvoke(obj, methodname, vals, sexp.spine[0].location)
+
+        if ok:
+            return retval
+        else:
+            raise retval
 
     def evalDefine(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -332,6 +349,34 @@ class Interpreter(object):
 
         return self.eval(body, nenv)
         
+
+    def callApply(self, fun, vals, location):
+        retval = None
+        if not isinstance(fun, Closure) and not callable(fun):
+            fmsg = 'Cannot apply {0} which evaluated to {1}'
+            emsg = fmsg.format(funexp, fun)
+            return (False, PLambdaException(emsg))
+
+        if isinstance(fun, Closure):
+            if len(vals) != fun.arity:
+                fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
+                emsg = fmsg.format(fun.arity, vals, len(vals), location)
+                return (False, PLambdaException(emsg))
+            else:
+                try: 
+                    retval = fun.applyClosure(*vals)
+                    return (True, retval)
+                except Exception as e:
+                    return (False, e)
+                
+        else:
+            try: 
+                retval = fun(*vals)
+                return (True, retval)
+            except Exception as e:
+                return (False, e)
+    
+
     def evalApply(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -340,25 +385,16 @@ class Interpreter(object):
 
         fun = self.eval(funexp, env)
 
-        if not isinstance(fun, Closure) and not callable(fun):
-            fmsg = 'Cannot apply {0} which evaluated to {1}'
-            emsg = fmsg.format(funexp, fun)
-            raise PLambdaException(emsg)
-
         vals = []
         for arg in argexps:
             vals.append(self.eval(arg, env))
 
-        #TODO: some arity checking would be nice
-        if isinstance(fun, Closure):
-            if len(vals) != fun.arity:
-                fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
-                emsg = fmsg.format(fun.arity, argexps, len(argexps), sexp.spine[0].location)
-                raise PLambdaException(emsg)
-            else:
-                return fun.applyClosure(*vals)
+        (ok, retval) = self.callApply(fun, vals,  sexp.spine[0].location)
+
+        if ok:
+            return retval
         else:
-            return fun(*vals)
+            raise retval
 
 
     def evalFor(self, sexp, env):
@@ -569,24 +605,36 @@ class Interpreter(object):
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)
             raise PLambdaException(emsg)
+
+
+    def callGetAttr(self, vals, location):
+        retval = None
+        try:
+            retval = getattr(*vals)
+            return (True, retval)
+        except Exception as e:
+            return (False, e)
+        
         
     def evalAmbi2Op(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
         uop =  sexp.spine[0]
+        args = sexp.spine[1:]
         assert isinstance(uop, Atom)
         op = uop.string
         if op is SymbolTable.IF:
             return self.evalIf(sexp, env)
         elif op in (SymbolTable.GETATTR, SymbolTable.LOOKUP):
-            if len(sexp.spine) == 3:
-                return getattr(self.eval(sexp.spine[1], env),
-                               self.eval(sexp.spine[2], env))
+            vals = []
+            
+            for arg in args:
+                vals.append(self.eval(arg, env))
+            (ok, retval) = self.callGetAttr(vals, sexp.spine[0].location)
+            if ok:
+                return retval
             else:
-                return getattr(self.eval(sexp.spine[1], env),
-                               self.eval(sexp.spine[2], env),
-                               self.eval(sexp.spine[3], env))
-
+                raise retval
         else:
             fmsg = 'Unrecognized ambi1 operation: {0}'
             emsg = fmsg.format(op)

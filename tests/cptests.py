@@ -51,6 +51,12 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(or)', False)
         self.cpplambdaEqualTest('(and (boolean True) (boolean True) (boolean True))', True)
         self.cpplambdaEqualTest('(or (boolean False) (boolean True))', True)
+        here = os.getcwd()
+        self.cpplambdaEqualTest('(import "sys")', True)
+        self.cpplambdaEqualTest('(import "os")', True)
+        # have more ways of doing things in plambda than in jlambda
+        self.cpplambdaStringEqualTest('(invoke os "getcwd")', here)
+        self.cpplambdaStringEqualTest('(apply os.getcwd)', here)
 
 
         
