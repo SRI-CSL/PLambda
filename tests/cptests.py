@@ -66,6 +66,11 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('Main.myself',  None)
         self.cpplambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
         self.cpplambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
+        # examples of tries 'n catches
+        self.cpplambdaEqualTest("(try (int 5) (catch e  (int 6) e))", 5)
+        self.cpplambdaEqualTest("(try (throw (apply Exception)) (catch e (int 6) (is e e)))", True)
+        self.cpplambdaEqualTest("(for x (int 7) x)", 6)
+        self.cpplambdaEqualTest("(for x (mklist (int 0) (int 1) (int 2) (int 3) ) x)", 3)
 
 
         

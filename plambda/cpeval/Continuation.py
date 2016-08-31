@@ -1,6 +1,8 @@
-import sys
+import sys, collections
 
 from ..eval.PLambdaException import PLambdaException
+
+from ..eval.Environment import Environment
 
 from ..util.StringBuffer import StringBuffer
 
@@ -144,7 +146,104 @@ class IfCont(Continuation):
 
         state.k = self.k
         
-    
+
+class TryCont(Continuation):
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+
+    def cont(self, state):
+        state.tag = State.EVAL
+        state.exp = self.args[0]
+        state.env = self.env
+
+    def handleReturn(self, state):
+        pass
+
+    def ret(self, state):
+        if self.excep is None:
+            """
+            No exception was thrown during evaluation of the `try'
+            body.  We simply invoke the next continuation in the chain.
+            """
+            state.k = self.k
+        else:
+            """
+            Need to evaluate the catch with the param bound to self.excep.
+            """
+            catchexp = self.args[1].spine
+            catchid = catchexp[1]
+            catchbody =  catchexp[2]
+            catchenv = Environment(self.env)
+            state.tag = State.EVAL
+            state.exp = catchbody
+            state.env = catchenv.extend(catchid, self.excep)
+            self.excep = None
+            
+
+class ForCont(Continuation):
+
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+        self.iterator = None
+        self.length = None
+        self.id = self.args[0]
+        self.body = self.args[2]
+
+
+    def cont(self, state):
+        state.tag = State.EVAL
+        state.exp = self.args[1]
+        state.env = self.env
+
+    def handleReturn(self, state):
+        self.n += 1
+
+        val = state.val
+        
+        if self.n == 1:
+
+            if val is None:
+                self.setException(state, "for target is None {0}".format(self.exp.spine[0].location))
+                return
+            if isinstance(val, int):
+                self.iterator = iter(range(val))
+                self.length = val
+                if self.length == 0:
+                    self.setReturnState(state, None)
+                    return
+            elif isinstance(val, collections.Iterable):
+                self.iterator = iter(val)
+                self.length = len(val)
+                if self.length == 0:
+                    self.setReturnState(state, None)
+                    return
+            else:
+                self.setException(state, "for target is not iterable {0} {1}".format(val, self.exp.spine[0].location))
+                return
+        elif self.n  == self.length + 2:
+            self.setReturnState(state, val)
+        else:
+            next = self.iterator.next()
+            #sys.stderr.write('{0} out of {1}\n'.format(next, self.length))
+            env = Environment(self.env)
+            env.extend(self.id, next)
+            state.tag = State.EVAL
+            state.exp = self.body
+            state.env = env
+        
+
+    def setException(self, state, msg):
+        self.k.excep = PLambdaException(msg)
+        self.setReturnState(state, None)
+
+    def setReturnState(self, state, val):
+        state.val = val
+        state.k = self.k
+        state.tag = State.RETURN
+
+
 
 class EvalArgsCont(Continuation):
 

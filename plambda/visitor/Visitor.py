@@ -209,14 +209,6 @@ class Visitor(PLambdaVisitor):
         return Atom(data.getSymbol().text, Location(self.filename, data.getSymbol().line))
 
     
-    # Visit a parse tree produced by PLambdaParser#quoteExpression.
-    def visitQuoteExpression(self, ctx):
-        lineno = ctx.QUOTE().getSymbol().line
-        location = Location(self.filename, lineno)
-        return SExpression(Syntax.QUOTE, (SymbolTable.QUOTE,
-                                          self.visitString(ctx.string())),
-                           location)
-
     # Visit a parse tree produced by PLambdaParser#oneOrMoreExpression.
     def visitOneOrMoreExpression(self, ctx):
         return self.visitExpressionList(Syntax.AMBI1_OP, ctx.AMBI1_OP(), ctx.expression());

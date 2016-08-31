@@ -748,8 +748,6 @@ class Interpreter(object):
             return self.evalTry(sexp, env)
         elif code is Syntax.FOR:
             return self.evalFor(sexp, env)
-        elif code is Syntax.QUOTE:
-            print('QUOTE: coming soon to an interpreter near you!')
         else:
             raise PLambdaException("huh?")
 
@@ -813,7 +811,7 @@ class Interpreter(object):
             elif op is SymbolTable.GLOBAL:
                 retval = self.evalGlobal(val, location)
             elif op is SymbolTable.THROW:
-                return (False,  v)
+                return (False,  val)
             elif op is SymbolTable.FETCH:
                 if val in self.uid2object:
                     retval = self.uid2object[val]

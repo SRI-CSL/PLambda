@@ -57,7 +57,6 @@ class SymbolTable(object):
         intern('object'):        intern('object'),
         intern('or'):            intern('or'),
         intern('+'):             intern('+'),
-        intern('quote'):         intern('quote'),
         intern('seq'):           intern('seq'),
         intern('setattr'):       intern('setattr'),
         intern('setuid'):        intern('setuid'),
@@ -125,7 +124,6 @@ class SymbolTable(object):
     OBJECT      = intern('object')
     OR          = intern('or')
     PLUS        = intern('+')
-    QUOTE       = intern('quote')
     SEQ         = intern('seq')
     SETATTR     = intern('setattr')
     SETUID      = intern('setuid')

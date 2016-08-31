@@ -19,7 +19,6 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' N_ARY_OP expression* ')'                                                # naryExpression       
           |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
-          |  '(' QUOTE  data  ')'                                                        # quoteExpression
           |  STRING                                                                      # stringLiteral      
           |  ID                                                                          # identifierLiteral
           |  NONE                                                                        # noneLiteral
@@ -160,8 +159,6 @@ GETUID:       [Gg][Ee][Tt][Uu][Ii][Dd]                  ;
  
 GLOBAL:       [Gg][Ll][Oo][Bb][Aa][Ll]                  ;
  
-QUOTE:        [Qq][Uu][Oo][Tt][Ee]                      ;
-
 NOT:          [Nn][Oo][Tt]                              ;
 
 THROW:        [Tt][Hh][Rr][Oo][Ww]                      ;

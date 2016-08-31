@@ -85,11 +85,6 @@ class PLambdaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLambdaParser#quoteExpression.
-    def visitQuoteExpression(self, ctx):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by PLambdaParser#stringLiteral.
     def visitStringLiteral(self, ctx):
         return self.visitChildren(ctx)

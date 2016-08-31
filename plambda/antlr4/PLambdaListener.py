@@ -148,15 +148,6 @@ class PLambdaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLambdaParser#quoteExpression.
-    def enterQuoteExpression(self, ctx):
-        pass
-
-    # Exit a parse tree produced by PLambdaParser#quoteExpression.
-    def exitQuoteExpression(self, ctx):
-        pass
-
-
     # Enter a parse tree produced by PLambdaParser#stringLiteral.
     def enterStringLiteral(self, ctx):
         pass

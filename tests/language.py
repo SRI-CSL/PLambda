@@ -161,6 +161,15 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest("(apply isinstance (int 21) (global 'int'))", True)
         self.plambdaEqualTest("(apply isinstance (float 21) (global 'float'))", True)
 
+
+    def test_O(self):
+        # examples of tries 'n catches
+        self.plambdaEqualTest("(try (int 5) (catch e  (int 6) e))", 5)
+        self.plambdaEqualTest("(try (throw (apply Exception)) (catch e  (is e e)))", True)
+        self.plambdaEqualTest("(for x (int 7) x)", 6)
+        self.plambdaEqualTest("(for x (mklist (int 0) (int 1) (int 2) (int 3) ) x)", 3)
+
+      
         
 if __name__ == "__main__":
     unittest.main()

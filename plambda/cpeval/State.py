@@ -4,7 +4,7 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont,
+from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, ForCont,
                             UnaryOpCont, BinaryOpCont, TernaryOpCont, Ambi1OpCont,
                             ConcatCont, MkCont,
                             AndCont, OrCont,
@@ -125,13 +125,15 @@ class State(object):
                     else:
                         raise PLambdaException("Unhandled n-ary op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
                 elif code is Syntax.TRY:
-                    pass
+                    self.k = TryCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
+                    return
                 elif code is Syntax.FOR:
-                    pass
-                elif code is Syntax.QUOTE:
-                    pass
+                    self.k = ForCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
+                    return
                 elif code is Syntax.CATCH:
-                    pass
+                    raise PLambdaException("Orphan catch. Should not happen")
                 else:
                    raise PLambdaException("Unhandled form in State.step")
                 #FIXME: we are done when this can be removed, as so can the above returns ...
