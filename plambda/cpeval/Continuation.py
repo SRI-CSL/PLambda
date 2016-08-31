@@ -83,7 +83,36 @@ class TopCont(Continuation):
         pass
 
     
+class DefineCont(Continuation):
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+
+    def cont(self, state):
+        name = self.args[0].string
+        if self.argslen == 2:
+            self.vals[0] = name
+            state.tag = State.EVAL
+            state.exp = self.args[1]
+            state.env = self.env
+        else:
+            params = self.args[1]
+            body = self.args[2]
+            val = Closure(self.interpreter, params, body, env, self.exp.spine[0].location)
+            state.interpreter.definitions[name] =  val
+            state.tag = State.RETURN
+            state.val = name
+            state.k = self.k
+
+            
+    def handleReturn(self, state):
+        name = self.vals[0]
+        state.interpreter.definitions[name] =  state.val
+        state.tag = State.RETURN
+        state.val = name
+        state.k = self.k
         
+    
 class IfCont(Continuation):
 
 
@@ -228,7 +257,7 @@ class GetAttrCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
     def computeResult(self, state):
-         return state.interpreter.callGetAttr(self, self.vals,  self.exp.spine[0].location)
+         return state.interpreter.callGetAttr(self.vals,  self.exp.spine[0].location)
      
 
 class ConcatCont(EvalArgsCont):

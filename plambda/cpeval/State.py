@@ -4,7 +4,7 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import ( TopCont, IfCont, SeqCont,
+from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont,
                             UnaryOpCont, BinaryOpCont, TernaryOpCont,
                             ConcatCont, MkCont,
                             AndCont, OrCont,
@@ -54,69 +54,71 @@ class State(object):
 
                 if code is Syntax.SEQ:
                     self.k = SeqCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.tag = CONTINUE
                     return 
                 elif code is Syntax.LET:
                     pass
                 elif code is Syntax.DEFINE:
-                    pass
+                    self.k = DefineCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
+                    return
                 elif code is Syntax.LAMBDA:
                     spine = self.exp.spine
                     self.val = Closure(self, spine[1], spine[2], self.env, spine[0].location)
                     self.tag = RETURN
                     return
                 elif code is Syntax.INVOKE:                    
-                    self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
                     return
                 elif code is Syntax.APPLY:
-                    self.k = ApplyCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.k = ApplyCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
                     return
                 elif code is Syntax.PRIMITIVE_DATA_OP:
                     self.val = self.interpreter.evalPrimitiveDataOp(self.exp, self.env)
                     self.tag = RETURN
                     return
                 elif code is Syntax.UNARY_OP:
-                    self.k = UnaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.k = UnaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
                     return 
                 elif code is Syntax.BINARY_OP:                    
-                    self.k = BinaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.k = BinaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
                     return 
                 elif code is Syntax.TERNARY_OP:
-                    self.k = TernaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                    self.tag = CONTINUE;
+                    self.k = TernaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
                     return 
                 elif code is Syntax.AMBI1_OP:
                     pass
                 elif code is Syntax.AMBI2_OP:
                     if op is SymbolTable.IF:
-                        self.k = IfCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = IfCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                         return 
                     elif op is SymbolTable.GETATTR:
-                        self.k = GetAttrCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = GetAttrCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                     else:
                         raise PLambdaException("Unhandled ambi2 op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
                 elif code is Syntax.N_ARY_OP:
                     if op is SymbolTable.AND:
-                        self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                         return 
                     elif op is SymbolTable.OR:
-                        self.k = OrCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = OrCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                         return 
                     elif op is SymbolTable.CONCAT:
-                        self.k = ConcatCont(self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = ConcatCont(self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                         return
                     elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
-                        self.k = MkCont(op, self.exp, self.exp.spine[1:], self.env, self.k);
-                        self.tag = CONTINUE;
+                        self.k = MkCont(op, self.exp, self.exp.spine[1:], self.env, self.k)
+                        self.tag = CONTINUE
                         return
                     else:
                         raise PLambdaException("Unhandled n-ary op form in State.step {0} {1}".format(op, self.exp.spine[0].location))

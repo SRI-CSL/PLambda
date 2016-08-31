@@ -57,6 +57,13 @@ class plambdaTest(PLambdaTest):
         # have more ways of doing things in plambda than in jlambda
         self.cpplambdaStringEqualTest('(invoke os "getcwd")', here)
         self.cpplambdaStringEqualTest('(apply os.getcwd)', here)
+        self.cpplambdaEqualTest('(define foo (int 11))', 'foo')
+        
+        self.cpplambdaEqualTest('(import "plambda.actors.pyactor")',  True)
+        self.cpplambdaStringEqualTest('(define Main plambda.actors.pyactor.Main)',  'Main')
+        self.cpplambdaEqualTest('Main.myself',  None)
+        self.cpplambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
+        self.cpplambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
 
 
         
