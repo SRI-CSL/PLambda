@@ -5,7 +5,7 @@ from ..eval.Closure import Closure
 from ..eval.SymbolTable import SymbolTable
 
 from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont,
-                            UnaryOpCont, BinaryOpCont, TernaryOpCont,
+                            UnaryOpCont, BinaryOpCont, TernaryOpCont, Ambi1OpCont,
                             ConcatCont, MkCont,
                             AndCont, OrCont,
                             ApplyCont, InvokeCont, GetAttrCont )
@@ -92,7 +92,9 @@ class State(object):
                     self.tag = CONTINUE
                     return 
                 elif code is Syntax.AMBI1_OP:
-                    pass
+                    self.k = Ambi1OpCont(op, self.exp, self.exp.spine[1:], self.env, self.k)
+                    self.tag = CONTINUE
+                    return 
                 elif code is Syntax.AMBI2_OP:
                     if op is SymbolTable.IF:
                         self.k = IfCont(self.exp, self.exp.spine[1:], self.env, self.k)

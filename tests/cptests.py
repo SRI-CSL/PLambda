@@ -29,6 +29,8 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(float 3.1459)',  3.1459)
         self.cpplambdaEqualTest('(float 3.0)',  3)
         self.cpplambdaEqualTest('(== (float 3.0) (int 3))',  True)
+        self.cpplambdaEqualTest('(== (- (int 3)) (int -3))',  True)
+        self.cpplambdaEqualTest('(== (- (int 0) (int 3)) (int -3))',  True)
         self.cpplambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.cpplambdaEqualTest('(== (apply object) (apply object))',  False)
         self.cpplambdaEqualTest('(if (boolean True) (int 7) (float 11))',  7)

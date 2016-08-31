@@ -235,6 +235,24 @@ class TernaryOpCont(EvalArgsCont):
         location = self.exp.location
         return state.interpreter.callTernaryOp(op, val0, val1, val2, location)
 
+class Ambi1OpCont(EvalArgsCont):
+
+    def __init__(self, op, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+        self.op = op
+
+    def computeResult(self, state):
+        if self.op is SymbolTable.MINUS:
+            if len(self.vals) == 2:
+                return (True, self.vals[0] - self.vals[1])
+            else:
+                return (True, - self.vals[0])
+        else:
+            fmsg = 'Unrecognized ambi1 operation: {0}'
+            emsg = fmsg.format(self.op)
+            return (False, PLambdaException(emsg))
+
+
 class ApplyCont(EvalArgsCont):
 
     def __init__(self, exp, args, env, k):
