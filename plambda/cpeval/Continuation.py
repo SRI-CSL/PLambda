@@ -4,6 +4,8 @@ from ..eval.PLambdaException import PLambdaException
 
 from ..util.StringBuffer import StringBuffer
 
+from ..eval.SymbolTable import SymbolTable
+
 import State
 
 
@@ -117,34 +119,38 @@ class EvalArgsCont(Continuation):
 
 
     def cont(self, state):
-        state.tag = State.EVAL
-        state.exp = self.args[self.n]
-        state.env = self.env
+        if len(self.args) > 0:
+            state.tag = State.EVAL
+            state.exp = self.args[self.n]
+            state.env = self.env
+        else:
+            self.finish(state)
 
     def handleReturn(self, state):
         self.n += 1
 
         if not self.receiveVal(state.val):
             state.k = self.k
-            return
-
-        if self.n < len(self.args):
+        elif self.n < len(self.args):
             state.tag = State.CONTINUE
         else:
-            (ok, retval) = self.computeResult(state)
-            sys.stderr.write("EvalArgsCont.handleReturn returning {0}\n".format(retval))
-            if ok:
-                state.tag = State.RETURN
-                state.val = retval
-                state.k = self.k
-            else:
-                self.k.excep = retval
-                state.k = self.k
+            self.finish(state)
                 
     def receiveVal(self, val):
         self.vals[self.n - 1] = val
         return True
-    
+
+    def finish(self, state):
+        (ok, retval) = self.computeResult(state)
+        sys.stderr.write("EvalArgsCont.finish returning {0}\n".format(retval))
+        if ok:
+            state.tag = State.RETURN
+            state.val = retval
+            state.k = self.k
+        else:
+            self.k.excep = retval
+            state.k = self.k
+            
 
 class SeqCont(EvalArgsCont):
 
@@ -193,3 +199,102 @@ class TernaryOpCont(EvalArgsCont):
         val2 = self.vals[2]
         location = self.exp.location
         return state.interpreter.callTernaryOp(op, val0, val1, val2, location)
+
+
+class ConcatCont(EvalArgsCont):
+
+    def __init__(self, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+
+
+    def computeResult(self, state):
+        sb = StringBuffer()
+        for v in self.vals:
+            sb.append(str(v))
+        return (True, str(sb))
+
+class MkCont(EvalArgsCont):
+    
+    def __init__(self, op, exp, args, env, k):
+        EvalArgsCont.__init__(self, exp, args, env, k)
+        self.op = op
+
+    def computeResult(self, state):
+        if self.op is SymbolTable.MKTUPLE:
+            return (True, tuple(self.vals))
+        elif self.op is SymbolTable.MKLIST:
+            return (True, self.vals)
+        else:
+            return (True, dict(self.vals[i:i+2] for i in range(0, len(self.vals), 2)))
+
+
+class PropCont(Continuation):
+    
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+
+
+    def cont(self, state):
+        if len(self.args) > 0:
+            state.tag = State.EVAL
+            state.exp = self.args[self.n]
+            state.env = self.env
+        else:
+            self.finish(state)
+
+    
+    def handleReturn(self, state):
+        self.n += 1
+
+        if not isinstance(state.val, bool):
+            msg = '{0} is not a boolean in propsitional operator {1}'
+            self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
+            state.k = self.k
+            return
+
+        if self.isStopValue(state.val) or self.n == len(self.args):
+            self.finish(state)
+        else:
+            state.tag = State.CONTINUE
+
+
+    def finish(self, state):
+        state.tag = State.RETURN
+        state.val = self.computeResult(state.val)
+        state.k = self.k
+  
+
+class AndCont(PropCont):
+    
+    def __init__(self, exp, args, env, k):
+        PropCont.__init__(self, exp, args, env, k)
+
+
+    def isStopValue(self, val):
+        return not val
+
+    def computeResult(self, val):
+        if val is None:
+            return True
+        else:
+            return val
+
+
+    
+class OrCont(PropCont):
+    
+    def __init__(self, exp, args, env, k):
+        PropCont.__init__(self, exp, args, env, k)
+
+
+    def isStopValue(self, val):
+        return val
+
+    def computeResult(self, val):
+        if val is None:
+            return False
+        else:
+            return val
+
+
+    

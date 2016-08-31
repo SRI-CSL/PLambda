@@ -4,7 +4,7 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import TopCont, IfCont, SeqCont, UnaryOpCont, BinaryOpCont, TernaryOpCont
+from .Continuation import TopCont, IfCont, SeqCont, UnaryOpCont, BinaryOpCont, TernaryOpCont, ConcatCont, MkCont, AndCont, OrCont
 
 EVAL     = 0
 CONTINUE = 1
@@ -91,8 +91,25 @@ class State(object):
                         pass
                     else:
                         pass
-                elif code is Syntax.N_ARY_OP:                    
-                    pass
+                elif code is Syntax.N_ARY_OP:
+                    if op is SymbolTable.AND:
+                        self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
+                        return 
+                    elif op is SymbolTable.OR:
+                        self.k = OrCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
+                        return 
+                    elif op is SymbolTable.CONCAT:
+                        self.k = ConcatCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
+                        return
+                    elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
+                        self.k = MkCont(op, self.exp, self.exp.spine[1:], self.env, self.k);
+                        self.tag = CONTINUE;
+                        return
+                    else:
+                        raise PLambdaException("Unhandled n-ary op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
                 elif code is Syntax.TRY:
                     pass
                 elif code is Syntax.FOR:

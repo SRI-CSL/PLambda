@@ -47,6 +47,10 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(mklist)', [])
         self.cpplambdaEqualTest('(mktuple)', ())
         self.cpplambdaEqualTest('(mkdict)', {})
+        self.cpplambdaEqualTest('(and)', True)
+        self.cpplambdaEqualTest('(or)', False)
+        self.cpplambdaEqualTest('(and (boolean True) (boolean True) (boolean True))', True)
+        self.cpplambdaEqualTest('(or (boolean False) (boolean True))', True)
 
 
         
