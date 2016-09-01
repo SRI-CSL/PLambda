@@ -36,72 +36,58 @@ class State(object):
     def step(self):
 
         if self.tag is EVAL:
-
             if  self.exp is None:
                 self.val = None
+                self.tag = RETURN
             elif isinstance(self.exp, StringLiteral):
                 self.val = self.exp.string
+                self.tag = RETURN
             elif isinstance(self.exp, Atom):
                 self.val = self.interpreter.lookup(self.exp, self.env)
+                self.tag = RETURN
             elif isinstance(self.exp, SExpression):
-
-
                 code = self.exp.code
                 opexp = self.exp.spine[0]
-
                 assert isinstance(opexp, Atom)
                 op = opexp.string
-
                 if code is Syntax.SEQ:
                     self.k = SeqCont(self.exp, self.exp.spine[1:], self.env, self.k);
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.LET:
                     self.k = LetCont(self.exp, self.exp.spine[1:], self.env, self.k);
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.DEFINE:
                     self.k = DefineCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return
                 elif code is Syntax.LAMBDA:
                     spine = self.exp.spine
                     self.val = Closure(self, spine[1], spine[2], self.env, spine[0].location)
                     self.tag = RETURN
-                    return
                 elif code is Syntax.INVOKE:                    
                     self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return
                 elif code is Syntax.APPLY:
                     self.k = ApplyCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return
                 elif code is Syntax.PRIMITIVE_DATA_OP:
                     self.val = self.interpreter.evalPrimitiveDataOp(self.exp, self.env)
                     self.tag = RETURN
-                    return
                 elif code is Syntax.UNARY_OP:
                     self.k = UnaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.BINARY_OP:                    
                     self.k = BinaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.TERNARY_OP:
                     self.k = TernaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.AMBI1_OP:
                     self.k = Ambi1OpCont(op, self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return 
                 elif code is Syntax.AMBI2_OP:
                     if op is SymbolTable.IF:
                         self.k = IfCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
-                        return 
                     elif op is SymbolTable.GETATTR:
                         self.k = GetAttrCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
@@ -111,41 +97,30 @@ class State(object):
                     if op is SymbolTable.AND:
                         self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
-                        return 
                     elif op is SymbolTable.OR:
                         self.k = OrCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
-                        return 
                     elif op is SymbolTable.CONCAT:
                         self.k = ConcatCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
-                        return
                     elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
                         self.k = MkCont(op, self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
-                        return
                     else:
                         raise PLambdaException("Unhandled n-ary op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
                 elif code is Syntax.TRY:
                     self.k = TryCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return
                 elif code is Syntax.FOR:
                     self.k = ForCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                    return
                 elif code is Syntax.CATCH:
                     raise PLambdaException("Orphan catch. Should not happen")
                 else:
                    raise PLambdaException("Unhandled form in State.step")
-                #FIXME: we are done when this can be removed, as so can the above returns ...
-                self.val = self.interpreter.evalSExpression(self.exp, self.env)
             else:
                 self.val = self.exp
-
-            self.tag = RETURN
-
-            
+                self.tag = RETURN
         elif self.tag is CONTINUE:
             self.k.cont(self)
         elif self.tag is RETURN:
@@ -154,5 +129,3 @@ class State(object):
             pass
         else:
             pass
-
-        return
