@@ -71,7 +71,9 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest("(try (throw (apply Exception)) (catch e (int 6) (is e e)))", True)
         self.cpplambdaEqualTest("(for x (int 7) x)", 6)
         self.cpplambdaEqualTest("(for x (mklist (int 0) (int 1) (int 2) (int 3) ) x)", 3)
-
+        self.cpplambdaEqualTest('(let ((x0 (int 0)) (x1 (int 1)) (x2 (int 2))) (mklist x0 x1 x2))', [0, 1, 2])
+        
+        
 
         
 if __name__ == "__main__":

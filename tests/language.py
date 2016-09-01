@@ -101,7 +101,8 @@ class plambdaTest(PLambdaTest):
         letstr = '(let ((x (int 666))) (let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z))) x )'
         self.plambdaEqualTest(letstr, 666)
         self.plambdaEqualTest('(let ((x (apply object)) (y x)) (is x y))', True) 
-
+        self.plambdaEqualTest('(let ((x0 (int 0)) (x1 (int 1)) (x2 (int 2))) (mklist x0 x1 x2))', [0, 1, 2])
+        
     def test_H(self):
         self.plambdaStringEqualTest('(define obj (apply object))', 'obj')
         self.plambdaEqualTest('(setuid obj "adefaultuid")', True)

@@ -48,6 +48,8 @@ class State(object):
             elif isinstance(self.exp, SExpression):
                 code = self.exp.code
                 opexp = self.exp.spine[0]
+                if not isinstance(opexp, Atom):
+                    print 'not atom: {0} {1} {2} {3}'.format(opexp, type(opexp), self.exp, self.exp.code)
                 assert isinstance(opexp, Atom)
                 op = opexp.string
                 if code is Syntax.SEQ:

@@ -186,9 +186,9 @@ class LetCont(Continuation):
 
     def __init__(self, exp, args, env, k):
         Continuation.__init__(self, exp, args, env, k)
-        self.lexicalEnv = Envronment(self.env)
-        self.bindings = self.args[1].spine
-        self.body = self.args[2]
+        self.lexicalEnv = Environment(self.env)
+        self.bindings = self.args[0].spine
+        self.body = self.args[1]
         self.bindingslen = len(self.bindings)
         self.bindingexp = None
         self.bindingid = None
@@ -205,7 +205,7 @@ class LetCont(Continuation):
             state.k = self.k
 
         state.env = self.lexicalEnv
-        state.tag = State.CONTINUE
+        state.tag = State.EVAL
         
 
 
@@ -312,7 +312,6 @@ class EvalArgsCont(Continuation):
 
     def finish(self, state):
         (ok, retval) = self.computeResult(state)
-        sys.stderr.write("EvalArgsCont.finish returning {0}\n".format(retval))
         if ok:
             state.tag = State.RETURN
             state.val = retval

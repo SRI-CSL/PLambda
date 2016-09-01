@@ -116,7 +116,8 @@ class Visitor(PLambdaVisitor):
         location = Location(self.filename, lineno)
         bindings = self.visitBindingList(ctx.bindingList())
         body = self.visitImplicitSeq(ctx.expression())
-        return SExpression(Syntax.LET, (SymbolTable.LET, bindings, body), location)
+        let = Atom(SymbolTable.LET, location) 
+        return SExpression(Syntax.LET, (let, bindings, body), location)
     
     # Visit a parse tree produced by PLambdaParser#bindingList.
     def visitBindingList(self, ctx):
