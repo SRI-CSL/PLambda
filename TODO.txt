@@ -58,3 +58,6 @@ argspec ['n'] ??
       - search?  [meh]
 
       - [X] focus on end in output text area
+
+
+12.  ForCont mystery.

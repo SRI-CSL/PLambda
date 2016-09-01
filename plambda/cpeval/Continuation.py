@@ -179,8 +179,44 @@ class TryCont(Continuation):
             state.exp = catchbody
             state.env = catchenv.extend(catchid, self.excep)
             self.excep = None
-            
 
+
+class LetCont(Continuation):
+
+
+    def __init__(self, exp, args, env, k):
+        Continuation.__init__(self, exp, args, env, k)
+        self.lexicalEnv = Envronment(self.env)
+        self.bindings = self.args[1].spine
+        self.body = self.args[2]
+        self.bindingslen = len(self.bindings)
+        self.bindingexp = None
+        self.bindingid = None
+        
+
+    def cont(self, state):
+        if self.n < self.bindingslen:
+            binding = self.bindings[self.n].spine
+            self.bindingid = binding[0]
+            self.bindingexp = binding[1]
+            state.exp = self.bindingexp
+        else:
+            state.exp = self.body
+            state.k = self.k
+
+        state.env = self.lexicalEnv
+        state.tag = State.CONTINUE
+        
+
+
+    def handleReturn(self, state):
+        self.lexicalEnv.extend(self.bindingid, state.val)
+        self.n += 1
+        state.tag = State.CONTINUE
+    
+    
+
+        
 class ForCont(Continuation):
 
 

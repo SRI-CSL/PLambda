@@ -4,7 +4,7 @@ from ..eval.Closure import Closure
 
 from ..eval.SymbolTable import SymbolTable
 
-from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, ForCont,
+from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, LetCont, ForCont,
                             UnaryOpCont, BinaryOpCont, TernaryOpCont, Ambi1OpCont,
                             ConcatCont, MkCont,
                             AndCont, OrCont,
@@ -57,7 +57,9 @@ class State(object):
                     self.tag = CONTINUE
                     return 
                 elif code is Syntax.LET:
-                    pass
+                    self.k = LetCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.tag = CONTINUE
+                    return 
                 elif code is Syntax.DEFINE:
                     self.k = DefineCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
