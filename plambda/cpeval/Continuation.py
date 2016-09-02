@@ -43,7 +43,7 @@ class Continuation(object):
         if self.excep is not None:
             if isinstance(self.excep, PLambdaException):
                 self.excep.extendBT(self.info())
-            self.k.excep = excep
+            self.k.excep = self.excep
             state.k = self.k
         else:
             self.handleReturn(state)
