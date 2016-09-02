@@ -348,9 +348,38 @@ class Interpreter(object):
             nenv.extend(var, self.eval(bpair.spine[1], nenv))
 
         return self.eval(body, nenv)
+
+
+    def callClosure(self, fun, vals, location):
+        """DEPRECATED VERSION.
+        """
+        retval = None
+        assert(isinstance(fun, Closure))
+        if len(vals) != fun.arity:
+            fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
+            emsg = fmsg.format(fun.arity, vals, len(vals), location)
+            return (False, PLambdaException(emsg))
+        else:
+            try: 
+                retval = fun.applyClosure(*vals)
+                return (True, retval)
+            except Exception as e:
+                return (False, e)
         
 
+    def callCallable(self, fun, vals, location):
+        retval = None
+        assert(callable(fun))
+        try: 
+            retval = fun(*vals)
+            return (True, retval)
+        except Exception as e:
+            return (False, e)
+            
+
     def callApply(self, fun, vals, location):
+        """DEPRECATED VERSION.
+        """
         retval = None
         if not isinstance(fun, Closure) and not callable(fun):
             fmsg = 'Cannot apply {0} which evaluated to {1}'
@@ -358,6 +387,8 @@ class Interpreter(object):
             return (False, PLambdaException(emsg))
 
         if isinstance(fun, Closure):
+            return self.callClosure(fun, vals, location)
+            """
             if len(vals) != fun.arity:
                 fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
                 emsg = fmsg.format(fun.arity, vals, len(vals), location)
@@ -368,14 +399,16 @@ class Interpreter(object):
                     return (True, retval)
                 except Exception as e:
                     return (False, e)
-                
+           """     
         else:
+            return self.callCallable(fun, vals, location)
+            """
             try: 
                 retval = fun(*vals)
                 return (True, retval)
             except Exception as e:
                 return (False, e)
-    
+            """
 
     def evalApply(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.

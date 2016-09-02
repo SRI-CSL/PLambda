@@ -209,6 +209,19 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest("(import 'sys')", True)
         self.cpplambdaEqualTest("sys.path", sys.path)
         
+    def test_P(self):
+        fact = """
+(define fact (n)
+  (if (is n (int 0))
+      (int 1)
+    (* n (apply fact (- n (int 1))))))
+        """
+        self.cpplambdaStringEqualTest(fact, 'fact')
+        self.cpplambdaEqualTest('(apply fact (int 10))', 3628800)
+        self.cpplambdaEqualTest('(apply fact (int 15))', 1307674368000)
+        self.cpplambdaEqualTest('(apply fact (int 20))', 2432902008176640000)
+        self.cpplambdaEqualTest('(apply fact (int 30))', 265252859812191058636308480000000)
+        self.cpplambdaEqualTest('(apply fact (int 40))', 815915283247897734345611269596115894272000000000)
         
 
         

@@ -101,7 +101,7 @@ class DefineCont(Continuation):
         else:
             params = self.args[1]
             body = self.args[2]
-            val = Closure(self.interpreter, params, body, env, self.exp.spine[0].location)
+            val = Closure(state.interpreter, params, body, self.env, self.exp.spine[0].location)
             state.interpreter.definitions[name] =  val
             state.tag = State.RETURN
             state.val = name
@@ -429,7 +429,7 @@ class ApplyCont(Continuation):
                     state.env = applyEnv
                     state.k = self.k
             else:
-                (ok, retval) = state.interpreter.callApply(func, self.vals[1:],  self.exp.spine[0].location)
+                (ok, retval) = state.interpreter.callCallable(func, self.vals[1:],  self.exp.spine[0].location)
                 if ok:
                     state.tag = State.RETURN
                     state.val = retval

@@ -41,7 +41,7 @@ def rep(filename):
     """
     interpreter = Interpreter()
 
-    debug = True
+    debug = False
     
     try:
 

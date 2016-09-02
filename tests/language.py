@@ -170,7 +170,23 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest("(for x (int 7) x)", 6)
         self.plambdaEqualTest("(for x (mklist (int 0) (int 1) (int 2) (int 3) ) x)", 3)
 
-      
+    def test_P(self):
+        fact = """
+(define fact (n)
+  (if (is n (int 0))
+      (int 1)
+    (* n (apply fact (- n (int 1))))))
+        """
+        self.plambdaStringEqualTest(fact, 'fact')
+        self.plambdaEqualTest('(apply fact (int 10))', 3628800)
+        self.plambdaEqualTest('(apply fact (int 15))', 1307674368000)
+        self.plambdaEqualTest('(apply fact (int 20))', 2432902008176640000)
+        self.plambdaEqualTest('(apply fact (int 30))', 265252859812191058636308480000000)
+        self.plambdaEqualTest('(apply fact (int 40))', 815915283247897734345611269596115894272000000000)
         
+
 if __name__ == "__main__":
     unittest.main()
+
+
+
