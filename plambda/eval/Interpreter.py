@@ -32,9 +32,16 @@ Things to add:
 
 patch the builtin problem as much as possible
 
+ForCont mystery
+
 """
 
-
+RECURSIVE = 0
+CPS       = 1
+"""
+Change to RECURSIVE for recursive interpreter.
+"""
+CURRENT_MODE = CPS
 
 class Interpreter(object):
 
@@ -43,11 +50,18 @@ class Interpreter(object):
         self.code = {}
         self.modules = {}
         self.uid2object = {}
-        self.object2uid = {}       
-        
+        self.object2uid = {}
+        if CURRENT_MODE is RECURSIVE:
+            self.evaluateString = self.recursive_evaluateString
+            self.evaluate = self.recursive_evaluate
+            self.eval = self.recursive_eval
+        else:
+            self.evaluateString = self.cps_evaluateString
+            self.evaluate = self.cps_evaluate
+            self.eval = self.cps_eval
+            
 
-
-    def evaluateString(self, string):
+    def recursive_evaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
         """
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -58,14 +72,14 @@ class Interpreter(object):
             retval = self.evaluate(c)
         return retval
         
-    def evaluate(self, exp):
+    def recursive_evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
         """RECURSIVE VERSION. Soon to be deprecated.
         """
         return self.eval(exp, Environment())
 
-    def eval(self, exp, env):
+    def recursive_eval(self, exp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
         if exp is None:
@@ -79,25 +93,26 @@ class Interpreter(object):
         else:
             raise PLambdaException("huh? I did not grok {0}".format(exp))
 
-    def cpevaluateString(self, string):
+    def cps_evaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
         """
         code = parseFromString(string)
         retval = None
         for c in code:
-            retval = self.cpevaluate(c)
+            retval = self.cps_evaluate(c)
         return retval
         
-    def cpevaluate(self, exp):
+    def cps_evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
-        return self.cpeval(exp, Environment())
+        return self.cps_eval(exp, Environment())
 
-    def cpeval(self, exp, env):
+    def cps_eval(self, exp, env):
         state = State(self, exp, env)
         while not state.isDone():
             state.step()
         return state.val
+
 
     def lookup(self, leaf, env):
         """See if the identifier is bound in the extended environment.

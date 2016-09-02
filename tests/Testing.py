@@ -29,22 +29,22 @@ class PLambdaTest(unittest.TestCase):
             self.assertEqual(type(e), type(value)) 
             self.assertEqual(str(e), str(value))
 
-    def cpplambdaClassTest(self, string, cls):
-        self.assertEqual(isinstance(self.interpreter.cpevaluateString(string), cls), True)
+    def cps_plambdaClassTest(self, string, cls):
+        self.assertEqual(isinstance(self.interpreter.cps_evaluateString(string), cls), True)
 
-    def cpplambdaEqualTest(self, string, value):
+    def cps_plambdaEqualTest(self, string, value):
         """Hooks into the CPS interpreter rather than the recursive one.
         """
-        self.assertEqual(self.interpreter.cpevaluateString(string), value)
+        self.assertEqual(self.interpreter.cps_evaluateString(string), value)
 
-    def cpplambdaStringEqualTest(self, string, value):
+    def cps_plambdaStringEqualTest(self, string, value):
         """Hooks into the CPS interpreter rather than the recursive one.
         """
-        self.assertEqual(str(self.interpreter.cpevaluateString(string)), value)
+        self.assertEqual(str(self.interpreter.cps_evaluateString(string)), value)
 
-    def cpplambdaExceptionTest(self, string, value):
+    def cps_plambdaExceptionTest(self, string, value):
         try:
-            self.interpreter.cpevaluateString(string)
+            self.interpreter.cps_evaluateString(string)
         except Exception as e:
             traceback.print_exc(file=sys.stderr)
             self.assertEqual(type(e), type(value)) 

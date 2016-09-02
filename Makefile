@@ -10,13 +10,13 @@ antlr4:
 
 
 check:
-	python -m tests.language
+	python -O -m tests.language
 
 cptest:
-	python -m tests.cptests
+	python -O -m tests.cptests
 
 bugs:
-	python -m tests.bugs
+	python -O -m tests.bugs
 
 
 #local editable install for developing
