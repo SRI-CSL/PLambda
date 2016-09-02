@@ -4,6 +4,8 @@ from ..eval.PLambdaException import PLambdaException
 
 from ..eval.Environment import Environment
 
+from ..eval.Closure import Closure
+
 from ..util.StringBuffer import StringBuffer
 
 from ..eval.SymbolTable import SymbolTable
@@ -387,13 +389,57 @@ class Ambi1OpCont(EvalArgsCont):
             return (False, PLambdaException(emsg))
 
 
-class ApplyCont(EvalArgsCont):
+class ApplyCont(Continuation):
 
     def __init__(self, exp, args, env, k):
-        EvalArgsCont.__init__(self, exp, args, env, k)
+        Continuation.__init__(self, exp, args, env, k)
 
-    def computeResult(self, state):
-         return state.interpreter.callApply(self.vals[0], self.vals[1:],  self.exp.spine[0].location)
+    def cont(self, state):
+        state.tag = State.EVAL
+        state.exp = self.args[self.n]
+        state.env = self.env
+
+    def handleReturn(self, state):
+        val = state.val
+
+        if self.n is 0 and not isinstance(val, Closure) and not callable(val):
+            self.k.excep = PLambdaException('Cannot apply {0}'.format(val))
+            state.k = self.k
+            return
+        
+        self.vals[self.n] = val
+        self.n += 1
+
+        if self.n < self.argslen:
+            state.tag = State.CONTINUE
+        else:
+            func = self.vals[0]
+            if isinstance(func, Closure):
+                """ FIXME: could assert the closures interpreter and state.interpreter are the same 
+                """
+                cargs = self.vals[1:]
+                if not func.arity is len(cargs):
+		    msg = "number of arguments ({0}) != closure arity({1}): {2}"
+                    self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), info())
+                    state.k = self.k
+                else:
+                    applyEnv = Environment(func.env)
+                    for (key, value) in zip(func.params.spine, cargs):
+                        applyEnv.extend(key, value)
+                    state.tag = State.EVAL
+                    state.exp = func.body
+                    state.env = applyEnv
+                    state.k = self.k
+            else:
+                (ok, retval) = state.interpreter.callApply(func, self.vals[1:],  self.exp.spine[0].location)
+                if ok:
+                    state.tag = State.RETURN
+                    state.val = retval
+                    state.k = self.k
+                else:
+                    self.k.excep = retval
+                    state.k = self.k
+
 
 class InvokeCont(EvalArgsCont):
 

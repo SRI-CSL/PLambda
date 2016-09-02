@@ -22,10 +22,10 @@ class plambdaTest(PLambdaTest):
     def test_I(self):
         self.cpplambdaEqualTest('(is (int 4) (int 4))', True)
         self.cpplambdaStringEqualTest('(define I (lambda (x) x))', 'I')
-#        self.cpplambdaEqualTest('(is (apply I I) I)', True)
+        self.cpplambdaEqualTest('(is (apply I I) I)', True)
         self.cpplambdaEqualTest('(apply I (int 4))', 4)
         self.cpplambdaEqualTest('(is I I)', True)
-#        self.cpplambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
+        self.cpplambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
         
         
 
