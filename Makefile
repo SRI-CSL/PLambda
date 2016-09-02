@@ -15,6 +15,9 @@ check:
 cptest:
 	python -m tests.cptests
 
+bugs:
+	python -m tests.bugs
+
 
 #local editable install for developing
 develop: 

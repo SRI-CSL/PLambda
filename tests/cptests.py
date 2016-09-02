@@ -61,11 +61,6 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaStringEqualTest('(apply os.getcwd)', here)
         self.cpplambdaEqualTest('(define foo (int 11))', 'foo')
         
-        self.cpplambdaEqualTest('(import "plambda.actors.pyactor")',  True)
-        self.cpplambdaStringEqualTest('(define Main plambda.actors.pyactor.Main)',  'Main')
-        self.cpplambdaEqualTest('Main.myself',  None)
-        self.cpplambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
-        self.cpplambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
         # examples of tries 'n catches
         self.cpplambdaEqualTest("(try (int 5) (catch e  (int 6) e))", 5)
         self.cpplambdaEqualTest("(try (throw (apply Exception)) (catch e (int 6) (is e e)))", True)
@@ -78,8 +73,8 @@ class plambdaTest(PLambdaTest):
         """
         self.cpplambdaEqualTest('(import "plambda.actors.pyactor")',  True)
         self.cpplambdaStringEqualTest('(define Main plambda.actors.pyactor.Main)',  'Main')
-#        self.cpplambdaEqualTest('Main.myself',  None)
-#        self.cpplambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
+        self.cpplambdaEqualTest('Main.myself',  None)
+        self.cpplambdaEqualTest('(seq (apply Main "thenameofmyselfisme") (boolean True))',  True)
         self.cpplambdaEqualTest('(== Main.myself (getattr Main "myself"))', True)
 
     def test_C(self):
@@ -153,7 +148,7 @@ class plambdaTest(PLambdaTest):
     def test_I(self):
         self.cpplambdaEqualTest('(is (int 4) (int 4))', True)
         self.cpplambdaStringEqualTest('(define I (lambda (x) x))', 'I')
-#        self.cpplambdaEqualTest('(is (apply I I) I)', True)
+        self.cpplambdaEqualTest('(is (apply I I) I)', True)
         self.cpplambdaEqualTest('(apply I (int 4))', 4)
         self.cpplambdaEqualTest('(is I I)', True)
 #        self.cpplambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)

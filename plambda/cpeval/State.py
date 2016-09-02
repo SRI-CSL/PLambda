@@ -43,7 +43,9 @@ class State(object):
                 self.val = self.exp.string
                 self.tag = RETURN
             elif isinstance(self.exp, Atom):
+                #import sys
                 self.val = self.interpreter.lookup(self.exp, self.env)
+                #sys.stderr.write("lookup: {0} = {1}\n".format(self.exp, self.val))
                 self.tag = RETURN
             elif isinstance(self.exp, SExpression):
                 code = self.exp.code
