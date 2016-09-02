@@ -151,7 +151,7 @@ class plambdaTest(PLambdaTest):
         self.cpplambdaEqualTest('(is (apply I I) I)', True)
         self.cpplambdaEqualTest('(apply I (int 4))', 4)
         self.cpplambdaEqualTest('(is I I)', True)
-#        self.cpplambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
+        self.cpplambdaEqualTest('(is (apply (apply I I) (apply I I)) I)', True)
 
 
     def test_J(self):

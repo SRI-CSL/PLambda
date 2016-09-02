@@ -1,8 +1,8 @@
-from ..eval.Code import SExpression, Atom, StringLiteral, Syntax
+from .Code import SExpression, Atom, StringLiteral, Syntax
 
-from ..eval.Closure import Closure
+from .Closure import Closure
 
-from ..eval.SymbolTable import SymbolTable
+from .SymbolTable import SymbolTable
 
 from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, LetCont, ForCont,
                             UnaryOpCont, BinaryOpCont, TernaryOpCont, Ambi1OpCont,

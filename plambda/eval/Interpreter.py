@@ -23,7 +23,7 @@ from .Globals import pythonGlobals
 
 from ..visitor.Parser import parseFromFile, parseFromString
 
-from ..cpeval.State import State
+from .State import State
 
 """
 Current bugs:

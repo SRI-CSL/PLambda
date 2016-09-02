@@ -1,14 +1,14 @@
 import sys, collections
 
-from ..eval.PLambdaException import PLambdaException
+from .PLambdaException import PLambdaException
 
-from ..eval.Environment import Environment
+from .Environment import Environment
 
-from ..eval.Closure import Closure
+from .Closure import Closure
 
 from ..util.StringBuffer import StringBuffer
 
-from ..eval.SymbolTable import SymbolTable
+from .SymbolTable import SymbolTable
 
 import State
 
