@@ -22,8 +22,10 @@ Version history:
 
 1.0.7   8/27/2016  Updated all relative imports to follow https://www.python.org/dev/peps/pep-0328/
 
+1.0.8   9/2/2016  CPS (Continuation Passing Stype) installed as the default. Can switch to recursive via a mode in plambda.eval.Interpreter
+
 
 """
 
-plambda_version='1.0.7'
+plambda_version='1.0.8'
 

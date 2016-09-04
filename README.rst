@@ -19,9 +19,9 @@ hopefully the spirit will shine through. Both will be lexically scoped
 lisp like languages build upon the underlying data
 structures of the languages they rest upon.
 
-We'll start out building a recursive interpreter, then if it
-gets any major use, turn it into a continuation passing
-style interpreter like JLambda.
+PLambda, like JLambda,  is a fast, efficient, minimalistic, call-by-value, lexically scoped Lisp or
+Scheme like language with closures. The interpreter is implmented via
+CPS (continuation passing style).
 
 
 
