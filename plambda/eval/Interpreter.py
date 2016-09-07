@@ -278,6 +278,12 @@ class Interpreter(object):
         # Ugliness under python's hood:
         # Cannot get the argspec of a builtin
         # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
+        # http://stackoverflow.com/questions/990016/how-to-find-out-the-arity-of-a-method-in-python
+        #
+        # Can avoid using inspect for simlpe cases:
+        #        def arity(obj, method):
+        #          return getattr(obj.__class__, method).func_code.co_argcount - 1 # remove self
+        #
         if type(method) !=  types.BuiltinFunctionType:
             argspec = inspect.getargspec(method)
             # if it is an object we have to *not* count 'self',
