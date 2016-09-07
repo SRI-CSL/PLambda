@@ -79,6 +79,7 @@ class TopCont(Continuation):
     def ret(self, state):
         if self.excep is not None:
             sys.stderr.write("FIXME: Debugger.handle(excep)\n")
+            print self.excep
         state.tag = State.DONE
 
             

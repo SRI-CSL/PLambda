@@ -285,10 +285,14 @@ class Interpreter(object):
             offset = 0
             if not inspect.ismodule(obj) and not inspect.isclass(obj):
                 offset = 1
-        
-                if len(argspec.args) - offset  != len(vals): 
-                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}'
-                    emsg = fmsg.format(methodname, args, argspec.args[offset:])
+                ndefaults = len(argspec.defaults)  if argspec.defaults else 0
+                nargs = len(argspec.args) - offset
+                nvals = len(vals)
+                # my guess is that we will need to revisit this. what do we
+                # do when some of the defaults are used but not others?
+                if (nvals < nargs - ndefaults) or  (nargs < nvals):
+                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3}'
+                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], defaults)
                     return (False, PLambdaException(emsg))
 
         retval = None
