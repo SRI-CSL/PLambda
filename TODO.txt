@@ -40,18 +40,18 @@ added MODIFY
 global(x)
 
 
-9.  getattr setattr vs lookup and update. 
+9.[X] getattr setattr vs lookup and update. 
 
 moving back to lookup and update would reduce the number of clashes.
 
 still undecided here. currently LOOKUP, UPDATE and SUPDATE should work.
 
-10. Figure out why we can't call mainloop from the plambda REP.
+10.[X] Figure out why we can't call mainloop from the plambda REP.
 
 argspec ['n'] ??
 
 
-11.  Console loose ends:
+11.[X]  Console loose ends:
 
       - [X] view menuitems
       - [X] open and save as
@@ -60,4 +60,4 @@ argspec ['n'] ??
       - [X] focus on end in output text area
 
 
-12.  ForCont mystery.
+12.[X] ForCont mystery.

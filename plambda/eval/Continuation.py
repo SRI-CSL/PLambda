@@ -236,11 +236,10 @@ class ForCont(Continuation):
         state.env = self.env
 
     def handleReturn(self, state):
-        self.n += 1
 
         val = state.val
         
-        if self.n == 1:
+        if self.n == 0:
 
             if val is None:
                 self.setException(state, "for target is None {0}".format(self.exp.spine[0].location))
@@ -250,17 +249,14 @@ class ForCont(Continuation):
                 self.length = val
                 if self.length == 0:
                     self.setReturnState(state, None)
-                    return
             elif isinstance(val, collections.Iterable):
                 self.iterator = iter(val)
                 self.length = len(val)
                 if self.length == 0:
                     self.setReturnState(state, None)
-                    return
             else:
                 self.setException(state, "for target is not iterable {0} {1}".format(val, self.exp.spine[0].location))
-                return
-        elif self.n  == self.length + 2:
+        elif self.n  == self.length + 1:
             self.setReturnState(state, val)
         else:
             next = self.iterator.next()
@@ -269,7 +265,9 @@ class ForCont(Continuation):
             state.tag = State.EVAL
             state.exp = self.body
             state.env = env
-        
+
+        self.n += 1
+
 
     def setException(self, state, msg):
         self.k.excep = PLambdaException(msg)
