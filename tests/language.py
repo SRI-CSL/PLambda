@@ -25,13 +25,19 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(boolean tRuE)', True)
         self.plambdaEqualTest('(float 3.1459)',  3.1459)
         self.plambdaEqualTest('(float 3.0)',  3)
+        self.plambdaEqualTest('(float fud)',  0.0)
+        self.plambdaEqualTest('(int fud)',  0)
+        self.plambdaEqualTest('(boolean fud)',  False)
+        self.plambdaEqualTest('(/ (int 4) (int 2))',  2)
         self.plambdaEqualTest('(== (float 3.0) (int 3))',  True)
+        self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.plambdaEqualTest('(== (apply object) (apply object))',  False)
         self.plambdaEqualTest('(if (boolean True) (int 7) (float 11))',  7)
         self.plambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
         self.plambdaEqualTest('(if (boolean False) (int 7))',  None)
         self.plambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
+        self.plambdaExceptionTest('(/ (int 4) (int 0))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
 
 
     def test_B(self):

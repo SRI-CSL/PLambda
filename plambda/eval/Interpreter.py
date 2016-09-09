@@ -511,7 +511,7 @@ class Interpreter(object):
                 emsg = fmsg.format(op, location)
                 return (False, PLambdaException(emsg))
         except Exception as e:
-            return (False, e)
+            return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
     
     def evalBinaryOp(self, sexp, env):
@@ -608,7 +608,7 @@ class Interpreter(object):
                 emsg = fmsg.format(op, location)
                 return (False, PLambdaException(emsg))
         except Exception as e:
-            return (False, PLambdaException('callTernaryOp {0} threw {1}'.format(location, str(e))))
+            return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
         
 

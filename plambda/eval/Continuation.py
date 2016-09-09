@@ -59,11 +59,11 @@ class Continuation(object):
         sb = StringBuffer()
         if not self.vals:
             sb.append('\tcomputing result of top-level form ')
-        elif self.n in len(self.vals):
-            sb.append('\tcomputing result of ').append(exp.spine[0]).append(' form')
+        elif self.n < len(self.vals):
+            sb.append('\tcomputing result of ').append(self.exp.spine[0]).append(' form')
         else:
-            sb.append('\tat  argument ').append(self.n).append(' of ').append(exp.spine[0]).append(' form')
-        sb.append(' at ').append(exp.location)
+            sb.append('\tat  argument ').append(self.n).append(' of ').append(self.exp.spine[0]).append(' form')
+        sb.append(' at ').append(self.exp.location)
         return str(sb)
     
 

@@ -2,15 +2,15 @@ from ..util.StringBuffer import StringBuffer
 
 class PLambdaException(Exception):
 
-    def _init_(self, msg, backtrace=None, exception=None):
+    def __init__(self, msg, backtrace=None, exception=None):
         self.msg = msg
         self.backtrace = backtrace
         self.exception = exception
         
-    def _str_(self):
-        return repr(self.msg)
+    def __str__(self):
+        return str(self.msg)
 
-    def _repr_(self):
+    def __repr__(self):
         sb = StringBuffer()
         sb.append(self.msg)
         if self.backtrace:
@@ -20,4 +20,4 @@ class PLambdaException(Exception):
         return str(sb)
         
     def extendBT(self, bt):
-        self.bt = '{0}\n{1}'.format(self.bt, bt)
+        self.bt = '{0}\n{1}'.format(self.backtrace, bt)
