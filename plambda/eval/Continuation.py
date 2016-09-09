@@ -133,6 +133,7 @@ class IfCont(Continuation):
             msg = '{0} is not a boolean in conditional {1}'
             self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
             state.k = self.k
+            state.val = None
             return
         elif state.val:
             state.tag = State.EVAL
@@ -318,7 +319,7 @@ class EvalArgsCont(Continuation):
         else:
             self.k.excep = retval
             state.k = self.k
-            
+            state.val = None
 
 class SeqCont(EvalArgsCont):
 
@@ -402,6 +403,7 @@ class ApplyCont(Continuation):
         if self.n is 0 and not isinstance(val, Closure) and not callable(val):
             self.k.excep = PLambdaException('Cannot apply {0}'.format(val))
             state.k = self.k
+            state.val = None
             return
         
         self.vals[self.n] = val
@@ -419,6 +421,7 @@ class ApplyCont(Continuation):
 		    msg = "number of arguments ({0}) != closure arity({1}): {2}"
                     self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), info())
                     state.k = self.k
+                    state.val = None
                 else:
                     applyEnv = Environment(func.env)
                     for (key, value) in zip(func.params.spine, cargs):
@@ -436,6 +439,7 @@ class ApplyCont(Continuation):
                 else:
                     self.k.excep = retval
                     state.k = self.k
+                    state.val = None
 
 
 class InvokeCont(EvalArgsCont):
@@ -504,6 +508,7 @@ class PropCont(Continuation):
             msg = '{0} is not a boolean in propsitional operator {1}'
             self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
             state.k = self.k
+            state.val = None
             return
 
         if self.isStopValue(state.val) or self.n == self.argslen:

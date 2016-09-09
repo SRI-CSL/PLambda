@@ -111,7 +111,10 @@ class Interpreter(object):
         state = State(self, exp, env)
         while not state.isDone():
             state.step()
-        return state.val
+        if state.k.excep is not None:
+            raise state.k.excep
+        else:
+            return state.val
 
 
     def lookup(self, leaf, env):

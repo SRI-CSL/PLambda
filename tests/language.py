@@ -37,7 +37,7 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
         self.plambdaEqualTest('(if (boolean False) (int 7))',  None)
         self.plambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
-        self.plambdaExceptionTest('(/ (int 4) (int 0))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
+        self.plambdaExceptionTest('(/ (int 4) (int 0))',  PLambdaException('callTernaryOp / @stdin:1 threw integer division or modulo by zero'))
 
 
     def test_B(self):
