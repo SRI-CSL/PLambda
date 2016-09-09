@@ -2,10 +2,10 @@
 
 class ParseError(Exception):
 
-    def _init_(self, msg):
+    def __init__(self, msg):
         self.msg = msg
 
-    def _str_(self):
+    def __str__(self):
         return repr(self.msg)
 
     
