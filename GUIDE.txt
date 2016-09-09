@@ -21,7 +21,7 @@ of PLambda/JLambda are:
 
    5. richer argument passing (apply vs kwapply).
 
-     (kwapply f l d) is f(*l, **d)   f must be callable, our closures do not support kwapply.
+     (kwapply f l d) is f(*l, **d)   f must be callable (i.e. a python function), our closures do not support kwapply.
 
    6. python things are already attributable (why do we need uids and fetch?)
 
@@ -62,7 +62,7 @@ mklist mktuple mkdict
 
 
 (modify l0 (int 2) (int 9))
-(moding d1 (int 2) (int 9))
+(modify d1 (int 2) (int 9))
 
 (apply isinstance l0 list)
 (apply isinstance d1 dict)

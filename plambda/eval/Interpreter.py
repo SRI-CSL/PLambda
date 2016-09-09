@@ -307,7 +307,7 @@ class Interpreter(object):
             retval = method(*vals)
             return (True, retval)
         except Exception as e:
-            return (False, e)
+            return (False, PLambdaException('invoke {0} threw {1}'.format(location, str(e))))
 
 
     
@@ -413,27 +413,9 @@ class Interpreter(object):
 
         if isinstance(fun, Closure):
             return self.callClosure(fun, vals, location)
-            """
-            if len(vals) != fun.arity:
-                fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
-                emsg = fmsg.format(fun.arity, vals, len(vals), location)
-                return (False, PLambdaException(emsg))
-            else:
-                try: 
-                    retval = fun.applyClosure(*vals)
-                    return (True, retval)
-                except Exception as e:
-                    return (False, e)
-           """     
         else:
             return self.callCallable(fun, vals, location)
-            """
-            try: 
-                retval = fun(*vals)
-                return (True, retval)
-            except Exception as e:
-                return (False, e)
-            """
+
 
     def evalApply(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -626,7 +608,7 @@ class Interpreter(object):
                 emsg = fmsg.format(op, location)
                 return (False, PLambdaException(emsg))
         except Exception as e:
-            return (False, e)
+            return (False, PLambdaException('callTernaryOp {0} threw {1}'.format(location, str(e))))
         return (True, retval)
         
 
@@ -671,7 +653,7 @@ class Interpreter(object):
             retval = getattr(*vals)
             return (True, retval)
         except Exception as e:
-            return (False, e)
+            return (False, PLambdaException('callGetAttr {0} threw {1}'.format(location, str(e))))
         
         
     def evalAmbi2Op(self, sexp, env):
@@ -815,12 +797,16 @@ class Interpreter(object):
         assert isinstance(a1, Atom)
         op = a0.string
         data = a1.string
-        if op is SymbolTable.INT:
-            return int(data)
-        elif op is SymbolTable.FLOAT:
-            return float(data)
-        else:
-            return True if data.lower() == 'true' else False
+        try:
+            if op is SymbolTable.INT:
+                return int(data)
+            elif op is SymbolTable.FLOAT:
+                return float(data)
+            else:
+                return True if data.lower() == 'true' else False
+        except Exception as e:
+            sys.stderr.write('evalPrimitiveDataOp: {0} {1}\n'.format(str(e), a0.location))
+            return 0 if op is not SymbolTable.FLOAT else 0.0
 
 
     def importmod(self, val):
@@ -885,8 +871,7 @@ class Interpreter(object):
             else:
                 return (False, PlambdaException("Unrecognized unary op {0} {1}".format(op, location)))
         except Exception as e:
-            #might need to wrap e in something to be uniform...
-            return (False, e)
+            return (False, PLambdaException('callUnaryOp {0} {1} threw {2}'.format(op, location, str(e))))
 
         return (True, retval)
         
