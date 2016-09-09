@@ -15,13 +15,11 @@ python processes.  JLambda is over 14 years old, whereas PLambda
 is just a pup.
 
 Note that Python is not Java so there will be some differences, but
-hopefully the spirit will shine through. Both will be lexically scoped
-lisp like languages build upon the underlying data
-structures of the languages they rest upon.
+hopefully the spirit will shine through. 
 
 PLambda, like JLambda,  is a fast, efficient, minimalistic, call-by-value, lexically scoped Lisp or
-Scheme like language with closures. The interpreter is implmented via
-CPS (continuation passing style).
+Scheme like language with closures built upon the underlying data structures of the language it rests upon. 
+The interpreter is implemented via CPS (continuation passing style).
 
 
 
