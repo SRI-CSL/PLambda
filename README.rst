@@ -6,7 +6,7 @@
 PLambda
 =======
 
-An attempt to produce a workable version of JLambda for Python.
+An early prototype of a workable version of JLambda for Python.
 To be used mainly as a part of the IOP imaude system.
 
 JLambda and PLambda are essentially network command and control
@@ -21,6 +21,15 @@ PLambda, like JLambda,  is a fast, efficient, minimalistic, call-by-value, lexic
 Scheme like language with closures built upon the underlying data structures of the language it rests upon. 
 The interpreter is implemented via CPS (continuation passing style).
 
+Install
+-------
+
+There is a pip package, but that will move along at a lazier pace than developing directly from 
+the repository.
+
+|
+| ``pip install plambda``
+|
 
 
 Dependencies
@@ -41,18 +50,6 @@ Checkout the repository and do:
 
 |
 | ``make develop``
-|
-
-
-
-Install
--------
-
-There is a pip package, but that will move along at a lazier pace than developing directly from 
-the repository.
-
-|
-| ``pip install plambda``
 |
 
 
