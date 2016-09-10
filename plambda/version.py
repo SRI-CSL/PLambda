@@ -27,5 +27,5 @@ Version history:
 
 """
 
-plambda_version='1.0.8'
+plambda_version='1.0.9'
 
