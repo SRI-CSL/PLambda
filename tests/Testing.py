@@ -24,19 +24,9 @@ class PLambdaTest(unittest.TestCase):
     def plambdaExceptionTest(self, string, value):
         try:
             retval = self.interpreter.evaluateString(string)
-
-            if str(retval) != str(value):
-                print 'str(retval): ', str(retval)
-                print 'str(value): ', str(value)
-            
             self.assertEqual(str(retval), str(value))
         except Exception as e:
             #traceback.print_exc(file=sys.stderr)
-            print 'type(e): ', type(e)
-            print 'type(value): ', type(value)
-            
             self.assertEqual(type(e), type(value))
-            print 'str(e): ', str(e)
-            print 'str(value): ', str(value)
             self.assertEqual(str(e), str(value))
 
