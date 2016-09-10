@@ -111,6 +111,7 @@ class Interpreter(object):
         state = State(self, exp, env)
         while not state.isDone():
             state.step()
+        #FIXME: we raise the uncaught exception. not sure why we need to differ from jlambda
         if state.k.excep is not None:
             raise state.k.excep
         else:
