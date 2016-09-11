@@ -7,3 +7,5 @@
 
 
 (try foo (catch e (int 666)))
+
+(try (seq foo) (catch e (int 666)))
