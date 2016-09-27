@@ -175,6 +175,9 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest("(try (throw (apply Exception)) (catch e  (is e e)))", True)
         self.plambdaEqualTest("(for x (int 7) x)", 6)
         self.plambdaEqualTest("(for x (mklist (int 0) (int 1) (int 2) (int 3) ) x)", 3)
+        self.plambdaEqualTest("(try foo (catch e (int 666)))", 666)
+        self.plambdaEqualTest("(try (seq foo) (catch e (int 666)))", 666)
+
 
     def test_P(self):
         fact = """
@@ -189,7 +192,8 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(apply fact (int 20))', 2432902008176640000)
         self.plambdaEqualTest('(apply fact (int 30))', 265252859812191058636308480000000)
         self.plambdaEqualTest('(apply fact (int 40))', 815915283247897734345611269596115894272000000000)
-        
+
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -26,9 +26,9 @@ Version history:
 
 1.0.9   9/10/2016  Various bug fixes in the CPS interpreter.
 
-
+1.0.10  9/27/2016  Fixed the lookup mechanism in the CPS interpreter.
 
 """
 
-plambda_version='1.0.9'
+plambda_version='1.0.10'
 

@@ -43,8 +43,13 @@ class State(object):
                 self.val = self.exp.string
                 self.tag = RETURN
             elif isinstance(self.exp, Atom):
-                self.val = self.interpreter.lookup(self.exp, self.env)
-                self.tag = RETURN
+                (ok, value) = self.interpreter.lookup(self.exp, self.env)
+                if ok:
+                    self.val = value
+                    self.tag = RETURN
+                else:
+                    self.k.excep = value
+                    self.tag = RETURN
             elif isinstance(self.exp, SExpression):
                 code = self.exp.code
                 opexp = self.exp.spine[0]

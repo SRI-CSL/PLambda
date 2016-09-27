@@ -87,7 +87,12 @@ class Interpreter(object):
         if isinstance(exp, StringLiteral):
             return exp.string
         if isinstance(exp, Atom):
-            return self.lookup(exp, env)
+            (ok, value) = self.lookup(exp, env)
+            if ok:
+                return value
+            else:
+                raise value
+            #return self.lookup(exp, env)
         elif isinstance(exp, SExpression):
             return self.evalSExpression(exp, env)
         else:
@@ -118,6 +123,7 @@ class Interpreter(object):
             return state.val
 
 
+
     def lookup(self, leaf, env):
         """See if the identifier is bound in the extended environment.
 
@@ -135,18 +141,18 @@ class Interpreter(object):
 
         (ok, value) = self.mlookup(path, leaf)
         if ok:
-            return value
+            return (ok, value)
         (ok, value) = env.lookup(leaf)
         if ok:
-            return value
+            return (ok, value)
         (ok, value) = self.glookup(path, leaf)
         if ok:
-            return value
+            return (ok, value)
         (ok, value) = self.plookup(leaf)
         if ok:
-            return value
-        raise PLambdaException('Unbound variable: {0}'.format(repr(leaf)))
-
+            return (ok, value)
+        return (False, PLambdaException('Unbound variable: {0}'.format(repr(leaf))))
+    
         
     def getmodule(self, path):
         """Finds the longest prefix of path that is in the modules dictionary.
