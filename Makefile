@@ -2,7 +2,21 @@ ANTLR4=java -Xmx500M -cp "/usr/local/lib/antlr-4.5-complete.jar" org.antlr.v4.To
 
 
 all:
-	@echo 'To regenerate the antlr4 python code, do "make antlr4"'
+	@echo ''
+	@echo 'Here are the targets:'
+	@echo ''
+	@echo 'To regenerate the antlr4 python code :  "make antlr4"'
+	@echo 'To develop                           :  "make develop"'
+	@echo 'To test                              :  "make check"'
+	@echo 'To test install                      :  "make testinstall"'
+	@echo 'To install                           :  "make install"'
+	@echo 'To test publish                      :  "make testpublish"'
+	@echo 'To publish                           :  "make publish"'
+	@echo ''
+	@echo 'To turn README.rst 2 html            :  "make zippity"'
+	@echo ''
+	@echo 'then upload the zip file to https://pypi.python.org/pypi'
+	@echo ''
 
 
 antlr4:
@@ -37,6 +51,11 @@ publish: dist
 
 install:
 	pip install plambda
+
+zippity:
+	rm -rf doczip*; mkdir doczip;
+	cat README.md | pandoc -f rst > doczip/index.html
+	zip -r -j doczip.zip doczip
 
 clean:
 	make -C plambda/antlr4 clean
