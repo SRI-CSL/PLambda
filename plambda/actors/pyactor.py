@@ -1,4 +1,4 @@
-import os, sys, time, threading, traceback, signal, subprocess, psutil
+import psutil, os, re, sys, signal, subprocess, time, threading, traceback
 
 from .actorlib import send, receive
 
@@ -8,7 +8,7 @@ from ..visitor.Parser import parseFromString
 
 from ..actors.console import Console
 
-debug = False
+debug = True
 
 def infanticide(pid):
     try:
@@ -47,6 +47,10 @@ class Main(object):
     retries = 1
 
     launchConsole = False
+
+    plambda_pattern = re.compile('^\s*\(.*\)\s*$')
+
+    handlers = []
 
     # a singleton instance
     myself = None
@@ -87,6 +91,14 @@ class Main(object):
 
                 
         return 0
+
+
+def add_handler(closure):
+    Main.handlers.append(closure)
+    
+def remove_handler(closure):
+    Main.handlers.remove(closure)
+    
     
 def notify(message):
     if debug:
@@ -108,19 +120,32 @@ def oracle(actor):
             else:
                 continue
         (sender, msg) = incoming
-        thread = threading.Thread(target=eval, args=(actor.interpreter, msg))
+        thread = threading.Thread(target=eval, args=(actor.interpreter, sender, msg))
         #thread needs to be a daemon so that the actor itself can die in peace.
         thread.daemon = True
         thread.start()
             
 
         
-def eval(interpreter, message):
+def eval(interpreter, sender, message):
     """Evaluates the message in the given interpreter.
+
+    If the message appears to be an PLambda expression iit is simply
+    dispatched to the interpreter to evaluate. Otherwise it is processed
+    by any custom handlers that have been installed.
+
+
     """
     try:
-        val = interpreter.evaluateString(message)
-        notify('eval: {0} evaluated to {1}'.format(message, val))
+        if Main.plambda_pattern.match(message):
+            val = interpreter.evaluateString(message)
+            notify('eval: {0} evaluated to {1}'.format(message, val))
+        else:
+            notify('looking for handlers for: {0} from {1}'.format(message, sender))
+            for handler in Main.handlers:
+                if handler.applyClosure(message):
+                    break
+            
     except Exception as e:
         sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n'.format(e))
         if debug:

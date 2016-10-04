@@ -33,4 +33,6 @@
 (user (apply evalOK "user" (invoke c "mainloop")))
 
 
+(user (apply evalOK "plambda"  (* (int 3) "6")))
 
+(plambda start plambda0 pyactor plambda0)

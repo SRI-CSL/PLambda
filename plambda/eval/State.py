@@ -68,7 +68,7 @@ class State(object):
                     self.tag = CONTINUE
                 elif code is Syntax.LAMBDA:
                     spine = self.exp.spine
-                    self.val = Closure(self, spine[1], spine[2], self.env, spine[0].location)
+                    self.val = Closure(self.interpreter, spine[1], spine[2], self.env, spine[0].location)
                     self.tag = RETURN
                 elif code is Syntax.INVOKE:                    
                     self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k)
