@@ -141,9 +141,11 @@ def eval(interpreter, sender, message):
             val = interpreter.evaluateString(message)
             notify('eval: {0} evaluated to {1}'.format(message, val))
         else:
-            notify('looking for handlers for: {0} from {1}'.format(message, sender))
+            message = message.strip()
+            notify('looking for handlers for: "{0}" from {1}'.format(message, sender))
             for handler in Main.handlers:
                 if handler.applyClosure(message):
+                    notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
                     break
             
     except Exception as e:
