@@ -1,6 +1,4 @@
 
-(import 'sys')
-(invoke  sys.stderr 'write' 'Boo!\n')
 
 (define plambda_clones (mklist))
 (define plambda_population (int 4))
@@ -9,7 +7,7 @@
 (define maude_population (int 4))
 
 (import 'plambda.actors.actorlib')
-
+(import 'sys')
 (define make_cloner (prefix executable args clones count)
   (lambda (message)
     (let ((tokens (invoke message 'split')))
