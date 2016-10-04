@@ -5,6 +5,9 @@
 (define plambda_clones (mklist))
 (define plambda_population (int 4))
 
+(define maude_clones (mklist))
+(define maude_population (int 4))
+
 (import 'plambda.actors.actorlib')
 
 (define cloner (message)
@@ -48,7 +51,7 @@
 		 (if (< (apply len clones) count)
 		     (seq 
 		      (invoke  sys.stderr 'write' (concat 'Handled ' noun ' more coming\n'))
-		      (apply plambda.actors.actorlib.send 'system' 'plambda' (concat 'start ' prefix ' ' executable ' ' args))
+		      (apply plambda.actors.actorlib.send 'system' 'plambda' (concat 'start ' (concat prefix (apply len clones)) ' ' executable ' ' args))
 		      )
 		   (seq (invoke  sys.stderr 'write' (concat 'Handled ' noun ' enough already\n'))
 			(apply init_clones clones prefix)
@@ -69,15 +72,18 @@
 
 
 (define init_clones (clones prefix)
-  (for clone clones  (invoke  sys.stderr 'write' (concat 'clone: ' clone ' with prefix ' prefix '\n'))))
-)
+  (for clone clones  (invoke  sys.stderr 'write' (concat 'clone: ' clone ' with prefix ' prefix '\n')))
+  (if (== prefix 'plambda')
+      (apply plambda.actors.actorlib.send 'system' 'plambda' 'start maude0 iop_maude_wrapper basura')
+    )
+  )
 
 
 (define catchall (lambda (message)  (invoke  sys.stderr 'write' (concat 'Handled: ' message '\n'))))
 
 (import 'plambda.actors.pyactor')
-;;(apply plambda.actors.pyactor.add_handler cloner)
 (apply plambda.actors.pyactor.add_handler (apply make_cloner 'plambda' 'pyactor' 'anonymous' plambda_clones plambda_population))
+(apply plambda.actors.pyactor.add_handler (apply make_cloner 'maude' 'iop_maude_wrapper' 'anonymous' maude_clones maude_population))
 
 ;;start the ball rolling
 (apply plambda.actors.actorlib.send 'system' 'plambda' 'start plambda pyactor')
