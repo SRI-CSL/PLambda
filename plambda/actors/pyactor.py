@@ -24,7 +24,7 @@ def infanticide(pid):
             sys.stderr.write('Sent signal {1} to {0}\n'.format(p.pid, signal.SIGKILL))
 
 
-def handler(signum, frame):
+def sighandler(signum, frame):
     if debug:
         sys.stderr.write('Signal handler called with signal {0}\n'.format(signum))
         sys.stderr.flush()
@@ -33,7 +33,12 @@ def handler(signum, frame):
 
 
 def main():
-    launch(sys.argv[1] if len(sys.argv) == 2 else "noname")
+    if len(sys.argv) == 1:
+        launch("noname")
+    elif len(sys.argv) == 2:
+        launch(sys.argv[1])
+    else:
+        launch(sys.argv[1], sys.argv[2])
     return 0
 
 
@@ -46,17 +51,20 @@ class Main(object):
     # a singleton instance
     myself = None
     
-    def __init__(self, name):
+    def __init__(self, name, filename=None):
         """Creates an plambda Actor object with the given name.
         """
         self.name = name
         self.interpreter = Interpreter()
-        signal.signal(signal.SIGINT, handler)
+        self.filename = filename
+        signal.signal(signal.SIGINT, sighandler)
         if Main.myself is None:
             Main.myself = self
         else:
             raise Exception("plambda.actor.pyactor.Main should have a singleton instance!")
-
+        if self.filename is not None:
+            sys.stderr.write('Loading {0}\n'.format(self.filename))
+            self.interpreter.load(self.filename)
 
 
         
@@ -71,6 +79,7 @@ class Main(object):
         
         while True:
             time.sleep(1)
+            #FIXME: better do this with a message now that we have handlers.
             if Main.launchConsole:
                 Main.launchConsole = False
                 self.console = Console(self.interpreter)
@@ -118,8 +127,8 @@ def eval(interpreter, message):
             traceback.print_exc(file=sys.stderr)
 
 
-def launch(name):
-    main = Main(name)
+def launch(name, file=None):
+    main = Main(name, file)
     main.run()
     return 0
     

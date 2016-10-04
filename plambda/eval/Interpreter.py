@@ -3,7 +3,7 @@
 #
 from __future__ import print_function
 
-import importlib, sys, types, inspect, collections
+import importlib, sys, types, inspect, collections, os
 
 from ..util.Util import isString, isInteger
 
@@ -902,7 +902,7 @@ class Interpreter(object):
         
 
     def load(self, filename):
-        if isString(filename):
+        if isString(filename) and os.path.exists(filename):
             codelist = parseFromFile(filename)
             for c in codelist:
                 self.evaluate(c)
