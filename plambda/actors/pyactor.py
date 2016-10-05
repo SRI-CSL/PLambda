@@ -8,7 +8,7 @@ from ..visitor.Parser import parseFromString
 
 from ..actors.console import Console
 
-debug = True
+debug = False
 
 def infanticide(pid):
     try:

@@ -1,4 +1,9 @@
-
+(define hello
+  (concat
+   "\n(import 'sys')\n"
+   "(invoke sys.stderr 'write' 'hello world from {0}\\n')\n"
+   )
+  )
 
 (define plambda_clones (mklist))
 (define plambda_population (int 4))
@@ -46,15 +51,18 @@
   )
 
 
-
+(import 'plambda.util.Util')
 (define init_clones (clones prefix)
   (if (== prefix 'plambda')
       (seq
        (for clone clones
-	    (seq 
-	     (invoke  sys.stderr 'write' (concat 'clone: ' clone ' with prefix ' prefix '\n'))
-	     (apply plambda.actors.actorlib.send clone 'plambda' '(load "hello.lsp")')
-	     )
+	    (let ((loadfile (concat 'hello_' clone '.lsp'))
+		  (contents (invoke hello 'format' clone)))
+	      ;;(invoke  sys.stderr 'write' (concat 'clone: ' clone ' with prefix ' prefix '\n'))
+	      ;;(invoke  sys.stderr 'write' (concat 'contents: ' contents '\n'))
+	      (apply plambda.util.Util.string2File  contents loadfile (boolean False))
+	      (apply plambda.actors.actorlib.send clone 'plambda' (concat '(load "' loadfile '")'))
+	      )
 	    )
        (apply plambda.actors.actorlib.send 'system' 'plambda' 'start maude0 iop_maude_wrapper basura')
        )

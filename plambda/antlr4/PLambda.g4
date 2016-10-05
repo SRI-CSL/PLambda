@@ -46,7 +46,7 @@ token : ID        |
 
 STRING :
        STRING_DQ |
-       STRING_SQ
+       STRING_SQ 
        ;
 
 PRIMITIVE_DATA_OP:  
@@ -222,6 +222,21 @@ NUMBER      :   '-'? ('.' DIGIT+ | DIGIT+ ('.' DIGIT*)? ) ;
 
 fragment
 DIGIT       :   [0-9] ;
+
+
+/* multiline string  Not working as yet */
+
+STRING_ML  : TQUOTE ( STR_TEXT | EOL )* TQUOTE ;
+WS      : [ \t\r\n] -> skip ;
+fragment
+STR_TEXT: ( ~[\r\n\\] | ESC_SQ )+ ;
+fragment
+ESC_SQ : '\\' ( [btf"\\] | EOF ) ;
+fragment 
+TQUOTE  : '"""';
+fragment
+EOL     : '\r'? '\n' ;
+
 
 /* need to define Single Quoted String: STRING_SQ and Double Quoted String: STRING_DQ */
 STRING_SQ   :   '\'' (ESCAPE_SQ|.)*? '\'' ;
