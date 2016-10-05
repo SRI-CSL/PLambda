@@ -19,7 +19,7 @@ expression:  '(' SEQ expression+ ')'                                            
           |  '(' N_ARY_OP expression* ')'                                                # naryExpression       
           |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
-          |  STRING                                                                      # stringLiteral      
+          |  STRING                                                                      # stringLiteral
           |  ID                                                                          # identifierLiteral
           |  NONE                                                                        # noneLiteral
            ;
@@ -222,20 +222,6 @@ NUMBER      :   '-'? ('.' DIGIT+ | DIGIT+ ('.' DIGIT*)? ) ;
 
 fragment
 DIGIT       :   [0-9] ;
-
-
-/* multiline string  Not working as yet */
-
-STRING_ML  : TQUOTE ( STR_TEXT | EOL )* TQUOTE ;
-WS      : [ \t\r\n] -> skip ;
-fragment
-STR_TEXT: ( ~[\r\n\\] | ESC_SQ )+ ;
-fragment
-ESC_SQ : '\\' ( [btf"\\] | EOF ) ;
-fragment 
-TQUOTE  : '"""';
-fragment
-EOL     : '\r'? '\n' ;
 
 
 /* need to define Single Quoted String: STRING_SQ and Double Quoted String: STRING_DQ */

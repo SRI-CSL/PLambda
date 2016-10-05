@@ -15,7 +15,7 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write(u"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3")
-        buf.write(u"E\u00d0\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
+        buf.write(u"C\u00d0\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t")
         buf.write(u"\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3\2\6\2\30\n\2\r")
         buf.write(u"\2\16\2\31\3\3\3\3\3\3\6\3\37\n\3\r\3\16\3 \3\3\3\3\3")
         buf.write(u"\3\3\3\3\3\3\3\6\3)\n\3\r\3\16\3*\3\3\3\3\3\3\3\3\3\3")
@@ -140,9 +140,9 @@ class PLambdaParser ( Parser ):
                       u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"MODIFY", 
                       u"UPDATE", u"SUPDATE", u"SETATTR", u"CONCAT", u"AND", 
                       u"OR", u"MKTUPLE", u"MKLIST", u"MKDICT", u"MINUS", 
-                      u"IF", u"GETATTR", u"ID", u"NUMBER", u"STRING_ML", 
-                      u"WS", u"STRING_SQ", u"STRING_DQ", u"SYMBOL", u"LINE_COMMENT", 
-                      u"NEW_LINE_COMMENT", u"NEW_COMMENT", u"WHITE_SPACE" ]
+                      u"IF", u"GETATTR", u"ID", u"NUMBER", u"STRING_SQ", 
+                      u"STRING_DQ", u"SYMBOL", u"LINE_COMMENT", u"NEW_LINE_COMMENT", 
+                      u"NEW_COMMENT", u"WHITE_SPACE" ]
 
     RULE_unit = 0
     RULE_expression = 1
@@ -218,15 +218,13 @@ class PLambdaParser ( Parser ):
     GETATTR=56
     ID=57
     NUMBER=58
-    STRING_ML=59
-    WS=60
-    STRING_SQ=61
-    STRING_DQ=62
-    SYMBOL=63
-    LINE_COMMENT=64
-    NEW_LINE_COMMENT=65
-    NEW_COMMENT=66
-    WHITE_SPACE=67
+    STRING_SQ=59
+    STRING_DQ=60
+    SYMBOL=61
+    LINE_COMMENT=62
+    NEW_LINE_COMMENT=63
+    NEW_COMMENT=64
+    WHITE_SPACE=65
 
     def __init__(self, input):
         super(PLambdaParser, self).__init__(input)

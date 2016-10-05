@@ -53,7 +53,7 @@ def rep(filename):
             try:
                 sys.stdout.write('> ')
                 sys.stdout.flush()
-                line = snarf(sys.stdin, 0.1)
+                line = snarf(sys.stdin, 0.2)
                 if line == 'q':
                     return 0
                 elif line == 'v':
