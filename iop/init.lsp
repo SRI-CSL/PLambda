@@ -20,11 +20,13 @@
   )
 
 
+(define clone_count (int 2))
+
 (define plambda_clones (mklist))
-(define plambda_population (int 4))
+(define plambda_population clone_count)
 
 (define maude_clones (mklist))
-(define maude_population (int 4))
+(define maude_population clone_count)
 
 (import 'plambda.actors.actorlib')
 (define make_cloner (prefix executable args clones count)
