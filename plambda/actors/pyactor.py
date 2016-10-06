@@ -134,6 +134,22 @@ def eval(interpreter, sender, message):
     dispatched to the interpreter to evaluate. Otherwise it is processed
     by any custom handlers that have been installed.
 
+    Custom handlers are of the form:
+    
+    (define handler (lambda (sender message)  ... ))
+
+    and are installed by 
+
+    (import 'plambda.actors.pyactor')
+    (apply plambda.actors.pyactor.add_handler handler)
+
+
+    and removed analgously
+
+
+    (apply plambda.actors.pyactor.remove_handler handler)
+
+
 
     """
     try:
@@ -141,10 +157,11 @@ def eval(interpreter, sender, message):
             val = interpreter.evaluateString(message)
             notify('eval: {0} evaluated to {1}'.format(message, val))
         else:
+            sender = sender.strip()
             message = message.strip()
             notify('looking for handlers for: "{0}" from {1}'.format(message, sender))
             for handler in Main.handlers:
-                if handler.applyClosure(message):
+                if handler.applyClosure(sender, message):
                     notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
                     break
             

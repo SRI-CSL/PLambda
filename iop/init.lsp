@@ -30,7 +30,7 @@
 
 (import 'plambda.actors.actorlib')
 (define make_cloner (prefix executable args clones count)
-  (lambda (message)
+  (lambda (sender message)
     (let ((tokens (invoke message 'split')))
       (if (> (apply len tokens) (int 1))
 	  (let ((verb (get tokens (int 0)))
@@ -87,7 +87,7 @@
   )
 
 
-(define catchall (lambda (message)  (invoke  sys.stderr 'write' (concat 'Handled: ' message '\n'))))
+(define catchall (lambda (sender message)  (invoke  sys.stderr 'write' (concat 'Handled: ' message ' from ' sender '\n'))))
 
 (import 'plambda.actors.pyactor')
 (apply plambda.actors.pyactor.add_handler (apply make_cloner 'plambda' 'pyactor' 'anonymous' plambda_clones plambda_population))
