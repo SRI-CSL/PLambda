@@ -67,7 +67,7 @@ class Main(object):
         else:
             raise Exception("plambda.actor.pyactor.Main should have a singleton instance!")
         if self.filename is not None:
-            sys.stderr.write('Loading {0}\n'.format(self.filename))
+            notify('Loading {0}\n'.format(self.filename))
             self.interpreter.load(self.filename)
 
 
