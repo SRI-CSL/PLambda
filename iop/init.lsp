@@ -125,6 +125,8 @@
        (apply plambda.util.Util.string2File  contents loadfile (boolean False))))
 
 ;;start the ball rolling
-(apply plambda.actors.actorlib.send 'system' 'plambda' 'start plambda pyactor')
+(let ((name (concat 'plambda' (int 0))))
+  (apply plambda.actors.actorlib.send 'system' 'plambda' (concat 'start ' name '  pyactor ' name))
+  )
 
 
