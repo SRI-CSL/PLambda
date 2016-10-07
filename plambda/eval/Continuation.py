@@ -419,7 +419,7 @@ class ApplyCont(Continuation):
                 cargs = self.vals[1:]
                 if not func.arity is len(cargs):
 		    msg = "number of arguments ({0}) != closure arity({1}): {2}"
-                    self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), info())
+                    self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), self.info())
                     state.k = self.k
                     state.val = None
                 else:
