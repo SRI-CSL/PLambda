@@ -130,7 +130,7 @@ def oracle(actor):
 def eval(interpreter, sender, message):
     """Evaluates the message in the given interpreter.
 
-    If the message appears to be an PLambda expression iit is simply
+    If the message appears to be an PLambda expression it is simply
     dispatched to the interpreter to evaluate. Otherwise it is processed
     by any custom handlers that have been installed.
 
