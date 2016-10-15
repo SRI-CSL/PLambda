@@ -48,7 +48,8 @@ class Main(object):
 
     launchConsole = False
 
-    plambda_pattern = re.compile('^\s*\(.*\)\s*$')
+    #iam: must be a better way
+    plambda_pattern = re.compile('^\s*\(')
 
     handlers = []
 
