@@ -139,16 +139,21 @@ def eval(interpreter, sender, message):
     
     (define handler (lambda (sender message)  ... ))
 
-    and are installed by 
+    Handlers should return true if they handled the message, and false
+    otherwise. They are installed by 
 
     (import 'plambda.actors.pyactor')
     (apply plambda.actors.pyactor.add_handler handler)
 
 
-    and removed analgously
+    and removed analagously
 
 
     (apply plambda.actors.pyactor.remove_handler handler)
+
+    Handlers are stored in a list, and are processed in order,
+    until one that handles the incoming message is found.
+    Thus the oldest handler that accepts a message will win.
 
 
 
