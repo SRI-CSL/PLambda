@@ -13,6 +13,7 @@ def send(target, sender, msg):
     outgoing = '{0}\n{1}'.format(len(bytes), bytes)
     if debug:
         sys.stderr.write(outgoing)
+        sys.stderr.write('\n')
     sys.stdout.write(outgoing)
     sys.stdout.flush()
 

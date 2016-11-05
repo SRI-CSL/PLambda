@@ -30,7 +30,9 @@ Version history:
 
 1.0.11  10/27/2016  Non Sexpression handlers added to pyactor for SoftAgent requirements.
 
+1.0.12  11/05/2016  pylint spots a few mistakes.
+
 """
 
-plambda_version='1.0.11'
+plambda_version='1.0.12'
 
