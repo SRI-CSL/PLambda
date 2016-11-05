@@ -17,6 +17,8 @@ all:
 	@echo ''
 	@echo 'then upload the zip file to https://pypi.python.org/pypi'
 	@echo ''
+	@echo 'To pylint                            :  "make lint"'
+	@echo ''
 
 
 antlr4:
@@ -62,3 +64,10 @@ clean:
 	rm -f tests/*.pyc plambda/*.pyc plambda/*/*.pyc plambda/*/*~
 
 
+PYLINT = $(shell which pylint)
+
+lint:
+ifeq ($(PYLINT),)
+	$(error lint target requires pylint)
+endif
+	@ $(PYLINT) -E plambda/*.py plambda/*/*.py
