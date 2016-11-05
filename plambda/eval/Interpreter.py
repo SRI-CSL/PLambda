@@ -308,7 +308,7 @@ class Interpreter(object):
                 # do when some of the defaults are used but not others?
                 if (nvals < nargs - ndefaults) or  (nargs < nvals):
                     fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3}'
-                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], defaults)
+                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], argspec.defaults)
                     return (False, PLambdaException(emsg))
 
         retval = None
@@ -412,7 +412,7 @@ class Interpreter(object):
             return (False, e)
             
 
-    def callApply(self, fun, vals, location):
+    def callApply(self, fun, funexp, vals, location):
         """DEPRECATED VERSION.
         """
         retval = None
@@ -439,7 +439,7 @@ class Interpreter(object):
         for arg in argexps:
             vals.append(self.eval(arg, env))
 
-        (ok, retval) = self.callApply(fun, vals,  sexp.spine[0].location)
+        (ok, retval) = self.callApply(fun, funexp, vals,  sexp.spine[0].location)
 
         if ok:
             return retval
@@ -595,9 +595,9 @@ class Interpreter(object):
             if isinstance(val1, int) and -l0 < val1 and val1 < l0:
                 val0[val1] = val2
             else:
-                raise PLambdaException('modify {0}: bad index to modify of list'.format(str(sexp.location)))
+                raise PLambdaException('modify {0}: bad index to modify of list'.format(str(loc)))
         else:
-            raise PLambdaException('modify {0}: unhandled case'.format(str(sexp.location)))
+            raise PLambdaException('modify {0}: unhandled case'.format(str(loc)))
         return None
 
 
@@ -879,7 +879,7 @@ class Interpreter(object):
             elif op is SymbolTable.NOT:
                 retval = True if val is False else False
             else:
-                return (False, PlambdaException("Unrecognized unary op {0} {1}".format(op, location)))
+                return (False, PLambdaException("Unrecognized unary op {0} {1}".format(op, location)))
         except Exception as e:
             return (False, PLambdaException('callUnaryOp {0} {1} threw {2}'.format(op, location, str(e))))
 

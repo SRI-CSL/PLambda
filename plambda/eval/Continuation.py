@@ -321,6 +321,10 @@ class EvalArgsCont(Continuation):
             state.k = self.k
             state.val = None
 
+    def computeResult(self, val):
+        raise PLambdaException('This needs to be over ridden!')
+ 
+
 class SeqCont(EvalArgsCont):
 
     def __init__(self, exp, args, env, k):
@@ -521,7 +525,13 @@ class PropCont(Continuation):
         state.tag = State.RETURN
         state.val = self.computeResult(state.val)
         state.k = self.k
-  
+
+    def isStopValue(self, val):
+        raise PLambdaException('This needs to be over ridden!')
+
+    def computeResult(self, val):
+        raise PLambdaException('This needs to be over ridden!')
+ 
 
 class AndCont(PropCont):
     

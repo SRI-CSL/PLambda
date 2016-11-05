@@ -10,6 +10,7 @@ from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, LetCo
                             AndCont, OrCont,
                             ApplyCont, InvokeCont, GetAttrCont )
 
+from .PLambdaException import PLambdaException
 
 EVAL     = 0
 CONTINUE = 1
