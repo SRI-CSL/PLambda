@@ -26,7 +26,7 @@ class Continuation(object):
         else:
             self.argslen = None
             self.vals = None
-            
+
         self.n = 0
         self.env = env
         self.k = k
@@ -36,8 +36,8 @@ class Continuation(object):
 
 
     def ret(self, state):
-        """ ret is deals with the exceptional case. 
-        
+        """ ret is deals with the exceptional case.
+
         By default, thrown exceptions propagated up the continuation
         chain.  Continuations that handle exceptions (TryCont and
         TopCont, currently) do so by overriding `ret'.
@@ -65,7 +65,7 @@ class Continuation(object):
             sb.append('\tat  argument ').append(self.n).append(' of ').append(self.exp.spine[0]).append(' form')
         sb.append(' at ').append(self.exp.location)
         return str(sb)
-    
+
 
 class TopCont(Continuation):
 
@@ -82,11 +82,11 @@ class TopCont(Continuation):
             print self.excep
         state.tag = State.DONE
 
-            
+
     def handleReturn(self, state):
         pass
 
-    
+
 class DefineCont(Continuation):
 
     def __init__(self, exp, args, env, k):
@@ -108,15 +108,15 @@ class DefineCont(Continuation):
             state.val = name
             state.k = self.k
 
-            
+
     def handleReturn(self, state):
         name = self.vals[0]
         state.interpreter.definitions[name] =  state.val
         state.tag = State.RETURN
         state.val = name
         state.k = self.k
-        
-    
+
+
 class IfCont(Continuation):
 
 
@@ -148,7 +148,7 @@ class IfCont(Continuation):
             state.val = None
 
         state.k = self.k
-        
+
 
 class TryCont(Continuation):
 
@@ -195,7 +195,7 @@ class LetCont(Continuation):
         self.bindingslen = len(self.bindings)
         self.bindingexp = None
         self.bindingid = None
-        
+
 
     def cont(self, state):
         if self.n < self.bindingslen:
@@ -209,17 +209,17 @@ class LetCont(Continuation):
 
         state.env = self.lexicalEnv
         state.tag = State.EVAL
-        
+
 
 
     def handleReturn(self, state):
         self.lexicalEnv.extend(self.bindingid, state.val)
         self.n += 1
         state.tag = State.CONTINUE
-    
-    
 
-        
+
+
+
 class ForCont(Continuation):
 
 
@@ -239,7 +239,7 @@ class ForCont(Continuation):
     def handleReturn(self, state):
 
         val = state.val
-        
+
         if self.n == 0:
 
             if val is None:
@@ -305,7 +305,7 @@ class EvalArgsCont(Continuation):
             state.tag = State.CONTINUE
         else:
             self.finish(state)
-                
+
     def receiveVal(self, val):
         self.vals[self.n - 1] = val
         return True
@@ -323,7 +323,7 @@ class EvalArgsCont(Continuation):
 
     def computeResult(self, val):
         raise PLambdaException('This needs to be over ridden!')
- 
+
 
 class SeqCont(EvalArgsCont):
 
@@ -409,7 +409,7 @@ class ApplyCont(Continuation):
             state.k = self.k
             state.val = None
             return
-        
+
         self.vals[self.n] = val
         self.n += 1
 
@@ -418,7 +418,7 @@ class ApplyCont(Continuation):
         else:
             func = self.vals[0]
             if isinstance(func, Closure):
-                """ FIXME: could assert the closures interpreter and state.interpreter are the same 
+                """ FIXME: could assert the closures interpreter and state.interpreter are the same
                 """
                 cargs = self.vals[1:]
                 if not func.arity is len(cargs):
@@ -461,7 +461,7 @@ class GetAttrCont(EvalArgsCont):
 
     def computeResult(self, state):
          return state.interpreter.callGetAttr(self.vals,  self.exp.spine[0].location)
-     
+
 
 class ConcatCont(EvalArgsCont):
 
@@ -476,7 +476,7 @@ class ConcatCont(EvalArgsCont):
         return (True, str(sb))
 
 class MkCont(EvalArgsCont):
-    
+
     def __init__(self, op, exp, args, env, k):
         EvalArgsCont.__init__(self, exp, args, env, k)
         self.op = op
@@ -491,7 +491,7 @@ class MkCont(EvalArgsCont):
 
 
 class PropCont(Continuation):
-    
+
     def __init__(self, exp, args, env, k):
         Continuation.__init__(self, exp, args, env, k)
 
@@ -504,7 +504,7 @@ class PropCont(Continuation):
         else:
             self.finish(state)
 
-    
+
     def handleReturn(self, state):
         self.n += 1
 
@@ -531,10 +531,10 @@ class PropCont(Continuation):
 
     def computeResult(self, val):
         raise PLambdaException('This needs to be over ridden!')
- 
+
 
 class AndCont(PropCont):
-    
+
     def __init__(self, exp, args, env, k):
         PropCont.__init__(self, exp, args, env, k)
 
@@ -549,9 +549,9 @@ class AndCont(PropCont):
             return val
 
 
-    
+
 class OrCont(PropCont):
-    
+
     def __init__(self, exp, args, env, k):
         PropCont.__init__(self, exp, args, env, k)
 
@@ -566,4 +566,4 @@ class OrCont(PropCont):
             return val
 
 
-    
+

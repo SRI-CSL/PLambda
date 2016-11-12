@@ -71,7 +71,7 @@ class State(object):
                     spine = self.exp.spine
                     self.val = Closure(self.interpreter, spine[1], spine[2], self.env, spine[0].location)
                     self.tag = RETURN
-                elif code is Syntax.INVOKE:                    
+                elif code is Syntax.INVOKE:
                     self.k = InvokeCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
                 elif code is Syntax.APPLY:
@@ -83,7 +83,7 @@ class State(object):
                 elif code is Syntax.UNARY_OP:
                     self.k = UnaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
-                elif code is Syntax.BINARY_OP:                    
+                elif code is Syntax.BINARY_OP:
                     self.k = BinaryOpCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
                 elif code is Syntax.TERNARY_OP:

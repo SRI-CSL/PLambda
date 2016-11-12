@@ -9,7 +9,7 @@ class Environment(object):
     def extend(self, key, value):
         self.frame[key.string] = value
         return self
-    
+
     def lookup(self, key):
         keystr = key.string
         env = self
@@ -20,9 +20,9 @@ class Environment(object):
             else:
                 env = env.next
         return (False, None)
-    
-        
-        
-        
 
-    
+
+
+
+
+

@@ -42,11 +42,11 @@ def rep(filename):
     interpreter = Interpreter()
 
     debug = False
-    
+
     try:
 
         interpreter.load(filename)
-        
+
         sys.stdout.write(WELCOME.format(plambda_version))
 
         while True:
@@ -84,7 +84,7 @@ def rep(filename):
             except Exception as e:
                 print 'PLambda.rep Exception: ', e
                 traceback.print_exc(file=sys.stderr)
-                
+
     except KeyboardInterrupt:
         return 0
 
@@ -104,4 +104,4 @@ Type one of the following:
 \tu to see the current uids
 \tv to toggle the degree of verbosity in error reports
 """
-    
+

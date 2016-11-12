@@ -7,7 +7,7 @@ from plambda.util.StringBuffer import StringBuffer
 
 class Visitor(PLambdaVisitor):
 
-    
+
     def __init__(self, filename):
         self.filename = filename
 
@@ -46,17 +46,17 @@ class Visitor(PLambdaVisitor):
             if location is None:
                 location = val.location
             retval.append(val)
-        #if there is an implicit seq, make it explicit    
+        #if there is an implicit seq, make it explicit
         if len(retval) > 1:
             retval.insert(0, Atom(SymbolTable.SEQ, location))
             return SExpression(Syntax.SEQ, tuple(retval), location)
         else:
             return retval[0]
-            
+
     # Visit a parse tree produced by PLambdaParser#invokeExpression.
     def visitInvokeExpression(self, ctx):
         return self.visitExpressionList(Syntax.INVOKE, ctx.INVOKE(), ctx.expression())
-    
+
     # Visit a parse tree produced by PLambdaParser#seqExpression.
     def visitSeqExpression(self, ctx):
         return self.visitExpressionList(Syntax.SEQ, ctx.SEQ(), ctx.expression())
@@ -91,7 +91,7 @@ class Visitor(PLambdaVisitor):
         location = Location(self.filename, lineno)
         params = self.visitParameterList(ctx.parameterList())
         body = self.visitImplicitSeq(ctx.expression())
-        lamb = Atom(SymbolTable.LAMBDA, location) 
+        lamb = Atom(SymbolTable.LAMBDA, location)
         return SExpression(Syntax.LAMBDA, (lamb, params, body), location)
 
     # Visit a parse tree produced by PLambdaParser#parameterList.
@@ -109,16 +109,16 @@ class Visitor(PLambdaVisitor):
         t = ctx.ID().getSymbol()
         location = Location(self.filename, t.line)
         return Atom(t.text, location)
-            
+
     # Visit a parse tree produced by PLambdaParser#letExpression.
     def visitLetExpression(self, ctx):
         lineno = ctx.LET().getSymbol().line
         location = Location(self.filename, lineno)
         bindings = self.visitBindingList(ctx.bindingList())
         body = self.visitImplicitSeq(ctx.expression())
-        let = Atom(SymbolTable.LET, location) 
+        let = Atom(SymbolTable.LET, location)
         return SExpression(Syntax.LET, (let, bindings, body), location)
-    
+
     # Visit a parse tree produced by PLambdaParser#bindingList.
     def visitBindingList(self, ctx):
         retval = []
@@ -178,7 +178,7 @@ class Visitor(PLambdaVisitor):
                                         self.visitImplicitSeq(ctx.expression()),
                                         self.visitCatchExpression(ctx.catchExpression())),
                            location)
-    
+
     # Visit a parse tree produced by PLambdaParser#catchExpression.
     def visitCatchExpression(self, ctx):
         lineno = ctx.CATCH().getSymbol().line
@@ -188,7 +188,7 @@ class Visitor(PLambdaVisitor):
                      self.visitParameter(ctx.parameter()),
                      self.visitImplicitSeq(ctx.expression())),
                     location)
-                    
+
 
     # Visit a parse tree produced by PLambdaParser#dataExpression.
     def visitDataExpression(self, ctx):
@@ -209,7 +209,7 @@ class Visitor(PLambdaVisitor):
             data = ctx.CHARACTER()
         return Atom(data.getSymbol().text, Location(self.filename, data.getSymbol().line))
 
-    
+
     # Visit a parse tree produced by PLambdaParser#oneOrMoreExpression.
     def visitOneOrMoreExpression(self, ctx):
         return self.visitExpressionList(Syntax.AMBI1_OP, ctx.AMBI1_OP(), ctx.expression());
@@ -220,12 +220,12 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#naryExpression.
     def visitNaryExpression(self, ctx):
-        return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression()); 
+        return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression());
 
 
 def deslashify(string):
     return deslashify_aux(string[0], string)
-    
+
 
 def deslashify_aux(dl, string):
     """Interprets the slashes in a raw string.
@@ -237,7 +237,7 @@ def deslashify_aux(dl, string):
     #we'll need to be more careful if we are going to allow 'strings like this'
     assert(string[0] == dl and string[-1] == dl)
     for c in string:
-        i += 1 
+        i += 1
         if slash:
             slash = False
             if c == 'n':

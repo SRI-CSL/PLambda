@@ -5,7 +5,7 @@ class StringBuffer(object):
   def __init__(self):
     self.empty = True;
     self._stringio = io.StringIO()
-    
+
   def __str__(self):
     val = self._stringio.getvalue()
     self._stringio.close()

@@ -6,7 +6,7 @@ from .actorlib import send, receive
 class Actor(object):
 
     _debug = False
-    
+
     def __init__(self, name, client):
         """Creates an Actor object with the given name and client."""
         self.client = client
@@ -27,18 +27,18 @@ class Actor(object):
 
 
     def process_message(self, sender, msg):
-        """The beginnings of a REP for imaude messages. 
+        """The beginnings of a REP for imaude messages.
 
         Currently processes the message as:
 
          verb arg0 arg1 ... argN
-        
+
         and attempts to invoke the 'verb' method on the 'client' object
-        with the remaining arguments. I.e. 
+        with the remaining arguments. I.e.
 
         client.verb(arg0, arg1, ..., argN)
 
-        If this is kosher it returns the string representation of 
+        If this is kosher it returns the string representation of
         the resulting 'client' object.
         """
 
@@ -48,7 +48,7 @@ class Actor(object):
         args = arglist[1:]
 
         debug('{0} got message with verb = {1} and args = {2}\n'.format(self.name, verb, args))
-                
+
         # see if we can call the 'verb' on the 'client' with the given 'args'
         success = False
         for (name, value) in self.methods:
@@ -72,10 +72,10 @@ class Actor(object):
             return 'unknown command'
 
 
-            
+
 def debug(emsg):
     """If the Actor.flag is set to True, then it writes the msg to stderr."""
     if Actor._debug:
         sys.stderr.write(emsg)
-            
+
 

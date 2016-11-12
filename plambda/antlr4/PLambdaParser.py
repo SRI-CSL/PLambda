@@ -114,34 +114,34 @@ class PLambdaParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ u"<INVALID>", u"'('", u"')'", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"'None'", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
-                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>", 
+    literalNames = [ u"<INVALID>", u"'('", u"')'", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"'None'", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
+                     u"<INVALID>", u"<INVALID>", u"<INVALID>", u"<INVALID>",
                      u"<INVALID>", u"'-'" ]
 
-    symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"STRING", 
-                      u"PRIMITIVE_DATA_OP", u"UNARY_OP", u"BINARY_OP", u"TERNARY_OP", 
-                      u"N_ARY_OP", u"AMBI1_OP", u"AMBI2_OP", u"NONE", u"SEQ", 
-                      u"DO", u"LET", u"DEFINE", u"LAMBDA", u"APPLY", u"INVOKE", 
-                      u"SINVOKE", u"FOR", u"TRY", u"CATCH", u"BOOLEAN", 
-                      u"FLOAT", u"INT", u"LOAD", u"IMPORT", u"ISNONE", u"ISOBJECT", 
-                      u"ISINT", u"ISFLOAT", u"GETUID", u"GLOBAL", u"NOT", 
-                      u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", u"GET", 
-                      u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"MODIFY", 
-                      u"UPDATE", u"SUPDATE", u"SETATTR", u"CONCAT", u"AND", 
-                      u"OR", u"MKTUPLE", u"MKLIST", u"MKDICT", u"MINUS", 
-                      u"IF", u"GETATTR", u"ID", u"NUMBER", u"STRING_SQ", 
-                      u"STRING_DQ", u"SYMBOL", u"LINE_COMMENT", u"NEW_LINE_COMMENT", 
+    symbolicNames = [ u"<INVALID>", u"<INVALID>", u"<INVALID>", u"STRING",
+                      u"PRIMITIVE_DATA_OP", u"UNARY_OP", u"BINARY_OP", u"TERNARY_OP",
+                      u"N_ARY_OP", u"AMBI1_OP", u"AMBI2_OP", u"NONE", u"SEQ",
+                      u"DO", u"LET", u"DEFINE", u"LAMBDA", u"APPLY", u"INVOKE",
+                      u"SINVOKE", u"FOR", u"TRY", u"CATCH", u"BOOLEAN",
+                      u"FLOAT", u"INT", u"LOAD", u"IMPORT", u"ISNONE", u"ISOBJECT",
+                      u"ISINT", u"ISFLOAT", u"GETUID", u"GLOBAL", u"NOT",
+                      u"THROW", u"FETCH", u"NARROW", u"INSTANCEOF", u"GET",
+                      u"IS", u"LOOKUP", u"SETUID", u"KWAPPLY", u"MODIFY",
+                      u"UPDATE", u"SUPDATE", u"SETATTR", u"CONCAT", u"AND",
+                      u"OR", u"MKTUPLE", u"MKLIST", u"MKDICT", u"MINUS",
+                      u"IF", u"GETATTR", u"ID", u"NUMBER", u"STRING_SQ",
+                      u"STRING_DQ", u"SYMBOL", u"LINE_COMMENT", u"NEW_LINE_COMMENT",
                       u"NEW_COMMENT", u"WHITE_SPACE" ]
 
     RULE_unit = 0
@@ -155,8 +155,8 @@ class PLambdaParser ( Parser ):
     RULE_data = 8
     RULE_token = 9
 
-    ruleNames =  [ u"unit", u"expression", u"parameterList", u"parameter", 
-                   u"bindingList", u"bindingPair", u"catchExpression", u"rangeExpression", 
+    ruleNames =  [ u"unit", u"expression", u"parameterList", u"parameter",
+                   u"bindingList", u"bindingPair", u"catchExpression", u"rangeExpression",
                    u"data", u"token" ]
 
     EOF = Token.EOF
@@ -274,13 +274,13 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 21 
+            self.state = 21
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
                 self.state = 20
                 self.expression()
-                self.state = 23 
+                self.state = 23
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -304,7 +304,7 @@ class PLambdaParser ( Parser ):
         def getRuleIndex(self):
             return PLambdaParser.RULE_expression
 
-     
+
         def copyFrom(self, ctx):
             super(PLambdaParser.ExpressionContext, self).copyFrom(ctx)
 
@@ -861,13 +861,13 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.T__0)
                 self.state = 26
                 self.match(PLambdaParser.SEQ)
-                self.state = 28 
+                self.state = 28
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
                     self.state = 27
                     self.expression()
-                    self.state = 30 
+                    self.state = 30
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -886,13 +886,13 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.LET)
                 self.state = 36
                 self.bindingList()
-                self.state = 38 
+                self.state = 38
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
                     self.state = 37
                     self.expression()
-                    self.state = 40 
+                    self.state = 40
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -918,13 +918,13 @@ class PLambdaParser ( Parser ):
                     self.parameterList()
 
 
-                self.state = 51 
+                self.state = 51
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
                     self.state = 50
                     self.expression()
-                    self.state = 53 
+                    self.state = 53
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -943,13 +943,13 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.LAMBDA)
                 self.state = 59
                 self.parameterList()
-                self.state = 61 
+                self.state = 61
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
                     self.state = 60
                     self.expression()
-                    self.state = 63 
+                    self.state = 63
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -1135,7 +1135,7 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.T__0)
                 self.state = 140
                 self.match(PLambdaParser.TRY)
-                self.state = 142 
+                self.state = 142
                 self._errHandler.sync(self)
                 _alt = 1
                 while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
@@ -1145,7 +1145,7 @@ class PLambdaParser ( Parser ):
 
                     else:
                         raise NoViableAltException(self)
-                    self.state = 144 
+                    self.state = 144
                     self._errHandler.sync(self)
                     _alt = self._interp.adaptivePredict(self._input,11,self._ctx)
 
@@ -1166,13 +1166,13 @@ class PLambdaParser ( Parser ):
                 self.match(PLambdaParser.ID)
                 self.state = 152
                 self.rangeExpression()
-                self.state = 154 
+                self.state = 154
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while True:
                     self.state = 153
                     self.expression()
-                    self.state = 156 
+                    self.state = 156
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
                     if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):
@@ -1361,13 +1361,13 @@ class PLambdaParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 176
             self.match(PLambdaParser.T__0)
-            self.state = 178 
+            self.state = 178
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
                 self.state = 177
                 self.bindingPair()
-                self.state = 180 
+                self.state = 180
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la==PLambdaParser.T__0):
@@ -1492,13 +1492,13 @@ class PLambdaParser ( Parser ):
             self.match(PLambdaParser.CATCH)
             self.state = 191
             self.parameter()
-            self.state = 193 
+            self.state = 193
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
                 self.state = 192
                 self.expression()
-                self.state = 195 
+                self.state = 195
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0)):

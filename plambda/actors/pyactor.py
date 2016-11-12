@@ -55,7 +55,7 @@ class Main(object):
 
     # a singleton instance
     myself = None
-    
+
     def __init__(self, name, filename=None):
         """Creates an plambda Actor object with the given name.
         """
@@ -72,7 +72,7 @@ class Main(object):
             self.interpreter.load(self.filename)
 
 
-        
+
     def run(self):
         """The main thread ever ready to launch the console.
         """
@@ -81,7 +81,7 @@ class Main(object):
         self.oracle = threading.Thread(target=oracle, args=(self, ))
         self.oracle.daemon = True
         self.oracle.start()
-        
+
         while True:
             time.sleep(1)
             #FIXME: better do this with a message now that we have handlers.
@@ -90,17 +90,17 @@ class Main(object):
                 self.console = Console(self.interpreter)
                 self.console.mainloop()
 
-                
+
         return 0
 
 
 def add_handler(closure):
     Main.handlers.append(closure)
-    
+
 def remove_handler(closure):
     Main.handlers.remove(closure)
-    
-    
+
+
 def notify(message):
     if debug:
         sys.stderr.write('{0}\n'.format(message))
@@ -125,9 +125,9 @@ def oracle(actor):
         #thread needs to be a daemon so that the actor itself can die in peace.
         thread.daemon = True
         thread.start()
-            
 
-        
+
+
 def eval(interpreter, sender, message):
     """Evaluates the message in the given interpreter.
 
@@ -136,11 +136,11 @@ def eval(interpreter, sender, message):
     by any custom handlers that have been installed.
 
     Custom handlers are of the form:
-    
+
     (define handler (lambda (sender message)  ... ))
 
     Handlers should return true if they handled the message, and false
-    otherwise. They are installed by 
+    otherwise. They are installed by
 
     (import 'plambda.actors.pyactor')
     (apply plambda.actors.pyactor.add_handler handler)
@@ -170,7 +170,7 @@ def eval(interpreter, sender, message):
                 if handler.applyClosure(sender, message):
                     notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
                     break
-            
+
     except Exception as e:
         sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n'.format(e))
         if debug:
@@ -181,4 +181,4 @@ def launch(name, file=None):
     main = Main(name, file)
     main.run()
     return 0
-    
+

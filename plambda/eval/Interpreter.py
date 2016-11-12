@@ -1,4 +1,4 @@
-# iam: This is needed to stop python from treating 'print' as something special; rather than 
+# iam: This is needed to stop python from treating 'print' as something special; rather than
 # just a builtin. Wonder how much of this hackery is in our future?
 #
 from __future__ import print_function
@@ -59,7 +59,7 @@ class Interpreter(object):
             self.evaluateString = self.cps_evaluateString
             self.evaluate = self.cps_evaluate
             self.eval = self.cps_eval
-            
+
 
     def recursive_evaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
@@ -71,7 +71,7 @@ class Interpreter(object):
         for c in code:
             retval = self.evaluate(c)
         return retval
-        
+
     def recursive_evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
@@ -106,7 +106,7 @@ class Interpreter(object):
         for c in code:
             retval = self.cps_evaluate(c)
         return retval
-        
+
     def cps_evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
         """
@@ -152,8 +152,8 @@ class Interpreter(object):
         if ok:
             return (ok, value)
         return (False, PLambdaException('Unbound variable: {0}'.format(repr(leaf))))
-    
-        
+
+
     def getmodule(self, path):
         """Finds the longest prefix of path that is in the modules dictionary.
 
@@ -199,8 +199,8 @@ class Interpreter(object):
             else:
                 return (False, None)
             return self.getobject(nobj, path[1:])
-        
-        
+
+
     def mlookup(self, path, leaf):
         """Just a quick 'n dirty hack at this point.
         """
@@ -215,7 +215,7 @@ class Interpreter(object):
         assert(isinstance(leaf, Atom))
 
         ok = False
-        
+
         if len(path) > 1:
             key = path[0]
             val = self.definitions.get(key)
@@ -226,7 +226,7 @@ class Interpreter(object):
             ok = key in self.definitions
             if ok:
                 val = self.definitions[key]
-        
+
         if ok:
             return (True, val)
         else:
@@ -239,7 +239,7 @@ class Interpreter(object):
         This is why we bail if the value is not callable.
         """
         assert(isinstance(leaf, Atom))
-        
+
         try:
             val = eval(leaf.string)
             if callable(val):
@@ -259,7 +259,7 @@ class Interpreter(object):
 
 
     def callInvoke(self, obj, methodname, vals, location):
-        
+
         methods = inspect.getmembers(obj, callable)
 
         if not methods:
@@ -268,13 +268,13 @@ class Interpreter(object):
             return (False, PLambdaException(emsg))
 
         method = None
-        
+
         if not isString(methodname):
             fmsg = 'Method name not a string: {0} {1}'
             emsg = fmsg.format(methodname, location)
             return (False, PLambdaException(fmsg))
 
-        
+
         for (name, value) in methods:
             if name == methodname:
                 method = value
@@ -283,7 +283,7 @@ class Interpreter(object):
         if method is None:
             emsg = 'No such method: {0} {1}'.format(methodname, location)
             return (False, PLambdaException(emsg))
-        
+
 
         # Ugliness under python's hood:
         # Cannot get the argspec of a builtin
@@ -320,7 +320,7 @@ class Interpreter(object):
             return (False, PLambdaException('invoke {0} threw {1}'.format(location, str(e))))
 
 
-    
+
     def evalInvoke(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -347,9 +347,9 @@ class Interpreter(object):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
         identifier = sexp.spine[1]
-        
+
         assert(isinstance(identifier, Atom))
-        
+
         val = None
 
         if len(sexp.spine) == 3:
@@ -358,17 +358,17 @@ class Interpreter(object):
             val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0].location)
 
         idstr = identifier.string
-        
+
         dot = idstr.find('.')
 
         if dot >= 0:
             sys.stderr.write('Bad idea to have a  "." in an identifier: {0}\n'.format(repr(identifier)))
-            
-        
+
+
         self.definitions[idstr] = val
         self.code[idstr] = sexp
         return identifier
-    
+
 
     def evalLet(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -395,22 +395,22 @@ class Interpreter(object):
             emsg = fmsg.format(fun.arity, vals, len(vals), location)
             return (False, PLambdaException(emsg))
         else:
-            try: 
+            try:
                 retval = fun.applyClosure(*vals)
                 return (True, retval)
             except Exception as e:
                 return (False, e)
-        
+
 
     def callCallable(self, fun, vals, location):
         retval = None
         assert(callable(fun))
-        try: 
+        try:
             retval = fun(*vals)
             return (True, retval)
         except Exception as e:
             return (False, e)
-            
+
 
     def callApply(self, fun, funexp, vals, location):
         """DEPRECATED VERSION.
@@ -458,7 +458,7 @@ class Interpreter(object):
 
         if isInteger(rangeval):
             rangeval = range(0, rangeval)  #FIXME: not very efficient for big integers
-            
+
         if isinstance(rangeval, collections.Iterable):
             retval = None
             for v in rangeval:
@@ -523,7 +523,7 @@ class Interpreter(object):
         except Exception as e:
             return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
-    
+
     def evalBinaryOp(self, sexp, env):
         """Recursive version. Soon to be deprecated.
         """
@@ -540,7 +540,7 @@ class Interpreter(object):
             return retval
         else:
             raise retval
-        
+
     def evalGet(self, val0, val1, location):
         if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
             return val0[val1]
@@ -559,11 +559,11 @@ class Interpreter(object):
             return True
         else:
             return False
-       
+
 
     def setUID(self, val0, val1, location):
         if val0 is None:
-            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(location)))                  
+            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(location)))
         elif val1 is None:
             return self.unsetUID(val0)
         elif not isString(val1):
@@ -589,7 +589,7 @@ class Interpreter(object):
     def evalModify(self, val0, val1, val2, loc):
         #be brave until we need to back down...
         if isinstance(val0, dict):
-            val0[val1] = val2 
+            val0[val1] = val2
         elif isinstance(val0, list):
             l0 = len(val0)
             if isinstance(val1, int) and -l0 < val1 and val1 < l0:
@@ -620,7 +620,7 @@ class Interpreter(object):
         except Exception as e:
             return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
-        
+
 
     def evalTernaryOp(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -634,12 +634,12 @@ class Interpreter(object):
         val2 = self.eval(arg2, env)
 
         (ok, retval) = self.callTernaryOp(op, val0, val1, val2, sexp.location)
-        
+
         if ok:
             return retval
         else:
             raise retval
-        
+
     def evalAmbi1Op(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -664,8 +664,8 @@ class Interpreter(object):
             return (True, retval)
         except Exception as e:
             return (False, PLambdaException('callGetAttr {0} threw {1}'.format(location, str(e))))
-        
-        
+
+
     def evalAmbi2Op(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -677,7 +677,7 @@ class Interpreter(object):
             return self.evalIf(sexp, env)
         elif op in (SymbolTable.GETATTR, SymbolTable.LOOKUP):
             vals = []
-            
+
             for arg in args:
                 vals.append(self.eval(arg, env))
             (ok, retval) = self.callGetAttr(vals, sexp.spine[0].location)
@@ -714,7 +714,7 @@ class Interpreter(object):
             if  self.eval(e, env) is False:
                 return False
         return  True
-        
+
 
     def evalOr(self, args, env):
         """RECURSIVE VERSION. Soon to be deprecated.
@@ -724,7 +724,7 @@ class Interpreter(object):
                 return True
         return  False
 
-        
+
     def evalNaryOp(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -732,7 +732,7 @@ class Interpreter(object):
         assert isinstance(uop, Atom)
         op = uop.string
         args = sexp.spine[1:]
-        
+
         if op is SymbolTable.AND:
             return self.evalAnd(args, env)
         elif op is SymbolTable.OR:
@@ -762,7 +762,7 @@ class Interpreter(object):
         for e in args:
             sb.append(str(self.eval(e, env)))
         return  str(sb)
-                               
+
     def evalSExpression(self, sexp, env):
         """RECURSIVE VERSION. Soon to be deprecated.
         """
@@ -821,7 +821,7 @@ class Interpreter(object):
 
     def importmod(self, val):
         try:
-            
+
             if isString(val):
                 module = importlib.import_module(val)
                 if module is not None:
@@ -842,7 +842,7 @@ class Interpreter(object):
     def callUnaryOp(self, op, val, location):
         """Calls the unary op with argument val.
 
-           It returns (True, op(val) if everything is OK, otherwise 
+           It returns (True, op(val) if everything is OK, otherwise
         it returns (False, Exception).
         """
         retval = None
@@ -884,7 +884,7 @@ class Interpreter(object):
             return (False, PLambdaException('callUnaryOp {0} {1} threw {2}'.format(op, location, str(e))))
 
         return (True, retval)
-        
+
     def evalUnaryOp(self, sexp, env):
         """Recursive version. Soon to be deprecated.
         """
@@ -899,7 +899,7 @@ class Interpreter(object):
             return retval
         else:
             raise retval
-        
+
 
     def load(self, filename):
         if isString(filename) and os.path.exists(filename):
@@ -909,7 +909,7 @@ class Interpreter(object):
             return True
         return False
 
-    
+
     def showDefinitions(self, sb=None):
         """Either writes the definitions out to stderr, or the optional StringBuffer passed in.
         """
@@ -933,6 +933,6 @@ class Interpreter(object):
         for key, value in self.uid2object.iteritems():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
-    
-            
+
+
 

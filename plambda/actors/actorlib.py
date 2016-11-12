@@ -7,7 +7,7 @@ def send(target, sender, msg):
 
     This uses iop's underlying message format.
     """
-    
+
     bytes = '{0}\n{1}\n{2}'.format(target, sender, msg)
     length = len(bytes)
     outgoing = '{0}\n{1}'.format(len(bytes), bytes)
@@ -25,11 +25,11 @@ def parseBytes(bytes, nobytes):
             if nl > 0:
                 return (True, bytes[1: nl], bytes[nl:-1])
     return (False, None, bytes)
-    
-def receive():
-    """Reads an actor message and parses it as such. 
 
-    Returns (sender, msg) if successful, 
+def receive():
+    """Reads an actor message and parses it as such.
+
+    Returns (sender, msg) if successful,
     otherwise (None, bytes)
     """
     try:
@@ -52,4 +52,4 @@ def receive():
 
 
 
-    
+

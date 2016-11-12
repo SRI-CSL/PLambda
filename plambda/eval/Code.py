@@ -65,7 +65,7 @@ class SExpression(object):
             sb.append(str(c))
         sb.append(')')
         return str(sb)
-    
+
 
 
 class Atom(object):

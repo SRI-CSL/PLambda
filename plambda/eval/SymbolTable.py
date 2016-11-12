@@ -69,7 +69,7 @@ class SymbolTable(object):
         intern('update'):        intern('update'),
         }
 
-        
+
     AND         = intern('and')
     APPLY       = intern('apply')
     ARRAY       = intern('array')
@@ -134,8 +134,8 @@ class SymbolTable(object):
     TIMES       = intern('*')
     TRY         = intern('try')
     UPDATE      = intern('update')
-    
+
     @staticmethod
     def canonicalize(name):
         return SymbolTable._symbol_table.get(name.lower())
-    
+

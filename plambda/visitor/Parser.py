@@ -22,7 +22,7 @@ import sys
 
 def parseFromFile(filename):
     return parseFromStream(FileStream(filename), filename)
- 
+
 def parseFromString(string):
     return parseFromStream(InputStream(string), "stdin")
 
@@ -33,4 +33,4 @@ def parseFromStream(stream, source):
     tree = parser.unit()
     visitor = Visitor(source)
     return visitor.visit(tree)
-    
+
