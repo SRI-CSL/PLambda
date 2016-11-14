@@ -4,23 +4,23 @@ from ..util.StringBuffer import StringBuffer
 #since it will help in the dispatching
 class Syntax(object):
 
-    SEQ               = 0
-    LET               = 1
-    DEFINE            = 2
-    LAMBDA            = 3
-    INVOKE            = 4
-    APPLY             = 5
+    SEQ = 0
+    LET = 1
+    DEFINE = 2
+    LAMBDA = 3
+    INVOKE = 4
+    APPLY = 5
     PRIMITIVE_DATA_OP = 6
-    UNARY_OP          = 7
-    BINARY_OP         = 8
-    TERNARY_OP        = 9
-    AMBI1_OP          = 10
-    AMBI2_OP          = 11
-    N_ARY_OP          = 12
-    TRY               = 13
-    FOR               = 14
-    QUOTE             = 15
-    CATCH             = 16
+    UNARY_OP = 7
+    BINARY_OP = 8
+    TERNARY_OP = 9
+    AMBI1_OP = 10
+    AMBI2_OP = 11
+    N_ARY_OP = 12
+    TRY = 13
+    FOR = 14
+    QUOTE = 15
+    CATCH = 16
 
 
 class Location(object):
@@ -95,4 +95,3 @@ class StringLiteral(object):
     # str's goal is to be readable
     def __str__(self):
         return self.string
-

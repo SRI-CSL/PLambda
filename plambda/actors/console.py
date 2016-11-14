@@ -1,3 +1,5 @@
+""" The plambda actor console for debugging running actors.
+"""
 import Tkinter as tk
 import tkFileDialog
 import os
@@ -23,12 +25,12 @@ class InputTextArea(tk.Frame):
         self.text.configure(yscrollcommand=self.text_sb.set)
         self.text_sb.pack(in_=self, side="right", fill="y", expand=False)
         self.text.pack(in_=self, side="left", fill="both", expand=True)
-        self.text.bind("<Control-b>", lambda e: console.evaluate(self.buffer(), e))
-        self.text.bind("<Command-b>", lambda e: console.evaluate(self.buffer(), e))
-        self.text.bind("<Control-l>", lambda e: console.evaluate(self.line(), e))
-        self.text.bind("<Command-l>", lambda e: console.evaluate(self.line(), e))
-        self.text.bind("<Control-e>", lambda e: console.evaluate(self.selected(), e))
-        self.text.bind("<Command-e>", lambda e: console.evaluate(self.selected(), e))
+        self.text.bind("<Control-b>", lambda e: console.evaluate(self.buffer()))
+        self.text.bind("<Command-b>", lambda e: console.evaluate(self.buffer()))
+        self.text.bind("<Control-l>", lambda e: console.evaluate(self.line()))
+        self.text.bind("<Command-l>", lambda e: console.evaluate(self.line()))
+        self.text.bind("<Control-e>", lambda e: console.evaluate(self.selected()))
+        self.text.bind("<Command-e>", lambda e: console.evaluate(self.selected()))
         self.text.bind("<Control-s>", lambda e: console.save())
         self.text.bind("<Command-s>", lambda e: console.save())
         self.text.bind("<Control-r>", lambda e: console.load(console.path))
@@ -51,7 +53,11 @@ class InputTextArea(tk.Frame):
 class OutputTextArea(tk.Frame):
     def __init__(self):
         tk.Frame.__init__(self, borderwidth=1, relief="sunken")
-        self.text = tk.Text(wrap=tk.NONE, background="white", borderwidth=0, highlightthickness=0, state=tk.DISABLED)
+        self.text = tk.Text(wrap=tk.NONE,
+                            background="white",
+                            borderwidth=0,
+                            highlightthickness=0,
+                            state=tk.DISABLED)
         self.text_sb = tk.Scrollbar(orient="vertical", borderwidth=1, command=self.text.yview)
         self.text.configure(yscrollcommand=self.text_sb.set)
         self.text_sb.pack(in_=self, side="right", fill="y", expand=False)
@@ -71,8 +77,10 @@ class FileMenu(tk.Menu):
     def __init__(self, console):
         tk.Menu.__init__(self, console.menubar, tearoff=0)
         self.add_command(label="Open", command=console.open, accelerator="Command-O")
-        self.add_command(label="Reload", command=lambda : console.load(console.path), accelerator="Command-R")
-        self.add_command(label="Save", command=lambda : console.save(), accelerator="Command-S")
+        self.add_command(label="Reload",
+                         command=lambda: console.load(console.path),
+                         accelerator="Command-R")
+        self.add_command(label="Save", command=console.save, accelerator="Command-S")
         self.add_command(label="Save As", command=console.saveas, accelerator="Shift-Command-W")
         self.add_command(label="Quit", command=sys.exit, accelerator="Command-Q")
         console.menubar.add_cascade(label="File", menu=self)
@@ -81,27 +89,22 @@ class EvaluateMenu(tk.Menu):
     def __init__(self, console):
         tk.Menu.__init__(self, console.menubar, tearoff=0)
         self.add_command(label="Buffer",
-                         command=lambda : console.evaluate(console.top_frame.buffer(), None),
+                         command=lambda: console.evaluate(console.top_frame.buffer(), None),
                          accelerator="Command-B")
         self.add_command(label="Selected",
-                         command=lambda : console.evaluate(console.top_frame.selected(), None),
+                         command=lambda: console.evaluate(console.top_frame.selected(), None),
                          accelerator="Command-E")
         self.add_command(label="Line",
-                         command=lambda : console.evaluate(console.top_frame.line(), None),
+                         command=lambda: console.evaluate(console.top_frame.line(), None),
                          accelerator="Command-L")
         console.menubar.add_cascade(label="Evaluate", menu=self)
 
 class ViewMenu(tk.Menu):
     def __init__(self, console):
         tk.Menu.__init__(self, console.menubar, tearoff=0)
-        self.add_command(label="Definitions",
-                         command=console.definitions,
-                         accelerator="Command-D")
-        self.add_command(label="UIDs",
-                         command=console.uids,
-                        accelerator="Command-U")
-        self.add_command(label="Code",
-                         command=console.code)
+        self.add_command(label="Definitions", command=console.definitions, accelerator="Command-D")
+        self.add_command(label="UIDs", command=console.uids, accelerator="Command-U")
+        self.add_command(label="Code", command=console.code)
         console.menubar.add_cascade(label="View", menu=self)
 
 
@@ -113,7 +116,10 @@ class Console(tk.Tk):
         self.interpreter = interpreter
         self.console_frame = tk.Frame(borderwidth=1, relief="sunken")
         self.toolbar = tk.Frame()
-        self.splitpane = tk.PanedWindow(orient=tk.VERTICAL, sashwidth=10, showhandle=True, sashrelief=tk.RAISED)
+        self.splitpane = tk.PanedWindow(orient=tk.VERTICAL,
+                                        sashwidth=10,
+                                        showhandle=True,
+                                        sashrelief=tk.RAISED)
         self.splitpane.pack(fill=tk.BOTH, expand=1)
         self.top_frame = InputTextArea(self)
         self.splitpane.add(self.top_frame)
@@ -121,15 +127,15 @@ class Console(tk.Tk):
         self.splitpane.add(self.bottom_frame)
         self.splitpane.pack(in_=self.console_frame, side="left", fill="both", expand=True)
         self.toolbar.pack(in_=self.console_frame, side="top", fill="x")
-        self.menubar =  tk.Menu(self)
-        self.filemenu =  FileMenu(self)
-        self.evaluatemenu =  EvaluateMenu(self)
-        self.viewmenu =  ViewMenu(self)
+        self.menubar = tk.Menu(self)
+        self.filemenu = FileMenu(self)
+        self.evaluatemenu = EvaluateMenu(self)
+        self.viewmenu = ViewMenu(self)
         self.config(menu=self.menubar)
         self.console_frame.pack(side="bottom", fill="both", expand=True)
         self.load("console.lsp")
 
-    def evaluate(self, text, event):
+    def evaluate(self, text):
         if self.interpreter is None:
             self.bottom_frame.append("Interpreter is None\n", "error")
         elif text is None:
@@ -158,7 +164,7 @@ class Console(tk.Tk):
             return
         path = os.path.abspath(fname)
         if os.path.exists(path):
-            with open (path, "r") as fp:
+            with open(path, "r") as fp:
                 self.top_frame.text.delete(1.0, tk.END)
                 for line  in fp.readlines():
                     self.top_frame.text.insert(tk.END, line)
@@ -201,7 +207,7 @@ class Console(tk.Tk):
 
 
 def launch():
-    console=Console(Interpreter())
+    console = Console(Interpreter())
     console.mainloop()
 
 

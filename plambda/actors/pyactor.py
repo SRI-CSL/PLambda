@@ -1,18 +1,17 @@
-import psutil
+""" This is the python PLambda actor akin to g2d.
+"""
 import os
 import re
 import sys
 import signal
-import subprocess
 import time
 import threading
 import traceback
+import psutil
 
-from .actorlib import send, receive
+from .actorlib import receive
 
 from ..eval.Interpreter import Interpreter
-
-from ..visitor.Parser import parseFromString
 
 from ..actors.console import Console
 
@@ -20,9 +19,9 @@ debug = False
 
 def infanticide(pid):
     try:
-      parent = psutil.Process(pid)
+        parent = psutil.Process(pid)
     except psutil.NoSuchProcess:
-      return
+        return
     children = parent.children(recursive=True)
     if debug:
         sys.stderr.write('The children of {0} are {1}\n'.format(pid, children))
@@ -34,7 +33,8 @@ def infanticide(pid):
 
 def sighandler(signum, frame):
     if debug:
-        sys.stderr.write('Signal handler called with signal {0}\n'.format(signum))
+        msg = 'Signal handler called with signal {0} and frame {1}\n'
+        sys.stderr.write(msg.format(signum, frame))
         sys.stderr.flush()
     infanticide(os.getpid())
     sys.exit()
@@ -57,7 +57,7 @@ class Main(object):
     launchConsole = False
 
     #iam: must be a better way
-    plambda_pattern = re.compile('^\s*\(')
+    plambda_pattern = re.compile(r'^\s*\(')
 
     handlers = []
 
@@ -78,21 +78,20 @@ class Main(object):
         if self.filename is not None:
             notify('Loading {0}\n'.format(self.filename))
             self.interpreter.load(self.filename)
+        self.console = None
+        self.oracle = threading.Thread(target=oracle, args=(self, ))
+        self.oracle.daemon = True
 
 
 
     def run(self):
         """The main thread ever ready to launch the console.
         """
-        fails = 0
-
-        self.oracle = threading.Thread(target=oracle, args=(self, ))
-        self.oracle.daemon = True
         self.oracle.start()
 
         while True:
             time.sleep(1)
-            #FIXME: better do this with a message now that we have handlers.
+            # N.B.: could do this with a message now that we have handlers.
             if Main.launchConsole:
                 Main.launchConsole = False
                 self.console = Console(self.interpreter)
@@ -129,14 +128,14 @@ def oracle(actor):
             else:
                 continue
         (sender, msg) = incoming
-        thread = threading.Thread(target=eval, args=(actor.interpreter, sender, msg))
+        thread = threading.Thread(target=pl_eval, args=(actor.interpreter, sender, msg))
         #thread needs to be a daemon so that the actor itself can die in peace.
         thread.daemon = True
         thread.start()
 
 
 
-def eval(interpreter, sender, message):
+def pl_eval(interpreter, sender, message):
     """Evaluates the message in the given interpreter.
 
     If the message appears to be an PLambda expression it is simply
@@ -185,7 +184,7 @@ def eval(interpreter, sender, message):
             traceback.print_exc(file=sys.stderr)
 
 
-def launch(name, file=None):
-    main = Main(name, file)
-    main.run()
+def launch(name, plfile=None):
+    mainobj = Main(name, plfile)
+    mainobj.run()
     return 0
