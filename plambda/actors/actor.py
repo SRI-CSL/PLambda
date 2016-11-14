@@ -19,10 +19,10 @@ class Actor(object):
     def begin(self):
         """Receives and processes messages in an infinite loop. """
         while True:
-            incoming =  receive()
+            incoming = receive()
             if incoming is None:
                 return 0
-     	    (sender, msg) = incoming
+            (sender, msg) = incoming
             send(sender, self.name, self.process_message(sender, msg))
 
 
@@ -56,7 +56,7 @@ class Actor(object):
                 argspec = inspect.getargspec(value)
                 debug('argspec: {0}'.format(argspec))
                 success = True
-                if len(argspec.args) - 1  == len(args): # do not count 'self'
+                if len(argspec.args) - 1 == len(args): # do not count 'self'
                     value(*args)
                 else:
                     fmsg = 'Actor arity of msg {0} does not match argsec: {1}'
@@ -77,5 +77,3 @@ def debug(emsg):
     """If the Actor.flag is set to True, then it writes the msg to stderr."""
     if Actor._debug:
         sys.stderr.write(emsg)
-
-

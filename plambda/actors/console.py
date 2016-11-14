@@ -1,8 +1,8 @@
 import Tkinter as tk
-
 import tkFileDialog
-
-import os, sys, traceback
+import os
+import sys
+import traceback
 
 from ..eval.Interpreter import Interpreter
 

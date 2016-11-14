@@ -16,13 +16,16 @@ Version history:
 
 1.0.4   8/21/2016   single quote strings added. isint isfloat added. isobject just (not (isnone))
 
-1.0.5   8/23/2016   The read-eval-print loop gets a makeover. handles multiline paste and prints definitions.
+1.0.5   8/23/2016   The read-eval-print loop gets a makeover. Now
+                    handles multiline paste and prints definitions.
 
 1.0.6   8/25/2016   PLambda gets a console.
 
-1.0.7   8/27/2016   Updated all relative imports to follow https://www.python.org/dev/peps/pep-0328/
+1.0.7   8/27/2016   Updated all relative imports to follow:
+                    https://www.python.org/dev/peps/pep-0328/
 
-1.0.8   9/02/2016   CPS (Continuation Passing Stype) installed as the default. Can switch to recursive via a mode in plambda.eval.Interpreter
+1.0.8   9/02/2016   CPS (Continuation Passing Stype) installed as the default.
+                    Can switch to recursive via a mode in plambda.eval.Interpreter
 
 1.0.9   9/10/2016   Various bug fixes in the CPS interpreter.
 
@@ -34,5 +37,4 @@ Version history:
 
 """
 
-plambda_version='1.0.12'
-
+plambda_version = '1.0.12'

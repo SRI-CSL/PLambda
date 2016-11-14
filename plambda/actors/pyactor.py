@@ -1,4 +1,12 @@
-import psutil, os, re, sys, signal, subprocess, time, threading, traceback
+import psutil
+import os
+import re
+import sys
+import signal
+import subprocess
+import time
+import threading
+import traceback
 
 from .actorlib import send, receive
 
@@ -181,4 +189,3 @@ def launch(name, file=None):
     main = Main(name, file)
     main.run()
     return 0
-

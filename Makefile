@@ -70,4 +70,6 @@ lint:
 ifeq ($(PYLINT),)
 	$(error lint target requires pylint)
 endif
-	@ $(PYLINT) -E plambda/*.py plambda/*/*.py
+# for detecting more than just errors:
+	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/*/*.py
+#	@ $(PYLINT) -E plambda/*.py plambda/*/*.py
