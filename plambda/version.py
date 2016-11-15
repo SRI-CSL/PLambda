@@ -35,6 +35,10 @@ Version history:
 
 1.0.12  11/05/2016  pylint spots a few mistakes.
 
+1.0.13  11/15/2016  pylintification complete.
+
+
+
 """
 
-plambda_version = '1.0.12'
+plambda_version = '1.0.13'
