@@ -1,4 +1,11 @@
-import os, platform, sys,  select, time, traceback
+""" The Read-Evaluate-Print loop.
+"""
+
+import platform
+import sys
+import select
+import time
+import traceback
 
 from ..util.StringBuffer import StringBuffer
 
@@ -12,7 +19,7 @@ def main():
     return 0
 
 
-def snarf(fp, delay):
+def snarf(delay):
     """ read as much as possible without blocking. (won't work on windows) """
     if platform.system == 'Windows':
         return sys.stdin.readline().strip()
@@ -25,14 +32,14 @@ def snarf(fp, delay):
                 if line:
                     count += 1
                     sb.append(line)
+
+            if sb.isempty():
+                time.sleep(delay)
             else:
-                if sb.isempty():
-                    time.sleep(delay)
+                if count > 1:
+                    return str(sb)
                 else:
-                    if count > 1:
-                        return str(sb)
-                    else:
-                        return str(sb).strip()
+                    return str(sb).strip()
 
 
 
@@ -53,7 +60,7 @@ def rep(filename):
             try:
                 sys.stdout.write('> ')
                 sys.stdout.flush()
-                line = snarf(sys.stdin, 0.2)
+                line = snarf(0.2)
                 if line == 'q':
                     return 0
                 elif line == 'v':
@@ -94,7 +101,7 @@ WELCOME = """
 Welcome to the PLambda interface to Python (version {0}), type ? for help.
 """
 
-INSTRUCTIONS="""
+INSTRUCTIONS = """
 Type one of the following:
 \tany valid plambda expression to be evaluated, or
 \tq to quit  (or quit)
@@ -104,4 +111,3 @@ Type one of the following:
 \tu to see the current uids
 \tv to toggle the degree of verbosity in error reports
 """
-
