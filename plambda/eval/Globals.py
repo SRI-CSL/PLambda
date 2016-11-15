@@ -81,7 +81,3 @@ pythonGlobals = {
     'zip'           : zip,
     '__import__'    : __import__
 }
-
-
-
-

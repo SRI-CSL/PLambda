@@ -226,7 +226,7 @@ class Interpreter(object):
         #        def arity(obj, method):
         #          return getattr(obj.__class__, method).func_code.co_argcount - 1 # remove self
         #
-        if type(method) != types.BuiltinFunctionType:
+        if not isinstance(method, types.BuiltinFunctionType):
             argspec = inspect.getargspec(method)
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
@@ -252,7 +252,7 @@ class Interpreter(object):
             return (False, PLambdaException('invoke {0} threw {1}'.format(location, str(e))))
 
 
-    def callCallable(self, fun, vals, location):
+    def callCallable(self, fun, vals, _):
         retval = None
         assert callable(fun)
         try:
@@ -392,7 +392,7 @@ class Interpreter(object):
 
 
 
-    def evalPrimitiveDataOp(self, sexp, env):
+    def evalPrimitiveDataOp(self, sexp, _):
         (a0, a1) = sexp.spine
         assert isinstance(a0, Atom)
         assert isinstance(a1, Atom)
@@ -427,7 +427,7 @@ class Interpreter(object):
             return False
 
 
-    def evalGlobal(self, val, loc):
+    def evalGlobal(self, val, _):
         return pythonGlobals.get(val, None)
 
     def callUnaryOp(self, op, val, location):

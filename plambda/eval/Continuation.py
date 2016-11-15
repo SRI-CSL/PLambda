@@ -1,4 +1,5 @@
-import sys, collections
+import sys
+import collections
 
 from .PLambdaException import PLambdaException
 
@@ -10,7 +11,7 @@ from ..util.StringBuffer import StringBuffer
 
 from .SymbolTable import SymbolTable
 
-import State
+from .Flags import DONE, EVAL, RETURN, CONTINUE
 
 
 class Continuation(object):
@@ -72,7 +73,7 @@ class TopCont(Continuation):
     def __init__(self):
         Continuation.__init__(self)
 
-    def cont(self, state):
+    def cont(self, _):
         raise PLambdaException("Calling cont on a TopCont is forbidden")
 
 
@@ -80,7 +81,7 @@ class TopCont(Continuation):
         if self.excep is not None:
             sys.stderr.write("FIXME: Debugger.handle(excep)\n")
             print self.excep
-        state.tag = State.DONE
+        state.tag = DONE
 
 
     def handleReturn(self, state):
@@ -96,7 +97,7 @@ class DefineCont(Continuation):
         name = self.args[0].string
         if self.argslen == 2:
             self.vals[0] = name
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = self.args[1]
             state.env = self.env
         else:
@@ -104,7 +105,7 @@ class DefineCont(Continuation):
             body = self.args[2]
             val = Closure(state.interpreter, params, body, self.env, self.exp.spine[0].location)
             state.interpreter.definitions[name] =  val
-            state.tag = State.RETURN
+            state.tag = RETURN
             state.val = name
             state.k = self.k
 
@@ -112,7 +113,7 @@ class DefineCont(Continuation):
     def handleReturn(self, state):
         name = self.vals[0]
         state.interpreter.definitions[name] =  state.val
-        state.tag = State.RETURN
+        state.tag = RETURN
         state.val = name
         state.k = self.k
 
@@ -124,7 +125,7 @@ class IfCont(Continuation):
         Continuation.__init__(self, exp, args, env, k)
 
     def cont(self, state):
-        state.tag = State.EVAL
+        state.tag = EVAL
         state.exp = self.args[0]
         state.env = self.env
 
@@ -136,15 +137,15 @@ class IfCont(Continuation):
             state.val = None
             return
         elif state.val:
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = self.args[1]
             state.env = self.env
         elif  self.argslen == 3:
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = self.args[2]
             state.env = self.env
         else:
-            state.tag = State.RETURN
+            state.tag = RETURN
             state.val = None
 
         state.k = self.k
@@ -156,29 +157,25 @@ class TryCont(Continuation):
         Continuation.__init__(self, exp, args, env, k)
 
     def cont(self, state):
-        state.tag = State.EVAL
+        state.tag = EVAL
         state.exp = self.args[0]
         state.env = self.env
 
-    def handleReturn(self, state):
+    def handleReturn(self, _):
         pass
 
     def ret(self, state):
         if self.excep is None:
-            """
-            No exception was thrown during evaluation of the `try'
-            body.  We simply invoke the next continuation in the chain.
-            """
+            # No exception was thrown during evaluation of the `try'
+            # body.  We simply invoke the next continuation in the chain.
             state.k = self.k
         else:
-            """
-            Need to evaluate the catch with the param bound to self.excep.
-            """
+            # Need to evaluate the catch with the param bound to self.excep.
             catchexp = self.args[1].spine
             catchid = catchexp[1]
             catchbody =  catchexp[2]
             catchenv = Environment(self.env)
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = catchbody
             state.env = catchenv.extend(catchid, self.excep)
             self.excep = None
@@ -208,14 +205,14 @@ class LetCont(Continuation):
             state.k = self.k
 
         state.env = self.lexicalEnv
-        state.tag = State.EVAL
+        state.tag = EVAL
 
 
 
     def handleReturn(self, state):
         self.lexicalEnv.extend(self.bindingid, state.val)
         self.n += 1
-        state.tag = State.CONTINUE
+        state.tag = CONTINUE
 
 
 
@@ -232,7 +229,7 @@ class ForCont(Continuation):
 
 
     def cont(self, state):
-        state.tag = State.EVAL
+        state.tag = EVAL
         state.exp = self.args[1]
         state.env = self.env
 
@@ -260,10 +257,10 @@ class ForCont(Continuation):
         elif self.n  == self.length + 1:
             self.setReturnState(state, val)
         else:
-            next = self.iterator.next()
+            nxt = self.iterator.next()
             env = Environment(self.env)
-            env.extend(self.id, next)
-            state.tag = State.EVAL
+            env.extend(self.id, nxt)
+            state.tag = EVAL
             state.exp = self.body
             state.env = env
 
@@ -277,7 +274,7 @@ class ForCont(Continuation):
     def setReturnState(self, state, val):
         state.val = val
         state.k = self.k
-        state.tag = State.RETURN
+        state.tag = RETURN
 
 
 
@@ -290,7 +287,7 @@ class EvalArgsCont(Continuation):
 
     def cont(self, state):
         if self.argslen > 0:
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = self.args[self.n]
             state.env = self.env
         else:
@@ -302,7 +299,7 @@ class EvalArgsCont(Continuation):
         if not self.receiveVal(state.val):
             state.k = self.k
         elif self.n < self.argslen:
-            state.tag = State.CONTINUE
+            state.tag = CONTINUE
         else:
             self.finish(state)
 
@@ -313,7 +310,7 @@ class EvalArgsCont(Continuation):
     def finish(self, state):
         (ok, retval) = self.computeResult(state)
         if ok:
-            state.tag = State.RETURN
+            state.tag = RETURN
             state.val = retval
             state.k = self.k
         else:
@@ -321,7 +318,7 @@ class EvalArgsCont(Continuation):
             state.k = self.k
             state.val = None
 
-    def computeResult(self, val):
+    def computeResult(self, _):
         raise PLambdaException('This needs to be over ridden!')
 
 
@@ -331,7 +328,7 @@ class SeqCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
 
-    def computeResult(self, state):
+    def computeResult(self, _):
         return (True, self.vals[self.n - 1])
 
 class UnaryOpCont(EvalArgsCont):
@@ -379,7 +376,7 @@ class Ambi1OpCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
         self.op = op
 
-    def computeResult(self, state):
+    def computeResult(self, _):
         if self.op is SymbolTable.MINUS:
             if len(self.vals) == 2:
                 return (True, self.vals[0] - self.vals[1])
@@ -397,7 +394,7 @@ class ApplyCont(Continuation):
         Continuation.__init__(self, exp, args, env, k)
 
     def cont(self, state):
-        state.tag = State.EVAL
+        state.tag = EVAL
         state.exp = self.args[self.n]
         state.env = self.env
 
@@ -414,15 +411,14 @@ class ApplyCont(Continuation):
         self.n += 1
 
         if self.n < self.argslen:
-            state.tag = State.CONTINUE
+            state.tag = CONTINUE
         else:
             func = self.vals[0]
             if isinstance(func, Closure):
-                """ FIXME: could assert the closures interpreter and state.interpreter are the same
-                """
+
                 cargs = self.vals[1:]
                 if not func.arity is len(cargs):
-		    msg = "number of arguments ({0}) != closure arity({1}): {2}"
+                    msg = "number of arguments ({0}) != closure arity({1}): {2}"
                     self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), self.info())
                     state.k = self.k
                     state.val = None
@@ -430,14 +426,14 @@ class ApplyCont(Continuation):
                     applyEnv = Environment(func.env)
                     for (key, value) in zip(func.params.spine, cargs):
                         applyEnv.extend(key, value)
-                    state.tag = State.EVAL
+                    state.tag = EVAL
                     state.exp = func.body
                     state.env = applyEnv
                     state.k = self.k
             else:
                 (ok, retval) = state.interpreter.callCallable(func, self.vals[1:],  self.exp.spine[0].location)
                 if ok:
-                    state.tag = State.RETURN
+                    state.tag = RETURN
                     state.val = retval
                     state.k = self.k
                 else:
@@ -452,7 +448,7 @@ class InvokeCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
     def computeResult(self, state):
-         return state.interpreter.callInvoke(self.vals[0], self.vals[1], self.vals[2:],  self.exp.spine[0].location)
+        return state.interpreter.callInvoke(self.vals[0], self.vals[1], self.vals[2:],  self.exp.spine[0].location)
 
 class GetAttrCont(EvalArgsCont):
 
@@ -460,7 +456,7 @@ class GetAttrCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
     def computeResult(self, state):
-         return state.interpreter.callGetAttr(self.vals,  self.exp.spine[0].location)
+        return state.interpreter.callGetAttr(self.vals,  self.exp.spine[0].location)
 
 
 class ConcatCont(EvalArgsCont):
@@ -469,7 +465,7 @@ class ConcatCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
 
 
-    def computeResult(self, state):
+    def computeResult(self, _):
         sb = StringBuffer()
         for v in self.vals:
             sb.append(str(v))
@@ -481,7 +477,7 @@ class MkCont(EvalArgsCont):
         EvalArgsCont.__init__(self, exp, args, env, k)
         self.op = op
 
-    def computeResult(self, state):
+    def computeResult(self, _):
         if self.op is SymbolTable.MKTUPLE:
             return (True, tuple(self.vals))
         elif self.op is SymbolTable.MKLIST:
@@ -498,7 +494,7 @@ class PropCont(Continuation):
 
     def cont(self, state):
         if self.argslen > 0:
-            state.tag = State.EVAL
+            state.tag = EVAL
             state.exp = self.args[self.n]
             state.env = self.env
         else:
@@ -518,18 +514,18 @@ class PropCont(Continuation):
         if self.isStopValue(state.val) or self.n == self.argslen:
             self.finish(state)
         else:
-            state.tag = State.CONTINUE
+            state.tag = CONTINUE
 
 
     def finish(self, state):
-        state.tag = State.RETURN
+        state.tag = RETURN
         state.val = self.computeResult(state.val)
         state.k = self.k
 
-    def isStopValue(self, val):
+    def isStopValue(self, _):
         raise PLambdaException('This needs to be over ridden!')
 
-    def computeResult(self, val):
+    def computeResult(self, _):
         raise PLambdaException('This needs to be over ridden!')
 
 
@@ -564,6 +560,3 @@ class OrCont(PropCont):
             return False
         else:
             return val
-
-
-

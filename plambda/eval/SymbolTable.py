@@ -1,4 +1,3 @@
-import sys
 
 class SymbolTable(object):
 
@@ -138,4 +137,3 @@ class SymbolTable(object):
     @staticmethod
     def canonicalize(name):
         return SymbolTable._symbol_table.get(name.lower())
-

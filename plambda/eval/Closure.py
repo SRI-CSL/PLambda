@@ -1,5 +1,3 @@
-from .Code import Atom, Location
-
 from .Environment import Environment
 
 class Closure(object):
@@ -19,6 +17,3 @@ class Closure(object):
             #print "extending: {0} --> {1}".format(p, v)
             nenv.extend(p, v)
         return  self.interpreter.eval(self.body, nenv)
-
-
-

@@ -3,6 +3,7 @@ from ..util.StringBuffer import StringBuffer
 class PLambdaException(Exception):
 
     def __init__(self, msg, backtrace=None, exception=None):
+        Exception.__init__(self)
         self.msg = msg
         self.backtrace = backtrace
         self.exception = exception
@@ -20,4 +21,4 @@ class PLambdaException(Exception):
         return str(sb)
 
     def extendBT(self, bt):
-        self.bt = '{0}\n{1}'.format(self.backtrace, bt)
+        self.backtrace = '{0}\n{1}'.format(self.backtrace, bt)

@@ -12,12 +12,7 @@ from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, LetCo
 
 from .PLambdaException import PLambdaException
 
-EVAL     = 0
-CONTINUE = 1
-RETURN   = 2
-DONE     = 3
-
-
+from .Flags import DONE, EVAL, RETURN, CONTINUE
 
 class State(object):
 
@@ -59,10 +54,10 @@ class State(object):
                 assert isinstance(opexp, Atom)
                 op = opexp.string
                 if code is Syntax.SEQ:
-                    self.k = SeqCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.k = SeqCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
                 elif code is Syntax.LET:
-                    self.k = LetCont(self.exp, self.exp.spine[1:], self.env, self.k);
+                    self.k = LetCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE
                 elif code is Syntax.DEFINE:
                     self.k = DefineCont(self.exp, self.exp.spine[1:], self.env, self.k)
@@ -125,7 +120,7 @@ class State(object):
                 elif code is Syntax.CATCH:
                     raise PLambdaException("Orphan catch. Should not happen")
                 else:
-                   raise PLambdaException("Unhandled form in State.step")
+                    raise PLambdaException("Unhandled form in State.step")
             else:
                 self.val = self.exp
                 self.tag = RETURN

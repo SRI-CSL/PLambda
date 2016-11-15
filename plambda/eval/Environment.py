@@ -1,5 +1,3 @@
-
-
 class Environment(object):
 
     def __init__(self, env = None):
@@ -20,9 +18,3 @@ class Environment(object):
             else:
                 env = env.next
         return (False, None)
-
-
-
-
-
-
