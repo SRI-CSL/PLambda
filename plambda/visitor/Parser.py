@@ -1,5 +1,9 @@
-import os, sys
-from antlr4 import *
+""" Entry points into the antlr4 parser.
+"""
+
+import sys
+
+from antlr4 import FileStream, InputStream, CommonTokenStream
 
 from ..antlr4.PLambdaLexer import PLambdaLexer
 
@@ -18,8 +22,6 @@ def main():
             print repr(c)
         return 0
 
-import sys
-
 def parseFromFile(filename):
     return parseFromStream(FileStream(filename), filename)
 
@@ -33,4 +35,3 @@ def parseFromStream(stream, source):
     tree = parser.unit()
     visitor = Visitor(source)
     return visitor.visit(tree)
-
