@@ -1,3 +1,5 @@
+""" The Visitor class that calls into antlr4.
+"""
 
 from plambda.antlr4.PLambdaVisitor import PLambdaVisitor
 from plambda.eval.SymbolTable import SymbolTable
@@ -148,11 +150,12 @@ class Visitor(PLambdaVisitor):
         if paramList is not None:
             params = self.visitParameterList(paramList)
         body = self.visitImplicitSeq(ctx.expression())
-        id = Atom(intern(str(ctx.ID().getSymbol().text)), Location(self.filename, ctx.ID().getSymbol().line))
+        atom = Atom(intern(str(ctx.ID().getSymbol().text)),
+                    Location(self.filename, ctx.ID().getSymbol().line))
         if params is not None:
-            return SExpression(Syntax.DEFINE, (define, id, params, body), location)
+            return SExpression(Syntax.DEFINE, (define, atom, params, body), location)
         else:
-            return SExpression(Syntax.DEFINE, (define, id, body), location)
+            return SExpression(Syntax.DEFINE, (define, atom, body), location)
 
 
     # Visit a parse tree produced by PLambdaParser#forExpression.
@@ -162,8 +165,8 @@ class Visitor(PLambdaVisitor):
         f = Atom(SymbolTable.FOR, location)
         t = ctx.ID().getSymbol()
         location = Location(self.filename, t.line)
-        id = Atom(t.text, location)
-        return SExpression(Syntax.FOR, (f, id,
+        atom = Atom(t.text, location)
+        return SExpression(Syntax.FOR, (f, atom,
                                         self.visit(ctx.rangeExpression()),
                                         self.visitImplicitSeq(ctx.expression())),
                            location)
@@ -174,9 +177,10 @@ class Visitor(PLambdaVisitor):
         lineno = ctx.TRY().getSymbol().line
         location = Location(self.filename, lineno)
         tr = Atom(SymbolTable.TRY, location)
-        return SExpression(Syntax.TRY, (tr,
-                                        self.visitImplicitSeq(ctx.expression()),
-                                        self.visitCatchExpression(ctx.catchExpression())),
+        return SExpression(Syntax.TRY,
+                           (tr,
+                            self.visitImplicitSeq(ctx.expression()),
+                            self.visitCatchExpression(ctx.catchExpression())),
                            location)
 
     # Visit a parse tree produced by PLambdaParser#catchExpression.
@@ -184,17 +188,18 @@ class Visitor(PLambdaVisitor):
         lineno = ctx.CATCH().getSymbol().line
         location = Location(self.filename, lineno)
         ctch = Atom(SymbolTable.CATCH, location)
-        return SExpression(Syntax.CATCH, (ctch,
-                     self.visitParameter(ctx.parameter()),
-                     self.visitImplicitSeq(ctx.expression())),
-                    location)
+        return SExpression(Syntax.CATCH,
+                           (ctch,
+                            self.visitParameter(ctx.parameter()),
+                            self.visitImplicitSeq(ctx.expression())),
+                           location)
 
 
     # Visit a parse tree produced by PLambdaParser#dataExpression.
     def visitDataExpression(self, ctx):
         t = ctx.PRIMITIVE_DATA_OP().getSymbol()
         lineno = t.line
-        location = Location(self.filename, t.line)
+        location = Location(self.filename, lineno)
         op = Atom(SymbolTable.canonicalize(t.text), location)
         return SExpression(Syntax.PRIMITIVE_DATA_OP, (op, self.visitData(ctx.data())), location)
 
@@ -212,15 +217,15 @@ class Visitor(PLambdaVisitor):
 
     # Visit a parse tree produced by PLambdaParser#oneOrMoreExpression.
     def visitOneOrMoreExpression(self, ctx):
-        return self.visitExpressionList(Syntax.AMBI1_OP, ctx.AMBI1_OP(), ctx.expression());
+        return self.visitExpressionList(Syntax.AMBI1_OP, ctx.AMBI1_OP(), ctx.expression())
 
     # Visit a parse tree produced by PLambdaParser#twoOrMoreExpression.
     def visitTwoOrMoreExpression(self, ctx):
-        return self.visitExpressionList(Syntax.AMBI2_OP, ctx.AMBI2_OP(), ctx.expression());
+        return self.visitExpressionList(Syntax.AMBI2_OP, ctx.AMBI2_OP(), ctx.expression())
 
     # Visit a parse tree produced by PLambdaParser#naryExpression.
     def visitNaryExpression(self, ctx):
-        return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression());
+        return self.visitExpressionList(Syntax.N_ARY_OP, ctx.N_ARY_OP(), ctx.expression())
 
 
 def deslashify(string):
@@ -233,9 +238,9 @@ def deslashify_aux(dl, string):
     sb = StringBuffer()
     slash = False
     lstr = len(string)
-    i = 0;
+    i = 0
     #we'll need to be more careful if we are going to allow 'strings like this'
-    assert(string[0] == dl and string[-1] == dl)
+    assert string[0] == dl and string[-1] == dl
     for c in string:
         i += 1
         if slash:
@@ -259,7 +264,7 @@ def deslashify_aux(dl, string):
                 raise ParseError('Illegal escape character in String: {0}'.format(c))
         elif c != '\\':
             sb.append(c)
-            assert(slash == False)
+            assert not slash
         else:
             slash = True
             continue

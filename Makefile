@@ -29,7 +29,7 @@ check:
 	python -O -m tests.language
 
 #local editable install for developing
-develop: 
+develop:
 	pip install -e .
 
 
@@ -38,7 +38,7 @@ dist: clean antlr4
 
 # If you need to push your project again,
 # change the version number in plambda/eval/PLambda.py,
-# otherwise the server will give you an error. 
+# otherwise the server will give you an error.
 
 testpublish: dist
 	python setup.py register -r https://testpypi.python.org/pypi
@@ -71,5 +71,5 @@ ifeq ($(PYLINT),)
 	$(error lint target requires pylint)
 endif
 # for detecting more than just errors:
-	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/*/*.py
+	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/actors/*.py plambda/eval/*.py plambda/util/*.py plambda/visitor/*.py
 #	@ $(PYLINT) -E plambda/*.py plambda/*/*.py
