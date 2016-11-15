@@ -36,12 +36,6 @@ ForCont mystery
 
 """
 
-RECURSIVE = 0
-CPS       = 1
-"""
-Change to RECURSIVE for recursive interpreter.
-"""
-CURRENT_MODE = CPS
 
 class Interpreter(object):
 
@@ -51,20 +45,10 @@ class Interpreter(object):
         self.modules = {}
         self.uid2object = {}
         self.object2uid = {}
-        if CURRENT_MODE is RECURSIVE:
-            self.evaluateString = self.recursive_evaluateString
-            self.evaluate = self.recursive_evaluate
-            self.eval = self.recursive_eval
-        else:
-            self.evaluateString = self.cps_evaluateString
-            self.evaluate = self.cps_evaluate
-            self.eval = self.cps_eval
 
 
-    def recursive_evaluateString(self, string):
+    def evaluateString(self, string):
         """Parses and evaluates a string as plambda expression.
-        """
-        """RECURSIVE VERSION. Soon to be deprecated.
         """
         code = parseFromString(string)
         retval = None
@@ -72,47 +56,12 @@ class Interpreter(object):
             retval = self.evaluate(c)
         return retval
 
-    def recursive_evaluate(self, exp):
+    def evaluate(self, exp):
         """Evaluates an Sexpression, StringLiteral, or Atom.
-        """
-        """RECURSIVE VERSION. Soon to be deprecated.
         """
         return self.eval(exp, Environment())
 
-    def recursive_eval(self, exp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        if exp is None:
-            return None
-        if isinstance(exp, StringLiteral):
-            return exp.string
-        if isinstance(exp, Atom):
-            (ok, value) = self.lookup(exp, env)
-            if ok:
-                return value
-            else:
-                raise value
-            #return self.lookup(exp, env)
-        elif isinstance(exp, SExpression):
-            return self.evalSExpression(exp, env)
-        else:
-            raise PLambdaException("huh? I did not grok {0}".format(exp))
-
-    def cps_evaluateString(self, string):
-        """Parses and evaluates a string as plambda expression.
-        """
-        code = parseFromString(string)
-        retval = None
-        for c in code:
-            retval = self.cps_evaluate(c)
-        return retval
-
-    def cps_evaluate(self, exp):
-        """Evaluates an Sexpression, StringLiteral, or Atom.
-        """
-        return self.cps_eval(exp, Environment())
-
-    def cps_eval(self, exp, env):
+    def eval(self, exp, env):
         state = State(self, exp, env)
         while not state.isDone():
             state.step()
@@ -134,7 +83,7 @@ class Interpreter(object):
         vaue is callable it retruns that. Otherwise it raises a PLambdaException.
         """
 
-        assert(isinstance(leaf, Atom))
+        assert isinstance(leaf, Atom)
 
         name = leaf.string
         path = name.split('.')
@@ -204,7 +153,7 @@ class Interpreter(object):
     def mlookup(self, path, leaf):
         """Just a quick 'n dirty hack at this point.
         """
-        assert(isinstance(leaf, Atom))
+        assert isinstance(leaf, Atom)
 
         (mod, remainder) = self.getmodule(path)
 
@@ -212,7 +161,7 @@ class Interpreter(object):
 
     def glookup(self, path, leaf):
         """Looks up the symbol in the PLambda definitions."""
-        assert(isinstance(leaf, Atom))
+        assert isinstance(leaf, Atom)
 
         ok = False
 
@@ -238,7 +187,7 @@ class Interpreter(object):
         This is a hack at present, as a means of looking up global functions.
         This is why we bail if the value is not callable.
         """
-        assert(isinstance(leaf, Atom))
+        assert isinstance(leaf, Atom)
 
         try:
             val = eval(leaf.string)
@@ -247,16 +196,6 @@ class Interpreter(object):
         except NameError:
             pass
         return (False, None)
-
-    def evalSeq(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        tail = sexp.spine[1:]
-        retval = None
-        for s in tail:
-            retval = self.eval(s, env)
-        return retval
-
 
     def callInvoke(self, obj, methodname, vals, location):
 
@@ -321,170 +260,15 @@ class Interpreter(object):
 
 
 
-    def evalInvoke(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        objexp = sexp.spine[1]
-        obj = self.eval(objexp, env)
-
-        methodexp = sexp.spine[2]
-        methodname  = self.eval(methodexp, env)
-
-        args = sexp.spine[3:]
-
-        vals = []
-        for a in args:
-            vals.append(self.eval(a, env))
-
-        (ok, retval) = self.callInvoke(obj, methodname, vals, sexp.spine[0].location)
-
-        if ok:
-            return retval
-        else:
-            raise retval
-
-    def evalDefine(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        identifier = sexp.spine[1]
-
-        assert(isinstance(identifier, Atom))
-
-        val = None
-
-        if len(sexp.spine) == 3:
-            val = self.eval(sexp.spine[2], env)
-        else:
-            val = Closure(self, sexp.spine[2], sexp.spine[3], env, sexp.spine[0].location)
-
-        idstr = identifier.string
-
-        dot = idstr.find('.')
-
-        if dot >= 0:
-            sys.stderr.write('Bad idea to have a  "." in an identifier: {0}\n'.format(repr(identifier)))
-
-
-        self.definitions[idstr] = val
-        self.code[idstr] = sexp
-        return identifier
-
-
-    def evalLet(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        nenv = Environment(env)
-        bindings = sexp.spine[1].spine
-        body = sexp.spine[2]
-
-        for bpair in bindings:
-            var = bpair.spine[0]
-            assert(isinstance(var, Atom))
-            nenv.extend(var, self.eval(bpair.spine[1], nenv))
-
-        return self.eval(body, nenv)
-
-
-    def callClosure(self, fun, vals, location):
-        """DEPRECATED VERSION.
-        """
-        retval = None
-        assert(isinstance(fun, Closure))
-        if len(vals) != fun.arity:
-            fmsg = 'Arities at apply  {3} do not match: closure with arity {0} applied to args {1} of length {2}'
-            emsg = fmsg.format(fun.arity, vals, len(vals), location)
-            return (False, PLambdaException(emsg))
-        else:
-            try:
-                retval = fun.applyClosure(*vals)
-                return (True, retval)
-            except Exception as e:
-                return (False, e)
-
-
     def callCallable(self, fun, vals, location):
         retval = None
-        assert(callable(fun))
+        assert callable(fun)
         try:
             retval = fun(*vals)
             return (True, retval)
         except Exception as e:
             return (False, e)
 
-
-    def callApply(self, fun, funexp, vals, location):
-        """DEPRECATED VERSION.
-        """
-        retval = None
-        if not isinstance(fun, Closure) and not callable(fun):
-            fmsg = 'Cannot apply {0} which evaluated to {1}'
-            emsg = fmsg.format(funexp, fun)
-            return (False, PLambdaException(emsg))
-
-        if isinstance(fun, Closure):
-            return self.callClosure(fun, vals, location)
-        else:
-            return self.callCallable(fun, vals, location)
-
-
-    def evalApply(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        funexp  = sexp.spine[1]
-        argexps = sexp.spine[2:]
-
-        fun = self.eval(funexp, env)
-
-        vals = []
-        for arg in argexps:
-            vals.append(self.eval(arg, env))
-
-        (ok, retval) = self.callApply(fun, funexp, vals,  sexp.spine[0].location)
-
-        if ok:
-            return retval
-        else:
-            raise retval
-
-
-    def evalFor(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        identifier = sexp.spine[1]
-        rangeexp = sexp.spine[2]
-        body = sexp.spine[3]
-
-        rangeval = self.eval(rangeexp, env)
-
-        if isInteger(rangeval):
-            rangeval = range(0, rangeval)  #FIXME: not very efficient for big integers
-
-        if isinstance(rangeval, collections.Iterable):
-            retval = None
-            for v in rangeval:
-                nenv = Environment(env)
-                retval = self.eval(body, nenv.extend(identifier, v))
-            return retval
-        else:
-            fmsg = 'Range is not iterable: {0} evaluated to {1}'
-            emsg = fmsg.format(rangeexp, rangeval)
-            raise PLambdaException(emsg)
-
-
-    def evalTry(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        tryexp = sexp.spine[1]
-        catchexp = sexp.spine[2]
-        retval = None
-        try:
-            retval = self.eval(tryexp, env)
-        except Exception as e:
-            catchid = catchexp.spine[1]
-            catchbody = catchexp.spine[2]
-            catchenv = Environment(env)
-            retval = self.eval(catchbody, catchenv.extend(catchid, e))
-        return retval
 
 
     def callBinaryOp(self, op, val0, val1, location):
@@ -524,22 +308,6 @@ class Interpreter(object):
             return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
 
-    def evalBinaryOp(self, sexp, env):
-        """Recursive version. Soon to be deprecated.
-        """
-        (uop, arg0, arg1) =  sexp.spine
-        assert isinstance(uop, Atom)
-        op = uop.string
-
-        val0 = self.eval(arg0, env)
-        val1 = self.eval(arg1, env)
-
-        (ok, retval) = self.callBinaryOp(op, val0, val1, sexp.location)
-
-        if ok:
-            return retval
-        else:
-            raise retval
 
     def evalGet(self, val0, val1, location):
         if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
@@ -622,40 +390,6 @@ class Interpreter(object):
         return (True, retval)
 
 
-    def evalTernaryOp(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        (uop, arg0, arg1, arg2) =  sexp.spine
-        assert isinstance(uop, Atom)
-        op = uop.string
-
-        val0 = self.eval(arg0, env)
-        val1 = self.eval(arg1, env)
-        val2 = self.eval(arg2, env)
-
-        (ok, retval) = self.callTernaryOp(op, val0, val1, val2, sexp.location)
-
-        if ok:
-            return retval
-        else:
-            raise retval
-
-    def evalAmbi1Op(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        uop =  sexp.spine[0]
-        assert isinstance(uop, Atom)
-        op = uop.string
-        if op is SymbolTable.MINUS:
-            if len(sexp.spine) == 3:
-                return self.eval(sexp.spine[1], env) - self.eval(sexp.spine[2], env)
-            else:
-                return - self.eval(sexp.spine[1], env)
-        else:
-            fmsg = 'Unrecognized ambi1 operation: {0}'
-            emsg = fmsg.format(op)
-            raise PLambdaException(emsg)
-
 
     def callGetAttr(self, vals, location):
         retval = None
@@ -666,140 +400,6 @@ class Interpreter(object):
             return (False, PLambdaException('callGetAttr {0} threw {1}'.format(location, str(e))))
 
 
-    def evalAmbi2Op(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        uop =  sexp.spine[0]
-        args = sexp.spine[1:]
-        assert isinstance(uop, Atom)
-        op = uop.string
-        if op is SymbolTable.IF:
-            return self.evalIf(sexp, env)
-        elif op in (SymbolTable.GETATTR, SymbolTable.LOOKUP):
-            vals = []
-
-            for arg in args:
-                vals.append(self.eval(arg, env))
-            (ok, retval) = self.callGetAttr(vals, sexp.spine[0].location)
-            if ok:
-                return retval
-            else:
-                raise retval
-        else:
-            fmsg = 'Unrecognized ambi1 operation: {0}'
-            emsg = fmsg.format(op)
-            raise PLambdaException(emsg)
-
-    def evalIf(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        testexp = sexp.spine[1]
-        test = self.eval(testexp, env)
-        #do we want to enforce booleaness here? JLambda does.
-        if not isinstance(test, bool):
-            msg = '{0} is not a boolean in conditional {1}'
-            raise PLambdaException(msg.format(test, sexp.spine[0].location))
-        elif test:
-            return  self.eval(sexp.spine[2], env)
-        if len(sexp.spine) == 4:
-            return  self.eval(sexp.spine[3], env)
-        else:
-            return None
-
-
-    def evalAnd(self, args, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        for e in args:
-            if  self.eval(e, env) is False:
-                return False
-        return  True
-
-
-    def evalOr(self, args, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        for e in args:
-            if  self.eval(e, env):
-                return True
-        return  False
-
-
-    def evalNaryOp(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        uop =  sexp.spine[0]
-        assert isinstance(uop, Atom)
-        op = uop.string
-        args = sexp.spine[1:]
-
-        if op is SymbolTable.AND:
-            return self.evalAnd(args, env)
-        elif op is SymbolTable.OR:
-            return self.evalOr(args, env)
-        elif  op is SymbolTable.CONCAT:
-            return  self.evalConcat(sexp, env)
-        elif op in (SymbolTable.MKTUPLE, SymbolTable.MKLIST, SymbolTable.MKDICT):
-            vals = []
-            for arg in args:
-                vals.append(self.eval(arg, env))
-            if op is SymbolTable.MKTUPLE:
-                return tuple(vals)
-            elif op is SymbolTable.MKLIST:
-                return vals
-            else:
-                return dict(vals[i:i+2] for i in range(0, len(vals), 2))
-        else:
-            fmsg = 'Unrecognized n-ary operation {1}: {0}'
-            emsg = fmsg.format(op, sexp.location)
-            raise PLambdaException(emsg)
-
-    def evalConcat(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        args = sexp.spine[1:]
-        sb = StringBuffer()
-        for e in args:
-            sb.append(str(self.eval(e, env)))
-        return  str(sb)
-
-    def evalSExpression(self, sexp, env):
-        """RECURSIVE VERSION. Soon to be deprecated.
-        """
-        code = sexp.code
-        if code is Syntax.SEQ:
-            return self.evalSeq(sexp, env)
-        elif code is Syntax.LET:
-            return self.evalLet(sexp, env)
-        elif code is Syntax.DEFINE:
-            return self.evalDefine(sexp, env)
-        elif code is Syntax.LAMBDA:
-            spine = sexp.spine
-            return Closure(self, spine[1], spine[2], env, spine[0].location)
-        elif code is Syntax.INVOKE:
-            return self.evalInvoke(sexp, env)
-        elif code is Syntax.APPLY:
-            return self.evalApply(sexp, env)
-        elif code is Syntax.PRIMITIVE_DATA_OP :
-            return self.evalPrimitiveDataOp(sexp, env)
-        elif code is Syntax.UNARY_OP:
-            return self.evalUnaryOp(sexp, env)
-        elif code is Syntax.BINARY_OP:
-             return self.evalBinaryOp(sexp, env)
-        elif code is Syntax.TERNARY_OP:
-             return self.evalTernaryOp(sexp, env)
-        elif code is Syntax.AMBI1_OP:
-            return self.evalAmbi1Op(sexp, env)
-        elif code is Syntax.AMBI2_OP:
-            return self.evalAmbi2Op(sexp, env)
-        elif code is Syntax.N_ARY_OP:
-            return self.evalNaryOp(sexp, env)
-        elif code is Syntax.TRY:
-            return self.evalTry(sexp, env)
-        elif code is Syntax.FOR:
-            return self.evalFor(sexp, env)
-        else:
-            raise PLambdaException("huh?")
 
     def evalPrimitiveDataOp(self, sexp, env):
         (a0, a1) = sexp.spine
@@ -885,22 +485,6 @@ class Interpreter(object):
 
         return (True, retval)
 
-    def evalUnaryOp(self, sexp, env):
-        """Recursive version. Soon to be deprecated.
-        """
-        (uop, arg) =  sexp.spine
-        assert isinstance(uop, Atom)
-        op = uop.string
-        val = self.eval(arg, env)
-
-        (ok, retval) = self.callUnaryOp(op, val, sexp.location)
-
-        if ok:
-            return retval
-        else:
-            raise retval
-
-
     def load(self, filename):
         if isString(filename) and os.path.exists(filename):
             codelist = parseFromFile(filename)
@@ -933,6 +517,3 @@ class Interpreter(object):
         for key, value in self.uid2object.iteritems():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
-
-
-
