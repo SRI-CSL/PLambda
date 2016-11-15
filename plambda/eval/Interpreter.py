@@ -1,15 +1,20 @@
+""" The Interpreter.
+"""
+
 # iam: This is needed to stop python from treating 'print' as something special; rather than
 # just a builtin. Wonder how much of this hackery is in our future?
 #
 from __future__ import print_function
 
-import importlib, sys, types, inspect, collections, os
+import importlib
+import sys
+import types
+import inspect
+import os
 
-from ..util.Util import isString, isInteger
+from ..util.Util import isString
 
-from ..util.StringBuffer import StringBuffer
-
-from .Code import SExpression, Atom, StringLiteral, Syntax
+from .Code import Atom
 
 from .SymbolTable import SymbolTable
 
@@ -17,24 +22,28 @@ from .PLambdaException import PLambdaException
 
 from .Environment import Environment
 
-from .Closure import Closure
-
 from .Globals import pythonGlobals
 
 from ..visitor.Parser import parseFromFile, parseFromString
 
 from .State import State
 
-"""
-Current bugs:
 
-Things to add:
+def plookup(leaf):
+    """Looks up the symbol in the Python environment.
 
-patch the builtin problem as much as possible
+    This is a hack at present, as a means of looking up global functions.
+    This is why we bail if the value is not callable.
+    """
+    assert isinstance(leaf, Atom)
 
-ForCont mystery
-
-"""
+    try:
+        val = eval(leaf.string)
+        if callable(val):
+            return (True, val)
+    except NameError:
+        pass
+    return (False, None)
 
 
 class Interpreter(object):
@@ -65,7 +74,7 @@ class Interpreter(object):
         state = State(self, exp, env)
         while not state.isDone():
             state.step()
-        #FIXME: we raise the uncaught exception. not sure why we need to differ from jlambda
+        #iam: we raise the uncaught exception. not sure why we need to differ from jlambda
         if state.k.excep is not None:
             raise state.k.excep
         else:
@@ -97,7 +106,7 @@ class Interpreter(object):
         (ok, value) = self.glookup(path, leaf)
         if ok:
             return (ok, value)
-        (ok, value) = self.plookup(leaf)
+        (ok, value) = plookup(leaf)
         if ok:
             return (ok, value)
         return (False, PLambdaException('Unbound variable: {0}'.format(repr(leaf))))
@@ -181,21 +190,6 @@ class Interpreter(object):
         else:
             return (False, None)
 
-    def plookup(self, leaf):
-        """Looks up the symbol in the Python environment.
-
-        This is a hack at present, as a means of looking up global functions.
-        This is why we bail if the value is not callable.
-        """
-        assert isinstance(leaf, Atom)
-
-        try:
-            val = eval(leaf.string)
-            if callable(val):
-                return (True, val)
-        except NameError:
-            pass
-        return (False, None)
 
     def callInvoke(self, obj, methodname, vals, location):
 
@@ -223,7 +217,6 @@ class Interpreter(object):
             emsg = 'No such method: {0} {1}'.format(methodname, location)
             return (False, PLambdaException(emsg))
 
-
         # Ugliness under python's hood:
         # Cannot get the argspec of a builtin
         # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
@@ -233,7 +226,7 @@ class Interpreter(object):
         #        def arity(obj, method):
         #          return getattr(obj.__class__, method).func_code.co_argcount - 1 # remove self
         #
-        if type(method) !=  types.BuiltinFunctionType:
+        if type(method) != types.BuiltinFunctionType:
             argspec = inspect.getargspec(method)
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
@@ -259,7 +252,6 @@ class Interpreter(object):
             return (False, PLambdaException('invoke {0} threw {1}'.format(location, str(e))))
 
 
-
     def callCallable(self, fun, vals, location):
         retval = None
         assert callable(fun)
@@ -270,12 +262,11 @@ class Interpreter(object):
             return (False, e)
 
 
-
     def callBinaryOp(self, op, val0, val1, location):
         retval = None
         try:
             if  op is SymbolTable.PLUS:
-                retval =  val0 + val1
+                retval = val0 + val1
             elif op is SymbolTable.TIMES:
                 retval = val0 * val1
             elif op is SymbolTable.DIVIDE:
@@ -465,7 +456,7 @@ class Interpreter(object):
             elif op is SymbolTable.GLOBAL:
                 retval = self.evalGlobal(val, location)
             elif op is SymbolTable.THROW:
-                return (False,  val)
+                return (False, val)
             elif op is SymbolTable.FETCH:
                 if val in self.uid2object:
                     retval = self.uid2object[val]
