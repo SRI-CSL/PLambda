@@ -13,7 +13,7 @@ of PLambda/JLambda are:
       class objects.
 
    2. the untyped primitive data structures (tuple, list, dictionary) can store
-   objects and numbers etc. 
+   objects and numbers etc.
 
    3. there are global functions, which you can just apply.
 
@@ -28,6 +28,10 @@ of PLambda/JLambda are:
    7. reflection in python has some holes in it (you cannot get the argspec of a
    builtin, so some guess work is required).
 
+   8. No such thing as a character (just a string of length one). So this allows us
+   to have two types of string literals "these" and 'those', I tried to get """these
+   working but antrl gave me a hard time, so I gave up in frustration."""
+
 1 and  3 combine to allow us to have a richer use of the '.' in PLambda
 than in JLambda, we even combine it with the define mechanism.
 
@@ -38,9 +42,13 @@ mklist, and mkdict.
 I ditched '=' for 'is' since 'is' is much more pythonesque and I could never
 remember which of '=' and '==' was 'eq' not 'equal'.
 
-need:
+isinstance is a global so we can do things like:
 
-islist isdict  or instanceof?
+(apply isinstance (mkdict) dict)   -> True
+(apply isinstance (mkdict) list)   -> False
+(apply isinstance (mklist) list)   -> True
+(apply isinstance (mklist) dict)   -> False
+(apply isinstance (mktuple) tuple)   -> False
 
 
 lessons:
@@ -66,5 +74,3 @@ mklist mktuple mkdict
 
 (apply isinstance l0 list)
 (apply isinstance d1 dict)
-
-
