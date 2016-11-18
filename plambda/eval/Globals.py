@@ -10,18 +10,21 @@ import inspect
 
 pythonGlobals = {}
 
-def add2globals(x, d):
-    try:
-        vx = d.get(x)
-        if  inspect.isclass(vx) and issubclass(vx, BaseException):
-            return
-        if callable(vx):
-            pythonGlobals[x] = vx
-    except Exception:
-        return
+def populateGlobals():
+    d = __builtin__.__dict__
+    for x in d:
+        try:
+            vx = d.get(x)
+            if  inspect.isclass(vx) and issubclass(vx, BaseException):
+                continue
+            if callable(vx):
+                pythonGlobals[x] = vx
+        except Exception:
+            continue
 
-for candidate in __builtin__.__dict__:
-    add2globals(candidate, __builtin__.__dict__)
+populateGlobals()
+
+
 
 #deprecated unless ...
 _pythonGlobals = {
