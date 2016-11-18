@@ -286,7 +286,7 @@ class Interpreter(object):
             elif op is SymbolTable.EQUALS:
                 retval = val0 == val1
             elif op is SymbolTable.EQ:
-                retval = val0 is val1
+                retval = val0 == val1
             elif op is SymbolTable.IS:
                 retval = val0 is val1
             elif op is SymbolTable.NEQ:
