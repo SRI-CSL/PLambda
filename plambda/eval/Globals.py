@@ -103,6 +103,7 @@ _pythonGlobals = {
 }
 
 
-#for x in _pythonGlobals:
-#    if pythonGlobals.get(x) is None:
-#        print('{0} is missing from pythonGlobals\n'.format(x))
+#may as well keep an eye on this.
+for g in _pythonGlobals:
+    if pythonGlobals.get(g) is None:
+        print('Warning: {0} is missing from pythonGlobals\n'.format(g))
