@@ -15,6 +15,7 @@ class SymbolTable(object):
         intern('/'):             intern('/'),
         intern('do'):            intern('do'),
         intern('double'):        intern('double'),
+        intern('='):             intern('='),
         intern('=='):            intern('=='),
         intern('is'):            intern('is'),
         intern('fetch'):         intern('fetch'),
@@ -83,6 +84,7 @@ class SymbolTable(object):
     DO          = intern('do')
     DOUBLE      = intern('double')
     IS          = intern('is')
+    EQ          = intern('=')
     EQUALS      = intern('==')
     FETCH       = intern('fetch')
     FLOAT       = intern('float')

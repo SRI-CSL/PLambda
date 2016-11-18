@@ -5,19 +5,19 @@ unit : expression+ ;
 
 
 expression:  '(' SEQ expression+ ')'                                                     # seqExpression
-          |  '(' LET bindingList expression+ ')'                                         # letExpression           
-          |  '(' DEFINE ID parameterList? expression+ ')'                                # defineExpression         
-          |  '(' LAMBDA parameterList expression+ ')'                                    # lambdaExpression         
-          |  '(' INVOKE  expression expression expression* ')'                           # invokeExpression         
-          |  '(' APPLY expression expression* ')'                                        # applyExpression          
-          |  '(' PRIMITIVE_DATA_OP data ')'                                              # dataExpression 
-          |  '(' UNARY_OP expression ')'                                                 # unaryExpression       
-          |  '(' BINARY_OP expression expression ')'                                     # binaryExpression      
+          |  '(' LET bindingList expression+ ')'                                         # letExpression
+          |  '(' DEFINE ID parameterList? expression+ ')'                                # defineExpression
+          |  '(' LAMBDA parameterList expression+ ')'                                    # lambdaExpression
+          |  '(' INVOKE  expression expression expression* ')'                           # invokeExpression
+          |  '(' APPLY expression expression* ')'                                        # applyExpression
+          |  '(' PRIMITIVE_DATA_OP data ')'                                              # dataExpression
+          |  '(' UNARY_OP expression ')'                                                 # unaryExpression
+          |  '(' BINARY_OP expression expression ')'                                     # binaryExpression
           |  '(' TERNARY_OP expression expression expression ')'                         # ternaryExpression
-          |  '(' AMBI1_OP expression expression? ')'                                     # oneOrMoreExpression       
-          |  '(' AMBI2_OP expression expression  expression? ')'                         # twoOrMoreExpression       
-          |  '(' N_ARY_OP expression* ')'                                                # naryExpression       
-          |  '(' TRY expression+  catchExpression ')'                                    # tryExpression		
+          |  '(' AMBI1_OP expression expression? ')'                                     # oneOrMoreExpression
+          |  '(' AMBI2_OP expression expression  expression? ')'                         # twoOrMoreExpression
+          |  '(' N_ARY_OP expression* ')'                                                # naryExpression
+          |  '(' TRY expression+  catchExpression ')'                                    # tryExpression
           |  '(' FOR ID rangeExpression expression+ ')'                                  # forExpression
           |  STRING                                                                      # stringLiteral
           |  ID                                                                          # identifierLiteral
@@ -36,9 +36,9 @@ catchExpression:  '(' CATCH  parameter expression+  ')' ;
 
 rangeExpression: expression ;
 
-data: ID     |     
-      NUMBER   
-      ;  
+data: ID     |
+      NUMBER
+      ;
 
 token : ID        |
         STRING
@@ -46,15 +46,15 @@ token : ID        |
 
 STRING :
        STRING_DQ |
-       STRING_SQ 
+       STRING_SQ
        ;
 
-PRIMITIVE_DATA_OP:  
+PRIMITIVE_DATA_OP:
                     INT      |
-		    FLOAT    | 
+		    FLOAT    |
 		    BOOLEAN
                     ;
-       
+
 UNARY_OP :   FETCH      |
 	     GETUID     |
              GLOBAL     |
@@ -78,33 +78,34 @@ BINARY_OP :  '+'           |
              '>='          |
              IS            |
              '=='          |
+             '='           |
              '!='          |
 	     GET           |
 	     SETUID        |
-             LOOKUP  	     
+             LOOKUP
 	     ;
-	     
+
 TERNARY_OP : KWAPPLY   |
 	     MODIFY    |
 	     UPDATE    |
              SUPDATE   |
              SETATTR
              ;
-        
+
 N_ARY_OP :   CONCAT   |
              AND      |
              OR       |
 	     MKTUPLE  |
 	     MKLIST   |
-	     MKDICT   
-             ;    
+	     MKDICT
+             ;
 
-AMBI1_OP :   MINUS  
-             ;    
+AMBI1_OP :   MINUS
+             ;
 
 AMBI2_OP :   IF       |
-             GETATTR  
-             ;    
+             GETATTR
+             ;
 
 /* None is **not** case insensitive */
 
@@ -156,9 +157,9 @@ ISINT:        [Ii][Ss][Ii][Nn][Tt]                      ;
 ISFLOAT:      [Ii][Ss][Ff][Ll][Oo][Aa][Tt]              ;
 
 GETUID:       [Gg][Ee][Tt][Uu][Ii][Dd]                  ;
- 
+
 GLOBAL:       [Gg][Ll][Oo][Bb][Aa][Ll]                  ;
- 
+
 NOT:          [Nn][Oo][Tt]                              ;
 
 THROW:        [Tt][Hh][Rr][Oo][Ww]                      ;
@@ -209,7 +210,7 @@ MKDICT:       [Mm][Kk][Dd][Ii][Cc][Tt]                  ;
 /* one or more operators */
 
 MINUS:        '-'                                       ;
- 
+
 /* two or more operators */
 
 IF:           [Ii][Ff]                                  ;
@@ -226,11 +227,11 @@ DIGIT       :   [0-9] ;
 
 /* need to define Single Quoted String: STRING_SQ and Double Quoted String: STRING_DQ */
 STRING_SQ   :   '\'' (ESCAPE_SQ|.)*? '\'' ;
-fragment 
+fragment
 ESCAPE_SQ   :   '\\\'' | '\\\\'  ;
 
 STRING_DQ      :   '"' (ESCAPE_DQ|.)*? '"' ;
-fragment 
+fragment
 ESCAPE_DQ      :   '\\"' | '\\\\'  ;
 
 

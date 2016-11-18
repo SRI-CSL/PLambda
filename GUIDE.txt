@@ -44,8 +44,6 @@ or
 (apply sys.stderr.write 'one line at a time\n')
 
 
-
-
 2 makes life very much easier. we have n-ary constructors mktuple,
 mklist, and mkdict.
 
