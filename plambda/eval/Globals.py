@@ -4,7 +4,27 @@
 from __future__ import print_function
 
 
-pythonGlobals = {
+import __builtin__
+
+import inspect
+
+pythonGlobals = {}
+
+def add2globals(x, d):
+    try:
+        vx = d.get(x)
+        if  inspect.isclass(vx) and issubclass(vx, BaseException):
+            return
+        if callable(vx):
+            pythonGlobals[x] = vx
+    except Exception:
+        return
+
+for candidate in __builtin__.__dict__:
+    add2globals(candidate, __builtin__.__dict__)
+
+#deprecated unless ...
+_pythonGlobals = {
     'abs'           : abs,
     'all'           : all,
     'any'           : any,
@@ -81,3 +101,8 @@ pythonGlobals = {
     'zip'           : zip,
     '__import__'    : __import__
 }
+
+
+#for x in _pythonGlobals:
+#    if pythonGlobals.get(x) is None:
+#        print('{0} is missing from pythonGlobals\n'.format(x))

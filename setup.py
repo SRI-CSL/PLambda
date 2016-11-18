@@ -14,19 +14,19 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 # use the in house version number so we stay in synch with ourselves.
 from plambda.version import plambda_version
-    
+
 setup(
     name='PLambda',
-    version=plambda_version, 
+    version=plambda_version,
     description='The PLambda language',
     long_description=long_description,
     url='https://github.com/SRI-CSL/PLambda',
     author='Ian A. Mason',
     author_email='iam@csl.sri.com',
-    
+
 
     packages=find_packages(exclude=['tests']),
-    
+
     entry_points = {
         'console_scripts': [
             'plambda = plambda.eval.PLambda:main',
@@ -36,14 +36,14 @@ setup(
     },
 
 
-    
+
     license='MIT',
-    
+
     install_requires=[
         "psutil >= 4.3.0",
         "antlr4-python2-runtime >= 4.5.3"
     ],
-    
+
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Natural Language :: English',

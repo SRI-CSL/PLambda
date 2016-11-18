@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# iam: This is needed to stop python from treating 'print' as something special; rather than 
+# iam: This is needed to stop python from treating 'print' as something special; rather than
 # just a builtin. Wonder how much of this hackery is in our future?
 #
 from __future__ import print_function
@@ -66,17 +66,17 @@ class plambdaTest(PLambdaTest):
     def test_D(self):
         """Checks the availability of builtin functions.
         We are currently just targeting 2.7. Useful to
-        see the edge cases. The clashes are because of our antrl4 parser. 
-        The incantation at the top of this file is for the 'print' one to work. 
+        see the edge cases. The clashes are because of our antrl4 parser.
+        The incantation at the top of this file is for the 'print' one to work.
         """
         for key, value in pythonGlobals.iteritems():
             # clashes
-            if key not in ('getattr', 'float', 'int', 'setattr'):
+            if key not in ('getattr', 'float', 'int', 'setattr', 'apply'):
                 self.plambdaEqualTest(key, value)
             # the global construct allows you to sidestep the clashes
             self.plambdaEqualTest('(global "{0}")'.format(key), value)
 
-    
+
 
     def test_F(self):
         """Tests using a drone.
@@ -106,14 +106,14 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest(letstr, 23)
         letstr = '(let ((x (int 666))) (let ((x (int 6)) (y (int 7)) (z (int 11)) (x (int 5))) (+ x ( + y  z))) x )'
         self.plambdaEqualTest(letstr, 666)
-        self.plambdaEqualTest('(let ((x (apply object)) (y x)) (is x y))', True) 
+        self.plambdaEqualTest('(let ((x (apply object)) (y x)) (is x y))', True)
         self.plambdaEqualTest('(let ((x0 (int 0)) (x1 (int 1)) (x2 (int 2))) (mklist x0 x1 x2))', [0, 1, 2])
-        
+
     def test_H(self):
         self.plambdaStringEqualTest('(define obj (apply object))', 'obj')
         self.plambdaEqualTest('(setuid obj "adefaultuid")', True)
-        self.plambdaEqualTest('(is (fetch "adefaultuid") obj)', True) 
-        self.plambdaEqualTest('(is (fetch (getuid obj)) obj)', True) 
+        self.plambdaEqualTest('(is (fetch "adefaultuid") obj)', True)
+        self.plambdaEqualTest('(is (fetch (getuid obj)) obj)', True)
         self.plambdaEqualTest('(setuid obj None)', True)
         self.plambdaEqualTest('(fetch "adefaultuid")', None)
 
@@ -197,6 +197,3 @@ class plambdaTest(PLambdaTest):
 
 if __name__ == "__main__":
     unittest.main()
-
-
-
