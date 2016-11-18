@@ -48,8 +48,11 @@ or
 mklist, and mkdict.
 
 
-I ditched '=' for 'is' since 'is' is much more pythonesque and I could never
+I added 'is' since 'is' is much more pythonesque and I could never
 remember which of '=' and '==' was 'eq' not 'equal'.
+'is' is eq. Following JLambda's dubious choice:
+The first form, =, is related to the Scheme or Lisp equals
+predicate, while the second, ==, is more like eq.
 
 isinstance is a global so we can do things like:
 
