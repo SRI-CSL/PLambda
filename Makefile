@@ -37,7 +37,7 @@ dist: clean antlr4
 	python setup.py bdist_wheel
 
 # If you need to push your project again,
-# change the version number in plambda/eval/PLambda.py,
+# change the version number in plambda/version.py,
 # otherwise the server will give you an error.
 
 testpublish: dist
