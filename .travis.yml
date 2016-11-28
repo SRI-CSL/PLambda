@@ -6,7 +6,8 @@ dist: trusty
 python:
   - "3.5"
   - "3.4"
-  - "3.3"
+# antlr4-python3-runtime does not work on 3.3 (ImportError: No module named 'enum')
+#  - "3.3"
   - "2.7"
 
 
