@@ -1,6 +1,7 @@
 .. image:: https://badge.fury.io/py/PLambda.svg
     :target: https://badge.fury.io/py/PLambda
 	     
+|PyPI version| |Build Status|
 
 =======
 PLambda
