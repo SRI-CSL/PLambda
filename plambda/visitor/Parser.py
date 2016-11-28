@@ -1,5 +1,6 @@
 """ Entry points into the antlr4 parser.
 """
+from __future__ import print_function
 
 import sys
 
@@ -14,12 +15,12 @@ from .Visitor import Visitor
 
 def main():
     if len(sys.argv) != 2:
-        print 'Usage: {0} <plambda file>'.format(sys.argv[0])
+        print('Usage: {0} <plambda file>'.format(sys.argv[0]))
     else:
         codelist = parseFromFile(sys.argv[1])
         for c in codelist:
-            print str(c)
-            print repr(c)
+            print(str(c))
+            print(repr(c))
         return 0
 
 def parseFromFile(filename):

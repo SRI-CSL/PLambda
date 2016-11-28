@@ -1,3 +1,6 @@
+import sys
+
+
 from .Code import SExpression, Atom, StringLiteral, Syntax
 
 from .Closure import Closure
@@ -50,7 +53,7 @@ class State(object):
                 code = self.exp.code
                 opexp = self.exp.spine[0]
                 if not isinstance(opexp, Atom):
-                    print 'not atom: {0} {1} {2} {3}'.format(opexp, type(opexp), self.exp, self.exp.code)
+                    sys.stderr.write('not atom: {0} {1} {2} {3}\n'.format(opexp, type(opexp), self.exp, self.exp.code))
                 assert isinstance(opexp, Atom)
                 op = opexp.string
                 if code is Syntax.SEQ:

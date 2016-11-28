@@ -79,8 +79,8 @@ class TopCont(Continuation):
 
     def ret(self, state):
         if self.excep is not None:
-            sys.stderr.write("FIXME: Debugger.handle(excep)\n")
-            print self.excep
+            sys.stderr.write('FIXME: Debugger.handle(excep)\n')
+            sys.stderr.write('{0}\n'.format(self.excep))
         state.tag = DONE
 
 
@@ -257,7 +257,7 @@ class ForCont(Continuation):
         elif self.n  == self.length + 1:
             self.setReturnState(state, val)
         else:
-            nxt = self.iterator.next()
+            nxt = next(self.iterator)
             env = Environment(self.env)
             env.extend(self.id, nxt)
             state.tag = EVAL

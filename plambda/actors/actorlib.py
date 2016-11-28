@@ -49,5 +49,5 @@ def receive():
     except KeyboardInterrupt:
         return None
     except Exception as e:
-        print e
+        sys.stderr.write('{0}\n'.format(e))
         return (None, None)

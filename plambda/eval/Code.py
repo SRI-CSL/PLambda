@@ -1,5 +1,7 @@
 from ..util.StringBuffer import StringBuffer
 
+from ..crap.py import plambda_intern
+
 #may as well retain information gleaned from the parser
 #since it will help in the dispatching
 class Syntax(object):
@@ -71,7 +73,7 @@ class SExpression(object):
 class Atom(object):
 
     def __init__(self, uni, location):
-        self.string = intern(str(uni))
+        self.string = plambda_intern(str(uni))
         self.location = location
 
     # repr's goal is to be unambiguous
@@ -85,7 +87,7 @@ class Atom(object):
 class StringLiteral(object):
 
     def __init__(self, uni, location):
-        self.string = intern(str(uni)[1:-1]) # remove the quotes
+        self.string = plambda_intern(str(uni)[1:-1]) # remove the quotes
         self.location = location
 
     # repr's goal is to be unambiguous

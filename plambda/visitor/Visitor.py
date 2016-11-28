@@ -7,6 +7,8 @@ from plambda.visitor.ParseError import ParseError
 from plambda.eval.Code import SExpression, Atom, StringLiteral, Syntax, Location
 from plambda.util.StringBuffer import StringBuffer
 
+from plambda.crap.py import plambda_intern
+
 class Visitor(PLambdaVisitor):
 
 
@@ -150,7 +152,7 @@ class Visitor(PLambdaVisitor):
         if paramList is not None:
             params = self.visitParameterList(paramList)
         body = self.visitImplicitSeq(ctx.expression())
-        atom = Atom(intern(str(ctx.ID().getSymbol().text)),
+        atom = Atom(plambda_intern(str(ctx.ID().getSymbol().text)),
                     Location(self.filename, ctx.ID().getSymbol().line))
         if params is not None:
             return SExpression(Syntax.DEFINE, (define, atom, params, body), location)

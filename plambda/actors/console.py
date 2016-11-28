@@ -1,10 +1,19 @@
 """ The plambda actor console for debugging running actors.
 """
-import Tkinter as tk
-import tkFileDialog
+
 import os
 import sys
 import traceback
+
+
+#python 2 vs python 3. if there is a python 4 I quit.
+try:
+    import Tkinter as tk
+    import tkFileDialog as fdialog
+except ImportError:
+    import tkinter as tk
+    import tkinter.filedialog as fdialog
+
 
 from ..eval.Interpreter import Interpreter
 
@@ -152,7 +161,7 @@ class Console(tk.Tk):
                 self.bottom_frame.append(str(e), "error")
                 self.bottom_frame.append('\n', "ok")
             except Exception as e:
-                print 'PLambda.rep Exception: ', e
+                sys.stderr.write('PLambda.rep Exception: {0}\n'.format(str(e)))
                 traceback.print_exc(file=sys.stderr)
                 self.bottom_frame.append('\n', "ok")
 
@@ -184,12 +193,12 @@ class Console(tk.Tk):
                 self.bottom_frame.append("{0} saved\n".format(path), "ok")
 
     def open(self):
-        path = tkFileDialog.askopenfilename(initialdir=os.getcwd())
+        path = fdialog.askopenfilename(initialdir=os.getcwd())
         if path:
             self.load(path)
 
     def saveas(self):
-        path = tkFileDialog.asksaveasfilename(initialdir=os.getcwd())
+        path = fdialog.asksaveasfilename(initialdir=os.getcwd())
         if path:
             self.save(path)
 
