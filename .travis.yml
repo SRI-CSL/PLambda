@@ -16,7 +16,7 @@ install:
   - pip --version
   - pip install antlr4-python2-runtime
   - pip install -e .
-  - if [[ $TRAVIS_PYTHON_VERSION == 2.6 ]]; then pip install antlr4-python2-runtime; else pip install antlr4-python3-runtime; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then pip install antlr4-python2-runtime; else pip install antlr4-python3-runtime; fi
 
 # command to run tests
 script:
