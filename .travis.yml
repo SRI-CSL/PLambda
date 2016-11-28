@@ -1,0 +1,24 @@
+language: python
+
+sudo: required
+dist: trusty
+
+python:
+  - "3.5"
+  - "3.4"
+  - "3.3"
+  - "2.7"
+
+
+# command to install dependencies
+install:
+  - sudo apt-get update
+  - pip --version
+  - pip install antlr4-python2-runtime
+  - pip install -e .
+
+
+# command to run tests
+script:
+	make check
+
