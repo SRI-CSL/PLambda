@@ -1,8 +1,11 @@
 .. image:: https://badge.fury.io/py/PLambda.svg
     :target: https://badge.fury.io/py/PLambda
-	     
-|PyPI version| |Build Status|
 
+.. image:: https://travis-ci.org/SRI-CSL/PLambda.svg?branch=master
+    :target: https://travis-ci.org/SRI-CSL/PLambda
+
+
+	     
 =======
 PLambda
 =======
