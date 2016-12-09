@@ -228,19 +228,21 @@ class Interpreter(object):
         #
         if not isinstance(method, types.BuiltinFunctionType):
             argspec = inspect.getargspec(method)
+            # sys.stderr.write('argspec({0}) =  {1}\n'.format(method, argspec))
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
             offset = 0
-            if not inspect.ismodule(obj) and not inspect.isclass(obj):
+            # if the thing has vargargs (e.g. decorators for example, then we better just try to apply)
+            if (not inspect.ismodule(obj)) and (not inspect.isclass(obj)) and  argspec.varargs is None:
                 offset = 1
                 ndefaults = len(argspec.defaults)  if argspec.defaults else 0
                 nargs = len(argspec.args) - offset
                 nvals = len(vals)
                 # my guess is that we will need to revisit this. what do we
                 # do when some of the defaults are used but not others?
-                if (nvals < nargs - ndefaults) or  (nargs < nvals):
-                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3}'
-                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], argspec.defaults)
+                if ((nvals < nargs - ndefaults) or  (nargs < nvals)):
+                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3} varargs: {4}'
+                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], argspec.defaults, argspec.varargs)
                     return (False, PLambdaException(emsg))
 
         retval = None
