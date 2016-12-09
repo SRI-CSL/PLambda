@@ -7,17 +7,20 @@ global_start_time = time.time()
 
 global_trace_enabled = True
 
-def gtrace(fn):
-    if not global_trace_enabled:
-        return fn
-    else:
-        def gtraced(*args, **kwargs):
-            global_trace.append(('>', fn.func_name, time.time() - global_start_time, args, kwargs))
-            retval = fn(*args, **kwargs)
-            global_trace.append(('<', fn.func_name, time.time() - global_start_time, args, kwargs))
-            return retval
-        return gtraced
-
+# do the name thing manually since 2.7 and 3 seem to differ about this
+# and this is just a test...
+def gtracer(name):
+    def gtrace(fn):
+        if not global_trace_enabled:
+            return fn
+        else:
+            def gtraced(*args, **kwargs):
+                global_trace.append(('>', name, time.time() - global_start_time, args, kwargs))
+                retval = fn(*args, **kwargs)
+                global_trace.append(('<', name, time.time() - global_start_time, args, kwargs))
+                return retval
+            return gtraced
+    return gtrace
 
 
 def printTrace():
@@ -43,14 +46,14 @@ class SimpleDrone(object):
         self.y = 0
         self.e = 10
 
-    @gtrace
+    @gtracer('initialize')
     def initialize(self, x, y, e):
         self.x = int(x)
         self.y = int(y)
         self.e = int(e)
         return True
 
-    @gtrace
+    @gtracer('mv')
     def mv(self, direction):
         if direction == 'E':
             self.x += 1
@@ -68,7 +71,7 @@ class SimpleDrone(object):
         self.e -= 1
         return True
 
-    @gtrace
+    @gtracer('charge')
     def charge(self, amt):
         self.e += int(amt)
         return True
