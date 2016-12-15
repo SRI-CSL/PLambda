@@ -240,7 +240,7 @@ class Interpreter(object):
                 nvals = len(vals)
                 # my guess is that we will need to revisit this. what do we
                 # do when some of the defaults are used but not others?
-                if ((nvals < nargs - ndefaults) or  (nargs < nvals)):
+                if (nvals < nargs - ndefaults) or  (nargs < nvals):
                     fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3} varargs: {4}'
                     emsg = fmsg.format(methodname, vals, argspec.args[offset:], argspec.defaults, argspec.varargs)
                     return (False, PLambdaException(emsg))
