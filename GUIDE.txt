@@ -1,6 +1,6 @@
 [[Construction Zone: please feel free to add questions]]
 
-List of builts that you can apply:
+List of built-ins that you can apply:
 
 https://docs.python.org/2/library/functions.html
 
@@ -26,9 +26,9 @@ of PLambda/JLambda are:
    6. python things are already attributable (why do we need uids and fetch?)
 
    7. reflection in python has some holes in it (you cannot get the argspec of a
-   builtin, so some guess work is required).
+   built-in, so some guess work is required).
 
-   8. No such thing as a character (just a string of length one). So this allows us
+   8. In Python there is no such thing as a character (just a string of length one). So this allows us
    to have two types of string literals "these" and 'those', I tried to get """these
    working but antrl gave me a hard time, so I gave up in frustration."""
 
