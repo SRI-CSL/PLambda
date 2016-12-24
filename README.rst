@@ -25,6 +25,11 @@ PLambda, like JLambda,  is a fast, efficient, minimalistic, call-by-value, lexic
 Scheme like language with closures built upon the underlying data structures of the language it rests upon. 
 The interpreter is implemented via CPS (continuation passing style).
 
+Guide for JLambda Afficionados
+------------------------------
+
+ https://github.com/SRI-CSL/PLambda/blob/master/GUIDE.md
+ 
 Install
 -------
 
