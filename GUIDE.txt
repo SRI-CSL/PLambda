@@ -32,7 +32,7 @@ of PLambda/JLambda are:
    to have two types of string literals "these" and 'those', I tried to get """these
    working but antrl gave me a hard time, so I gave up in frustration."""
 
-1 and  3 combine to allow us to have a richer use of the '.' in PLambda
+1. and  3. combine to allow us to have a richer use of the '.' in PLambda
 than in JLambda, we even combine it with the define mechanism.
 
 After (import 'sys'), for example we can either do:
@@ -44,7 +44,7 @@ or
 (apply sys.stderr.write 'one line at a time\n')
 
 
-2 makes life very much easier. we have n-ary constructors mktuple,
+2. makes life very much easier: We have n-ary constructors mktuple,
 mklist, and mkdict.
 
 
