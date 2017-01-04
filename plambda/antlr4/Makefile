@@ -1,6 +1,6 @@
 ANTLR_4_5=java -Xmx500M -cp "../../antlers/antlr-4.5-complete.jar" org.antlr.v4.Tool
 
-ANTLR_4_6=java -Xmx500M -cp "../../antlr-4.6-complete.jar" org.antlr.v4.Tool
+ANTLR_4_6=java -Xmx500M -cp "../../antlers/antlr-4.6-complete.jar" org.antlr.v4.Tool
 
 
 all:
