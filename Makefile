@@ -1,11 +1,9 @@
-ANTLR4=java -Xmx500M -cp "/usr/local/lib/antlr-4.5-complete.jar" org.antlr.v4.Tool
-
-
 all:
 	@echo ''
 	@echo 'Here are the targets:'
 	@echo ''
-	@echo 'To regenerate the antlr4 python code :  "make antlr4"'
+	@echo 'To regenerate the antlr4 python code :  "make antlr4_5"'
+	@echo 'To regenerate the antlr4 python code :  "make antlr4_6"'
 	@echo 'To develop                           :  "make develop"'
 	@echo 'To test                              :  "make check"'
 	@echo 'To test install                      :  "make testinstall"'
@@ -21,8 +19,11 @@ all:
 	@echo ''
 
 
-antlr4:
-	make -C plambda/antlr4 antlr4
+antlr4_5:
+	make -C plambda/antlr4 antlr4_5
+
+antlr4_6:
+	make -C plambda/antlr4 antlr4_6
 
 
 check:
