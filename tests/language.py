@@ -77,7 +77,7 @@ class plambdaTest(PLambdaTest):
         for key in pythonGlobals:
             value = pythonGlobals[key]
             # clashes
-            if key not in ('getattr', 'float', 'int', 'setattr', 'apply', '__loader__', 'dict', 'raw_input', 'input', 'oct', 'list'):
+            if key not in ('getattr', 'float', 'int', 'setattr', 'apply', '__loader__', 'dict', 'raw_input', 'input', 'oct', 'list', 'round'):
                 #import sys
                 #sys.stderr.write('{0} {1}\n'.format(key, value))
                 self.plambdaEqualTest(key, value)
