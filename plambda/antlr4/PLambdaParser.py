@@ -1,16 +1,8 @@
-# Generated from java-escape by ANTLR 4.5
+# Generated from PLambda.g4 by ANTLR 4.6
 # encoding: utf-8
 from __future__ import print_function
 from antlr4 import *
 from io import StringIO
-package = globals().get("__package__", None)
-ischild = len(package)>0 if package is not None else False
-if ischild:
-    from .PLambdaListener import PLambdaListener
-    from .PLambdaVisitor import PLambdaVisitor
-else:
-    from PLambdaListener import PLambdaListener
-    from PLambdaVisitor import PLambdaVisitor
 
 def serializedATN():
     with StringIO() as buf:
@@ -106,7 +98,7 @@ def serializedATN():
 
 class PLambdaParser ( Parser ):
 
-    grammarFileName = "java-escape"
+    grammarFileName = "PLambda.g4"
 
     atn = ATNDeserializer().deserialize(serializedATN())
 
@@ -228,7 +220,7 @@ class PLambdaParser ( Parser ):
 
     def __init__(self, input):
         super(PLambdaParser, self).__init__(input)
-        self.checkVersion("4.5")
+        self.checkVersion("4.6")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
@@ -251,15 +243,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_unit
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterUnit"):
                 listener.enterUnit(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitUnit"):
                 listener.exitUnit(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitUnit"):
                 return visitor.visitUnit(self)
             else:
                 return visitor.visitChildren(self)
@@ -326,15 +318,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterNaryExpression"):
                 listener.enterNaryExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitNaryExpression"):
                 listener.exitNaryExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitNaryExpression"):
                 return visitor.visitNaryExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -361,15 +353,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterForExpression"):
                 listener.enterForExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitForExpression"):
                 listener.exitForExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitForExpression"):
                 return visitor.visitForExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -394,15 +386,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterLambdaExpression"):
                 listener.enterLambdaExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitLambdaExpression"):
                 listener.exitLambdaExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitLambdaExpression"):
                 return visitor.visitLambdaExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -424,15 +416,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterOneOrMoreExpression"):
                 listener.enterOneOrMoreExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitOneOrMoreExpression"):
                 listener.exitOneOrMoreExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitOneOrMoreExpression"):
                 return visitor.visitOneOrMoreExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -448,15 +440,15 @@ class PLambdaParser ( Parser ):
             return self.getToken(PLambdaParser.NONE, 0)
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterNoneLiteral"):
                 listener.enterNoneLiteral(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitNoneLiteral"):
                 listener.exitNoneLiteral(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitNoneLiteral"):
                 return visitor.visitNoneLiteral(self)
             else:
                 return visitor.visitChildren(self)
@@ -478,15 +470,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterSeqExpression"):
                 listener.enterSeqExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitSeqExpression"):
                 listener.exitSeqExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitSeqExpression"):
                 return visitor.visitSeqExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -508,15 +500,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterApplyExpression"):
                 listener.enterApplyExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitApplyExpression"):
                 listener.exitApplyExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitApplyExpression"):
                 return visitor.visitApplyExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -538,15 +530,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterBinaryExpression"):
                 listener.enterBinaryExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitBinaryExpression"):
                 listener.exitBinaryExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitBinaryExpression"):
                 return visitor.visitBinaryExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -568,15 +560,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterTwoOrMoreExpression"):
                 listener.enterTwoOrMoreExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitTwoOrMoreExpression"):
                 listener.exitTwoOrMoreExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitTwoOrMoreExpression"):
                 return visitor.visitTwoOrMoreExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -601,15 +593,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterTryExpression"):
                 listener.enterTryExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitTryExpression"):
                 listener.exitTryExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitTryExpression"):
                 return visitor.visitTryExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -625,15 +617,15 @@ class PLambdaParser ( Parser ):
             return self.getToken(PLambdaParser.STRING, 0)
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterStringLiteral"):
                 listener.enterStringLiteral(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitStringLiteral"):
                 listener.exitStringLiteral(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitStringLiteral"):
                 return visitor.visitStringLiteral(self)
             else:
                 return visitor.visitChildren(self)
@@ -660,15 +652,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterDefineExpression"):
                 listener.enterDefineExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitDefineExpression"):
                 listener.exitDefineExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitDefineExpression"):
                 return visitor.visitDefineExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -693,15 +685,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterLetExpression"):
                 listener.enterLetExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitLetExpression"):
                 listener.exitLetExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitLetExpression"):
                 return visitor.visitLetExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -717,15 +709,15 @@ class PLambdaParser ( Parser ):
             return self.getToken(PLambdaParser.ID, 0)
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterIdentifierLiteral"):
                 listener.enterIdentifierLiteral(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitIdentifierLiteral"):
                 listener.exitIdentifierLiteral(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitIdentifierLiteral"):
                 return visitor.visitIdentifierLiteral(self)
             else:
                 return visitor.visitChildren(self)
@@ -744,15 +736,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterUnaryExpression"):
                 listener.enterUnaryExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitUnaryExpression"):
                 listener.exitUnaryExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitUnaryExpression"):
                 return visitor.visitUnaryExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -774,15 +766,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterTernaryExpression"):
                 listener.enterTernaryExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitTernaryExpression"):
                 listener.exitTernaryExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitTernaryExpression"):
                 return visitor.visitTernaryExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -804,15 +796,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterInvokeExpression"):
                 listener.enterInvokeExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitInvokeExpression"):
                 listener.exitInvokeExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitInvokeExpression"):
                 return visitor.visitInvokeExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -831,15 +823,15 @@ class PLambdaParser ( Parser ):
 
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterDataExpression"):
                 listener.enterDataExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitDataExpression"):
                 listener.exitDataExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitDataExpression"):
                 return visitor.visitDataExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -853,6 +845,7 @@ class PLambdaParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.state = 163
+            self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,13,self._ctx)
             if la_ == 1:
                 localctx = PLambdaParser.SeqExpressionContext(self, localctx)
@@ -912,6 +905,7 @@ class PLambdaParser ( Parser ):
                 self.state = 46
                 self.match(PLambdaParser.ID)
                 self.state = 48
+                self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,3,self._ctx)
                 if la_ == 1:
                     self.state = 47
@@ -1075,6 +1069,7 @@ class PLambdaParser ( Parser ):
                 self.state = 115
                 self.expression()
                 self.state = 117
+                self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0):
                     self.state = 116
@@ -1097,6 +1092,7 @@ class PLambdaParser ( Parser ):
                 self.state = 124
                 self.expression()
                 self.state = 126
+                self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << PLambdaParser.T__0) | (1 << PLambdaParser.STRING) | (1 << PLambdaParser.NONE) | (1 << PLambdaParser.ID))) != 0):
                     self.state = 125
@@ -1229,15 +1225,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_parameterList
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterParameterList"):
                 listener.enterParameterList(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitParameterList"):
                 listener.exitParameterList(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitParameterList"):
                 return visitor.visitParameterList(self)
             else:
                 return visitor.visitChildren(self)
@@ -1287,15 +1283,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_parameter
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterParameter"):
                 listener.enterParameter(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitParameter"):
                 listener.exitParameter(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitParameter"):
                 return visitor.visitParameter(self)
             else:
                 return visitor.visitChildren(self)
@@ -1336,15 +1332,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_bindingList
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterBindingList"):
                 listener.enterBindingList(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitBindingList"):
                 listener.exitBindingList(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitBindingList"):
                 return visitor.visitBindingList(self)
             else:
                 return visitor.visitChildren(self)
@@ -1401,15 +1397,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_bindingPair
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterBindingPair"):
                 listener.enterBindingPair(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitBindingPair"):
                 listener.exitBindingPair(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitBindingPair"):
                 return visitor.visitBindingPair(self)
             else:
                 return visitor.visitChildren(self)
@@ -1463,15 +1459,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_catchExpression
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterCatchExpression"):
                 listener.enterCatchExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitCatchExpression"):
                 listener.exitCatchExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitCatchExpression"):
                 return visitor.visitCatchExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -1528,15 +1524,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_rangeExpression
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterRangeExpression"):
                 listener.enterRangeExpression(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitRangeExpression"):
                 listener.exitRangeExpression(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitRangeExpression"):
                 return visitor.visitRangeExpression(self)
             else:
                 return visitor.visitChildren(self)
@@ -1576,15 +1572,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_data
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterData"):
                 listener.enterData(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitData"):
                 listener.exitData(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitData"):
                 return visitor.visitData(self)
             else:
                 return visitor.visitChildren(self)
@@ -1604,6 +1600,7 @@ class PLambdaParser ( Parser ):
             if not(_la==PLambdaParser.ID or _la==PLambdaParser.NUMBER):
                 self._errHandler.recoverInline(self)
             else:
+                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1629,15 +1626,15 @@ class PLambdaParser ( Parser ):
             return PLambdaParser.RULE_token
 
         def enterRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "enterToken"):
                 listener.enterToken(self)
 
         def exitRule(self, listener):
-            if isinstance( listener, PLambdaListener ):
+            if hasattr(listener, "exitToken"):
                 listener.exitToken(self)
 
         def accept(self, visitor):
-            if isinstance( visitor, PLambdaVisitor ):
+            if hasattr(visitor, "visitToken"):
                 return visitor.visitToken(self)
             else:
                 return visitor.visitChildren(self)
@@ -1657,6 +1654,7 @@ class PLambdaParser ( Parser ):
             if not(_la==PLambdaParser.STRING or _la==PLambdaParser.ID):
                 self._errHandler.recoverInline(self)
             else:
+                self._errHandler.reportMatch(self)
                 self.consume()
         except RecognitionException as re:
             localctx.exception = re
@@ -1665,6 +1663,7 @@ class PLambdaParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
 
 
