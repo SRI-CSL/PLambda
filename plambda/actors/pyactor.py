@@ -102,7 +102,7 @@ class Main(object):
 
 
 def add_handler(closure):
-    sys.stderr.write('Adding closure\n')
+    notify('Adding closure')
     Main.handlers.append(closure)
 
 def remove_handler(closure):
