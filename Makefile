@@ -4,6 +4,7 @@ all:
 	@echo ''
 	@echo 'To regenerate the antlr4 python code :  "make antlr4_5"'
 	@echo 'To regenerate the antlr4 python code :  "make antlr4_6"'
+	@echo 'To regenerate the antlr4 python code :  "make antlr4_7"'
 	@echo 'To develop                           :  "make develop"'
 	@echo 'To test                              :  "make check"'
 	@echo 'To test install                      :  "make testinstall"'
@@ -24,6 +25,9 @@ antlr4_5:
 
 antlr4_6:
 	make -C plambda/antlr4 antlr4_6
+
+antlr4_7:
+	make -C plambda/antlr4 antlr4_7
 
 
 check:
