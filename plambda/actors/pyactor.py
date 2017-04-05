@@ -102,6 +102,7 @@ class Main(object):
 
 
 def add_handler(closure):
+    notify('Adding closure')
     Main.handlers.append(closure)
 
 def remove_handler(closure):
@@ -172,12 +173,13 @@ def pl_eval(interpreter, sender, message):
         else:
             sender = sender.strip()
             message = message.strip()
-            notify('looking for handlers for: "{0}" from {1}'.format(message, sender))
+            notify('looking for handlers for: "{0}" from {1} (we have {2} alternatives)'.format(message, sender, len(Main.handlers)))
             for handler in Main.handlers:
                 if handler.applyClosure(sender, message):
                     notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
                     break
-
+                else:
+                    notify('nope')
     except Exception as e:
         sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n'.format(e))
         if debug:
