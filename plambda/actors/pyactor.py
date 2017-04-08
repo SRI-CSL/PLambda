@@ -181,7 +181,7 @@ def pl_eval(interpreter, sender, message):
                 else:
                     notify('nope')
     except Exception as e:
-        sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n while evaluating {1}'.format(e, message))
+        sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\n while evaluating:\n{1}\n'.format(e, message))
         if debug:
             traceback.print_exc(file=sys.stderr)
 
