@@ -1,5 +1,5 @@
 """
-Freeping Creaturism:
+Feeping Creaturism:
 
 This is the all important version number used by pip.
 
