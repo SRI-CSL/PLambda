@@ -4,8 +4,10 @@
 .. image:: https://travis-ci.org/SRI-CSL/PLambda.svg?branch=master
     :target: https://travis-ci.org/SRI-CSL/PLambda
 
+.. image:: https://img.shields.io/pypi/dm/plambda.svg
+    :target: https://pypistats.org/packages/plambda
 
-	     
+
 =======
 PLambda
 =======
@@ -19,21 +21,21 @@ python processes.  JLambda is over 14 years old, whereas PLambda
 is just a pup.
 
 Note that Python is not Java so there will be some differences, but
-hopefully the spirit will shine through. 
+hopefully the spirit will shine through.
 
 PLambda, like JLambda,  is a fast, efficient, minimalistic, call-by-value, lexically scoped Lisp or
-Scheme like language with closures built upon the underlying data structures of the language it rests upon. 
+Scheme like language with closures built upon the underlying data structures of the language it rests upon.
 The interpreter is implemented via CPS (continuation passing style).
 
 Guide for JLambda Afficionados
 ------------------------------
 
  https://github.com/SRI-CSL/PLambda/blob/master/GUIDE.md
- 
+
 Install
 -------
 
-There is a pip package, but that will move along at a lazier pace than developing directly from 
+There is a pip package, but that will move along at a lazier pace than developing directly from
 the repository.
 
 |
@@ -94,6 +96,4 @@ Recipe to add an operator
 
 4. Add the operator to the ``plambda.eval.Interpreter``
 
-5. Add some tests to ``tests/language.py``   
-
-
+5. Add some tests to ``tests/language.py``
