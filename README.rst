@@ -1,6 +1,9 @@
 .. image:: https://badge.fury.io/py/PLambda.svg
     :target: https://badge.fury.io/py/PLambda
 
+.. image:: https://img.shields.io/badge/License-MIT-blueviolet.svg
+    :target: https://opensource.org/licenses/MIT
+
 .. image:: https://travis-ci.org/SRI-CSL/PLambda.svg?branch=master
     :target: https://travis-ci.org/SRI-CSL/PLambda
 
