@@ -65,7 +65,7 @@ install:
 
 zippity:
 	rm -rf doczip*; mkdir doczip;
-	cat README.md | pandoc -f rst > doczip/index.html
+	cat README.rst | pandoc -f rst > doczip/index.html
 	zip -r -j doczip.zip doczip
 
 clean:
