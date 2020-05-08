@@ -217,12 +217,19 @@ class Interpreter(object):
         # http://stackoverflow.com/questions/3276635/how-to-get-the-number-of-args-of-a-built-in-function-in-python
         # http://stackoverflow.com/questions/990016/how-to-find-out-the-arity-of-a-method-in-python
         #
-        # Can avoid using inspect for simlpe cases:
+        # Can avoid using inspect for simple cases:
         #        def arity(obj, method):
         #          return getattr(obj.__class__, method).func_code.co_argcount - 1 # remove self
         #
         if not isinstance(method, types.BuiltinFunctionType):
-            argspec = inspect.getargspec(method)
+
+            # 05/08/20 flipped inspect.getargspec(method) to
+            # inspect.getfullargspec(method) without having a clue what I was doing.
+            # but the doc said: "Deprecated since version 3.0: Use
+            # getfullargspec() for an updated API that is usually a drop-in replacement,
+            # but also correctly handles function annotations and keyword-only parameters."
+
+            argspec = inspect.getfullargspec(method)
             # sys.stderr.write('argspec({0}) =  {1}\n'.format(method, argspec))
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
