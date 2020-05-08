@@ -57,7 +57,7 @@ You will need the antlr4 runtime:
 | ``pip install antlr4-python3-runtime``
 |
 
-Though this is done by doing `make develop` described next.
+Though this is done by doing ``make develop`` described next.
 
 Develop
 -------
