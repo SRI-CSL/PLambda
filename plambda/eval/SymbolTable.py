@@ -1,141 +1,141 @@
-from ..crap.py import plambda_intern
+import sys
 
 class SymbolTable:
 
     _symbol_table = {
-        plambda_intern('and'):           plambda_intern('and'),
-        plambda_intern('apply'):         plambda_intern('apply'),
-        plambda_intern('array'):         plambda_intern('array'),
-        plambda_intern('aset'):          plambda_intern('aset'),
-        plambda_intern('boolean'):       plambda_intern('boolean'),
-        plambda_intern('byte'):          plambda_intern('byte'),
-        plambda_intern('catch'):         plambda_intern('catch'),
-        plambda_intern('char'):          plambda_intern('char'),
-        plambda_intern('concat'):        plambda_intern('concat'),
-        plambda_intern('define'):        plambda_intern('define'),
-        plambda_intern('/'):             plambda_intern('/'),
-        plambda_intern('do'):            plambda_intern('do'),
-        plambda_intern('double'):        plambda_intern('double'),
-        plambda_intern('='):             plambda_intern('='),
-        plambda_intern('=='):            plambda_intern('=='),
-        plambda_intern('is'):            plambda_intern('is'),
-        plambda_intern('fetch'):         plambda_intern('fetch'),
-        plambda_intern('float'):         plambda_intern('float'),
-        plambda_intern('for'):           plambda_intern('for'),
-        plambda_intern('<='):            plambda_intern('<='),
-        plambda_intern('get'):           plambda_intern('get'),
-        plambda_intern('getattr'):       plambda_intern('getattr'),
-        plambda_intern('getuid'):        plambda_intern('getuid'),
-        plambda_intern('global'):        plambda_intern('global'),
-        plambda_intern('<'):             plambda_intern('<'),
-        plambda_intern('if'):            plambda_intern('if'),
-        plambda_intern('import'):        plambda_intern('import'),
-        plambda_intern('instanceof'):    plambda_intern('instanceof'),
-        plambda_intern('int'):           plambda_intern('int'),
-        plambda_intern('invoke'):        plambda_intern('invoke'),
-        plambda_intern('isnone'):        plambda_intern('isnone'),
-        plambda_intern('isfloat'):       plambda_intern('isfloat'),
-        plambda_intern('isint'):         plambda_intern('isint'),
-        plambda_intern('isobject'):      plambda_intern('isobject'),
-        plambda_intern('kwapply'):       plambda_intern('kwapply'),
-        plambda_intern('lambda'):        plambda_intern('lambda'),
-        plambda_intern('>='):            plambda_intern('>='),
-        plambda_intern('let'):           plambda_intern('let'),
-        plambda_intern('load'):          plambda_intern('load'),
-        plambda_intern('long'):          plambda_intern('long'),
-        plambda_intern('lookup'):        plambda_intern('lookup'),
-        plambda_intern('>'):             plambda_intern('>'),
-        plambda_intern('-'):             plambda_intern('-'),
-        plambda_intern('mktuple'):       plambda_intern('mktuple'),
-        plambda_intern('mklist'):        plambda_intern('mklist'),
-        plambda_intern('mkdict'):        plambda_intern('mkdict'),
-        plambda_intern('modify'):        plambda_intern('modify'),
-        plambda_intern('%'):             plambda_intern('%'),
-        plambda_intern('narrow'):        plambda_intern('narrow'),
-        plambda_intern('!='):            plambda_intern('!='),
-        plambda_intern('not'):           plambda_intern('not'),
-        plambda_intern('none'):          plambda_intern('none'),
-        plambda_intern('object'):        plambda_intern('object'),
-        plambda_intern('or'):            plambda_intern('or'),
-        plambda_intern('+'):             plambda_intern('+'),
-        plambda_intern('seq'):           plambda_intern('seq'),
-        plambda_intern('setattr'):       plambda_intern('setattr'),
-        plambda_intern('setuid'):        plambda_intern('setuid'),
-        plambda_intern('short'):         plambda_intern('short'),
-        plambda_intern('sinvoke'):       plambda_intern('sinvoke'),
-        plambda_intern('supdate'):       plambda_intern('supdate'),
-        plambda_intern('throw'):         plambda_intern('throw'),
-        plambda_intern('*'):             plambda_intern('*'),
-        plambda_intern('try'):           plambda_intern('try'),
-        plambda_intern('update'):        plambda_intern('update'),
+        sys.intern('and'):           sys.intern('and'),
+        sys.intern('apply'):         sys.intern('apply'),
+        sys.intern('array'):         sys.intern('array'),
+        sys.intern('aset'):          sys.intern('aset'),
+        sys.intern('boolean'):       sys.intern('boolean'),
+        sys.intern('byte'):          sys.intern('byte'),
+        sys.intern('catch'):         sys.intern('catch'),
+        sys.intern('char'):          sys.intern('char'),
+        sys.intern('concat'):        sys.intern('concat'),
+        sys.intern('define'):        sys.intern('define'),
+        sys.intern('/'):             sys.intern('/'),
+        sys.intern('do'):            sys.intern('do'),
+        sys.intern('double'):        sys.intern('double'),
+        sys.intern('='):             sys.intern('='),
+        sys.intern('=='):            sys.intern('=='),
+        sys.intern('is'):            sys.intern('is'),
+        sys.intern('fetch'):         sys.intern('fetch'),
+        sys.intern('float'):         sys.intern('float'),
+        sys.intern('for'):           sys.intern('for'),
+        sys.intern('<='):            sys.intern('<='),
+        sys.intern('get'):           sys.intern('get'),
+        sys.intern('getattr'):       sys.intern('getattr'),
+        sys.intern('getuid'):        sys.intern('getuid'),
+        sys.intern('global'):        sys.intern('global'),
+        sys.intern('<'):             sys.intern('<'),
+        sys.intern('if'):            sys.intern('if'),
+        sys.intern('import'):        sys.intern('import'),
+        sys.intern('instanceof'):    sys.intern('instanceof'),
+        sys.intern('int'):           sys.intern('int'),
+        sys.intern('invoke'):        sys.intern('invoke'),
+        sys.intern('isnone'):        sys.intern('isnone'),
+        sys.intern('isfloat'):       sys.intern('isfloat'),
+        sys.intern('isint'):         sys.intern('isint'),
+        sys.intern('isobject'):      sys.intern('isobject'),
+        sys.intern('kwapply'):       sys.intern('kwapply'),
+        sys.intern('lambda'):        sys.intern('lambda'),
+        sys.intern('>='):            sys.intern('>='),
+        sys.intern('let'):           sys.intern('let'),
+        sys.intern('load'):          sys.intern('load'),
+        sys.intern('long'):          sys.intern('long'),
+        sys.intern('lookup'):        sys.intern('lookup'),
+        sys.intern('>'):             sys.intern('>'),
+        sys.intern('-'):             sys.intern('-'),
+        sys.intern('mktuple'):       sys.intern('mktuple'),
+        sys.intern('mklist'):        sys.intern('mklist'),
+        sys.intern('mkdict'):        sys.intern('mkdict'),
+        sys.intern('modify'):        sys.intern('modify'),
+        sys.intern('%'):             sys.intern('%'),
+        sys.intern('narrow'):        sys.intern('narrow'),
+        sys.intern('!='):            sys.intern('!='),
+        sys.intern('not'):           sys.intern('not'),
+        sys.intern('none'):          sys.intern('none'),
+        sys.intern('object'):        sys.intern('object'),
+        sys.intern('or'):            sys.intern('or'),
+        sys.intern('+'):             sys.intern('+'),
+        sys.intern('seq'):           sys.intern('seq'),
+        sys.intern('setattr'):       sys.intern('setattr'),
+        sys.intern('setuid'):        sys.intern('setuid'),
+        sys.intern('short'):         sys.intern('short'),
+        sys.intern('sinvoke'):       sys.intern('sinvoke'),
+        sys.intern('supdate'):       sys.intern('supdate'),
+        sys.intern('throw'):         sys.intern('throw'),
+        sys.intern('*'):             sys.intern('*'),
+        sys.intern('try'):           sys.intern('try'),
+        sys.intern('update'):        sys.intern('update'),
         }
 
 
-    AND         = plambda_intern('and')
-    APPLY       = plambda_intern('apply')
-    ARRAY       = plambda_intern('array')
-    ASET        = plambda_intern('aset')
-    BOOLEAN     = plambda_intern('boolean')
-    BYTE        = plambda_intern('byte')
-    CATCH       = plambda_intern('catch')
-    CHAR        = plambda_intern('char')
-    CONCAT      = plambda_intern('concat')
-    DEFINE      = plambda_intern('define')
-    DIVIDE      = plambda_intern('/')
-    DO          = plambda_intern('do')
-    DOUBLE      = plambda_intern('double')
-    IS          = plambda_intern('is')
-    EQUALS      = plambda_intern('=')
-    EQ          = plambda_intern('==')
-    FETCH       = plambda_intern('fetch')
-    FLOAT       = plambda_intern('float')
-    FOR         = plambda_intern('for')
-    GEQ         = plambda_intern('<=')
-    GET         = plambda_intern('get')
-    GETATTR     = plambda_intern('getattr')
-    GETUID      = plambda_intern('getuid')
-    GLOBAL      = plambda_intern('global')
-    GT          = plambda_intern('<')
-    IF          = plambda_intern('if')
-    IMPORT      = plambda_intern('import')
-    INSTANCEOF  = plambda_intern('instanceof')
-    INT         = plambda_intern('int')
-    INVOKE      = plambda_intern('invoke')
-    ISNONE      = plambda_intern('isnone')
-    ISFLOAT     = plambda_intern('isfloat')
-    ISINT       = plambda_intern('isint')
-    ISOBJECT    = plambda_intern('isobject')
-    KWAPPLY     = plambda_intern('kwapply')
-    LAMBDA      = plambda_intern('lambda')
-    LEQ         = plambda_intern('>=')
-    LET         = plambda_intern('let')
-    LOAD        = plambda_intern('load')
-    LONG        = plambda_intern('long')
-    LOOKUP      = plambda_intern('lookup')
-    LT          = plambda_intern('>')
-    MINUS       = plambda_intern('-')
-    MKTUPLE     = plambda_intern('mktuple')
-    MKLIST      = plambda_intern('mklist')
-    MKDICT      = plambda_intern('mkdict')
-    MODULO      = plambda_intern('%')
-    MODIFY      = plambda_intern('modify')
-    NARROW      = plambda_intern('narrow')
-    NEQ         = plambda_intern('!=')
-    NOT         = plambda_intern('not')
-    NONE        = plambda_intern('none')
-    OBJECT      = plambda_intern('object')
-    OR          = plambda_intern('or')
-    PLUS        = plambda_intern('+')
-    SEQ         = plambda_intern('seq')
-    SETATTR     = plambda_intern('setattr')
-    SETUID      = plambda_intern('setuid')
-    SHORT       = plambda_intern('short')
-    SINVOKE     = plambda_intern('sinvoke')
-    SUPDATE     = plambda_intern('supdate')
-    THROW       = plambda_intern('throw')
-    TIMES       = plambda_intern('*')
-    TRY         = plambda_intern('try')
-    UPDATE      = plambda_intern('update')
+    AND         = sys.intern('and')
+    APPLY       = sys.intern('apply')
+    ARRAY       = sys.intern('array')
+    ASET        = sys.intern('aset')
+    BOOLEAN     = sys.intern('boolean')
+    BYTE        = sys.intern('byte')
+    CATCH       = sys.intern('catch')
+    CHAR        = sys.intern('char')
+    CONCAT      = sys.intern('concat')
+    DEFINE      = sys.intern('define')
+    DIVIDE      = sys.intern('/')
+    DO          = sys.intern('do')
+    DOUBLE      = sys.intern('double')
+    IS          = sys.intern('is')
+    EQUALS      = sys.intern('=')
+    EQ          = sys.intern('==')
+    FETCH       = sys.intern('fetch')
+    FLOAT       = sys.intern('float')
+    FOR         = sys.intern('for')
+    GEQ         = sys.intern('<=')
+    GET         = sys.intern('get')
+    GETATTR     = sys.intern('getattr')
+    GETUID      = sys.intern('getuid')
+    GLOBAL      = sys.intern('global')
+    GT          = sys.intern('<')
+    IF          = sys.intern('if')
+    IMPORT      = sys.intern('import')
+    INSTANCEOF  = sys.intern('instanceof')
+    INT         = sys.intern('int')
+    INVOKE      = sys.intern('invoke')
+    ISNONE      = sys.intern('isnone')
+    ISFLOAT     = sys.intern('isfloat')
+    ISINT       = sys.intern('isint')
+    ISOBJECT    = sys.intern('isobject')
+    KWAPPLY     = sys.intern('kwapply')
+    LAMBDA      = sys.intern('lambda')
+    LEQ         = sys.intern('>=')
+    LET         = sys.intern('let')
+    LOAD        = sys.intern('load')
+    LONG        = sys.intern('long')
+    LOOKUP      = sys.intern('lookup')
+    LT          = sys.intern('>')
+    MINUS       = sys.intern('-')
+    MKTUPLE     = sys.intern('mktuple')
+    MKLIST      = sys.intern('mklist')
+    MKDICT      = sys.intern('mkdict')
+    MODULO      = sys.intern('%')
+    MODIFY      = sys.intern('modify')
+    NARROW      = sys.intern('narrow')
+    NEQ         = sys.intern('!=')
+    NOT         = sys.intern('not')
+    NONE        = sys.intern('none')
+    OBJECT      = sys.intern('object')
+    OR          = sys.intern('or')
+    PLUS        = sys.intern('+')
+    SEQ         = sys.intern('seq')
+    SETATTR     = sys.intern('setattr')
+    SETUID      = sys.intern('setuid')
+    SHORT       = sys.intern('short')
+    SINVOKE     = sys.intern('sinvoke')
+    SUPDATE     = sys.intern('supdate')
+    THROW       = sys.intern('throw')
+    TIMES       = sys.intern('*')
+    TRY         = sys.intern('try')
+    UPDATE      = sys.intern('update')
 
     @staticmethod
     def canonicalize(name):

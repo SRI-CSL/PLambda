@@ -1,6 +1,6 @@
-from ..util.StringBuffer import StringBuffer
+import sys
 
-from ..crap.py import plambda_intern
+from ..util.StringBuffer import StringBuffer
 
 #may as well retain information gleaned from the parser
 #since it will help in the dispatching
@@ -73,7 +73,7 @@ class SExpression:
 class Atom:
 
     def __init__(self, uni, location):
-        self.string = plambda_intern(str(uni))
+        self.string = sys.intern(str(uni))
         self.location = location
 
     # repr's goal is to be unambiguous
@@ -87,7 +87,7 @@ class Atom:
 class StringLiteral:
 
     def __init__(self, uni, location):
-        self.string = plambda_intern(str(uni)[1:-1]) # remove the quotes
+        self.string = sys.intern(str(uni)[1:-1]) # remove the quotes
         self.location = location
 
     # repr's goal is to be unambiguous

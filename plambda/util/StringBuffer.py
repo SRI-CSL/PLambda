@@ -2,8 +2,6 @@
 """
 import io
 
-from ..crap.py import plambda_unicode
-
 class StringBuffer:
 
     def __init__(self):
@@ -16,7 +14,7 @@ class StringBuffer:
         return val
 
     def append(self, obj):
-        data = plambda_unicode(obj)
+        data = str(obj)
         if self.empty and len(data) > 0:
             self.empty = False
         self._stringio.write(data)
