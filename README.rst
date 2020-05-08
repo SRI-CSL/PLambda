@@ -46,13 +46,15 @@ the repository.
 Dependencies
 ------------
 
-Python 3.7 is what this branch is ported to, though it might work on most pythons.
+This master is currently using Python 3.7 but most recent Python 3 versions should work. Travis tests it on 3.5, 3.6, 3.7 and 3.8.
+I make no effort to support Python 2, but there is an old branch called 2.7 which might serve your twited purpose.
 You will need the antlr4 runtime:
 
 |
 | ``pip install antlr4-python3-runtime``
 |
 
+Though this is done by doing `make develop` described next.
 
 Develop
 -------
@@ -61,6 +63,12 @@ Checkout the repository and do:
 
 |
 | ``make develop``
+|
+
+To run the tests you can do:
+
+|
+| ``make check``
 |
 
 
