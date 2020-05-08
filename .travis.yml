@@ -1,11 +1,11 @@
 language: python
 
 sudo: required
-dist: trusty
+dist: xenial
 
 python:
-  - "3.8"
-#  - "3.7" #Unable to download 3.7 archive. The archive may not exist. Please consider a different version.
+  - "3.8" #Unable to download 3.8 archive. The archive may not exist. Please consider a different version.
+  - "3.7" #Unable to download 3.7 archive. The archive may not exist. Please consider a different version.
   - "3.6"
   - "3.5"
 
