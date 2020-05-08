@@ -41,7 +41,7 @@ setup(
 
     install_requires=[
         "psutil >= 4.3.0",
-        "antlr4-python2-runtime >= 4.5.3"
+        "antlr4-python3-runtime >= 4.8"
     ],
 
     classifiers=[

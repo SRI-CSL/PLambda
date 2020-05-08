@@ -2,9 +2,10 @@ all:
 	@echo ''
 	@echo 'Here are the targets:'
 	@echo ''
-	@echo 'To regenerate the antlr4 python code :  "make antlr4_5"'
-	@echo 'To regenerate the antlr4 python code :  "make antlr4_6"'
-	@echo 'To regenerate the antlr4 python code :  "make antlr4_7"'
+	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_5"'
+	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_6"'
+	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_7"'
+	@echo 'To regenerate the antlr4 python3 code :  "make antlr4_8"'
 	@echo 'To develop                           :  "make develop"'
 	@echo 'To test                              :  "make check"'
 	@echo 'To test install                      :  "make testinstall"'
@@ -28,6 +29,9 @@ antlr4_6:
 
 antlr4_7:
 	make -C plambda/antlr4 antlr4_7
+
+antlr4_8:
+	make -C plambda/antlr4 antlr4_8
 
 
 check:

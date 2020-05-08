@@ -76,20 +76,20 @@ def rep(filename):
                 else:
                     if line:
                         if debug:
-                            print 'rep: line  = ', line
+                            print('rep: line  = ', line)
                         code = parseFromString(line)
                         for c in code:
                             if c is not None:
                                 if debug:
-                                    print 'rep: sexp  = ', c
+                                    print('rep: sexp  = ', c)
                                 value = interpreter.evaluate(c)
                                 if debug:
-                                    print 'rep: value = ', value
-                                print value
+                                    print('rep: value = ', value)
+                                print(value)
             except PLambdaException as e:
-                print 'PLambda.rep PLambdaException: ', e
+                print('PLambda.rep PLambdaException: ', e)
             except Exception as e:
-                print 'PLambda.rep Exception: ', e
+                print('PLambda.rep Exception: ', e)
                 traceback.print_exc(file=sys.stderr)
 
     except KeyboardInterrupt:
@@ -104,7 +104,7 @@ Welcome to the PLambda interface to Python (version {0}), type ? for help.
 INSTRUCTIONS = """
 Type one of the following:
 \tany valid plambda expression to be evaluated, or
-\tq to quit  (or quit)
+\tq to quit
 \t? to see these instructions
 \td to see the current definitions
 \ts <name> to see the raw definition of <name>
