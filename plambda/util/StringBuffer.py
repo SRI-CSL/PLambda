@@ -4,7 +4,7 @@ import io
 
 from ..crap.py import plambda_unicode
 
-class StringBuffer(object):
+class StringBuffer:
 
     def __init__(self):
         self.empty = True

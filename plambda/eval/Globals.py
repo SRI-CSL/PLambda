@@ -1,15 +1,11 @@
 import inspect
 
-try:
-    import builtins as BuiltIns
-except ImportError:
-    import __builtin__ as BuiltIns
-
+import builtins
 
 pythonGlobals = {}
 
 def populateGlobals():
-    d = BuiltIns.__dict__
+    d = builtins.__dict__
     for x in d:
         try:
             vx = d.get(x)

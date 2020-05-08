@@ -21,25 +21,24 @@ def main():
 
 def snarf(delay):
     """ read as much as possible without blocking. (won't work on windows) """
-    if platform.system == 'Windows':
+    if platform.system() == 'Windows':
         return sys.stdin.readline().strip()
-    else:
-        sb = StringBuffer()
-        count = 0
-        while True:
-            while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-                line = sys.stdin.readline()
-                if line:
-                    count += 1
-                    sb.append(line)
 
-            if sb.isempty():
-                time.sleep(delay)
-            else:
-                if count > 1:
-                    return str(sb)
-                else:
-                    return str(sb).strip()
+    sb = StringBuffer()
+    count = 0
+    while True:
+        while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+            line = sys.stdin.readline()
+            if line:
+                count += 1
+                sb.append(line)
+
+        if sb.isempty():
+            time.sleep(delay)
+        else:
+            if count > 1:
+                return str(sb)
+            return str(sb).strip()
 
 
 
@@ -63,7 +62,7 @@ def rep(filename):
                 line = snarf(0.2)
                 if line == 'q':
                     return 0
-                elif line == 'v':
+                if line == 'v':
                     debug = not debug
                 elif line == '?':
                     sys.stdout.write(INSTRUCTIONS)

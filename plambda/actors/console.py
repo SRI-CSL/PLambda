@@ -6,13 +6,8 @@ import sys
 import traceback
 
 
-#python 2 vs python 3. if there is a python 4 I quit.
-try:
-    import Tkinter as tk
-    import tkFileDialog as fdialog
-except ImportError:
-    import tkinter as tk
-    import tkinter.filedialog as fdialog
+import tkinter as tk
+import tkinter.filedialog as fdialog
 
 
 from ..eval.Interpreter import Interpreter
@@ -49,8 +44,7 @@ class InputTextArea(tk.Frame):
     def selected(self):
         if self.text.tag_ranges(tk.SEL):
             return self.text.get(tk.SEL_FIRST, tk.SEL_LAST)
-        else:
-            return None
+        return None
 
     def line(self):
         return self.text.get("insert linestart", "insert lineend")

@@ -1,6 +1,6 @@
 from .Environment import Environment
 
-class Closure(object):
+class Closure:
 
     def __init__(self, interpreter, params, body, env, location):
 

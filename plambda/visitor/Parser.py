@@ -19,7 +19,7 @@ def main():
         for c in codelist:
             print(str(c))
             print(repr(c))
-        return 0
+    return 0
 
 def parseFromFile(filename):
     return parseFromStream(FileStream(filename), filename)

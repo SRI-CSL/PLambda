@@ -41,7 +41,7 @@ def plookup(leaf):
     return (False, None)
 
 
-class Interpreter(object):
+class Interpreter:
 
     def __init__(self):
         self.definitions = {}
@@ -71,9 +71,8 @@ class Interpreter(object):
             state.step()
         #iam: we raise the uncaught exception. not sure why we need to differ from jlambda
         if state.k.excep is not None:
-            raise state.k.excep
-        else:
-            return state.val
+            raise state.k.excep  # pylint: disable-msg=E0702
+        return state.val
 
 
 
@@ -125,8 +124,7 @@ class Interpreter(object):
             remainder.insert(0, path[index])
         if mod is not None:
             return (mod, remainder)
-        else:
-            return (None, path)
+        return (None, path)
 
     def getobject(self, obj, path):
         """Follows the path from object.
@@ -139,19 +137,17 @@ class Interpreter(object):
             return (True, obj)
         if obj is None:
             return (False, None)
-        elif inspect.ismodule(obj):
+        if inspect.ismodule(obj):
             d = obj.__dict__
             k = path[0]
             if k in d:
                 return self.getobject(obj.__dict__.get(k), path[1:])
-            else:
-                return (False, None)
+            return (False, None)
+        if hasattr(obj, path[0]):
+            nobj = getattr(obj, path[0])
         else:
-            if hasattr(obj, path[0]):
-                nobj = getattr(obj, path[0])
-            else:
-                return (False, None)
-            return self.getobject(nobj, path[1:])
+            return (False, None)
+        return self.getobject(nobj, path[1:])
 
 
     def mlookup(self, path, leaf):
@@ -182,8 +178,7 @@ class Interpreter(object):
 
         if ok:
             return (True, val)
-        else:
-            return (False, None)
+        return (False, None)
 
 
     def callInvoke(self, obj, methodname, vals, location):
@@ -307,14 +302,13 @@ class Interpreter(object):
 
 
     def evalGet(self, val0, val1, location):
-        if (isinstance(val0, list) or isinstance(val0, tuple))  and isinstance(val1, int):
+        if isinstance(val0, (list, tuple)) and isinstance(val1, int):
             return val0[val1]
-        elif isinstance(val0, dict):
+        if isinstance(val0, dict):
             return val0.get(val1)
-        else:
-            fmsg = 'Bad args to \"get\": {0} {1} {2}'
-            emsg = fmsg.format(val0, val1, location)
-            raise PLambdaException(emsg)
+        fmsg = 'Bad args to \"get\": {0} {1} {2}'
+        emsg = fmsg.format(val0, val1, location)
+        raise PLambdaException(emsg)
 
     def unsetUID(self, val0):
         if val0 in self.object2uid:
@@ -322,24 +316,21 @@ class Interpreter(object):
             self.object2uid.pop(val0)
             self.uid2object.pop(uid)
             return True
-        else:
-            return False
+        return False
 
 
     def setUID(self, val0, val1, location):
         if val0 is None:
             raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(location)))
-        elif val1 is None:
+        if val1 is None:
             return self.unsetUID(val0)
-        elif not isString(val1):
+        if not isString(val1):
             raise PLambdaException('setuid {0}: val1 not a string.'.format(str(location)))
-        else:
-            if val1 in self.uid2object or val0 in self.object2uid:
-                raise PLambdaException('setuid {0}: redefiniton'.format(str(location)))
-            else:
-                self.object2uid[val0] = val1
-                self.uid2object[val1] = val0
-                return True
+        if val1 in self.uid2object or val0 in self.object2uid:
+            raise PLambdaException('setuid {0}: redefiniton'.format(str(location)))
+        self.object2uid[val0] = val1
+        self.uid2object[val1] = val0
+        return True
 
     def evalKWApply(self, val0, val1, val2, loc):
         if not callable(val0):
@@ -357,13 +348,12 @@ class Interpreter(object):
             val0[val1] = val2
         elif isinstance(val0, list):
             l0 = len(val0)
-            if isinstance(val1, int) and -l0 < val1 and val1 < l0:
+            if isinstance(val1, int) and -l0 < val1 < l0:
                 val0[val1] = val2
             else:
                 raise PLambdaException('modify {0}: bad index to modify of list'.format(str(loc)))
         else:
             raise PLambdaException('modify {0}: unhandled case'.format(str(loc)))
-        return None
 
 
 
@@ -377,7 +367,7 @@ class Interpreter(object):
             elif op is SymbolTable.KWAPPLY:
                 retval = self.evalKWApply(val0, val1, val2, location)
             elif op is SymbolTable.MODIFY:
-                retval = self.evalModify(val0, val1, val2, location)
+                self.evalModify(val0, val1, val2, location)
             else:
                 fmsg = 'Unrecognized ternary operation: {0} {1}'
                 emsg = fmsg.format(op, location)
@@ -407,10 +397,9 @@ class Interpreter(object):
         try:
             if op is SymbolTable.INT:
                 return int(data)
-            elif op is SymbolTable.FLOAT:
+            if op is SymbolTable.FLOAT:
                 return float(data)
-            else:
-                return True if data.lower() == 'true' else False
+            return data.lower() == 'true'
         except Exception as e:
             sys.stderr.write('evalPrimitiveDataOp: {0} {1}\n'.format(str(e), a0.location))
             return 0 if op is not SymbolTable.FLOAT else 0.0
@@ -424,8 +413,7 @@ class Interpreter(object):
                 if module is not None:
                     self.modules[val] = module
                     return True
-                else:
-                    sys.stderr.write('Module {0} not found'.format(val))
+                sys.stderr.write('Module {0} not found'.format(val))
             return False
 
         except ImportError as ie:
@@ -474,7 +462,7 @@ class Interpreter(object):
                 else:
                     retval = None
             elif op is SymbolTable.NOT:
-                retval = True if val is False else False
+                retval = not val #True if val is False else False
             else:
                 return (False, PLambdaException("Unrecognized unary op {0} {1}".format(op, location)))
         except Exception as e:
@@ -495,7 +483,7 @@ class Interpreter(object):
         """Either writes the definitions out to stderr, or the optional StringBuffer passed in.
         """
         func = sb.append if sb else sys.stderr.write
-        for key, value in self.definitions.iteritems():
+        for key, value in self.definitions.items():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
 
@@ -503,7 +491,7 @@ class Interpreter(object):
         """Either writes the code out to stderr, or the optional StringBuffer passed in.
         """
         func = sb.append if sb else sys.stderr.write
-        for key, value in self.code.iteritems():
+        for key, value in self.code.items():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb
 
@@ -511,6 +499,6 @@ class Interpreter(object):
         """Either writes the UIDs out to stderr, or the optional StringBuffer passed in.
         """
         func = sb.append if sb else sys.stderr.write
-        for key, value in self.uid2object.iteritems():
+        for key, value in self.uid2object.items():
             func('{0}  -->  {1}\n'.format(key, value))
         return sb

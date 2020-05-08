@@ -1,6 +1,6 @@
 from ..crap.py import plambda_intern
 
-class SymbolTable(object):
+class SymbolTable:
 
     _symbol_table = {
         plambda_intern('and'):           plambda_intern('and'),

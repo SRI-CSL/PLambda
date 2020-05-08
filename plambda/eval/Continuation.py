@@ -15,7 +15,7 @@ from .SymbolTable import SymbolTable
 from .Flags import DONE, EVAL, RETURN, CONTINUE
 
 
-class Continuation(object):
+class Continuation:
 
 
     def __init__(self, exp=None, args=None, env=None, k=None):
@@ -137,7 +137,7 @@ class IfCont(Continuation):
             state.k = self.k
             state.val = None
             return
-        elif state.val:
+        if state.val:
             state.tag = EVAL
             state.exp = self.args[1]
             state.env = self.env
@@ -381,12 +381,11 @@ class Ambi1OpCont(EvalArgsCont):
         if self.op is SymbolTable.MINUS:
             if len(self.vals) == 2:
                 return (True, self.vals[0] - self.vals[1])
-            else:
-                return (True, - self.vals[0])
-        else:
-            fmsg = 'Unrecognized ambi1 operation: {0}'
-            emsg = fmsg.format(self.op)
-            return (False, PLambdaException(emsg))
+            return (True, - self.vals[0])
+
+        fmsg = 'Unrecognized ambi1 operation: {0}'
+        emsg = fmsg.format(self.op)
+        return (False, PLambdaException(emsg))
 
 
 class ApplyCont(Continuation):
@@ -402,7 +401,7 @@ class ApplyCont(Continuation):
     def handleReturn(self, state):
         val = state.val
 
-        if self.n is 0 and not isinstance(val, Closure) and not callable(val):
+        if self.n == 0 and not isinstance(val, Closure) and not callable(val):
             self.k.excep = PLambdaException('Cannot apply {0}'.format(val))
             state.k = self.k
             state.val = None
@@ -481,10 +480,9 @@ class MkCont(EvalArgsCont):
     def computeResult(self, _):
         if self.op is SymbolTable.MKTUPLE:
             return (True, tuple(self.vals))
-        elif self.op is SymbolTable.MKLIST:
+        if self.op is SymbolTable.MKLIST:
             return (True, self.vals)
-        else:
-            return (True, dict(self.vals[i:i+2] for i in range(0, len(self.vals), 2)))
+        return (True, dict(self.vals[i:i+2] for i in range(0, len(self.vals), 2)))
 
 
 class PropCont(Continuation):
@@ -542,8 +540,7 @@ class AndCont(PropCont):
     def computeResult(self, val):
         if val is None:
             return True
-        else:
-            return val
+        return val
 
 
 
@@ -559,5 +556,4 @@ class OrCont(PropCont):
     def computeResult(self, val):
         if val is None:
             return False
-        else:
-            return val
+        return val

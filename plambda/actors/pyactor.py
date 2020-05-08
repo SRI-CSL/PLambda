@@ -50,7 +50,7 @@ def main():
     return 0
 
 
-class Main(object):
+class Main:
 
     retries = 1
 
@@ -126,8 +126,7 @@ def oracle(actor):
             fails += 1
             if fails > Main.retries:
                 return 0
-            else:
-                continue
+            continue
         (sender, msg) = incoming
         thread = threading.Thread(target=pl_eval, args=(actor.interpreter, sender, msg))
         #thread needs to be a daemon so that the actor itself can die in peace.
@@ -178,8 +177,7 @@ def pl_eval(interpreter, sender, message):
                 if handler.applyClosure(sender, message):
                     notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
                     break
-                else:
-                    notify('nope')
+                notify('nope')
     except Exception as e:
         sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\nwhile evaluating:\n{1}\nsent by {2}\n'.format(e, message, sender))
         if debug:

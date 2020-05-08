@@ -1,4 +1,4 @@
-class Environment(object):
+class Environment:
 
     def __init__(self, env = None):
         self.frame = {}
@@ -15,6 +15,5 @@ class Environment(object):
             #print 'looking up {0} in {1}'.format(keystr, env.frame)
             if keystr in env.frame:
                 return (True, env.frame[keystr])
-            else:
-                env = env.next
+            env = env.next
         return (False, None)

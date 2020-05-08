@@ -4,7 +4,7 @@ from ..crap.py import plambda_intern
 
 #may as well retain information gleaned from the parser
 #since it will help in the dispatching
-class Syntax(object):
+class Syntax:
 
     SEQ = 0
     LET = 1
@@ -25,7 +25,7 @@ class Syntax(object):
     CATCH = 16
 
 
-class Location(object):
+class Location:
 
     def __init__(self, filename, lineno):
         self.filename = filename
@@ -37,7 +37,7 @@ class Location(object):
 
 
 
-class SExpression(object):
+class SExpression:
 
     def __init__(self, code, spine, location):
         self.code = code
@@ -70,7 +70,7 @@ class SExpression(object):
 
 
 
-class Atom(object):
+class Atom:
 
     def __init__(self, uni, location):
         self.string = plambda_intern(str(uni))
@@ -84,7 +84,7 @@ class Atom(object):
     def __str__(self):
         return self.string
 
-class StringLiteral(object):
+class StringLiteral:
 
     def __init__(self, uni, location):
         self.string = plambda_intern(str(uni)[1:-1]) # remove the quotes

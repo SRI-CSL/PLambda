@@ -54,8 +54,7 @@ class Visitor(PLambdaVisitor):
         if len(retval) > 1:
             retval.insert(0, Atom(SymbolTable.SEQ, location))
             return SExpression(Syntax.SEQ, tuple(retval), location)
-        else:
-            return retval[0]
+        return retval[0]
 
     # Visit a parse tree produced by PLambdaParser#invokeExpression.
     def visitInvokeExpression(self, ctx):
@@ -78,8 +77,7 @@ class Visitor(PLambdaVisitor):
         if canonicalop is not None:
             op = Atom(canonicalop, location)
             return SExpression(Syntax.UNARY_OP, (op, self.visit(ctx.expression())), location)
-        else:
-            raise ParseError('Ooopsy: {0} not found in the SymbolTable'.format(rawop))
+        raise ParseError('Ooopsy: {0} not found in the SymbolTable'.format(rawop))
 
     # Visit a parse tree produced by PLambdaParser#binaryExpression.
     def visitBinaryExpression(self, ctx):
@@ -156,8 +154,7 @@ class Visitor(PLambdaVisitor):
                     Location(self.filename, ctx.ID().getSymbol().line))
         if params is not None:
             return SExpression(Syntax.DEFINE, (define, atom, params, body), location)
-        else:
-            return SExpression(Syntax.DEFINE, (define, atom, body), location)
+        return SExpression(Syntax.DEFINE, (define, atom, body), location)
 
 
     # Visit a parse tree produced by PLambdaParser#forExpression.
@@ -208,9 +205,9 @@ class Visitor(PLambdaVisitor):
     # Visit a parse tree produced by PLambdaParser#data.
     def visitData(self, ctx):
         data = None
-        if ctx.ID() != None:
+        if ctx.ID() is not None:
             data = ctx.ID()
-        elif ctx.NUMBER() != None:
+        elif ctx.NUMBER() is not None:
             data = ctx.NUMBER()
         else:
             data = ctx.CHARACTER()

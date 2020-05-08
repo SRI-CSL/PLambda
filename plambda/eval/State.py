@@ -17,7 +17,7 @@ from .PLambdaException import PLambdaException
 
 from .Flags import DONE, EVAL, RETURN, CONTINUE
 
-class State(object):
+class State:
 
     def __init__(self, interpreter, exp, env):
         self.interpreter = interpreter

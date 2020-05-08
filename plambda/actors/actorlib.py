@@ -44,8 +44,7 @@ def receive():
         (ok, sender, msg) = parseBytes(ibytes)
         if ok:
             return (sender, msg)
-        else:
-            return (None, ibytes)
+        return (None, ibytes)
     except KeyboardInterrupt:
         return None
     except Exception as e:
