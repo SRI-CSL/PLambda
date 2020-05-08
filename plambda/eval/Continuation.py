@@ -1,5 +1,6 @@
 import sys
-import collections
+
+import collections.abc
 
 from .PLambdaException import PLambdaException
 
@@ -247,7 +248,7 @@ class ForCont(Continuation):
                 self.length = val
                 if self.length == 0:
                     self.setReturnState(state, None)
-            elif isinstance(val, collections.Iterable):
+            elif isinstance(val, collections.abc.Iterable):
                 self.iterator = iter(val)
                 self.length = len(val)
                 if self.length == 0:

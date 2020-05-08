@@ -46,11 +46,11 @@ the repository.
 Dependencies
 ------------
 
-Python 2.7 is desired, though it might work on most pythons.
+Python 3.7 is what this branch is ported to, though it might work on most pythons.
 You will need the antlr4 runtime:
 
 |
-| ``pip install antlr4-python2-runtime``
+| ``pip install antlr4-python3-runtime``
 |
 
 
