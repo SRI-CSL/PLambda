@@ -92,13 +92,13 @@ class EvaluateMenu(tk.Menu):
     def __init__(self, console):
         tk.Menu.__init__(self, console.menubar, tearoff=0)
         self.add_command(label="Buffer",
-                         command=lambda: console.evaluate(console.top_frame.buffer(), None),
+                         command=lambda: console.evaluate(console.top_frame.buffer()),
                          accelerator="Command-B")
         self.add_command(label="Selected",
-                         command=lambda: console.evaluate(console.top_frame.selected(), None),
+                         command=lambda: console.evaluate(console.top_frame.selected()),
                          accelerator="Command-E")
         self.add_command(label="Line",
-                         command=lambda: console.evaluate(console.top_frame.line(), None),
+                         command=lambda: console.evaluate(console.top_frame.line()),
                          accelerator="Command-L")
         console.menubar.add_cascade(label="Evaluate", menu=self)
 
