@@ -51,7 +51,11 @@ def rep(filename):
 
     try:
 
-        interpreter.load(filename)
+        try:
+            interpreter.load(filename)
+        except Exception as e:
+            print(f'Loading {filename} failed because ', e)
+            return
 
         sys.stdout.write(WELCOME)
 
