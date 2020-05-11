@@ -2,35 +2,23 @@ all:
 	@echo ''
 	@echo 'Here are the targets:'
 	@echo ''
-	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_5"'
-	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_6"'
-	@echo 'To regenerate the antlr4 python2 code :  "make antlr4_7"'
-	@echo 'To regenerate the antlr4 python3 code :  "make antlr4_8"'
-	@echo 'To develop                           :  "make develop"'
-	@echo 'To test                              :  "make check"'
-	@echo 'To test install                      :  "make testinstall"'
-	@echo 'To install                           :  "make install"'
-	@echo 'To test publish                      :  "make testpublish"'
-	@echo 'To publish                           :  "make publish"'
+	@echo 'To regenerate the antlr4 (antlr4.8 python3) code :  "make antlr4"'
+	@echo 'To develop                                       :  "make develop"'
+	@echo 'To test                                          :  "make check"'
+	@echo 'To test install                                  :  "make testinstall"'
+	@echo 'To install                                       :  "make install"'
+	@echo 'To test publish                                  :  "make testpublish"'
+	@echo 'To publish                                       :  "make publish"'
 	@echo ''
-	@echo 'To turn README.rst 2 html            :  "make zippity"'
+	@echo 'To turn README.rst 2 html                        :  "make zippity"'
 	@echo ''
 	@echo 'then upload the zip file to https://pypi.python.org/pypi'
 	@echo ''
-	@echo 'To pylint                            :  "make lint"'
+	@echo 'To pylint                                        :  "make lint"'
 	@echo ''
 
 
-antlr4_5:
-	make -C plambda/antlr4 antlr4_5
-
-antlr4_6:
-	make -C plambda/antlr4 antlr4_6
-
-antlr4_7:
-	make -C plambda/antlr4 antlr4_7
-
-antlr4_8:
+antlr4:
 	make -C plambda/antlr4 antlr4_8
 
 
@@ -56,9 +44,9 @@ testpublish: dist
 testinstall:
 	pip install -i https://testpypi.python.org/pypi plambda
 
+# requires an appropriate .pypirc file
 publish: dist
-	python setup.py register -r https://pypi.python.org/pypi
-	python setup.py sdist upload -r https://pypi.python.org/pypi
+	python3 -m twine upload --repository pypi dist/*
 
 install:
 	pip install plambda

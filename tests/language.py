@@ -196,6 +196,19 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(apply fact (int 30))', 265252859812191058636308480000000)
         self.plambdaEqualTest('(apply fact (int 40))', 815915283247897734345611269596115894272000000000)
 
+    def test_Q(self):
+        # string buffer test
+        self.plambdaEqualTest('(import "plambda.util.StringBuffer")',  True)
+        self.plambdaStringEqualTest('(define StringBuilder plambda.util.StringBuffer.StringBuffer)', 'StringBuilder')
+        self.plambdaStringEqualTest('(define sb (apply StringBuilder))', 'sb')
+        # take care here, without the seq we will actually implicitly call the str method on sb which will
+        # among other things, close it.
+        self.plambdaEqualTest('(seq (apply sb.append "a") None)', None)
+        self.plambdaEqualTest('(seq (apply sb.append "b") None)', None)
+        self.plambdaEqualTest('(seq (apply sb.append "c") None)', None)
+        self.plambdaStringEqualTest('sb', "abc")
+
+
 
 
 if __name__ == "__main__":
