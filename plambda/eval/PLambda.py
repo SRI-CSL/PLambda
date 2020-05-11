@@ -15,8 +15,7 @@ from ..eval.PLambdaException import PLambdaException
 from ..version import plambda_version
 
 def main():
-    rep(sys.argv[1] if len(sys.argv) == 2 else None)
-    return 0
+    return rep(sys.argv[1] if len(sys.argv) == 2 else None)
 
 
 def snarf(delay):
@@ -55,7 +54,7 @@ def rep(filename):
             interpreter.load(filename)
         except Exception as e:
             print(f'Loading {filename} failed because ', e)
-            return
+            return 1
 
         sys.stdout.write(WELCOME)
 
