@@ -59,5 +59,5 @@ ifeq ($(PYLINT),)
 	$(error lint target requires pylint)
 endif
 # for detecting more than just errors:
-	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/actors/*.py plambda/eval/*.py plambda/util/*.py plambda/visitor/*.py
+	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/actors/*.py plambda/eval/*.py plambda/util/*.py plambda/visitor/*.py tests/drones/*.py
 #	@ $(PYLINT) -E plambda/*.py plambda/*/*.py

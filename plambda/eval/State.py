@@ -53,7 +53,7 @@ class State:
                 code = self.exp.code
                 opexp = self.exp.spine[0]
                 if not isinstance(opexp, Atom):
-                    sys.stderr.write('not atom: {0} {1} {2} {3}\n'.format(opexp, type(opexp), self.exp, self.exp.code))
+                    sys.stderr.write(f'not atom: {opexp} {type(opexp)} {self.exp} {self.exp.code}\n')
                 assert isinstance(opexp, Atom)
                 op = opexp.string
                 if code is Syntax.SEQ:
@@ -98,7 +98,7 @@ class State:
                         self.k = GetAttrCont(self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
                     else:
-                        raise PLambdaException("Unhandled ambi2 op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
+                        raise PLambdaException(f'Unhandled ambi2 op form in State.step {op} {self.exp.spine[0].location}')
                 elif code is Syntax.N_ARY_OP:
                     if op is SymbolTable.AND:
                         self.k = AndCont(self.exp, self.exp.spine[1:], self.env, self.k)
@@ -113,7 +113,7 @@ class State:
                         self.k = MkCont(op, self.exp, self.exp.spine[1:], self.env, self.k)
                         self.tag = CONTINUE
                     else:
-                        raise PLambdaException("Unhandled n-ary op form in State.step {0} {1}".format(op, self.exp.spine[0].location))
+                        raise PLambdaException(f'Unhandled n-ary op form in State.step {op} {self.exp.spine[0].location}')
                 elif code is Syntax.TRY:
                     self.k = TryCont(self.exp, self.exp.spine[1:], self.env, self.k)
                     self.tag = CONTINUE

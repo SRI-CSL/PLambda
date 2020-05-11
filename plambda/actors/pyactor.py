@@ -24,17 +24,17 @@ def infanticide(pid):
         return
     children = parent.children(recursive=True)
     if debug:
-        sys.stderr.write('The children of {0} are {1}\n'.format(pid, children))
+        sys.stderr.write(f'The children of {pid} are {children}\n')
     for p in children:
         os.kill(p.pid, signal.SIGKILL)
         if debug:
-            sys.stderr.write('Sent signal {1} to {0}\n'.format(p.pid, signal.SIGKILL))
+            sys.stderr.write(f'Sent signal {signal.SIGKILL} to {p.pid}\n')
 
 
 def sighandler(signum, frame):
     if debug:
-        msg = 'Signal handler called with signal {0} and frame {1}\n'
-        sys.stderr.write(msg.format(signum, frame))
+        msg = f'Signal handler called with signal {signum} and frame {frame}\n'
+        sys.stderr.write(msg)
         sys.stderr.flush()
     infanticide(os.getpid())
     sys.exit()
@@ -42,7 +42,7 @@ def sighandler(signum, frame):
 
 def main():
     if len(sys.argv) == 1:
-        launch("noname")
+        launch('noname')
     elif len(sys.argv) == 2:
         launch(sys.argv[1])
     else:
@@ -76,7 +76,7 @@ class Main:
         else:
             raise Exception("plambda.actor.pyactor.Main should have a singleton instance!")
         if self.filename is not None:
-            notify('Loading {0}\n'.format(self.filename))
+            notify(f'Loading {self.filename}\n')
             self.interpreter.load(self.filename)
         self.console = None
         self.oracle = threading.Thread(target=oracle, args=(self, ))
@@ -111,7 +111,7 @@ def remove_handler(closure):
 
 def notify(message):
     if debug:
-        sys.stderr.write('{0}\n'.format(message))
+        sys.stderr.write(f'{message}\n')
         sys.stderr.flush()
 
 
@@ -168,18 +168,18 @@ def pl_eval(interpreter, sender, message):
     try:
         if Main.plambda_pattern.match(message):
             val = interpreter.evaluateString(message)
-            notify('eval: {0} evaluated to {1}'.format(message, val))
+            notify(f'eval: {message} evaluated to {val}')
         else:
             sender = sender.strip()
             message = message.strip()
-            notify('looking for handlers for: "{0}" from {1} (we have {2} alternatives)'.format(message, sender, len(Main.handlers)))
+            notify(f'looking for handlers for: "{message}" from {sender} (we have {len(Main.handlers)} alternatives)')
             for handler in Main.handlers:
                 if handler.applyClosure(sender, message):
-                    notify('found a handler for: "{0}" from sender {1}'.format(message, sender))
+                    notify(f'found a handler for: "{message}" from sender {sender}')
                     break
                 notify('nope')
     except Exception as e:
-        sys.stderr.write('plambda.actors.pyactor.Main exception: {0}\nwhile evaluating:\n{1}\nsent by {2}\n'.format(e, message, sender))
+        sys.stderr.write(f'plambda.actors.pyactor.Main exception: {e}\nwhile evaluating:\n{message}\nsent by {sender}\n')
         if debug:
             traceback.print_exc(file=sys.stderr)
 

@@ -289,7 +289,7 @@ class Interpreter:
             else:
                 return (False, PLambdaException(f'Unrecognized binary operation: {op} {location}'))
         except Exception as e:
-            return (False, PLambdaException(f'callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
+            return (False, PLambdaException(f'callTernaryOp {op} {location} threw {str(e)}'))
         return (True, retval)
 
 
@@ -298,9 +298,7 @@ class Interpreter:
             return val0[val1]
         if isinstance(val0, dict):
             return val0.get(val1)
-        fmsg = 'Bad args to \"get\": {0} {1} {2}'
-        emsg = fmsg.format(val0, val1, location)
-        raise PLambdaException(emsg)
+        raise PLambdaException(f'Bad args to \"get\": {val0} {val1} {location}')
 
     def unsetUID(self, val0):
         if val0 in self.object2uid:
@@ -313,24 +311,24 @@ class Interpreter:
 
     def setUID(self, val0, val1, location):
         if val0 is None:
-            raise PLambdaException('setuid {0}: first argument cannot be None.'.format(str(location)))
+            raise PLambdaException(f'setuid {str(location)}: first argument cannot be None.')
         if val1 is None:
             return self.unsetUID(val0)
         if not isString(val1):
-            raise PLambdaException('setuid {0}: val1 not a string.'.format(str(location)))
+            raise PLambdaException(f'setuid {str(location)}: val1 not a string.')
         if val1 in self.uid2object or val0 in self.object2uid:
-            raise PLambdaException('setuid {0}: redefiniton'.format(str(location)))
+            raise PLambdaException(f'setuid {str(location)}: redefiniton')
         self.object2uid[val0] = val1
         self.uid2object[val1] = val0
         return True
 
     def evalKWApply(self, val0, val1, val2, loc):
         if not callable(val0):
-            raise PLambdaException('kwapply {0}: 1st argument not callable'.format(str(loc)))
+            raise PLambdaException(f'kwapply {str(loc)}: 1st argument not callable')
         if not isinstance(val1, list):
-            raise PLambdaException('kwapply {0}: 2nd argument not a list'.format(str(loc)))
+            raise PLambdaException(f'kwapply {str(loc)}: 2nd argument not a list')
         if not isinstance(val2, dict):
-            raise PLambdaException('kwapply {0}: 3rd argument not a dict'.format(str(loc)))
+            raise PLambdaException(f'kwapply {str(loc)}: 3rd argument not a dict')
         return  val0(*val1, **val2)
 
 
@@ -343,9 +341,9 @@ class Interpreter:
             if isinstance(val1, int) and -l0 < val1 < l0:
                 val0[val1] = val2
             else:
-                raise PLambdaException('modify {0}: bad index to modify of list'.format(str(loc)))
+                raise PLambdaException(f'modify {str(loc)}: bad index to modify of list')
         else:
-            raise PLambdaException('modify {0}: unhandled case'.format(str(loc)))
+            raise PLambdaException(f'modify {str(loc)}: unhandled case')
 
 
 
@@ -361,11 +359,9 @@ class Interpreter:
             elif op is SymbolTable.MODIFY:
                 self.evalModify(val0, val1, val2, location)
             else:
-                fmsg = 'Unrecognized ternary operation: {0} {1}'
-                emsg = fmsg.format(op, location)
-                return (False, PLambdaException(emsg))
+                return (False, PLambdaException(f'Unrecognized ternary operation: {op} {location}'))
         except Exception as e:
-            return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
+            return (False, PLambdaException(f'callTernaryOp {op} {location} threw {str(e)}'))
         return (True, retval)
 
 
@@ -376,7 +372,7 @@ class Interpreter:
             retval = getattr(*vals)
             return (True, retval)
         except Exception as e:
-            return (False, PLambdaException('callGetAttr {0} threw {1}'.format(location, str(e))))
+            return (False, PLambdaException(f'callGetAttr {location} threw {str(e)}'))
 
 
 
@@ -393,7 +389,7 @@ class Interpreter:
                 return float(data)
             return data.lower() == 'true'
         except Exception as e:
-            sys.stderr.write('evalPrimitiveDataOp: {0} {1}\n'.format(str(e), a0.location))
+            sys.stderr.write(f'evalPrimitiveDataOp: {str(e)} {a0.location}\n')
             return 0 if op is not SymbolTable.FLOAT else 0.0
 
 
@@ -405,7 +401,7 @@ class Interpreter:
                 if module is not None:
                     self.modules[val] = module
                     return True
-                sys.stderr.write('Module {0} not found'.format(val))
+                sys.stderr.write(f'Module {val} not found')
             return False
 
         except ImportError as ie:
@@ -456,9 +452,9 @@ class Interpreter:
             elif op is SymbolTable.NOT:
                 retval = not val #True if val is False else False
             else:
-                return (False, PLambdaException("Unrecognized unary op {0} {1}".format(op, location)))
+                return (False, PLambdaException(f'Unrecognized unary op {op} {location}'))
         except Exception as e:
-            return (False, PLambdaException('callUnaryOp {0} {1} threw {2}'.format(op, location, str(e))))
+            return (False, PLambdaException(f'callUnaryOp {op} {location} threw {str(e)}'))
 
         return (True, retval)
 
@@ -468,6 +464,7 @@ class Interpreter:
             for c in codelist:
                 self.evaluate(c)
             return True
+        sys.stderr.write(f'\nThe file "{filename}" was not found.\n')
         return False
 
 
@@ -476,7 +473,7 @@ class Interpreter:
         """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.definitions.items():
-            func('{0}  -->  {1}\n'.format(key, value))
+            func(f'{key}  -->  {value}\n')
         return sb
 
     def showCode(self, sb=None):
@@ -484,7 +481,7 @@ class Interpreter:
         """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.code.items():
-            func('{0}  -->  {1}\n'.format(key, value))
+            func(f'{key}  -->  {value}\n')
         return sb
 
     def showUIDs(self, sb=None):
@@ -492,5 +489,5 @@ class Interpreter:
         """
         func = sb.append if sb else sys.stderr.write
         for key, value in self.uid2object.items():
-            func('{0}  -->  {1}\n'.format(key, value))
+            func(f'{key}  -->  {value}\n')
         return sb

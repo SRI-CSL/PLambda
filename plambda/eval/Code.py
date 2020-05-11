@@ -33,7 +33,7 @@ class Location:
 
 
     def __str__(self):
-        return '@{0}:{1}'.format(self.filename, self.lineno)
+        return f'@{self.filename}:{self.lineno}'
 
 
 
@@ -48,7 +48,7 @@ class SExpression:
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}{1}'.format(self.string, self.location)
+        return f'{self.string}{self.location}'
 
     # str's goal is to be readable
     def __str__(self):
@@ -78,7 +78,7 @@ class Atom:
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}{1}'.format(self.string, self.location)
+        return f'{self.string}{self.location}'
 
     # str's goal is to be readable
     def __str__(self):
@@ -92,7 +92,7 @@ class StringLiteral:
 
     # repr's goal is to be unambiguous
     def __repr__(self):
-        return '{0}{1}'.format(self.string, self.location)
+        return f'{self.string}{self.location}'
 
     # str's goal is to be readable
     def __str__(self):

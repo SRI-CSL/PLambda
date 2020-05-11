@@ -77,7 +77,7 @@ class Visitor(PLambdaVisitor):
         if canonicalop is not None:
             op = Atom(canonicalop, location)
             return SExpression(Syntax.UNARY_OP, (op, self.visit(ctx.expression())), location)
-        raise ParseError('Ooopsy: {0} not found in the SymbolTable'.format(rawop))
+        raise ParseError(f'Ooopsy: {rawop} not found in the SymbolTable')
 
     # Visit a parse tree produced by PLambdaParser#binaryExpression.
     def visitBinaryExpression(self, ctx):
@@ -260,7 +260,7 @@ def deslashify_aux(dl, string):
             elif c == '\\':
                 sb.append('\\')
             else:
-                raise ParseError('Illegal escape character in String: {0}'.format(c))
+                raise ParseError(f'Illegal escape character in String: {c}')
         elif c != '\\':
             sb.append(c)
             assert not slash

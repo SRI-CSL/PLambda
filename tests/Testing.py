@@ -1,17 +1,19 @@
-import sys, traceback, unittest
+#import sys
+#import traceback
+import unittest
 
-from plambda.visitor.Parser import parseFromString
+#from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter import Interpreter
 
 
 class PLambdaTest(unittest.TestCase):
 
-    def setUp(self): 
+    def setUp(self):
         self.interpreter = Interpreter()
 
     def tearDown(self):
         self.interpreter = None
-    
+
     def plambdaClassTest(self, string, cls):
         self.assertEqual(isinstance(self.interpreter.evaluateString(string), cls), True)
 
@@ -29,4 +31,3 @@ class PLambdaTest(unittest.TestCase):
             #traceback.print_exc(file=sys.stderr)
             self.assertEqual(type(e), type(value))
             self.assertEqual(str(e), str(value))
-

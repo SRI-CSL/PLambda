@@ -13,7 +13,7 @@ from .Visitor import Visitor
 
 def main():
     if len(sys.argv) != 2:
-        print('Usage: {0} <plambda file>'.format(sys.argv[0]))
+        print(f'Usage: {sys.argv[0]} <plambda file>')
     else:
         codelist = parseFromFile(sys.argv[1])
         for c in codelist:

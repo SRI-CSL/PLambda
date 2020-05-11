@@ -74,10 +74,10 @@ class plambdaTest(PLambdaTest):
             # clashes
             if key not in ('getattr', 'float', 'int', 'setattr', 'apply', '__loader__', 'dict', 'raw_input', 'input', 'oct', 'list', 'round'):
                 #import sys
-                #sys.stderr.write('{0} {1}\n'.format(key, value))
+                #sys.stderr.write(f'{key} {value}\n')
                 self.plambdaEqualTest(key, value)
             # the global construct allows you to sidestep the clashes
-            self.plambdaEqualTest('(global "{0}")'.format(key), value)
+            self.plambdaEqualTest(f'(global "{key}")', value)
 
 
 
@@ -207,6 +207,17 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(seq (apply sb.append "b") None)', None)
         self.plambdaEqualTest('(seq (apply sb.append "c") None)', None)
         self.plambdaStringEqualTest('sb', "abc")
+
+    def test_R(self):
+        # string buffer test
+        self.plambdaEqualTest('(import "plambda.util.StringBuffer")',  True)
+        self.plambdaStringEqualTest('(define StringBuilder plambda.util.StringBuffer.StringBuffer)', 'StringBuilder')
+        self.plambdaStringEqualTest('(define sb (apply StringBuilder))', 'sb')
+        # the add method is just like append but returns None instead.
+        self.plambdaEqualTest('(invoke sb "add" "a1")', None)
+        self.plambdaEqualTest('(invoke sb "add" "b2")', None)
+        self.plambdaEqualTest('(invoke sb "add" "c3")', None)
+        self.plambdaStringEqualTest('sb', "a1b2c3")
 
 
 

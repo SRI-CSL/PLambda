@@ -10,9 +10,9 @@ def send(target, sender, msg):
     This uses iop's underlying message format.
     """
 
-    obytes = '{0}\n{1}\n{2}'.format(target, sender, msg)
+    obytes = f'{target}\n{sender}\n{msg}'
     length = len(obytes)
-    outgoing = '{0}\n{1}'.format(length, obytes)
+    outgoing = f'{length}\n{obytes}'
     if debug:
         sys.stderr.write(outgoing)
         sys.stderr.write('\n')
@@ -37,10 +37,10 @@ def receive():
     try:
         nobytes = sys.stdin.readline().strip()
         if debug:
-            sys.stderr.write('got {0} bytes\n'.format(nobytes))
+            sys.stderr.write(f'got {nobytes} bytes\n')
         ibytes = sys.stdin.read(int(nobytes))
         if debug:
-            sys.stderr.write('[[{0}]]\n'.format(ibytes))
+            sys.stderr.write(f'[[{ibytes}]]\n')
         (ok, sender, msg) = parseBytes(ibytes)
         if ok:
             return (sender, msg)
@@ -48,5 +48,5 @@ def receive():
     except KeyboardInterrupt:
         return None
     except Exception as e:
-        sys.stderr.write('{0}\n'.format(e))
+        sys.stderr.write(f'{e}\n')
         return (None, None)

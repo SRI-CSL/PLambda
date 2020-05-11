@@ -53,7 +53,7 @@ def rep(filename):
 
         interpreter.load(filename)
 
-        sys.stdout.write(WELCOME.format(plambda_version))
+        sys.stdout.write(WELCOME)
 
         while True:
             try:
@@ -96,9 +96,8 @@ def rep(filename):
 
 
 
-WELCOME = """
-Welcome to the PLambda interface to Python (version {0}), type ? for help.
-"""
+WELCOME = f'\nWelcome to the PLambda interface to Python (version {plambda_version}), type ? for help.\n'
+
 
 INSTRUCTIONS = """
 Type one of the following:

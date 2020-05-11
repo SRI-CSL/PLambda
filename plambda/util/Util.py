@@ -17,7 +17,7 @@ def string2File(string, path, append):
             fp.write(string)
         retval = True
     except Exception as e:
-        sys.stderr.write('string2File(..., {0}, ...) threw {1}\n'.format(path, str(e)))
+        sys.stderr.write(f'string2File(..., {path}, ...) threw {str(e)}\n')
     return retval
 
 
@@ -27,5 +27,5 @@ def file2String(path):
         with open(path, 'r') as fp:
             retval = fp.read()
     except Exception as e:
-        sys.stderr.write('file2String("{0}") threw {1}\n'.format(path, str(e)))
+        sys.stderr.write(f'file2String("{path}") threw {str(e)}\n')
     return retval

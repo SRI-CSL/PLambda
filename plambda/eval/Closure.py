@@ -14,6 +14,6 @@ class Closure:
     def applyClosure(self, *args):
         nenv = Environment(self.env)
         for (p, v) in zip(self.params.spine, args):
-            #print "extending: {0} --> {1}".format(p, v)
+            #print(f'extending: {p} --> {v}')
             nenv.extend(p, v)
         return  self.interpreter.eval(self.body, nenv)

@@ -34,7 +34,7 @@ class Continuation:
         self.k = k
         self.excep = None
         if self.exp is not None:
-            self.msg = '{0} :'.format(exp.spine[0])
+            self.msg = f'{exp.spine[0]} :'
 
 
     def ret(self, state):
@@ -81,7 +81,7 @@ class TopCont(Continuation):
     def ret(self, state):
         if self.excep is not None:
             sys.stderr.write('FIXME: Debugger.handle(excep)\n')
-            sys.stderr.write('{0}\n'.format(self.excep))
+            sys.stderr.write(f'{self.excep}\n')
         state.tag = DONE
 
 
@@ -132,8 +132,8 @@ class IfCont(Continuation):
 
     def handleReturn(self, state):
         if not isinstance(state.val, bool):
-            msg = '{0} is not a boolean in conditional {1}'
-            self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
+            msg = f'{state.val} is not a boolean in conditional {self.exp.spine[0].location}'
+            self.k.excep = PLambdaException(msg)
             state.k = self.k
             state.val = None
             return
@@ -241,7 +241,7 @@ class ForCont(Continuation):
         if self.n == 0:
 
             if val is None:
-                self.setException(state, "for target is None {0}".format(self.exp.spine[0].location))
+                self.setException(state, f'for target is None {self.exp.spine[0].location}')
                 return
             if isinstance(val, int):
                 self.iterator = iter(range(val))
@@ -254,7 +254,7 @@ class ForCont(Continuation):
                 if self.length == 0:
                     self.setReturnState(state, None)
             else:
-                self.setException(state, "for target is not iterable {0} {1}".format(val, self.exp.spine[0].location))
+                self.setException(state, f'for target is not iterable {val} {self.exp.spine[0].location}')
         elif self.n  == self.length + 1:
             self.setReturnState(state, val)
         else:
@@ -383,9 +383,8 @@ class Ambi1OpCont(EvalArgsCont):
                 return (True, self.vals[0] - self.vals[1])
             return (True, - self.vals[0])
 
-        fmsg = 'Unrecognized ambi1 operation: {0}'
-        emsg = fmsg.format(self.op)
-        return (False, PLambdaException(emsg))
+        msg = f'Unrecognized ambi1 operation: {self.op}'
+        return (False, PLambdaException(msg))
 
 
 class ApplyCont(Continuation):
@@ -402,7 +401,7 @@ class ApplyCont(Continuation):
         val = state.val
 
         if self.n == 0 and not isinstance(val, Closure) and not callable(val):
-            self.k.excep = PLambdaException('Cannot apply {0}'.format(val))
+            self.k.excep = PLambdaException(f'Cannot apply {val}')
             state.k = self.k
             state.val = None
             return
@@ -418,8 +417,8 @@ class ApplyCont(Continuation):
 
                 cargs = self.vals[1:]
                 if not func.arity is len(cargs):
-                    msg = "number of arguments ({0}) != closure arity({1}): {2}"
-                    self.k.excep = PLambdaException(msg.format(len(cargs), func.arity, cargs), self.info())
+                    msg = f'number of arguments ({len(cargs)}) != closure arity({func.arity}): {self.info()}'
+                    self.k.excep = PLambdaException(msg)
                     state.k = self.k
                     state.val = None
                 else:
@@ -504,8 +503,8 @@ class PropCont(Continuation):
         self.n += 1
 
         if not isinstance(state.val, bool):
-            msg = '{0} is not a boolean in propsitional operator {1}'
-            self.k.excep = PLambdaException(msg.format(state.val, self.exp.spine[0].location))
+            msg = f'{state.val} is not a boolean in propositional operator {self.exp.spine[0].location}'
+            self.k.excep = PLambdaException(msg)
             state.k = self.k
             state.val = None
             return

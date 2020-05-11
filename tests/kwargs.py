@@ -1,5 +1,3 @@
-import sys
-
 from plambda.util.StringBuffer import StringBuffer
 
 def kwargs(*largs, **kwargs):
@@ -12,7 +10,7 @@ def kwargs(*largs, **kwargs):
             sb.append(', ')
         else:
             comma = True
-        sb.append('{0}: {1}'.format(key, kwargs[key]))
+        sb.append(f'{key}: {kwargs[key]}')
     sb.append('}')
     return str(sb)
 
@@ -35,5 +33,3 @@ def kwargs(*largs, **kwargs):
   (kwapply kwargs l0 d0))
 
 """
-
-

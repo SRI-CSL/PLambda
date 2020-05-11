@@ -1,4 +1,5 @@
-import sys, time
+import sys
+import time
 
 
 global_trace = []
@@ -13,18 +14,17 @@ def gtracer(name):
     def gtrace(fn):
         if not global_trace_enabled:
             return fn
-        else:
-            def gtraced(*args, **kwargs):
-                global_trace.append(('>', name, time.time() - global_start_time, args, kwargs))
-                retval = fn(*args, **kwargs)
-                global_trace.append(('<', name, time.time() - global_start_time, args, kwargs))
-                return retval
-            return gtraced
+        def gtraced(*args, **kwargs):
+            global_trace.append(('>', name, time.time() - global_start_time, args, kwargs))
+            retval = fn(*args, **kwargs)
+            global_trace.append(('<', name, time.time() - global_start_time, args, kwargs))
+            return retval
+        return gtraced
     return gtrace
 
 
 def printTrace():
-    sys.stderr.write('tracing {0}\n'.format('enabled' if global_trace_enabled else 'not enabled'))
+    sys.stderr.write(f'tracing {"enabled" if global_trace_enabled else "not enabled"}\n')
     for elem in global_trace:
         sys.stderr.write(str(elem))
         sys.stderr.write('\n')
@@ -32,7 +32,7 @@ def printTrace():
 
 
 
-class SimpleDrone(object):
+class SimpleDrone:
     """The simplest drone that can be managed by the python Actor.
     """
 
@@ -64,9 +64,7 @@ class SimpleDrone(object):
         elif direction == 'S':
             self.y -= 1
         else:
-            fmsg = 'SimpleDrone.mv unknown direction: {0}'
-            emsg = fmsg.format(str(direction))
-            sys.stderr.write(emsg)
+            sys.stderr.write(f'SimpleDrone.mv unknown direction: {str(direction)}')
             return False
         self.e -= 1
         return True
@@ -78,4 +76,4 @@ class SimpleDrone(object):
 
 
     def __str__(self):
-        return '{0} {1} {2}'.format(self.x, self.y, self.e)
+        return f'{self.x} {self.y} {self.e}'
