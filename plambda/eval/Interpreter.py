@@ -103,7 +103,7 @@ class Interpreter:
         (ok, value) = plookup(leaf)
         if ok:
             return (ok, value)
-        return (False, PLambdaException('Unbound variable: {0}'.format(repr(leaf))))
+        return (False, PLambdaException(f'Unbound variable: {repr(leaf)}'))
 
 
     def getmodule(self, path):
@@ -186,16 +186,12 @@ class Interpreter:
         methods = inspect.getmembers(obj, callable)
 
         if not methods:
-            fmsg = 'Object not invokable: {0} {1}'
-            emsg = fmsg.format(obj, location)
-            return (False, PLambdaException(emsg))
+            return (False, PLambdaException(f'Object not invokable: {obj} {location}'))
 
         method = None
 
         if not isString(methodname):
-            fmsg = 'Method name not a string: {0} {1}'
-            emsg = fmsg.format(methodname, location)
-            return (False, PLambdaException(fmsg))
+            return (False, PLambdaException(f'Method name not a string: {methodname} {location}'))
 
 
         for (name, value) in methods:
@@ -204,8 +200,7 @@ class Interpreter:
                 break
 
         if method is None:
-            emsg = 'No such method: {0} {1}'.format(methodname, location)
-            return (False, PLambdaException(emsg))
+            return (False, PLambdaException(f'No such method: {methodname} {location}'))
 
         # Ugliness under python's hood:
         # Cannot get the argspec of a builtin
@@ -225,7 +220,7 @@ class Interpreter:
             # but also correctly handles function annotations and keyword-only parameters."
 
             argspec = inspect.getfullargspec(method)
-            # sys.stderr.write('argspec({0}) =  {1}\n'.format(method, argspec))
+            # sys.stderr.write(f'argspec({method}) =  {argspec}\n')
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
             offset = 0
@@ -238,9 +233,8 @@ class Interpreter:
                 # my guess is that we will need to revisit this. what do we
                 # do when some of the defaults are used but not others?
                 if (nvals < nargs - ndefaults) or  (nargs < nvals):
-                    fmsg = 'Arity of {0} args {1} does not match the argspec: {2}. defaults: {3} varargs: {4}'
-                    emsg = fmsg.format(methodname, vals, argspec.args[offset:], argspec.defaults, argspec.varargs)
-                    return (False, PLambdaException(emsg))
+                    msg = f'Arity of {methodname} args {vals} does not match the argspec: {argspec.args[offset:]}. defaults: {argspec.defaults} varargs: {argspec.varargs}'
+                    return (False, PLambdaException(msg))
 
         retval = None
 
@@ -248,7 +242,7 @@ class Interpreter:
             retval = method(*vals)
             return (True, retval)
         except Exception as e:
-            return (False, PLambdaException('invoke {0} threw {1}'.format(location, str(e))))
+            return (False, PLambdaException(f'invoke {location} threw {str(e)}'))
 
 
     def callCallable(self, fun, vals, _):
@@ -293,11 +287,9 @@ class Interpreter:
             elif op is SymbolTable.SETUID:
                 retval = self.setUID(val0, val1, location)
             else:
-                fmsg = 'Unrecognized binary operation: {0} {1}'
-                emsg = fmsg.format(op, location)
-                return (False, PLambdaException(emsg))
+                return (False, PLambdaException(f'Unrecognized binary operation: {op} {location}'))
         except Exception as e:
-            return (False, PLambdaException('callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
+            return (False, PLambdaException(f'callTernaryOp {0} {1} threw {2}'.format(op, location, str(e))))
         return (True, retval)
 
 
