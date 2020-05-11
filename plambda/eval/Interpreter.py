@@ -464,7 +464,8 @@ class Interpreter:
             for c in codelist:
                 self.evaluate(c)
             return True
-        sys.stderr.write(f'\nThe file "{filename}" was not found.\n')
+        if isString(filename) and not os.path.exists(filename):
+            sys.stderr.write(f'\nThe file "{filename}" was not found.\n')
         return False
 
 
