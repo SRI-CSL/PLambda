@@ -51,6 +51,10 @@ clean:
 	make -C plambda/antlr4 clean
 	rm -f tests/*.pyc plambda/*.pyc plambda/*/*.pyc plambda/*/*~
 
+spotless:
+	rm -rf doczip doczip.zip build dist
+
+
 
 PYLINT = $(shell which pylint)
 
