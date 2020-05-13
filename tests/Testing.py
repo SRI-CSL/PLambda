@@ -1,10 +1,6 @@
-#import sys
-#import traceback
 import unittest
 
-#from plambda.visitor.Parser import parseFromString
 from plambda.eval.Interpreter import Interpreter
-
 
 class PLambdaTest(unittest.TestCase):
 
@@ -28,6 +24,5 @@ class PLambdaTest(unittest.TestCase):
             retval = self.interpreter.evaluateString(string)
             self.assertEqual(str(retval), str(value))
         except Exception as e:
-            #traceback.print_exc(file=sys.stderr)
             self.assertEqual(type(e), type(value))
             self.assertEqual(str(e), str(value))

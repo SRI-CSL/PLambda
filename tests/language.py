@@ -30,14 +30,15 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(== (float 3.0) (int 3))',  False)
         self.plambdaEqualTest('(is (float 3.0) (int 3))',  False)
         self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
+        self.plambdaEqualTest('(<= (float 3.1) (int 3))',  False)
+        self.plambdaEqualTest('(>= (float 3.1) (int 3))',  True)
         self.plambdaEqualTest('(< (float 3.1) (int 3))',  False)
         self.plambdaEqualTest('(== (apply object) (apply object))',  False)
         self.plambdaEqualTest('(if (boolean True) (int 7) (float 11))',  7)
         self.plambdaEqualTest('(if (boolean False) (int 7) (float 11))',  11.0)
         self.plambdaEqualTest('(if (boolean False) (int 7))',  None)
         self.plambdaExceptionTest('(if (int 11) (int 7))',  PLambdaException('11 is not a boolean in conditional @stdin:1'))
-        #python 3 vs python 2
-        #self.plambdaExceptionTest('(/ (int 4) (int 0))',  PLambdaException('callTernaryOp / @stdin:1 threw integer division or modulo by zero'))
+        self.plambdaExceptionTest('(/ (int 4) (int 0))',  PLambdaException('callTernaryOp / @stdin:1 threw division by zero'))
 
 
     def test_B(self):
@@ -63,11 +64,10 @@ class plambdaTest(PLambdaTest):
         self.plambdaEqualTest('(mkdict)', {})
 
 
-    def broken_test_D(self):
+    def test_D(self):
         """Checks the availability of builtin functions.
-        We are currently just targeting 2.7. Useful to
+        We are currently just targeting 3.7. Useful to
         see the edge cases. The clashes are because of our antrl4 parser.
-        The incantation at the top of this file is for the 'print' one to work.
         """
         for key in pythonGlobals:
             value = pythonGlobals[key]
