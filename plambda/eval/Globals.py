@@ -12,6 +12,8 @@ def populateGlobals():
             if  inspect.isclass(vx) and issubclass(vx, BaseException):
                 continue
             if callable(vx):
+                #import sys
+                #sys.stderr.write(f'builtin: {x}\n')
                 pythonGlobals[x] = vx
         except Exception:
             continue

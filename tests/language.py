@@ -78,8 +78,20 @@ class plambdaTest(PLambdaTest):
                 self.plambdaEqualTest(key, value)
             # the global construct allows you to sidestep the clashes
             self.plambdaEqualTest(f'(global "{key}")', value)
-
-
+        self.plambdaEqualTest('(apply abs (int -7))', 7)
+        self.plambdaEqualTest('(apply any (mklist (boolean False) (boolean false)))', False)
+        self.plambdaEqualTest('(apply any (mklist (boolean False) (boolean false) (boolean true)))', True)
+        self.plambdaEqualTest('(apply all (mklist (boolean False) (boolean true)))', False)
+        self.plambdaEqualTest('(apply all (mklist (boolean true) (boolean true) (boolean true)))', True)
+        self.plambdaEqualTest("(apply ascii 'this is not a love song')", "'this is not a love song'")
+        self.plambdaEqualTest('(apply bin (int 3))', '0b11')
+        self.plambdaEqualTest('(apply bin (int -10))', '-0b1010')
+        self.plambdaEqualTest('(apply callable callable)', True)
+        self.plambdaEqualTest('(apply complex (int 1) (int 7))', (1+7j))
+        self.plambdaEqualTest('(apply abs (apply complex (int 1) (int 7)))', 7.0710678118654755)
+        self.plambdaEqualTest('(apply divmod (int 10) (int 3))', (3, 1))
+        self.plambdaEqualTest('(apply list (apply enumerate (mklist "zero" "one"  "two"   "three")))', [(0, 'zero'), (1, 'one'), (2, 'two'), (3, 'three')])
+        self.plambdaEqualTest('(apply eval "1 +  2 * 3")', 7)
 
     def test_F(self):
         """Tests using a drone.
