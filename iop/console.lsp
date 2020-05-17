@@ -6,7 +6,9 @@
 
 (invoke stderr 'write' 'byeee\n')
 
+(invoke stderr "flush")
 
 
-
-
+(import "plambda.util.Util")
+(define string2error plambda.util.Util.string2error)
+(apply string2error "This puppy flushes by itself!")
