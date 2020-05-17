@@ -1,8 +1,8 @@
 (import "sys")
 
-(define squark (string)
-  (apply sys.stderr.write (concat string "\n"))
-  (apply sys.stderr.flush))
+(import "plambda.util.Util")
+
+(define squark (string) (apply plambda.util.Util.string2error string))
 
 
 (import "plambda.actors.actorlib")

@@ -25,8 +25,11 @@
 (define debug (boolean True))
 
 (import 'sys')
-(import 'plambda.util')
+(import 'plambda.util.Util')
 (define string2error plambda.util.Util.string2error)
+
+(apply string2error 'Loading init.lsp')
+
 
 (define logmsg (msg)
   (if debug
@@ -112,7 +115,7 @@
 
 
 
-(define catchall (lambda (sender message)  (invoke  sys.stderr 'write' (concat 'Handled: ' message ' from ' sender '\n'))))
+(define catchall (lambda (sender message)  (apply string2error (concat 'Handled: ' message ' from ' sender))))
 
 (import 'plambda.actors.pyactor')
 (apply plambda.actors.pyactor.add_handler
