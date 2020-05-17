@@ -78,6 +78,7 @@ class plambdaTest(PLambdaTest):
                 self.plambdaEqualTest(key, value)
             # the global construct allows you to sidestep the clashes
             self.plambdaEqualTest(f'(global "{key}")', value)
+
         self.plambdaEqualTest('(apply abs (int -7))', 7)
         self.plambdaEqualTest('(apply any (mklist (boolean False) (boolean false)))', False)
         self.plambdaEqualTest('(apply any (mklist (boolean False) (boolean false) (boolean true)))', True)

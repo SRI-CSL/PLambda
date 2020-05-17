@@ -172,7 +172,7 @@ class Console(tk.Tk):
                 for line  in fp.readlines():
                     self.top_frame.text.insert(tk.END, line)
                     self.path = path
-                    self.bottom_frame.append(f'{path} loaded\n', 'ok')
+            self.bottom_frame.append(f'{path} loaded\n', 'ok')
         else:
             self.bottom_frame.append(f'{path} not found\n', 'error')
 

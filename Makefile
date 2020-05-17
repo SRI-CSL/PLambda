@@ -37,7 +37,7 @@ dist: clean antlr4
 
 # requires an appropriate .pypirc file
 publish: dist
-	python3 -m twine upload --repository pypi dist/*
+	python -m twine upload --repository pypi dist/*
 
 install:
 	pip install plambda

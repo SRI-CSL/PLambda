@@ -20,14 +20,17 @@
    "\n"
    )
   )
-  
 
-(define debug (boolean False))
+
+(define debug (boolean True))
 
 (import 'sys')
+(import 'plambda.util')
+(define string2error plambda.util.Util.string2error)
+
 (define logmsg (msg)
-  (if debug 
-      (invoke  sys.stderr 'write' msg)
+  (if debug
+      (apply string2error msg)
     )
   )
 
@@ -100,7 +103,7 @@
     )
   (if (== prefix 'maude')
       (for clone clones
-	   (seq 
+	   (seq
 	    (apply logmsg (concat 'clone: ' clone ' with prefix ' prefix '\n'))
 	    )
 	   )
@@ -128,5 +131,3 @@
 (let ((name (concat 'plambda' (int 0))))
   (apply plambda.actors.actorlib.send 'system' 'plambda' (concat 'start ' name '  pyactor ' name))
   )
-
-
