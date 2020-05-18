@@ -55,7 +55,13 @@ class plambdaTest(PLambdaTest):
         """
         self.plambdaEqualTest('(mktuple (int 1) (int 2) (int 3))', (1, 2, 3))
         self.plambdaEqualTest('(mklist (int 1) (int 2) (int 3))', [1, 2, 3])
+        self.plambdaEqualTest('(define l0 (mklist (int 1) (int 2) (int 3)))', 'l0')
+        self.plambdaEqualTest('(in (int 4) l0)', False)
+        self.plambdaEqualTest('(in (int 3) l0)', True)
         self.plambdaEqualTest('(mkdict "one" (int 1) "two" (int 2) "three" (int 3))', {'one': 1, 'two':2, 'three':3})
+        self.plambdaEqualTest('(define d0 (mkdict "one" (int 1) "two" (int 2) "three" (int 3)))', 'd0')
+        self.plambdaEqualTest('(in "two" d0)', True)
+        self.plambdaEqualTest('(in "seven" d0)', False)
         self.plambdaEqualTest('(get (mktuple (int 1) (int 2) (int 3)) (int 0))', 1)
         self.plambdaEqualTest('(get (mklist (int 1) (int 2) (int 3)) (int 0))', 1)
         self.plambdaEqualTest('(get (mkdict "one" (int 1) "two" (int 2) "three" (int 3)) "three")', 3)
