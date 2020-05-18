@@ -279,6 +279,8 @@ class Interpreter:
                 retval = val0 <= val1
             elif op is SymbolTable.EQUALS:
                 retval = val0 == val1
+            elif op is SymbolTable.IN:
+                retval = val0 in val1
             elif op is SymbolTable.EQ:
                 retval = val0 is val1
             elif op is SymbolTable.IS:

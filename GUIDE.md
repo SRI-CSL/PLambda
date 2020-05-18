@@ -88,30 +88,35 @@ mklist mktuple mkdict
 You can influence how modules are found by adding to the environment variable `PYTHONPATH`.
 If you want to do it dynamically at runtime:
 ```
-(import "sys")
+import "sys")
 (import "os.path")
+
 (import "plambda.util.Util")
+
 (define string2error plambda.util.Util.string2error)
 
 (define add2ImportPath (directory)
   (if (apply os.path.exists directory)
-      ;; could be more cautious, could check if it is already there
-      (seq
-       (apply sys.path.append directory)
-       sys.path)
-    (apply string2error 'Not adding an non-existant directory to the PYTHONPATH')
+      (let ((path (apply os.path.abspath directory)))
+        (if (not (in path sys.path))
+            (apply sys.path.append path)
+          (apply string2error 'Not adding a duplicate entry to sys.path')))
+    (apply string2error 'Not adding an non-existant directory to the sys.path')
     )
   )
 
-(apply add2ImportPath (apply os.getcwd))
 
+;;(apply add2ImportPath (apply os.getcwd))
 ```
 
-10.
-
-I need to think about pythonesque things like
+10. Membership tests like (as of 1.1.1):
 ```
 a in b
 
 a not in b
+```
+can be done via
+```
+(in a b)
+(not (in a b))
 ```

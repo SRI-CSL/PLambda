@@ -19,6 +19,7 @@ class SymbolTable:
         sys.intern('='):             sys.intern('='),
         sys.intern('=='):            sys.intern('=='),
         sys.intern('is'):            sys.intern('is'),
+        sys.intern('in'):            sys.intern('in'),
         sys.intern('fetch'):         sys.intern('fetch'),
         sys.intern('float'):         sys.intern('float'),
         sys.intern('for'):           sys.intern('for'),
@@ -84,6 +85,7 @@ class SymbolTable:
     DIVIDE      = sys.intern('/')
     DO          = sys.intern('do')
     DOUBLE      = sys.intern('double')
+    IN          = sys.intern('in')
     IS          = sys.intern('is')
     EQUALS      = sys.intern('=')
     EQ          = sys.intern('==')

@@ -76,6 +76,7 @@ BINARY_OP :  '+'           |
              '>'           |
              '<='          |
              '>='          |
+             IN            |
              IS            |
              '=='          |
              '='           |
@@ -173,6 +174,8 @@ NARROW:       [Nn][Aa][Rr][Rr][Oo][Ww]                  ;
 INSTANCEOF:   [Ii][Nn][Ss][Tt][Aa][Nn][Cc][Ee][Oo][Ff]  ;
 
 GET:          [Gg][Ee][Tt]                              ;
+
+IN:           [Ii][Nn]                                  ;
 
 IS:           [Ii][Ss]                                  ;
 

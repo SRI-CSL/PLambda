@@ -39,6 +39,8 @@ Version history:
 
 1.1.0   05/08/2020  ditch 2.7, dust off the cobwebs, lint the puppy, and forge on.
 
+1.1.1   05/18/2020  add membership tests a la 'in' as a bnary operator, and lots of minor tweaks.
+
 """
 
-plambda_version = '1.1.0'
+plambda_version = '1.1.1'
