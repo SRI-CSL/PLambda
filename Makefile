@@ -28,7 +28,7 @@ develop:
 	pip install -e .
 
 
-dist: clean antlr4
+dist: clean antlr
 	python setup.py bdist_wheel
 
 # If you need to push your project again,
