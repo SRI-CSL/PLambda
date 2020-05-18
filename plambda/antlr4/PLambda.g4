@@ -51,21 +51,21 @@ STRING :
 
 PRIMITIVE_DATA_OP:
                     INT      |
-		    FLOAT    |
-		    BOOLEAN
+                    FLOAT    |
+                    BOOLEAN
                     ;
 
 UNARY_OP :   FETCH      |
-	     GETUID     |
+             GETUID     |
              GLOBAL     |
              IMPORT     |
              ISNONE     |
              ISOBJECT   |
              ISINT      |
              ISFLOAT    |
-	     LOAD       |
-	     NOT        |
-	     THROW
+             LOAD       |
+             NOT        |
+             THROW
              ;
 
 BINARY_OP :  '+'           |
@@ -80,14 +80,14 @@ BINARY_OP :  '+'           |
              '=='          |
              '='           |
              '!='          |
-	     GET           |
-	     SETUID        |
+             GET           |
+             SETUID        |
              LOOKUP
-	     ;
+         ;
 
 TERNARY_OP : KWAPPLY   |
-	     MODIFY    |
-	     UPDATE    |
+             MODIFY    |
+             UPDATE    |
              SUPDATE   |
              SETATTR
              ;
@@ -95,9 +95,9 @@ TERNARY_OP : KWAPPLY   |
 N_ARY_OP :   CONCAT   |
              AND      |
              OR       |
-	     MKTUPLE  |
-	     MKLIST   |
-	     MKDICT
+             MKTUPLE  |
+             MKLIST   |
+             MKDICT
              ;
 
 AMBI1_OP :   MINUS
