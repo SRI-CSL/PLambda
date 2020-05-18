@@ -83,3 +83,6 @@ mklist mktuple mkdict
 (apply isinstance l0 list)
 (apply isinstance d1 dict)
 ```
+
+9. The PLambda `(import foo)` operator directly  calls the python `importlib.import_module(foo)`.
+You can influence how modules are found by adding to the environment variable `PYTHONPATH`.

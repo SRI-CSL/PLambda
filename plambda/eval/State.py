@@ -1,6 +1,3 @@
-import sys
-
-
 from .Code import SExpression, Atom, StringLiteral, Syntax
 
 from .Closure import Closure
@@ -16,6 +13,8 @@ from .Continuation import ( TopCont, IfCont, SeqCont, DefineCont, TryCont, LetCo
 from .PLambdaException import PLambdaException
 
 from .Flags import DONE, EVAL, RETURN, CONTINUE
+
+from ..util.Util import string2error
 
 class State:
 
@@ -53,7 +52,7 @@ class State:
                 code = self.exp.code
                 opexp = self.exp.spine[0]
                 if not isinstance(opexp, Atom):
-                    sys.stderr.write(f'not atom: {opexp} {type(opexp)} {self.exp} {self.exp.code}\n')
+                    string2error(f'not atom: {opexp} {type(opexp)} {self.exp} {self.exp.code}')
                 assert isinstance(opexp, Atom)
                 op = opexp.string
                 if code is Syntax.SEQ:

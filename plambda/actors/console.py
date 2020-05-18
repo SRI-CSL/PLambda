@@ -18,6 +18,8 @@ from ..eval.PLambdaException import PLambdaException
 
 from ..util.StringBuffer import StringBuffer
 
+from ..util.Util import string2error
+
 
 class InputTextArea(tk.Frame):
 
@@ -155,12 +157,9 @@ class Console(tk.Tk):
                 self.bottom_frame.append(str(e), 'error')
                 self.bottom_frame.append('\n', 'ok')
             except Exception as e:
-                sys.stderr.write(f'PLambda.rep Exception: {str(e)}\n')
+                string2error(f'PLambda.rep Exception: {str(e)}')
                 traceback.print_exc(file=sys.stderr)
                 self.bottom_frame.append('\n', 'ok')
-
-    def tbi(self):
-        self.bottom_frame.append('To be implemented...\n', 'error')
 
     def load(self, fname):
         if not fname:

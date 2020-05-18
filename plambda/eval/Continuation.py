@@ -1,5 +1,3 @@
-import sys
-
 import collections.abc
 
 from .PLambdaException import PLambdaException
@@ -9,6 +7,8 @@ from .Environment import Environment
 from .Closure import Closure
 
 from ..util.StringBuffer import StringBuffer
+
+from ..util.Util import string2error
 
 from .SymbolTable import SymbolTable
 
@@ -80,8 +80,8 @@ class TopCont(Continuation):
 
     def ret(self, state):
         if self.excep is not None:
-            sys.stderr.write('FIXME: Debugger.handle(excep)\n')
-            sys.stderr.write(f'{self.excep}\n')
+            string2error('FIXME: Debugger.handle(excep)')
+            string2error(f'{self.excep}')
         state.tag = DONE
 
 

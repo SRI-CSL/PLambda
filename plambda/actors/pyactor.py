@@ -15,6 +15,8 @@ from ..eval.Interpreter import Interpreter
 
 from ..actors.console import Console
 
+from ..util.Util import string2error
+
 debug = False
 
 def infanticide(pid):
@@ -24,18 +26,14 @@ def infanticide(pid):
         return
     children = parent.children(recursive=True)
     if debug:
-        sys.stderr.write(f'The children of {pid} are {children}\n')
+        string2error(f'The children of {pid} are {children}')
     for p in children:
         os.kill(p.pid, signal.SIGKILL)
-        if debug:
-            sys.stderr.write(f'Sent signal {signal.SIGKILL} to {p.pid}\n')
+        notify(f'Sent signal {signal.SIGKILL} to {p.pid}')
 
 
 def sighandler(signum, frame):
-    if debug:
-        msg = f'Signal handler called with signal {signum} and frame {frame}\n'
-        sys.stderr.write(msg)
-        sys.stderr.flush()
+    notify(f'Signal handler called with signal {signum} and frame {frame}')
     infanticide(os.getpid())
     sys.exit()
 
@@ -51,7 +49,7 @@ def main():
 
 
 class Main:
-
+    """The main class/thread of the python actor."""
     retries = 1
 
     launchConsole = False
@@ -111,8 +109,7 @@ def remove_handler(closure):
 
 def notify(message):
     if debug:
-        sys.stderr.write(f'{message}\n')
-        sys.stderr.flush()
+        string2error(message)
 
 
 def oracle(actor):
@@ -179,7 +176,7 @@ def pl_eval(interpreter, sender, message):
                     break
                 notify('nope')
     except Exception as e:
-        sys.stderr.write(f'plambda.actors.pyactor.Main exception: {e}\nwhile evaluating:\n{message}\nsent by {sender}\n')
+        string2error(f'plambda.actors.pyactor.Main exception: {e}\nwhile evaluating:\n{message}\nsent by {sender}')
         if debug:
             traceback.print_exc(file=sys.stderr)
 

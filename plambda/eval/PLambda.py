@@ -73,8 +73,6 @@ def rep(filename):
                     interpreter.showDefinitions()
                 elif line == 'u':
                     interpreter.showUIDs()
-                elif line == 's':
-                    interpreter.showCode()
                 else:
                     if line:
                         if debug:
@@ -108,7 +106,6 @@ Type one of the following:
 \tq to quit
 \t? to see these instructions
 \td to see the current definitions
-\ts <name> to see the raw definition of <name>
 \tu to see the current uids
 \tv to toggle the degree of verbosity in error reports
 """

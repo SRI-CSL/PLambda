@@ -2,6 +2,8 @@
 """
 import sys
 
+from ..util.Util import (string2error, string2out)
+
 debug = False
 
 def send(target, sender, msg):
@@ -14,10 +16,8 @@ def send(target, sender, msg):
     length = len(obytes)
     outgoing = f'{length}\n{obytes}'
     if debug:
-        sys.stderr.write(outgoing)
-        sys.stderr.write('\n')
-    sys.stdout.write(outgoing)
-    sys.stdout.flush()
+        string2error(outgoing)
+    string2out(outgoing, False)
 
 def parseBytes(obytes):
     if obytes[-1] == '\n':
@@ -37,10 +37,10 @@ def receive():
     try:
         nobytes = sys.stdin.readline().strip()
         if debug:
-            sys.stderr.write(f'got {nobytes} bytes\n')
+            string2error(f'got {nobytes} bytes')
         ibytes = sys.stdin.read(int(nobytes))
         if debug:
-            sys.stderr.write(f'[[{ibytes}]]\n')
+            string2error(f'[[{ibytes}]]')
         (ok, sender, msg) = parseBytes(ibytes)
         if ok:
             return (sender, msg)
@@ -48,5 +48,5 @@ def receive():
     except KeyboardInterrupt:
         return None
     except Exception as e:
-        sys.stderr.write(f'{e}\n')
+        string2error(f'{e}')
         return (None, None)

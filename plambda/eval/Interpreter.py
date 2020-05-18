@@ -2,12 +2,14 @@
 """
 
 import importlib
-import sys
 import types
 import inspect
 import os
+from collections.abc import (MutableMapping, Mapping)
 
-from ..util.Util import isString
+from functools import partial
+
+from ..util.Util import (isString, string2error)
 
 from .Code import Atom
 
@@ -45,7 +47,6 @@ class Interpreter:
 
     def __init__(self):
         self.definitions = {}
-        self.code = {}
         self.modules = {}
         self.uid2object = {}
         self.object2uid = {}
@@ -220,7 +221,7 @@ class Interpreter:
             # but also correctly handles function annotations and keyword-only parameters."
 
             argspec = inspect.getfullargspec(method)
-            # sys.stderr.write(f'argspec({method}) =  {argspec}\n')
+            # string2error(f'argspec({method}) =  {argspec}')
             # if it is an object we have to *not* count 'self',
             # but if it is a class we need to pass all the args!
             offset = 0
@@ -296,7 +297,7 @@ class Interpreter:
     def evalGet(self, val0, val1, location):
         if isinstance(val0, (list, tuple)) and isinstance(val1, int):
             return val0[val1]
-        if isinstance(val0, dict):
+        if isinstance(val0, Mapping):
             return val0.get(val1)
         raise PLambdaException(f'Bad args to \"get\": {val0} {val1} {location}')
 
@@ -334,7 +335,7 @@ class Interpreter:
 
     def evalModify(self, val0, val1, val2, loc):
         #be brave until we need to back down...
-        if isinstance(val0, dict):
+        if isinstance(val0, MutableMapping):
             val0[val1] = val2
         elif isinstance(val0, list):
             l0 = len(val0)
@@ -389,7 +390,7 @@ class Interpreter:
                 return float(data)
             return data.lower() == 'true'
         except Exception as e:
-            sys.stderr.write(f'evalPrimitiveDataOp: {str(e)} {a0.location}\n')
+            string2error(f'evalPrimitiveDataOp: {str(e)} {a0.location}')
             return 0 if op is not SymbolTable.FLOAT else 0.0
 
 
@@ -401,7 +402,7 @@ class Interpreter:
                 if module is not None:
                     self.modules[val] = module
                     return True
-                sys.stderr.write(f'Module {val} not found')
+                string2error(f'Module {val} not found')
             return False
 
         except ImportError as ie:
@@ -465,30 +466,22 @@ class Interpreter:
                 self.evaluate(c)
             return True
         if isString(filename) and not os.path.exists(filename):
-            sys.stderr.write(f'\nThe file "{filename}" was not found.\n')
+            string2error(f'\nThe file "{filename}" was not found.')
         return False
 
 
     def showDefinitions(self, sb=None):
         """Either writes the definitions out to stderr, or the optional StringBuffer passed in.
         """
-        func = sb.append if sb else sys.stderr.write
+        func = sb.append if sb else partial(string2error, newline=False)
         for key, value in self.definitions.items():
-            func(f'{key}  -->  {value}\n')
-        return sb
-
-    def showCode(self, sb=None):
-        """Either writes the code out to stderr, or the optional StringBuffer passed in.
-        """
-        func = sb.append if sb else sys.stderr.write
-        for key, value in self.code.items():
             func(f'{key}  -->  {value}\n')
         return sb
 
     def showUIDs(self, sb=None):
         """Either writes the UIDs out to stderr, or the optional StringBuffer passed in.
         """
-        func = sb.append if sb else sys.stderr.write
+        func = sb.append if sb else partial(string2error, newline=False)
         for key, value in self.uid2object.items():
             func(f'{key}  -->  {value}\n')
         return sb
