@@ -86,3 +86,32 @@ mklist mktuple mkdict
 
 9. The PLambda `(import foo)` operator directly  calls the python `importlib.import_module(foo)`.
 You can influence how modules are found by adding to the environment variable `PYTHONPATH`.
+If you want to do it dynamically at runtime:
+```
+(import "sys")
+(import "os.path")
+(import "plambda.util.Util")
+(define string2error plambda.util.Util.string2error)
+
+(define add2ImportPath (directory)
+  (if (apply os.path.exists directory)
+      ;; could be more cautious, could check if it is already there
+      (seq
+       (apply sys.path.append directory)
+       sys.path)
+    (apply string2error 'Not adding an non-existant directory to the PYTHONPATH')
+    )
+  )
+
+(apply add2ImportPath (apply os.getcwd))
+
+```
+
+10.
+
+I need to think about pythonesque things like
+```
+a in b
+
+a not in b
+```
