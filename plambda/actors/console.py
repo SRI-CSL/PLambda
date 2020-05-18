@@ -210,6 +210,13 @@ class Console(tk.Tk):
 
 
 def launch():
+    """Used to launch the console in a SINGLE threaded environment.
+
+    To use the console as part of a pyactor, you must set the appropriate
+    attribute of the actor itself:
+
+    (setattr plambda.actors.pyactor.Main "launchConsole" (boolean True))
+    ."""
     console = Console(Interpreter())
     console.mainloop()
 
