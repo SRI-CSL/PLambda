@@ -15,10 +15,8 @@ of PLambda/JLambda are:
 
 2. The untyped primitive data structures (tuple, list, dictionary) can store objects and numbers etc.
 
-3. There are global functions, which you can just apply. Here is a list of (2.7) built-ins that you can apply: https://docs.python.org/2/library/functions.html.
-
-Here are the latest stable, which we should be aiming for:
-https://docs.python.org/3.7/library/functions.html
+3. There are global functions, which you can just apply. [Here](https://docs.python.org/3.7/library/functions.html) 
+is a list of (3.7) built-ins that you can apply.
 
 4. There is no `new` operator, just apply the constructor.
 
