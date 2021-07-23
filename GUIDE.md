@@ -1,5 +1,10 @@
+# A JLambda User's Guide to PLambda
+
+
 Construction Zone: please feel free to add questions
 ----------------------------------------------------
+
+## Overview
 
 The main differences between Java and Python from the perspective
 of PLambda/JLambda are:
@@ -25,8 +30,12 @@ https://docs.python.org/3.7/library/functions.html
 7. Reflection in python has some holes in it, you cannot get the argspec of a built-in, so some guess work is required.
 
 8. In Python there is no such thing as a character (just a string of length one). So this allows us
-to have two types of string literals "these" and 'those', I tried to get """these
-working but antrl gave me a hard time, so I gave up in frustration."""
+to have two types of string literals "these" and 'those', I tried to get 
+```
+"""these
+working but antrl gave me a hard time, 
+so I gave up in frustration."""
+```
 
 Items 1. and  3. combine to allow us to have a richer use of the '.' in PLambda
 than in JLambda, we even combine it with the define mechanism.
@@ -56,10 +65,12 @@ predicate, while the second, `==`, is more like `eq`.
 (apply isinstance (mkdict) list)   -> False
 (apply isinstance (mklist) list)   -> True
 (apply isinstance (mklist) dict)   -> False
-(apply isinstance (mktuple) tuple)   -> False
+(apply isinstance (mktuple) tuple)   -> True
 ```
 
-lessons:
+## Some Snippets
+
+Lessons:
 
 ```
 (define f (arg)  (invoke arg "extend" arg)  arg)
@@ -68,6 +79,8 @@ primitive data: tuple list dict:
 
 mklist mktuple mkdict
 ```
+(define t1 (mktuple (int 1) (int 2) (int 3)))
+
 (define d1 (mkdict (int 0) "a" (int 1) "b" (int 2) "c"))
 
 (define l0 (mklist (int 1) (int 2) (int 3)))
@@ -82,6 +95,16 @@ mklist mktuple mkdict
 
 (apply isinstance l0 list)
 (apply isinstance d1 dict)
+```
+Iteration using `for` is just like JLambda, though dictionaries
+are new.
+```
+(for x t1 (apply print x))
+(for x l0 (apply print x))
+(for x (invoke d1 'items') (apply print x))
+(for x (invoke d1 'items') (apply print x))
+(for x "1234" (apply print x))
+(for x (int 7) (apply print x))
 ```
 
 9. The PLambda `(import foo)` operator directly  calls the python `importlib.import_module(foo)`.
