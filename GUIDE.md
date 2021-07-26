@@ -35,7 +35,7 @@ working but antrl gave me a hard time,
 so I gave up in frustration."""
 ```
 
-Items 1. and  3. combine to allow us to have a richer use of the '.' in PLambda
+Items 1. and  3. combine to allow us to have a richer use of the `'.'` in PLambda
 than in JLambda, we even combine it with the define mechanism.
 
 After `(import 'sys')`, for example we can either do:
@@ -100,7 +100,8 @@ are new.
 (for x t1 (apply print x))
 (for x l0 (apply print x))
 (for x (invoke d1 'items') (apply print x))
-(for x (invoke d1 'items') (apply print x))
+(for x (invoke d1 'keys') (apply print x))
+(for x (invoke d1 'values') (apply print x))
 (for x "1234" (apply print x))
 (for x (int 7) (apply print x))
 ```
