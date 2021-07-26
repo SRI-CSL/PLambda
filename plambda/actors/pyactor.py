@@ -39,6 +39,7 @@ def sighandler(signum, frame):
 
 
 def main():
+    notify(f'Launching pyactor with: {str(sys.argv)} arguments')
     if len(sys.argv) == 1:
         launch('noname')
     elif len(sys.argv) == 2:
@@ -118,13 +119,16 @@ def oracle(actor):
     fails = 0
 
     while True:
+        notify('Waiting for a message')
         incoming = receive()
+        notify('Got a message')
         if incoming is None:
             fails += 1
             if fails > Main.retries:
                 return 0
             continue
         (sender, msg) = incoming
+        notify(f'sender={sender} msg={msg}')
         thread = threading.Thread(target=pl_eval, args=(actor.interpreter, sender, msg))
         #thread needs to be a daemon so that the actor itself can die in peace.
         thread.daemon = True

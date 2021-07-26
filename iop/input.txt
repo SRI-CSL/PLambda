@@ -11,6 +11,8 @@
 
 (user (apply squark "This is a test, ..."))
 
+(user (apply plambda.util.Util.string2error "This is a test, ..."))
+
 (user (apply evalOK "user"  (* (int 3) "6")))
 
 (user (apply evalOK "user" (apply console)))
