@@ -1,3 +1,7 @@
+PIP?=pip3
+PYTHON?=python3
+
+
 all:
 	@echo ''
 	@echo 'Here are the targets:'
@@ -17,19 +21,19 @@ all:
 
 
 antlr:
-	make -C plambda/antlr4 antlr4_8
+	make -C plambda/antlr4 antlr4_10
 
 
 check:
-	python -O -m tests.language
+	${PYTHON} -O -m tests.language
 
 #local editable install for developing
 develop:
-	pip install -e .
+	${PIP} install -e .
 
 
 dist: clean antlr
-	python setup.py bdist_wheel
+	${PYTHON} setup.py bdist_wheel
 
 # If you need to push your project again,
 # change the version number in plambda/version.py,
@@ -37,10 +41,10 @@ dist: clean antlr
 
 # requires an appropriate .pypirc file
 publish: dist
-	python -m twine upload --repository pypi dist/*
+	${PYTHON} -m twine upload --repository pypi dist/*
 
 install:
-	pip install plambda
+	${PIP} install plambda
 
 zippity:
 	rm -rf doczip*; mkdir doczip;
@@ -59,9 +63,9 @@ spotless:
 PYLINT = $(shell which pylint)
 
 lint:
-ifeq ($(PYLINT),)
+ifeq (${PYLINT},)
 	$(error lint target requires pylint)
 endif
 # for detecting more than just errors:
-	@ $(PYLINT) --rcfile=.pylintrc plambda/*.py plambda/actors/*.py plambda/eval/*.py plambda/util/*.py plambda/visitor/*.py tests/drones/*.py
-#	@ $(PYLINT) -E plambda/*.py plambda/*/*.py
+	@ ${PYLINT} --rcfile=.pylintrc plambda/*.py plambda/actors/*.py plambda/eval/*.py plambda/util/*.py plambda/visitor/*.py tests/drones/*.py
+#	@ ${PYLINT} -E plambda/*.py plambda/*/*.py
